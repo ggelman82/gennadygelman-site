@@ -11,8 +11,34 @@
 .cards{gap:7px}.card{padding:9px 10px;border-radius:10px}.summary-row{margin:10px 0 12px}
 .output{min-height:110px;padding:11px}
 </style>
-</head>
-<body><main class="wrap">
+<script>document.documentElement.dataset.theme='light'</script><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet"><style id="gg-skin">
+:root{--gg-ink:#0e1734;--gg-soft:#5a6383;--gg-paper:#f7f8fb;--gg-surface:#fff;--gg-line:rgba(14,23,52,.12);--gg-accent:#3b54c4;--gg-bar:#0e1734;--gg-tint:#e7ecf6}
+:root[data-theme="dark"]{--gg-ink:#e7eaf3;--gg-soft:#a6aec6;--gg-paper:#0a0f1e;--gg-surface:#131a2e;--gg-line:rgba(231,234,243,.14);--gg-accent:#93a6ff;--gg-bar:#060a15;--gg-tint:#1b2340}
+#gg-hd,#gg-hd *,#gg-ft,#gg-ft *,#gg-nt,#gg-nt *{box-sizing:border-box;font-family:Geist,system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:normal;text-transform:none}
+#gg-hd{position:relative;z-index:50;display:block;width:100%;margin:0;padding:0;background:var(--gg-bar);color:#fff;border:0}
+#gg-hd .in{max-width:1080px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:20px}
+#gg-hd a{color:#fff;text-decoration:none;background:none;border:0;padding:0;margin:0;font-size:15px;font-weight:400;line-height:1.2}
+#gg-hd .br{display:flex;align-items:center;gap:10px;margin-right:auto;font-weight:600}
+#gg-hd .mk{display:inline-grid;place-items:center;width:30px;height:30px;border:1.5px solid rgba(255,255,255,.75);border-radius:50%;font-size:11px;font-weight:700}
+#gg-hd .bn{font-weight:600}
+#gg-hd nav{display:flex;gap:18px;margin:0;padding:0;background:none;border:0;position:static}
+#gg-hd nav a{opacity:.85}#gg-hd nav a:hover{opacity:1}
+#gg-hd button{all:unset;cursor:pointer;display:inline-grid;place-items:center;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.35);color:#fff}
+#gg-hd button svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
+#gg-hd .moon{display:none}:root[data-theme="dark"] #gg-hd .sun{display:none}:root[data-theme="dark"] #gg-hd .moon{display:block}
+@media (max-width:520px){#gg-hd .bn{display:none}#gg-hd nav{gap:14px}}
+#gg-nt{display:block;max-width:1080px;margin:14px auto 0;padding:0 24px}
+#gg-nt p{margin:0;padding:10px 14px;border-radius:10px;background:var(--gg-tint);color:var(--gg-soft);font-size:14px;line-height:1.45}
+#gg-nt b{color:var(--gg-ink)}
+#gg-ft{display:block;width:100%;margin:40px 0 0;padding:0;background:var(--gg-bar);color:rgba(255,255,255,.75);border:0}
+#gg-ft .in{max-width:1080px;margin:0 auto;padding:22px 24px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:14px}
+#gg-ft a{color:#fff;text-decoration:none}
+
+body,button,input,select,textarea,label{font-family:Geist,system-ui,-apple-system,"Segoe UI",sans-serif}
+pre,code,textarea.mono{font-family:'Geist Mono',ui-monospace,monospace}
+h1{font-family:Newsreader,Georgia,serif!important;font-weight:400!important;letter-spacing:-.01em}
+body{background:#f7f8fb}</style></head>
+<body><div id="gg-hd" role="banner"><div class="in"><a class="br" href="/"><span class="mk">GG</span><span class="bn">Gennady Gelman, MD</span></a><nav aria-label="Site"><a href="/">Home</a><a href="/tools/">Tools</a><a href="/#about">About</a></nav></div></div><div id="gg-nt"><p><b>For licensed clinicians and trainees.</b> Not intended for patient self-use.</p></div><main class="wrap">
 <header><div class="mark">V</div><div><h1>Pediatric Vaccine Guidance</h1><p>Routine CDC schedule review for healthy children • Works entirely offline</p></div></header>
 <div class="notice"><strong>Version 1 scope:</strong> routine schedule screening only. Complex catch-up schedules, risk-based recommendations, contraindications, COVID-19, RSV products, and travel vaccines require separate clinical review.</div>
 <div class="grid">
@@ -55,4 +81,4 @@ function buildParent(d,a){const due=d.rows.filter(r=>["due","late"].includes(r.s
 $("copySmartPhrase").onclick=async()=>{const text=$("immunizationSmartPhrase").textContent;try{await navigator.clipboard.writeText(text)}catch{const area=document.createElement("textarea");area.value=text;area.style.position="fixed";area.style.opacity="0";document.body.appendChild(area);area.select();document.execCommand("copy");area.remove()}$("copyStatus").textContent="Copied";setTimeout(()=>$("copyStatus").textContent="",1800)};
 $("analyze").onclick=analyze;$("clear").onclick=()=>location.reload();
 })();
-</script></body></html>
+</script><div id="gg-ft" role="contentinfo"><div class="in"><span>© 2026 Gennady Gelman · Personal site, not affiliated with any employer.</span><a href="mailto:me@gennadygelman.com">me@gennadygelman.com</a></div></div></body></html>
