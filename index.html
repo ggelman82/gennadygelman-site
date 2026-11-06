@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gennady Gelman, MD</title>
+<script>(function(){var t=null;try{t=localStorage.getItem('gg-theme')}catch(e){}if(!t)t=(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light';document.documentElement.dataset.theme=t})();</script>
+<meta name="description" content="Patient guidance, clinical decision support, and a few ideas worth exploring, from Gennady Gelman, MD.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0e1734; --ink:#0e1734; --soft:#5a6383; --faint:#8a91a8;
+    --paper:#f7f8fb; --line:rgba(14,23,52,.12); --line-2:rgba(14,23,52,.07);
+    --blue:#e7ecf6; --green:#e2ede6; --lilac:#ece8f5;
+    --accent:#3b54c4; --green-ink:#2f6b48; --lilac-ink:#5b3fa0;
+    --r:20px;
+    --surface:#fff; --bar:#0e1734; --btn:#0e1734; --btn-ink:#fff;
+    color-scheme:light;
+  }
+  /* ---------- dark theme: follows the device unless the visitor picks one ---------- */
+  :root[data-theme="dark"]{
+    --ink:#e7eaf3; --soft:#a6aec6; --faint:#7f88a5;
+    --paper:#0a0f1e; --surface:#131a2e; --bar:#060a15;
+    --line:rgba(231,234,243,.14); --line-2:rgba(231,234,243,.08);
+    --blue:#1b2340; --green:#18291f; --lilac:#231d38;
+    --accent:#93a6ff; --green-ink:#8fd0a8; --lilac-ink:#c4b2f2;
+    --btn:#e7eaf3; --btn-ink:#0a0f1e;
+    color-scheme:dark;
+  }
+  :root[data-theme="dark"] .tile,
+  :root[data-theme="dark"] .door{background:color-mix(in oklab, var(--a, #93a6ff) 20%, var(--surface))}
+  :root[data-theme="dark"] .doors .d-patient{--a:#2f6b48} :root[data-theme="dark"] .doors .d-clinician{--a:#3b54c4} :root[data-theme="dark"] .doors .d-curious{--a:#5b3fa0}
+  :root[data-theme="dark"] .ic .f{fill-opacity:.85}
+  :root[data-theme="dark"] .tile .num,:root[data-theme="dark"] .tile .kind{color:var(--faint)}
+  :root[data-theme="dark"] .pc.feature{background:color-mix(in oklab, var(--tint, var(--surface)) 14%, var(--surface))}
+  :root[data-theme="dark"] .prep{background:#14241b;border-color:rgba(143,208,168,.2)}
+  :root[data-theme="dark"] .card-side{background:#10182a}
+  :root[data-theme="dark"] .prep input,:root[data-theme="dark"] .prep textarea{border-color:var(--line)}
+  :root[data-theme="dark"] .share-out{background:#161f3a}
+  :root[data-theme="dark"] .notice{border-left-color:var(--accent)}
+  :root[data-theme="dark"] .tile:hover,:root[data-theme="dark"] .door:hover{border-color:rgba(231,234,243,.3)}
+  body{transition:background-color .25s ease,color .25s ease}
+  .theme{all:unset;cursor:pointer;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(255,255,255,.35);flex:none}
+  .theme:hover{background:rgba(255,255,255,.08)}
+  .theme:focus-visible{outline:3px solid #93a6ff;outline-offset:2px}
+  .theme svg{width:18px;height:18px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round}
+  .theme .moon{display:none} :root[data-theme="dark"] .theme .moon{display:block} :root[data-theme="dark"] .theme .sun{display:none}
+  .top .wrap > .theme{margin-left:auto} .top nav:not([hidden]) + .theme{margin-left:0}
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:Geist,system-ui,sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+  a{color:inherit}
+  button{font:inherit}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 clamp(16px,4vw,32px);width:100%}
+  [hidden]{display:none!important}
+
+  /* header */
+  header.top{position:sticky;top:0;z-index:20;background:var(--bar);color:#fff}
+  .top .wrap{display:flex;align-items:center;gap:18px;height:64px}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:600;font-size:15px;white-space:nowrap}
+  .mark{width:30px;height:30px;border-radius:50%;border:1.5px solid rgba(255,255,255,.75);display:grid;place-items:center;font-size:11px;letter-spacing:.04em}
+  .top nav{margin-left:auto;display:flex;gap:16px;align-items:center;font-size:14px}
+  .viewing{display:flex;align-items:center;gap:8px;opacity:.9}
+  .viewing b{font-weight:600}
+  .switch{all:unset;cursor:pointer;font-size:13px;border-bottom:1px dotted rgba(255,255,255,.6)}
+  .switch:hover{border-bottom-style:solid}
+  .kbtn{all:unset;cursor:pointer;display:flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:7px 10px 7px 14px;font-size:14px}
+  .kbtn:hover{background:rgba(255,255,255,.08)}
+  .kbtn kbd{font-family:"Geist Mono",monospace;font-size:11px;background:rgba(255,255,255,.14);border-radius:6px;padding:2px 6px}
+  .kbtn .mag{display:none}
+  body:has(#nav:not([hidden])) .bn{}
+  @media (max-width:360px){.brand .bn{display:none}}
+  @media (max-width:420px){#openSearch{display:none}#nav{display:none!important}.top .wrap{gap:8px}.brand{font-size:14px;gap:8px}.top nav{gap:8px}}
+  @media (max-width:640px){.kbtn .mag{display:inline}.kbtn .lbl,.kbtn kbd,.viewing .pre{display:none}.kbtn{padding:7px 11px}}
+
+  /* ---------- GATE ---------- */
+  #gate{flex:1;display:flex;flex-direction:column;justify-content:center;padding-top:clamp(28px,6vh,64px);padding-bottom:clamp(28px,6vh,64px)}
+  .eyebrow{font-family:"Geist Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:0 0 14px}
+  #gate h1{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:clamp(40px,7vw,76px);line-height:1;letter-spacing:-.025em;margin:0 0 28px}
+  #gate h1 em{color:var(--accent)}
+  .doors{display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:14px}
+  @media (max-width:860px){.doors{grid-template-columns:1fr}}
+  .door{all:unset;cursor:pointer;box-sizing:border-box;border-radius:var(--r);padding:clamp(22px,3vw,30px);min-height:clamp(150px,34vh,330px);display:flex;flex-direction:column;justify-content:space-between;gap:18px;border:1.5px solid transparent;transition:transform .2s ease,box-shadow .2s ease,border-color .2s}
+  .door:hover{transform:translateY(-3px);box-shadow:0 18px 40px -22px rgba(14,23,52,.5);border-color:rgba(14,23,52,.35)}
+  .door:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+  .door .k{font-family:"Geist Mono",monospace;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase}
+  .door .t{font-family:Newsreader,Georgia,serif;font-size:clamp(30px,3.6vw,44px);line-height:1.02;letter-spacing:-.015em;display:block}
+  .door .s{display:block;margin-top:10px;color:var(--soft);font-size:15px;max-width:34ch}
+  .door .arrow{font-size:22px;align-self:flex-end;transition:transform .2s}
+  .door:hover .arrow{transform:translateX(4px)}
+  .doors .d-patient{background:var(--green)} .doors .d-patient .k{color:var(--green-ink)}
+  .doors .d-clinician{background:var(--blue)} .doors .d-clinician .k{color:var(--accent)}
+  .doors .d-curious{background:var(--lilac)} .doors .d-curious .k{color:var(--lilac-ink)}
+  .gate-note{margin:18px 2px 0;font-size:13px;color:var(--faint)}
+  @media (max-width:860px){.door{min-height:0}.door .arrow{display:none}}
+
+  /* ---------- VIEW ---------- */
+  #view{flex:1;padding-bottom:70px}
+  .hero{padding:clamp(36px,6vw,64px) 0 26px}
+  .hero h1{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:clamp(36px,5.6vw,60px);line-height:1.02;letter-spacing:-.02em;margin:0 0 14px;max-width:18ch}
+  .hero h1 em{color:var(--accent)}
+  .lede{color:var(--soft);font-size:clamp(16px,2vw,18.5px);max-width:58ch;margin:0}
+  .notice{margin-top:18px;display:block;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;padding:12px 16px;font-size:14px;color:var(--soft);max-width:70ch}
+  .notice b{color:var(--ink)}
+
+  .cc{margin:26px 0 0;position:relative}
+  .cc .field{display:flex;align-items:center;gap:12px;background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:0 14px;height:56px}
+  .cc .field:focus-within{border-color:var(--ink);box-shadow:0 0 0 4px rgba(59,84,196,.12)}
+  .cc input{all:unset;flex:1;font-size:17px}
+  .cc input::placeholder{color:var(--faint)}
+  .cc .ico{color:var(--faint);font-size:18px}
+  .results{position:absolute;left:0;right:0;top:calc(100% + 8px);background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:0 24px 60px -20px rgba(14,23,52,.35);padding:6px;max-height:min(420px,60vh);overflow:auto;z-index:15;display:none}
+  .results.open{display:block}
+  .results a{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:10px 12px;border-radius:10px;text-decoration:none}
+  .results a[aria-selected="true"],.results a:hover{background:var(--blue)}
+  .tag{font-family:"Geist Mono",monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;border-radius:6px;background:var(--paper);color:var(--soft);white-space:nowrap}
+  .results .nm{font-weight:500}
+  .results .ds{display:block;font-size:13px;color:var(--soft)}
+  .results .go{color:var(--faint)}
+  .results .empty{padding:14px;color:var(--soft);font-size:14px}
+
+  .plan{margin-top:32px;background:var(--surface);border:1px solid var(--line);border-radius:22px;overflow:hidden}
+  .plan-head{padding:20px clamp(18px,3vw,30px);border-bottom:1px dashed var(--line)}
+  .plan-head h2{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:clamp(24px,3vw,30px);margin:0}
+  ol.rx{list-style:none;margin:0;padding:6px clamp(10px,2vw,18px) 14px;counter-reset:rx;display:grid;grid-template-columns:1fr 1fr;column-gap:12px}
+  @media (max-width:760px){ol.rx{grid-template-columns:1fr}}
+  ol.rx li{counter-increment:rx;opacity:0;transform:translateY(6px);animation:in .35s ease forwards}
+  ol.rx a{display:grid;grid-template-columns:38px 1fr;gap:4px 10px;padding:14px 12px;border-radius:14px;text-decoration:none}
+  ol.rx a:hover{background:var(--paper)}
+  ol.rx a::before{content:counter(rx,decimal-leading-zero);grid-row:span 2;font-family:"Geist Mono",monospace;font-size:13px;color:var(--faint);padding-top:3px}
+  ol.rx .nm{font-weight:600;font-size:16.5px}
+  ol.rx .nm small{font-family:"Geist Mono",monospace;font-weight:400;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-left:8px}
+  ol.rx .ds{color:var(--soft);font-size:14px}
+  @keyframes in{to{opacity:1;transform:none}}
+
+  .index{margin-top:48px}
+  .index h3{font-family:"Geist Mono",monospace;font-weight:500;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:0 0 14px}
+  .index ul{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+  .index li a{display:grid;grid-template-columns:220px 1fr;gap:18px;align-items:baseline;padding:16px 4px;border-bottom:1px solid var(--line-2);text-decoration:none}
+  .index li a:hover .n{color:var(--accent)}
+  .index .n{font-family:Newsreader,Georgia,serif;font-size:22px}
+  .index .d{color:var(--soft);font-size:14.5px}
+  @media (max-width:640px){.index li a{grid-template-columns:1fr;gap:2px}}
+
+
+  /* ---------- visit prep (patient only) ---------- */
+  .prep{margin-top:32px;border-radius:22px;background:var(--green);display:grid;grid-template-columns:1.1fr 1fr;gap:0;overflow:hidden;border:1px solid rgba(47,107,72,.18)}
+  @media (max-width:860px){.prep{grid-template-columns:1fr}}
+  .prep-form{padding:clamp(20px,3vw,32px)}
+  .prep .k{font-family:"Geist Mono",monospace;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--green-ink);margin:0 0 8px}
+  .prep h2{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:clamp(26px,3.2vw,36px);line-height:1.05;margin:0 0 8px}
+  .prep .sub{color:var(--soft);font-size:15px;margin:0 0 20px;max-width:46ch}
+  .prep label{display:block;font-weight:600;font-size:14.5px;margin:16px 0 6px}
+  .prep label span{font-weight:400;color:var(--soft)}
+  .prep input,.prep textarea{width:100%;font:inherit;font-size:15.5px;color:var(--ink);background:var(--surface);border:1.5px solid rgba(14,23,52,.14);border-radius:12px;padding:11px 13px;resize:vertical}
+  .prep textarea{min-height:64px}
+  .prep input:focus,.prep textarea:focus{outline:none;border-color:var(--green-ink);box-shadow:0 0 0 4px rgba(47,107,72,.14)}
+  .prep .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media (max-width:520px){.prep .row{grid-template-columns:1fr}}
+  .prep .priv{display:flex;gap:8px;align-items:center;margin-top:18px;font-size:13px;color:var(--green-ink)}
+  .card-side{background:#fbfaf6;padding:clamp(20px,3vw,32px);border-left:1px dashed rgba(14,23,52,.18);display:flex;flex-direction:column}
+  @media (max-width:860px){.card-side{border-left:0;border-top:1px dashed rgba(14,23,52,.18)}}
+  .agenda{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px 22px;box-shadow:0 14px 34px -24px rgba(14,23,52,.45);font-size:15px;position:relative}
+  .agenda::before{content:"";position:absolute;inset:0 auto 0 0;width:4px;border-radius:14px 0 0 14px;background:var(--green-ink)}
+  .agenda h3{font-family:Newsreader,Georgia,serif;font-weight:500;font-size:21px;margin:0 0 2px}
+  .agenda .when{font-family:"Geist Mono",monospace;font-size:11px;color:var(--faint);letter-spacing:.06em;margin:0 0 14px}
+  .agenda .blk{margin:0 0 12px}
+  .agenda .lbl{font-family:"Geist Mono",monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin:0 0 3px}
+  .agenda ol{margin:0;padding-left:20px}
+  .agenda .ph{color:var(--faint);font-style:italic}
+  .agenda .top{font-weight:600}
+  .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+  .btn{all:unset;cursor:pointer;font-size:14px;font-weight:600;padding:10px 16px;border-radius:999px;background:var(--btn);color:var(--btn-ink)}
+  .btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+  .btn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  .btn[disabled]{opacity:.45;cursor:default}
+  .tip{font-size:13px;color:var(--soft);margin:12px 0 0}
+  @media print{
+    body *{visibility:hidden!important}
+    body[data-print="agenda"] .agenda, body[data-print="agenda"] .agenda *,
+    body[data-print="share"] .share-card, body[data-print="share"] .share-card *{visibility:visible!important}
+    body[data-print="agenda"] .agenda{position:absolute;left:0;top:0;width:100%;box-shadow:none;border:0}
+    body[data-print="share"] .share-card{position:absolute;left:50%;top:40px;transform:translateX(-50%);box-shadow:none;max-width:420px}
+  }
+
+
+  /* ---------- patient sections ---------- */
+  .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;align-content:start}
+  @media (max-width:560px){.cards{grid-template-columns:1fr}}
+  .pc{display:flex;flex-direction:column;gap:6px;padding:16px 18px;border-radius:16px;background:var(--surface);border:1px solid var(--line);text-decoration:none;transition:transform .15s ease,box-shadow .15s ease,border-color .15s}
+  .pc:hover{transform:translateY(-2px);border-color:rgba(14,23,52,.28);box-shadow:0 12px 28px -20px rgba(14,23,52,.5)}
+  .pc .top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+  .pc .nm{font-weight:600;font-size:16px;line-height:1.3}
+  .pc .ds{color:var(--soft);font-size:14px}
+  .pc .x{color:var(--faint);font-size:13px}
+  .pc.feature{grid-column:1/-1;background:var(--tint,var(--surface));border-color:transparent}
+  .pc.feature .nm{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:24px}
+  button.pc{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:6px;padding:16px 18px;border-radius:16px;grid-column:1/-1;background:var(--green);transition:transform .15s ease,box-shadow .15s ease}
+  button.pc:hover{transform:translateY(-2px);box-shadow:0 12px 28px -20px rgba(14,23,52,.5)}
+  button.pc:focus-visible,.pc:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  button.pc .nm{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:24px}
+  .prep-wrap{grid-column:1/-1}
+  .prep-wrap .prep{margin-top:0}
+
+
+  /* ---------- patient topic tiles ---------- */
+  .tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:30px}
+  @media (max-width:900px){.tiles{grid-template-columns:repeat(2,1fr)}}
+  .tile{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;gap:26px;min-height:150px;padding:18px 18px 16px;border-radius:18px;background:var(--t,#fff);border:1.5px solid transparent;transition:transform .16s ease,box-shadow .16s ease,border-color .16s}
+  .tile:hover{transform:translateY(-3px);border-color:rgba(14,23,52,.3);box-shadow:0 14px 30px -20px rgba(14,23,52,.55)}
+  .tile:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+  .tile .num{font-family:"Geist Mono",monospace;font-size:11.5px;color:rgba(14,23,52,.5)}
+  .tile .nm{font-family:Newsreader,Georgia,serif;font-size:clamp(23px,2.4vw,28px);line-height:1.05;display:block}
+  .tile .new{font-family:"Geist Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;background:var(--btn);color:var(--btn-ink);border-radius:6px;padding:2px 6px;margin-left:6px;vertical-align:4px}
+
+  .tile-top{display:flex;justify-content:space-between;align-items:flex-start}
+  .ic{width:52px;height:52px;color:var(--ink);fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s ease}
+  .ic .f{fill:var(--a);fill-opacity:.5}
+  .tile:hover .ic{transform:rotate(-6deg) scale(1.06)}
+  .detail .dic{display:inline-block;vertical-align:-6px;margin-right:12px}
+  .detail .dic .ic{width:40px;height:40px}
+
+  /* clinician tiles */
+  a.tile{text-decoration:none;color:inherit}
+  .tile .kind{font-family:"Geist Mono",monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(14,23,52,.55)}
+  .tile .sub2{display:block;font-family:Geist,system-ui,sans-serif;font-size:13.5px;color:var(--soft);margin-top:6px;line-height:1.4}
+  .ctiles .tile{min-height:168px;min-width:0}
+  @media (max-width:600px){.ctiles{grid-template-columns:1fr}.ctiles .tile{min-height:0;gap:14px}}
+  #shareWrap{margin-top:26px}
+  #shareWrap .share{margin-top:12px}
+
+
+  /* ---------- about ---------- */
+  .about-link{color:#fff;text-decoration:none;font-size:14px;opacity:.85;margin-left:auto}
+  .home-link:not([hidden]) + .about-link{margin-left:18px}
+  .about-link:hover{opacity:1;text-decoration:underline;text-underline-offset:4px}
+  .top .wrap > .about-link + nav:not([hidden]){margin-left:18px}
+  .top .wrap > .about-link ~ .theme{margin-left:14px}
+  #about{flex:1;padding-top:clamp(28px,5vw,48px);padding-bottom:70px}
+  .ab{display:grid;grid-template-columns:1.4fr 1fr;gap:clamp(24px,4vw,56px);margin-top:18px;align-items:start}
+  @media (max-width:820px){.ab{grid-template-columns:1fr}}
+  .ab h1{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:clamp(40px,6vw,64px);line-height:1;letter-spacing:-.02em;margin:0 0 18px;outline:none}
+  .ab-lede{font-size:clamp(17px,2vw,19px);color:var(--ink);max-width:56ch;margin:0 0 14px}
+  .ab-p{font-size:16.5px;color:var(--soft);max-width:56ch;margin:0 0 14px}
+  .ab-p a{color:var(--accent)}
+  .ab-p:last-of-type{margin-bottom:28px}
+  .say{color:var(--soft);font-size:15px;margin:0 0 26px}
+  .facts{margin:0;border-top:1px solid var(--line)}
+  .facts div{display:grid;grid-template-columns:150px 1fr;gap:16px;padding:13px 2px;border-bottom:1px solid var(--line-2)}
+  @media (max-width:520px){.facts div{grid-template-columns:1fr;gap:2px}}
+  .facts dt{font-family:"Geist Mono",monospace;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);padding-top:3px}
+  .facts dd{margin:0;font-size:16px}
+  .facts a,.ab-note a{color:var(--accent)}
+  .ab-note{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px;font-size:14.5px;color:var(--soft)}
+  .ab-note p{margin:0 0 12px}
+  .ab-note p:last-child{margin:0}
+  .k2{font-family:"Geist Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+  .foot-note{opacity:.7}
+  .foot-note a{text-decoration:underline;text-underline-offset:3px}
+  .safety{margin:16px 2px 0;font-size:13.5px;color:var(--soft)}
+  .safety b{color:var(--ink)}
+  .safety a{color:var(--ink);font-weight:600}
+  .detail{margin-top:26px}
+  .back{all:unset;cursor:pointer;font-size:14px;color:var(--accent);display:inline-flex;gap:6px;align-items:center}
+  .back:hover{text-decoration:underline;text-underline-offset:4px}
+  .detail h2{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:clamp(32px,4vw,44px);margin:10px 0 18px;letter-spacing:-.01em}
+  .detail .cards{grid-template-columns:repeat(2,1fr)}
+  @media (max-width:560px){.detail .cards{grid-template-columns:1fr}}
+  .soon{grid-column:1/-1;font-size:14px;color:var(--soft);padding:12px 4px 0}
+  .soon a{color:var(--accent)}
+  #dh:focus,#shH:focus{outline:none}
+
+
+  /* ---------- clinician: share with a patient ---------- */
+  .share{margin-top:32px;background:var(--surface);border:1px solid var(--line);border-radius:22px;display:grid;grid-template-columns:1fr 1.05fr;overflow:hidden}
+  @media (max-width:860px){.share{grid-template-columns:1fr}}
+  .share-pick{padding:clamp(20px,3vw,30px)}
+  .share h2{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:clamp(26px,3vw,32px);margin:0 0 6px}
+  .share .sub{color:var(--soft);font-size:15px;margin:0 0 18px;max-width:44ch}
+  .share .grp{font-family:"Geist Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin:16px 0 8px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:8px;font-size:14px;padding:7px 12px 7px 8px;border-radius:999px;border:1px solid var(--line);background:var(--surface)}
+  .chip .ic{width:22px;height:22px;stroke-width:2.6}
+  .chip.r{padding-left:12px}
+  .chip:hover{border-color:rgba(14,23,52,.35)}
+  .chip[aria-pressed="true"]{background:var(--btn);border-color:var(--btn);color:var(--btn-ink)}
+  .chip[aria-pressed="true"] .ic{color:var(--btn-ink)}
+  .chip:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  .share-out{background:var(--blue);padding:clamp(20px,3vw,30px);display:flex;flex-direction:column;align-items:center;gap:14px}
+  .share-card{background:#fff;color:#0e1734;--ink:#0e1734;--soft:#5a6383;--faint:#8a91a8;border-radius:18px;padding:22px 22px 18px;width:100%;max-width:340px;text-align:center;box-shadow:0 18px 40px -26px rgba(14,23,52,.6)}
+  .share-card .from{font-family:"Geist Mono",monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin:0}
+  .share-card h3{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:26px;line-height:1.1;margin:6px 0 12px}
+  .qr{width:100%;max-width:230px;margin:0 auto;aspect-ratio:1}
+  .qr svg{width:100%;height:100%;display:block}
+  .share-card .url{font-family:"Geist Mono",monospace;font-size:12.5px;color:var(--soft);margin:12px 0 0;word-break:break-all}
+  .share-card .scan{font-size:13px;color:var(--soft);margin:4px 0 0}
+  .share-out .actions{justify-content:center;margin-top:0}
+  .share-out .msg{width:100%;max-width:340px;font-size:13px;color:var(--soft);margin:0;text-align:center}
+
+  footer{background:var(--bar);color:rgba(255,255,255,.85);font-size:13px}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;padding-top:24px;padding-bottom:24px}
+  footer a{text-decoration:none}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}ol.rx li{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="Gennady Gelman, MD, home"><span class="mark">GG</span><span class="bn">Gennady Gelman, MD</span></a>
+    <a class="about-link home-link" href="/" id="homeLink" hidden>Home</a>
+    <a class="about-link" href="#about" id="aboutLink">About</a>
+    <nav id="nav" hidden>
+      <button class="kbtn" id="openSearch" type="button" aria-label="Search"><span class="lbl">Search</span> <kbd id="kHint">⌘K</kbd><span aria-hidden="true" class="mag">⌕</span></button>
+    </nav>
+    <button class="theme" id="theme" type="button" aria-label="Switch to dark mode"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></button>
+  </div>
+</header>
+
+
+<!-- ABOUT -->
+<section id="about" class="wrap" hidden aria-labelledby="abH">
+  <button class="back" type="button" id="abBack">← Back</button>
+  <div class="ab">
+    <div class="ab-main">
+      <h1 id="abH" tabindex="-1">About me</h1>
+      <p class="ab-lede">I'm Gennady Gelman, a family physician. I care about making primary care work better, for patients and for the people who deliver it. Along the way I build guides, tools and the occasional chatbot, and this site is where I share them.</p>
+      <p class="ab-p">I teach students, write <a href="/medicolalia/">Medicolalia</a>, an essay series on where medical words come from, and celebrate <a href="/kiloday/">kilodays</a>.</p>
+      <p class="ab-p">I live in Providence, Rhode Island, with my lovely wife and our <a href="https://www.urbandictionary.com/define.php?term=pitshund" target="_blank" rel="noopener">pitshund</a>, Penny. Off the clock you'll find me looking up at the night sky, foraging, on a yoga mat, tinkering with something, or out on a long walk with Penny and an audiobook.</p>
+      <dl class="facts">
+        <div><dt>Specialty</dt><dd>Family medicine</dd></div>
+        <div><dt>Medical school</dt><dd>Sackler School of Medicine</dd></div>
+        <div><dt>Residency</dt><dd>Hunterdon Family Medicine, Flemington, NJ</dd></div>
+        <div><dt>Interests</dt><dd>Practice transformation, AI in medicine, and where medical words come from</dd></div>
+        <div><dt>Home</dt><dd>Providence, Rhode Island</dd></div>
+        <div><dt>Contact</dt><dd><a href="mailto:me@gennadygelman.com">me@gennadygelman.com</a></dd></div>
+      </dl>
+    </div>
+    <aside class="ab-note" aria-label="About this site">
+      <p class="k2">About this site</p>
+      <p>This is my personal website. It is not affiliated with, reviewed by, or endorsed by any hospital, health system, health plan or employer. Views are my own.</p>
+      <p>Nothing here is medical advice for you. Please don't email personal health information. If you are my patient, use your patient portal.</p>
+      <p>In an emergency, call <a href="tel:911">911</a>. For a mental health crisis, call or text <a href="tel:988">988</a>.</p>
+    </aside>
+  </div>
+</section>
+
+<!-- GATE: the only thing a first-time visitor sees -->
+<section id="gate" class="wrap" aria-labelledby="gh">
+  <p class="eyebrow">Gennady Gelman, MD · Family medicine</p>
+  <h1 id="gh">Welcome. Which describes <em>you?</em></h1>
+  <div class="doors">
+    <button class="door d-patient" data-who="patient">
+      <span class="k">Patients &amp; families</span>
+      <span><span class="t">I'm a patient</span><span class="s">Guides on flu, weight and food, plus the apps and books I recommend.</span></span>
+      <span class="arrow" aria-hidden="true">→</span>
+    </button>
+    <button class="door d-clinician" data-who="clinician">
+      <span class="k">Clinicians &amp; trainees</span>
+      <span><span class="t">I'm a clinician or student</span><span class="s">Decision-support tools, references and teaching material.</span></span>
+      <span class="arrow" aria-hidden="true">→</span>
+    </button>
+    <button class="door d-curious" data-who="curious">
+      <span class="k">Words &amp; ideas</span>
+      <span><span class="t">Just curious</span><span class="s">Essays on medical words, and a better way to count birthdays.</span></span>
+      <span class="arrow" aria-hidden="true">→</span>
+    </button>
+  </div>
+  <p class="gate-note">Nothing on this site replaces a visit with your own clinician.</p>
+</section>
+
+<!-- VIEW: built for the chosen audience only -->
+<main id="view" class="wrap" hidden>
+  <section class="hero">
+    <h1 id="vh"></h1>
+    <p class="lede" id="vl"></p>
+    <div class="notice" id="vn" hidden></div>
+    <div class="cc">
+      <div class="field">
+        <span class="ico" aria-hidden="true">⌕</span>
+        <input id="q" type="text" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="res" aria-autocomplete="list" aria-label="Search">
+      </div>
+      <div class="results" id="res" role="listbox" aria-label="Matches"></div>
+    </div>
+  </section>
+
+
+  <!-- Patient-only visit planner. Lives inside the "Your visit" section, closed until asked for. Nothing typed is stored or sent. -->
+  <template id="prepTpl">
+  <section class="prep" id="prep" aria-labelledby="prepH">
+    <div class="prep-form">
+      <p class="k">Before your visit</p>
+      <h2 id="prepH">Make your appointment count.</h2>
+      <p class="sub">Visits are short. Writing down your top concern ahead of time helps us get to what matters most. Fill in what applies and bring the result with you.</p>
+
+      <label for="f1">The one thing I most want to talk about</label>
+      <input id="f1" maxlength="160" placeholder="e.g. tired all the time for two months">
+
+      <div class="row">
+        <div><label for="f2">Something else <span>(optional)</span></label><input id="f2" maxlength="120"></div>
+        <div><label for="f3">One more <span>(optional)</span></label><input id="f3" maxlength="120"></div>
+      </div>
+
+      <label for="f4">Questions about my medicines <span>(refills, side effects, cost)</span></label>
+      <textarea id="f4" maxlength="400"></textarea>
+
+      <label for="f5">What's changed since my last visit <span>(ER visits, new specialists, new symptoms)</span></label>
+      <textarea id="f5" maxlength="400"></textarea>
+
+      <p class="priv"><span aria-hidden="true">●</span> Stays on your device. Nothing you type is saved or sent anywhere.</p>
+    </div>
+
+    <div class="card-side">
+      <div class="agenda" id="agenda" aria-live="polite">
+        <h3>My visit agenda</h3>
+        <p class="when" id="agWhen"></p>
+        <div id="agBody"></div>
+      </div>
+      <div class="actions">
+        <button class="btn" id="agCopy" type="button" disabled>Copy for MyChart</button>
+        <button class="btn ghost" id="agPrint" type="button" disabled>Print</button>
+        <button class="btn ghost" id="agClear" type="button">Clear</button>
+      </div>
+      <p class="tip" id="agTip">Tip: paste it into a MyChart message a day or two before your appointment, or show it to whoever rooms you.</p>
+    </div>
+  </section>
+  </template>
+
+  <!-- Patient view: resources broken into topic sections -->
+  <div id="psecs" hidden>
+    <div class="tiles" id="tiles" role="list"></div>
+    <p class="safety">In an emergency, call <a href="tel:911">911</a>. For a mental health crisis, call or text <a href="tel:988">988</a>.</p>
+    <div class="detail" id="detail" hidden></div>
+  </div>
+
+  <section class="plan">
+    <div class="plan-head"><h2 id="ph">Start here</h2></div>
+    <ol class="rx" id="rx"></ol>
+  </section>
+
+
+
+  <!-- Curious view: three tiles, nothing else -->
+  <div id="ksecs" hidden><div class="tiles" id="ktiles" role="list"></div></div>
+
+  <!-- Clinician view: tools as tiles -->
+  <div id="csecs" hidden>
+    <div class="tiles ctiles" id="ctiles" role="list"></div>
+  </div>
+  <div id="shareWrap" hidden><button class="back" type="button" id="shBack">← All tools</button>
+  <!-- Clinician-only: send a patient to the right page -->
+  <section class="share" id="share" aria-labelledby="shH">
+    <div class="share-pick">
+      <h2 id="shH">Share with a patient</h2>
+      <p class="sub">Pick what you want them to read. Show the code on your screen, print it, or paste the message into MyChart. The link opens straight to that page.</p>
+      <p class="grp">Topics</p>
+      <div class="chips" id="shTopics"></div>
+      <p class="grp">Resources</p>
+      <div class="chips" id="shRes"></div>
+    </div>
+    <div class="share-out">
+      <div class="share-card" id="shCard">
+        <p class="from">From Dr. Gelman</p>
+        <h3 id="shTitle"></h3>
+        <div class="qr" id="shQR" role="img" aria-label="QR code"></div>
+        <p class="url" id="shUrl"></p>
+        <p class="scan">Point your phone camera at the code.</p>
+      </div>
+      <div class="actions">
+        <button class="btn" id="shMsg" type="button">Copy MyChart message</button>
+        <button class="btn ghost" id="shLink" type="button">Copy link</button>
+        <button class="btn ghost" id="shPrint" type="button">Print</button>
+      </div>
+      <p class="msg" id="shNote"></p>
+    </div>
+  </section>
+  </div>
+
+  <section class="index" aria-labelledby="ix">
+    <h3 id="ix">Everything for you</h3>
+    <ul id="sections"></ul>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><span>© 2026 Gennady Gelman · <span class="foot-note">Personal site, not affiliated with any employer. <a href="#about">About</a></span></span><a href="mailto:me@gennadygelman.com">me@gennadygelman.com</a></div>
+</footer>
+
+<script>
+/* qrcode-generator 1.4.4 · (c) 2009 Kazuhiko Arase · MIT License · https://github.com/kazuhikoarase/qrcode-generator */
+var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],f={},c=function(t,r){o=function(t){for(var r=new Array(t),e=0;e<t;e+=1){r[e]=new Array(t);for(var n=0;n<t;n+=1)r[e][n]=null}return r}(i=4*e+17),l(0,0),l(i-7,0),l(0,i-7),s(),h(),d(t,r),e>=7&&v(t),null==a&&(a=p(e,n,u)),w(a,r)},l=function(t,r){for(var e=-1;e<=7;e+=1)if(!(t+e<=-1||i<=t+e))for(var n=-1;n<=7;n+=1)r+n<=-1||i<=r+n||(o[t+e][r+n]=0<=e&&e<=6&&(0==n||6==n)||0<=n&&n<=6&&(0==e||6==e)||2<=e&&e<=4&&2<=n&&n<=4)},h=function(){for(var t=8;t<i-8;t+=1)null==o[t][6]&&(o[t][6]=t%2==0);for(var r=8;r<i-8;r+=1)null==o[6][r]&&(o[6][r]=r%2==0)},s=function(){for(var t=B.getPatternPosition(e),r=0;r<t.length;r+=1)for(var n=0;n<t.length;n+=1){var i=t[r],a=t[n];if(null==o[i][a])for(var u=-2;u<=2;u+=1)for(var f=-2;f<=2;f+=1)o[i+u][a+f]=-2==u||2==u||-2==f||2==f||0==u&&0==f}},v=function(t){for(var r=B.getBCHTypeNumber(e),n=0;n<18;n+=1){var a=!t&&1==(r>>n&1);o[Math.floor(n/3)][n%3+i-8-3]=a}for(n=0;n<18;n+=1){a=!t&&1==(r>>n&1);o[n%3+i-8-3][Math.floor(n/3)]=a}},d=function(t,r){for(var e=n<<3|r,a=B.getBCHTypeInfo(e),u=0;u<15;u+=1){var f=!t&&1==(a>>u&1);u<6?o[u][8]=f:u<8?o[u+1][8]=f:o[i-15+u][8]=f}for(u=0;u<15;u+=1){f=!t&&1==(a>>u&1);u<8?o[8][i-u-1]=f:u<9?o[8][15-u-1+1]=f:o[8][15-u-1]=f}o[i-8][8]=!t},w=function(t,r){for(var e=-1,n=i-1,a=7,u=0,f=B.getMaskFunction(r),c=i-1;c>0;c-=2)for(6==c&&(c-=1);;){for(var g=0;g<2;g+=1)if(null==o[n][c-g]){var l=!1;u<t.length&&(l=1==(t[u]>>>a&1)),f(n,c-g)&&(l=!l),o[n][c-g]=l,-1==(a-=1)&&(u+=1,a=7)}if((n+=e)<0||i<=n){n-=e,e=-e;break}}},p=function(t,r,e){for(var n=A.getRSBlocks(t,r),o=b(),i=0;i<e.length;i+=1){var a=e[i];o.put(a.getMode(),4),o.put(a.getLength(),B.getLengthInBits(a.getMode(),t)),a.write(o)}var u=0;for(i=0;i<n.length;i+=1)u+=n[i].dataCount;if(o.getLengthInBits()>8*u)throw"code length overflow. ("+o.getLengthInBits()+">"+8*u+")";for(o.getLengthInBits()+4<=8*u&&o.put(0,4);o.getLengthInBits()%8!=0;)o.putBit(!1);for(;!(o.getLengthInBits()>=8*u||(o.put(236,8),o.getLengthInBits()>=8*u));)o.put(17,8);return function(t,r){for(var e=0,n=0,o=0,i=new Array(r.length),a=new Array(r.length),u=0;u<r.length;u+=1){var f=r[u].dataCount,c=r[u].totalCount-f;n=Math.max(n,f),o=Math.max(o,c),i[u]=new Array(f);for(var g=0;g<i[u].length;g+=1)i[u][g]=255&t.getBuffer()[g+e];e+=f;var l=B.getErrorCorrectPolynomial(c),h=k(i[u],l.getLength()-1).mod(l);for(a[u]=new Array(l.getLength()-1),g=0;g<a[u].length;g+=1){var s=g+h.getLength()-a[u].length;a[u][g]=s>=0?h.getAt(s):0}}var v=0;for(g=0;g<r.length;g+=1)v+=r[g].totalCount;var d=new Array(v),w=0;for(g=0;g<n;g+=1)for(u=0;u<r.length;u+=1)g<i[u].length&&(d[w]=i[u][g],w+=1);for(g=0;g<o;g+=1)for(u=0;u<r.length;u+=1)g<a[u].length&&(d[w]=a[u][g],w+=1);return d}(o,n)};f.addData=function(t,r){var e=null;switch(r=r||"Byte"){case"Numeric":e=M(t);break;case"Alphanumeric":e=x(t);break;case"Byte":e=m(t);break;case"Kanji":e=L(t);break;default:throw"mode:"+r}u.push(e),a=null},f.isDark=function(t,r){if(t<0||i<=t||r<0||i<=r)throw t+","+r;return o[t][r]},f.getModuleCount=function(){return i},f.make=function(){if(e<1){for(var t=1;t<40;t++){for(var r=A.getRSBlocks(t,n),o=b(),i=0;i<u.length;i++){var a=u[i];o.put(a.getMode(),4),o.put(a.getLength(),B.getLengthInBits(a.getMode(),t)),a.write(o)}var g=0;for(i=0;i<r.length;i++)g+=r[i].dataCount;if(o.getLengthInBits()<=8*g)break}e=t}c(!1,function(){for(var t=0,r=0,e=0;e<8;e+=1){c(!0,e);var n=B.getLostPoint(f);(0==e||t>n)&&(t=n,r=e)}return r}())},f.createTableTag=function(t,r){t=t||2;var e="";e+='<table style="',e+=" border-width: 0px; border-style: none;",e+=" border-collapse: collapse;",e+=" padding: 0px; margin: "+(r=void 0===r?4*t:r)+"px;",e+='">',e+="<tbody>";for(var n=0;n<f.getModuleCount();n+=1){e+="<tr>";for(var o=0;o<f.getModuleCount();o+=1)e+='<td style="',e+=" border-width: 0px; border-style: none;",e+=" border-collapse: collapse;",e+=" padding: 0px; margin: 0px;",e+=" width: "+t+"px;",e+=" height: "+t+"px;",e+=" background-color: ",e+=f.isDark(n,o)?"#000000":"#ffffff",e+=";",e+='"/>';e+="</tr>"}return e+="</tbody>",e+="</table>"},f.createSvgTag=function(t,r,e,n){var o={};"object"==typeof arguments[0]&&(t=(o=arguments[0]).cellSize,r=o.margin,e=o.alt,n=o.title),t=t||2,r=void 0===r?4*t:r,(e="string"==typeof e?{text:e}:e||{}).text=e.text||null,e.id=e.text?e.id||"qrcode-description":null,(n="string"==typeof n?{text:n}:n||{}).text=n.text||null,n.id=n.text?n.id||"qrcode-title":null;var i,a,u,c,g=f.getModuleCount()*t+2*r,l="";for(c="l"+t+",0 0,"+t+" -"+t+",0 0,-"+t+"z ",l+='<svg version="1.1" xmlns="http://www.w3.org/2000/svg"',l+=o.scalable?"":' width="'+g+'px" height="'+g+'px"',l+=' viewBox="0 0 '+g+" "+g+'" ',l+=' preserveAspectRatio="xMinYMin meet"',l+=n.text||e.text?' role="img" aria-labelledby="'+y([n.id,e.id].join(" ").trim())+'"':"",l+=">",l+=n.text?'<title id="'+y(n.id)+'">'+y(n.text)+"</title>":"",l+=e.text?'<description id="'+y(e.id)+'">'+y(e.text)+"</description>":"",l+='<rect width="100%" height="100%" fill="white" cx="0" cy="0"/>',l+='<path d="',a=0;a<f.getModuleCount();a+=1)for(u=a*t+r,i=0;i<f.getModuleCount();i+=1)f.isDark(a,i)&&(l+="M"+(i*t+r)+","+u+c);return l+='" stroke="transparent" fill="black"/>',l+="</svg>"},f.createDataURL=function(t,r){t=t||2,r=void 0===r?4*t:r;var e=f.getModuleCount()*t+2*r,n=r,o=e-r;return I(e,e,function(r,e){if(n<=r&&r<o&&n<=e&&e<o){var i=Math.floor((r-n)/t),a=Math.floor((e-n)/t);return f.isDark(a,i)?0:1}return 1})},f.createImgTag=function(t,r,e){t=t||2,r=void 0===r?4*t:r;var n=f.getModuleCount()*t+2*r,o="";return o+="<img",o+=' src="',o+=f.createDataURL(t,r),o+='"',o+=' width="',o+=n,o+='"',o+=' height="',o+=n,o+='"',e&&(o+=' alt="',o+=y(e),o+='"'),o+="/>"};var y=function(t){for(var r="",e=0;e<t.length;e+=1){var n=t.charAt(e);switch(n){case"<":r+="&lt;";break;case">":r+="&gt;";break;case"&":r+="&amp;";break;case'"':r+="&quot;";break;default:r+=n}}return r};return f.createASCII=function(t,r){if((t=t||1)<2)return function(t){t=void 0===t?2:t;var r,e,n,o,i,a=1*f.getModuleCount()+2*t,u=t,c=a-t,g={"██":"█","█ ":"▀"," █":"▄","  ":" "},l={"██":"▀","█ ":"▀"," █":" ","  ":" "},h="";for(r=0;r<a;r+=2){for(n=Math.floor((r-u)/1),o=Math.floor((r+1-u)/1),e=0;e<a;e+=1)i="█",u<=e&&e<c&&u<=r&&r<c&&f.isDark(n,Math.floor((e-u)/1))&&(i=" "),u<=e&&e<c&&u<=r+1&&r+1<c&&f.isDark(o,Math.floor((e-u)/1))?i+=" ":i+="█",h+=t<1&&r+1>=c?l[i]:g[i];h+="\n"}return a%2&&t>0?h.substring(0,h.length-a-1)+Array(a+1).join("▀"):h.substring(0,h.length-1)}(r);t-=1,r=void 0===r?2*t:r;var e,n,o,i,a=f.getModuleCount()*t+2*r,u=r,c=a-r,g=Array(t+1).join("██"),l=Array(t+1).join("  "),h="",s="";for(e=0;e<a;e+=1){for(o=Math.floor((e-u)/t),s="",n=0;n<a;n+=1)i=1,u<=n&&n<c&&u<=e&&e<c&&f.isDark(o,Math.floor((n-u)/t))&&(i=0),s+=i?g:l;for(o=0;o<t;o+=1)h+=s+"\n"}return h.substring(0,h.length-1)},f.renderTo2dContext=function(t,r){r=r||2;for(var e=f.getModuleCount(),n=0;n<e;n++)for(var o=0;o<e;o++)t.fillStyle=f.isDark(n,o)?"black":"white",t.fillRect(n*r,o*r,r,r)},f};t.stringToBytes=(t.stringToBytesFuncs={default:function(t){for(var r=[],e=0;e<t.length;e+=1){var n=t.charCodeAt(e);r.push(255&n)}return r}}).default,t.createStringToBytes=function(t,r){var e=function(){for(var e=S(t),n=function(){var t=e.read();if(-1==t)throw"eof";return t},o=0,i={};;){var a=e.read();if(-1==a)break;var u=n(),f=n()<<8|n();i[String.fromCharCode(a<<8|u)]=f,o+=1}if(o!=r)throw o+" != "+r;return i}(),n="?".charCodeAt(0);return function(t){for(var r=[],o=0;o<t.length;o+=1){var i=t.charCodeAt(o);if(i<128)r.push(i);else{var a=e[t.charAt(o)];"number"==typeof a?(255&a)==a?r.push(a):(r.push(a>>>8),r.push(255&a)):r.push(n)}}return r}};var r,e,n,o,i,a=1,u=2,f=4,c=8,g={L:1,M:0,Q:3,H:2},l=0,h=1,s=2,v=3,d=4,w=5,p=6,y=7,B=(r=[[],[6,18],[6,22],[6,26],[6,30],[6,34],[6,22,38],[6,24,42],[6,26,46],[6,28,50],[6,30,54],[6,32,58],[6,34,62],[6,26,46,66],[6,26,48,70],[6,26,50,74],[6,30,54,78],[6,30,56,82],[6,30,58,86],[6,34,62,90],[6,28,50,72,94],[6,26,50,74,98],[6,30,54,78,102],[6,28,54,80,106],[6,32,58,84,110],[6,30,58,86,114],[6,34,62,90,118],[6,26,50,74,98,122],[6,30,54,78,102,126],[6,26,52,78,104,130],[6,30,56,82,108,134],[6,34,60,86,112,138],[6,30,58,86,114,142],[6,34,62,90,118,146],[6,30,54,78,102,126,150],[6,24,50,76,102,128,154],[6,28,54,80,106,132,158],[6,32,58,84,110,136,162],[6,26,54,82,110,138,166],[6,30,58,86,114,142,170]],e=1335,n=7973,i=function(t){for(var r=0;0!=t;)r+=1,t>>>=1;return r},(o={}).getBCHTypeInfo=function(t){for(var r=t<<10;i(r)-i(e)>=0;)r^=e<<i(r)-i(e);return 21522^(t<<10|r)},o.getBCHTypeNumber=function(t){for(var r=t<<12;i(r)-i(n)>=0;)r^=n<<i(r)-i(n);return t<<12|r},o.getPatternPosition=function(t){return r[t-1]},o.getMaskFunction=function(t){switch(t){case l:return function(t,r){return(t+r)%2==0};case h:return function(t,r){return t%2==0};case s:return function(t,r){return r%3==0};case v:return function(t,r){return(t+r)%3==0};case d:return function(t,r){return(Math.floor(t/2)+Math.floor(r/3))%2==0};case w:return function(t,r){return t*r%2+t*r%3==0};case p:return function(t,r){return(t*r%2+t*r%3)%2==0};case y:return function(t,r){return(t*r%3+(t+r)%2)%2==0};default:throw"bad maskPattern:"+t}},o.getErrorCorrectPolynomial=function(t){for(var r=k([1],0),e=0;e<t;e+=1)r=r.multiply(k([1,C.gexp(e)],0));return r},o.getLengthInBits=function(t,r){if(1<=r&&r<10)switch(t){case a:return 10;case u:return 9;case f:case c:return 8;default:throw"mode:"+t}else if(r<27)switch(t){case a:return 12;case u:return 11;case f:return 16;case c:return 10;default:throw"mode:"+t}else{if(!(r<41))throw"type:"+r;switch(t){case a:return 14;case u:return 13;case f:return 16;case c:return 12;default:throw"mode:"+t}}},o.getLostPoint=function(t){for(var r=t.getModuleCount(),e=0,n=0;n<r;n+=1)for(var o=0;o<r;o+=1){for(var i=0,a=t.isDark(n,o),u=-1;u<=1;u+=1)if(!(n+u<0||r<=n+u))for(var f=-1;f<=1;f+=1)o+f<0||r<=o+f||0==u&&0==f||a==t.isDark(n+u,o+f)&&(i+=1);i>5&&(e+=3+i-5)}for(n=0;n<r-1;n+=1)for(o=0;o<r-1;o+=1){var c=0;t.isDark(n,o)&&(c+=1),t.isDark(n+1,o)&&(c+=1),t.isDark(n,o+1)&&(c+=1),t.isDark(n+1,o+1)&&(c+=1),0!=c&&4!=c||(e+=3)}for(n=0;n<r;n+=1)for(o=0;o<r-6;o+=1)t.isDark(n,o)&&!t.isDark(n,o+1)&&t.isDark(n,o+2)&&t.isDark(n,o+3)&&t.isDark(n,o+4)&&!t.isDark(n,o+5)&&t.isDark(n,o+6)&&(e+=40);for(o=0;o<r;o+=1)for(n=0;n<r-6;n+=1)t.isDark(n,o)&&!t.isDark(n+1,o)&&t.isDark(n+2,o)&&t.isDark(n+3,o)&&t.isDark(n+4,o)&&!t.isDark(n+5,o)&&t.isDark(n+6,o)&&(e+=40);var g=0;for(o=0;o<r;o+=1)for(n=0;n<r;n+=1)t.isDark(n,o)&&(g+=1);return e+=Math.abs(100*g/r/r-50)/5*10},o),C=function(){for(var t=new Array(256),r=new Array(256),e=0;e<8;e+=1)t[e]=1<<e;for(e=8;e<256;e+=1)t[e]=t[e-4]^t[e-5]^t[e-6]^t[e-8];for(e=0;e<255;e+=1)r[t[e]]=e;var n={glog:function(t){if(t<1)throw"glog("+t+")";return r[t]},gexp:function(r){for(;r<0;)r+=255;for(;r>=256;)r-=255;return t[r]}};return n}();function k(t,r){if(void 0===t.length)throw t.length+"/"+r;var e=function(){for(var e=0;e<t.length&&0==t[e];)e+=1;for(var n=new Array(t.length-e+r),o=0;o<t.length-e;o+=1)n[o]=t[o+e];return n}(),n={getAt:function(t){return e[t]},getLength:function(){return e.length},multiply:function(t){for(var r=new Array(n.getLength()+t.getLength()-1),e=0;e<n.getLength();e+=1)for(var o=0;o<t.getLength();o+=1)r[e+o]^=C.gexp(C.glog(n.getAt(e))+C.glog(t.getAt(o)));return k(r,0)},mod:function(t){if(n.getLength()-t.getLength()<0)return n;for(var r=C.glog(n.getAt(0))-C.glog(t.getAt(0)),e=new Array(n.getLength()),o=0;o<n.getLength();o+=1)e[o]=n.getAt(o);for(o=0;o<t.getLength();o+=1)e[o]^=C.gexp(C.glog(t.getAt(o))+r);return k(e,0).mod(t)}};return n}var A=function(){var t=[[1,26,19],[1,26,16],[1,26,13],[1,26,9],[1,44,34],[1,44,28],[1,44,22],[1,44,16],[1,70,55],[1,70,44],[2,35,17],[2,35,13],[1,100,80],[2,50,32],[2,50,24],[4,25,9],[1,134,108],[2,67,43],[2,33,15,2,34,16],[2,33,11,2,34,12],[2,86,68],[4,43,27],[4,43,19],[4,43,15],[2,98,78],[4,49,31],[2,32,14,4,33,15],[4,39,13,1,40,14],[2,121,97],[2,60,38,2,61,39],[4,40,18,2,41,19],[4,40,14,2,41,15],[2,146,116],[3,58,36,2,59,37],[4,36,16,4,37,17],[4,36,12,4,37,13],[2,86,68,2,87,69],[4,69,43,1,70,44],[6,43,19,2,44,20],[6,43,15,2,44,16],[4,101,81],[1,80,50,4,81,51],[4,50,22,4,51,23],[3,36,12,8,37,13],[2,116,92,2,117,93],[6,58,36,2,59,37],[4,46,20,6,47,21],[7,42,14,4,43,15],[4,133,107],[8,59,37,1,60,38],[8,44,20,4,45,21],[12,33,11,4,34,12],[3,145,115,1,146,116],[4,64,40,5,65,41],[11,36,16,5,37,17],[11,36,12,5,37,13],[5,109,87,1,110,88],[5,65,41,5,66,42],[5,54,24,7,55,25],[11,36,12,7,37,13],[5,122,98,1,123,99],[7,73,45,3,74,46],[15,43,19,2,44,20],[3,45,15,13,46,16],[1,135,107,5,136,108],[10,74,46,1,75,47],[1,50,22,15,51,23],[2,42,14,17,43,15],[5,150,120,1,151,121],[9,69,43,4,70,44],[17,50,22,1,51,23],[2,42,14,19,43,15],[3,141,113,4,142,114],[3,70,44,11,71,45],[17,47,21,4,48,22],[9,39,13,16,40,14],[3,135,107,5,136,108],[3,67,41,13,68,42],[15,54,24,5,55,25],[15,43,15,10,44,16],[4,144,116,4,145,117],[17,68,42],[17,50,22,6,51,23],[19,46,16,6,47,17],[2,139,111,7,140,112],[17,74,46],[7,54,24,16,55,25],[34,37,13],[4,151,121,5,152,122],[4,75,47,14,76,48],[11,54,24,14,55,25],[16,45,15,14,46,16],[6,147,117,4,148,118],[6,73,45,14,74,46],[11,54,24,16,55,25],[30,46,16,2,47,17],[8,132,106,4,133,107],[8,75,47,13,76,48],[7,54,24,22,55,25],[22,45,15,13,46,16],[10,142,114,2,143,115],[19,74,46,4,75,47],[28,50,22,6,51,23],[33,46,16,4,47,17],[8,152,122,4,153,123],[22,73,45,3,74,46],[8,53,23,26,54,24],[12,45,15,28,46,16],[3,147,117,10,148,118],[3,73,45,23,74,46],[4,54,24,31,55,25],[11,45,15,31,46,16],[7,146,116,7,147,117],[21,73,45,7,74,46],[1,53,23,37,54,24],[19,45,15,26,46,16],[5,145,115,10,146,116],[19,75,47,10,76,48],[15,54,24,25,55,25],[23,45,15,25,46,16],[13,145,115,3,146,116],[2,74,46,29,75,47],[42,54,24,1,55,25],[23,45,15,28,46,16],[17,145,115],[10,74,46,23,75,47],[10,54,24,35,55,25],[19,45,15,35,46,16],[17,145,115,1,146,116],[14,74,46,21,75,47],[29,54,24,19,55,25],[11,45,15,46,46,16],[13,145,115,6,146,116],[14,74,46,23,75,47],[44,54,24,7,55,25],[59,46,16,1,47,17],[12,151,121,7,152,122],[12,75,47,26,76,48],[39,54,24,14,55,25],[22,45,15,41,46,16],[6,151,121,14,152,122],[6,75,47,34,76,48],[46,54,24,10,55,25],[2,45,15,64,46,16],[17,152,122,4,153,123],[29,74,46,14,75,47],[49,54,24,10,55,25],[24,45,15,46,46,16],[4,152,122,18,153,123],[13,74,46,32,75,47],[48,54,24,14,55,25],[42,45,15,32,46,16],[20,147,117,4,148,118],[40,75,47,7,76,48],[43,54,24,22,55,25],[10,45,15,67,46,16],[19,148,118,6,149,119],[18,75,47,31,76,48],[34,54,24,34,55,25],[20,45,15,61,46,16]],r=function(t,r){var e={};return e.totalCount=t,e.dataCount=r,e},e={};return e.getRSBlocks=function(e,n){var o=function(r,e){switch(e){case g.L:return t[4*(r-1)+0];case g.M:return t[4*(r-1)+1];case g.Q:return t[4*(r-1)+2];case g.H:return t[4*(r-1)+3];default:return}}(e,n);if(void 0===o)throw"bad rs block @ typeNumber:"+e+"/errorCorrectionLevel:"+n;for(var i=o.length/3,a=[],u=0;u<i;u+=1)for(var f=o[3*u+0],c=o[3*u+1],l=o[3*u+2],h=0;h<f;h+=1)a.push(r(c,l));return a},e}(),b=function(){var t=[],r=0,e={getBuffer:function(){return t},getAt:function(r){var e=Math.floor(r/8);return 1==(t[e]>>>7-r%8&1)},put:function(t,r){for(var n=0;n<r;n+=1)e.putBit(1==(t>>>r-n-1&1))},getLengthInBits:function(){return r},putBit:function(e){var n=Math.floor(r/8);t.length<=n&&t.push(0),e&&(t[n]|=128>>>r%8),r+=1}};return e},M=function(t){var r=a,e=t,n={getMode:function(){return r},getLength:function(t){return e.length},write:function(t){for(var r=e,n=0;n+2<r.length;)t.put(o(r.substring(n,n+3)),10),n+=3;n<r.length&&(r.length-n==1?t.put(o(r.substring(n,n+1)),4):r.length-n==2&&t.put(o(r.substring(n,n+2)),7))}},o=function(t){for(var r=0,e=0;e<t.length;e+=1)r=10*r+i(t.charAt(e));return r},i=function(t){if("0"<=t&&t<="9")return t.charCodeAt(0)-"0".charCodeAt(0);throw"illegal char :"+t};return n},x=function(t){var r=u,e=t,n={getMode:function(){return r},getLength:function(t){return e.length},write:function(t){for(var r=e,n=0;n+1<r.length;)t.put(45*o(r.charAt(n))+o(r.charAt(n+1)),11),n+=2;n<r.length&&t.put(o(r.charAt(n)),6)}},o=function(t){if("0"<=t&&t<="9")return t.charCodeAt(0)-"0".charCodeAt(0);if("A"<=t&&t<="Z")return t.charCodeAt(0)-"A".charCodeAt(0)+10;switch(t){case" ":return 36;case"$":return 37;case"%":return 38;case"*":return 39;case"+":return 40;case"-":return 41;case".":return 42;case"/":return 43;case":":return 44;default:throw"illegal char :"+t}};return n},m=function(r){var e=f,n=t.stringToBytes(r),o={getMode:function(){return e},getLength:function(t){return n.length},write:function(t){for(var r=0;r<n.length;r+=1)t.put(n[r],8)}};return o},L=function(r){var e=c,n=t.stringToBytesFuncs.SJIS;if(!n)throw"sjis not supported.";!function(){var t=n("友");if(2!=t.length||38726!=(t[0]<<8|t[1]))throw"sjis not supported."}();var o=n(r),i={getMode:function(){return e},getLength:function(t){return~~(o.length/2)},write:function(t){for(var r=o,e=0;e+1<r.length;){var n=(255&r[e])<<8|255&r[e+1];if(33088<=n&&n<=40956)n-=33088;else{if(!(57408<=n&&n<=60351))throw"illegal char at "+(e+1)+"/"+n;n-=49472}n=192*(n>>>8&255)+(255&n),t.put(n,13),e+=2}if(e<r.length)throw"illegal char at "+(e+1)}};return i},D=function(){var t=[],r={writeByte:function(r){t.push(255&r)},writeShort:function(t){r.writeByte(t),r.writeByte(t>>>8)},writeBytes:function(t,e,n){e=e||0,n=n||t.length;for(var o=0;o<n;o+=1)r.writeByte(t[o+e])},writeString:function(t){for(var e=0;e<t.length;e+=1)r.writeByte(t.charCodeAt(e))},toByteArray:function(){return t},toString:function(){var r="";r+="[";for(var e=0;e<t.length;e+=1)e>0&&(r+=","),r+=t[e];return r+="]"}};return r},S=function(t){var r=t,e=0,n=0,o=0,i={read:function(){for(;o<8;){if(e>=r.length){if(0==o)return-1;throw"unexpected end of file./"+o}var t=r.charAt(e);if(e+=1,"="==t)return o=0,-1;t.match(/^\s$/)||(n=n<<6|a(t.charCodeAt(0)),o+=6)}var i=n>>>o-8&255;return o-=8,i}},a=function(t){if(65<=t&&t<=90)return t-65;if(97<=t&&t<=122)return t-97+26;if(48<=t&&t<=57)return t-48+52;if(43==t)return 62;if(47==t)return 63;throw"c:"+t};return i},I=function(t,r,e){for(var n=function(t,r){var e=t,n=r,o=new Array(t*r),i={setPixel:function(t,r,n){o[r*e+t]=n},write:function(t){t.writeString("GIF87a"),t.writeShort(e),t.writeShort(n),t.writeByte(128),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(255),t.writeByte(255),t.writeByte(255),t.writeString(","),t.writeShort(0),t.writeShort(0),t.writeShort(e),t.writeShort(n),t.writeByte(0);var r=a(2);t.writeByte(2);for(var o=0;r.length-o>255;)t.writeByte(255),t.writeBytes(r,o,255),o+=255;t.writeByte(r.length-o),t.writeBytes(r,o,r.length-o),t.writeByte(0),t.writeString(";")}},a=function(t){for(var r=1<<t,e=1+(1<<t),n=t+1,i=u(),a=0;a<r;a+=1)i.add(String.fromCharCode(a));i.add(String.fromCharCode(r)),i.add(String.fromCharCode(e));var f,c,g,l=D(),h=(f=l,c=0,g=0,{write:function(t,r){if(t>>>r!=0)throw"length over";for(;c+r>=8;)f.writeByte(255&(t<<c|g)),r-=8-c,t>>>=8-c,g=0,c=0;g|=t<<c,c+=r},flush:function(){c>0&&f.writeByte(g)}});h.write(r,n);var s=0,v=String.fromCharCode(o[s]);for(s+=1;s<o.length;){var d=String.fromCharCode(o[s]);s+=1,i.contains(v+d)?v+=d:(h.write(i.indexOf(v),n),i.size()<4095&&(i.size()==1<<n&&(n+=1),i.add(v+d)),v=d)}return h.write(i.indexOf(v),n),h.write(e,n),h.flush(),l.toByteArray()},u=function(){var t={},r=0,e={add:function(n){if(e.contains(n))throw"dup key:"+n;t[n]=r,r+=1},size:function(){return r},indexOf:function(r){return t[r]},contains:function(r){return void 0!==t[r]}};return e};return i}(t,r),o=0;o<r;o+=1)for(var i=0;i<t;i+=1)n.setPixel(i,o,e(i,o));var a=D();n.write(a);for(var u=function(){var t=0,r=0,e=0,n="",o={},i=function(t){n+=String.fromCharCode(a(63&t))},a=function(t){if(t<0);else{if(t<26)return 65+t;if(t<52)return t-26+97;if(t<62)return t-52+48;if(62==t)return 43;if(63==t)return 47}throw"n:"+t};return o.writeByte=function(n){for(t=t<<8|255&n,r+=8,e+=1;r>=6;)i(t>>>r-6),r-=6},o.flush=function(){if(r>0&&(i(t<<6-r),t=0,r=0),e%3!=0)for(var o=3-e%3,a=0;a<o;a+=1)n+="="},o.toString=function(){return n},o}(),f=a.toByteArray(),c=0;c<f.length;c+=1)u.writeByte(f[c]);return u.flush(),"data:image/gif;base64,"+u};return t}();qrcode.stringToBytesFuncs["UTF-8"]=function(t){return function(t){for(var r=[],e=0;e<t.length;e++){var n=t.charCodeAt(e);n<128?r.push(n):n<2048?r.push(192|n>>6,128|63&n):n<55296||n>=57344?r.push(224|n>>12,128|n>>6&63,128|63&n):(e++,n=65536+((1023&n)<<10|1023&t.charCodeAt(e)),r.push(240|n>>18,128|n>>12&63,128|n>>6&63,128|63&n))}return r}(t)},function(t){"function"==typeof define&&define.amd?define([],t):"object"==typeof exports&&(module.exports=t())}(function(){return qrcode});
+</script>
+<script>
+(() => {
+  const B = '', SB = 'https://gennadygelman.com';
+  const P='patient', C='clinician', K='curious';
+
+  // Every item lists exactly which audiences may see it. Clinical tools are clinician-only,
+  // so they never render, and never come up in search, for patients or curious visitors.
+  const ITEMS = [
+    {id:'flu', n:'Influenza guide', tag:'Guide', d:'Prevent it, understand it, know what actually helps.', u:B+'/flu/', a:[P,C,K], k:'flu influenza fever cough cold vaccine shot respiratory sick season'},
+    {id:'plants', n:'Plants Are Your Friends', tag:'AI chat', d:'A chatbot for eating more whole plant foods, built on NutritionFacts.org.', u:'https://plants-chat-663367173026.us-east1.run.app/', a:[P,C,K], k:'plants plant diet food nutrition vegan vegetarian whole food chatbot eat'},
+    {id:'weight', n:'Weight & metabolic health', tag:'Guide', d:'Ten trusted resources and a practical starting point.', u:B+'/patients/weight/', a:[P,C], k:'weight obesity glp-1 glp1 ozempic wegovy mounjaro zepbound metabolic diet lose'},
+    {id:'books', n:'Books I recommend to patients', tag:'Reading', d:'Eight accessible books about metabolic health and living better.', u:B+'/patients/books/', a:[P,C,K], k:'books reading read library shelf'},
+    {id:'apps', n:'Apps I recommend', tag:'Apps', d:'Put your phone to work: health record, nutrition, sleep and more.', u:B+'/patients/apps/', a:[P,C], k:'apps app phone iphone android mychart tracker sleep'},
+    {id:'alex', n:'Alex the Health Guide', tag:'AI chat', d:'Supportive, realistic conversations about nutrition, exercise and habits.', u:'https://chatgpt.com/g/g-ncTCfLUXg-alex-the-health-guide', a:[P,C], k:'alex coach exercise habits gpt chatbot motivation'},
+    {id:'cv', n:'CV Risk Decision Tool', tag:'Tool', d:'Paste an Epic SmartPhrase; get PREVENT risk, lipid targets and risk enhancers.', u:B+'/tools/cv-risk/', a:[C], k:'cv cardiovascular heart risk prevent ascvd statin cholesterol lipid ldl lpa'},
+    {id:'lab', n:'Clinical Lab Pattern Analyzer', tag:'Tool', d:'Paste lab results; get calculated relationships and pattern-level interpretation.', u:B+'/tools/lab-analyzer/', a:[C], k:'lab labs blood test cbc cmp anion gap interpretation results'},
+    {id:'imm', n:'Pediatric Vaccine Guidance', tag:'Tool', d:'Paste an Epic immunization history and DOB to review what is due.', u:B+'/tools/immunizations/', a:[C], k:'vaccine vaccines immunization shots pediatric child kids catch-up schedule'},
+    {id:'raf', n:'2026 RAF Calculator', tag:'Tool', d:'V28 risk adjustment from demographics and an Epic-style problem list.', u:B+'/tools/raf-calculator/', a:[C], k:'raf hcc v28 risk adjustment medicare advantage coding icd'},
+    {id:'dm', n:'Diabetes Type Evidence Tool', tag:'Tool', d:'Autoantibodies, C-peptide and family history to sort the type.', u:B+'/tools/diabetes-type/', a:[C], k:'diabetes type 1 type 2 lada mody c-peptide gad antibodies'},
+    {id:'ad', n:'Antidepressant Chooser', tag:'Tool', d:'Prior response, trials, safety, co-targets, tolerability and interactions.', u:B+'/tools/antidepressant/', a:[C], k:'antidepressant depression ssri snri anxiety mood mental health'},
+    {id:'lib', n:'Clinical Tools & Resources', tag:'Library', d:'Clinical AI, calculators, guidelines, apps and lab pearls, filterable by topic.', u:B+'/professional/resources/', a:[C], k:'guidelines references library calculators mdcalc uspstf ai openevidence epic pearls'},
+    {id:'pbooks', n:'Recommended books for clinicians', tag:'Reading', d:'Genetics, mental health, medical practice and the healthcare system.', u:B+'/professional/books/', a:[C], k:'books reading residents students'},
+    {id:'prof', n:'Professional Library', tag:'Library', d:'Lab pearls, articles, Epic basics and UMass resources in one place.', u:B+'/professional/', a:[C], k:'epic umass articles pearls students residents precepting'},
+    {id:'m2', n:'Medicolalia No. 2 · Syndrome', tag:'Essay', d:'Things that run together.', u:B+'/medicolalia/no-2/', a:[C,K], k:'syndrome word etymology greek essay medicolalia'},
+    {id:'m1', n:'Medicolalia No. 1 · Migraine', tag:'Essay', d:'The headache is only half the story.', u:B+'/medicolalia/no-1/', a:[C,K], k:'migraine headache word etymology essay medicolalia'},
+    {id:'kilo', n:'Kiloday calculator', tag:'Experiment', d:'Celebrate every thousand days. When is your next one?', u:B+'/kiloday/', a:[C,K], k:'kiloday birthday age days milestone celebrate'}
+  ];
+  ITEMS.unshift({id:'prep', n:'Plan your visit', tag:'Tool', d:'Write down your top concerns and bring a one-page agenda to your appointment.', u:'#prep', a:[P], k:'visit appointment prepare agenda questions concerns doctor checkup mychart'});
+  const SECTIONS = [
+    {n:'Patient Resources', d:'Healthier eating, movement, seasonal illness, useful apps, and everyday decisions.', u:B+'/patients/', a:[P,C,K]},
+    {n:'Clinical Tools', d:'Risk adjustment, cardiovascular prevention, lab interpretation, immunizations, and more.', u:B+'/tools/', a:[C]},
+    {n:'Professional Library', d:'Clinical references, AI tools, Epic essentials, guidelines, and lab pearls.', u:B+'/professional/', a:[C]},
+    {n:'Medicolalia', d:'Medical terminology examined one word and one clinical story at a time.', u:B+'/medicolalia/', a:[C,K]},
+    {n:'Kiloday', d:'A rational alternative to birthdays: thousand-day milestones in base ten.', u:B+'/kiloday/', a:[C,K]}
+  ];
+  const VIEWS = {
+    patient:{label:'Patient', h:'Resources for my <em>patients.</em>', l:'Pick a topic.', note:'', ph:'Start here', ids:['prep','flu','weight','plants','apps','books','alex'], placeholder:'Search: flu, weight, apps, books…'},
+    clinician:{label:'Clinician', h:'Decision support, <em>built for Epic.</em>', l:'Paste from the chart, get an answer. Pick a tool.', note:'<b>For licensed clinicians and trainees.</b> These tools support clinical judgment; they do not replace it. Verify outputs before acting.', ph:'Tools', ids:['cv','lab','raf','imm','ad','dm','lib','prof'], placeholder:'Search: statin, RAF, vaccines, labs, guidelines…'},
+    curious:{label:'Curious', h:'Words, ideas, and <em>experiments.</em>', l:'Pick one.', note:'', ph:'Start here', ids:['m2','m1','kilo','plants','books'], placeholder:'Search: migraine, syndrome, birthday…'}
+  };
+
+
+  // ---------- patient sections ----------
+  const PSECTIONS = [
+    {id:'visit', t:'var(--green)', n:'Plan Your Visit', i:'Get more out of the time you have with your clinician.', items:[
+      {plan:true, n:'Make a visit agenda', d:'Write down what matters most and bring a one-page agenda. Takes two minutes.'},
+      {n:'MyChart', d:'Message your care team, see results, request refills.', u:'https://www.mychart.org/', k:'mychart portal message refill results'}
+    ]},
+    {id:'vaccines', t:'var(--blue)', n:'Vaccine information', isNew:true, i:'Short guides to the vaccines I recommend for adults.', items:[
+      {n:'Flu', d:'Everyone 6 months and older, every year.', u:B+'/flu/', k:'flu vaccine shot influenza which vaccine'},
+      {n:'RSV', d:'75 and older, or 50 to 74 with certain conditions. One dose.', u:B+'/patients/vaccines/rsv/', k:'rsv respiratory syncytial virus arexvy abrysvo mresvia older adults pregnancy'},
+      {n:'Shingles', d:'50 and older. Two doses.', u:B+'/patients/vaccines/shingles/', k:'shingles shingrix zoster chickenpox rash nerve pain'},
+      {n:'Pneumococcal', d:'50 and older, or younger with certain conditions. Usually one dose.', u:B+'/patients/vaccines/pneumococcal/', k:'pneumonia pneumococcal prevnar capvaxive pcv20 pcv21 pneumovax'},
+      {n:'COVID-19', d:'All adults. One dose this season, two if 65 or older.', u:B+'/patients/vaccines/covid/', k:'covid covid-19 coronavirus booster vaccine 2026'},
+      {n:'Tdap', d:'Every adult. Every 10 years, and in every pregnancy.', u:B+'/patients/vaccines/tdap/', k:'tdap tetanus diphtheria whooping cough pertussis booster pregnancy wound'},
+      {n:'Where to get vaccinated', d:'Find vaccines near you.', u:'https://www.hhs.gov/vaccines/get-vaccinated/where/index.html', k:'vaccine shot where pharmacy near me'}
+    ]},
+    {id:'sick', t:'#f6e9e4', n:'Feeling sick', i:'What to do, what helps, and when to get help.', items:[
+      {f:true, tint:'var(--blue)', n:'Influenza guide', d:'Prevent it, understand it, know what actually helps.', u:B+'/flu/', k:'flu influenza fever cough cold sick season'},
+      {n:'Build your flu comfort plan', d:'Sleep, fluids, saline, and treating discomfort safely.', u:B+'/flu/#flu-plan', k:'flu comfort plan home care fluids'},
+      {n:'Warning signs to watch for', d:'When flu symptoms mean you need urgent care.', u:'https://www.cdc.gov/flu/signs-symptoms/index.html', k:'warning signs emergency urgent breathing'},
+      {n:'When to call', d:'Who should call early, and what needs urgent care.', u:B+'/flu/', k:'when to call doctor sick urgent'}
+    ]},
+    {id:'weight', t:'#e8f0e2', n:'Weight loss guide', i:'More than one useful next step. Pick one.', items:[
+      {f:true, tint:'var(--green)', n:'Weight & metabolic health', d:'Ten trusted resources and a practical starting point.', u:B+'/patients/weight/', k:'weight obesity metabolic lose diet glp-1 ozempic wegovy zepbound'},
+      {n:'Plants Are Your Friends', d:'Ask a chatbot about eating more whole plant foods.', u:'https://plants-chat-663367173026.us-east1.run.app/', k:'plants plant diet nutrition vegan chatbot'},
+      {n:'Harvard Healthy Eating Plate', d:'A picture of how to build a meal.', u:'https://www.hsph.harvard.edu/nutritionsource/healthy-eating-plate/', k:'plate meal healthy eating nutrition'},
+      {n:'Medications for weight loss', d:'An overview of prescription options.', u:'https://umassmemorial.staywellhealthlibrary.com/RelatedItems/85,P07858', k:'weight loss medication glp-1 semaglutide tirzepatide'},
+      {n:'Benefits of physical activity', d:'How movement helps sleep, mood, and mobility.', u:'https://www.cdc.gov/physical-activity-basics/about/', k:'exercise activity movement walking'}
+    ]},
+    {id:'books', t:'#f3eee5', n:'Books I recommend', i:'A small shelf for living better. Bring the idea to your next visit.', items:[
+      {n:'How Not to Diet', d:'Patient summary.', u:B+'/patients/books/how-not-to-diet/', k:'book weight diet greger'},
+      {n:'How Not to Die', d:'Patient summary.', u:B+'/patients/books/how-not-to-die/', k:'book nutrition greger'},
+      {n:'Why We Get Sick', d:'Patient summary.', u:B+'/patients/books/why-we-get-sick/', k:'book insulin resistance metabolic bikman'},
+      {n:'The Obesity Code', d:'Patient summary.', u:B+'/patients/books/the-obesity-code/', k:'book insulin fasting fung'},
+      {n:'Why We Sleep', d:'Patient summary.', u:B+'/patients/books/why-we-sleep/', k:'sleep insomnia book'},
+      {n:'Staring at the Sun', d:'Patient summary: living with the fear of death.', u:B+'/patients/books/staring-at-the-sun/', k:'anxiety death fear mood book'},
+      {n:'The New Menopause', d:'Patient summary.', u:B+'/patients/books/the-new-menopause/', k:'menopause hot flashes hormones women book'},
+      {n:'The New Perimenopause', d:'Patient summary.', u:B+'/patients/books/the-new-perimenopause/', k:'perimenopause hormones period women book'}
+    ]},
+    {id:'phone', t:'#e6eef3', n:'Apps and AI tools I recommend', i:'Useful tools, not more digital clutter.', moreLink:{n:'See every app with iPhone and Android links →', u:B+'/patients/apps/'}, items:[
+      {n:'Alex the Health Guide', d:'An AI guide for realistic talk about food, exercise, and habits.', u:'https://chatgpt.com/g/g-ncTCfLUXg-alex-the-health-guide', k:'alex ai coach chatbot habits'},
+      {n:'Medisafe', d:'Medication reminders and refill tracking.', u:B+'/patients/apps/', k:'medication reminder pill refill'},
+      {n:'Insomnia Coach', d:'Free app from the VA with a guided sleep plan.', u:'https://mobile.va.gov/app/insomnia-coach', k:'sleep insomnia app cbt-i'},
+      {n:'Bearable', d:'Track mood and symptoms to spot patterns.', u:'https://bearable.app/', k:'mood tracker symptoms anxiety depression'},
+      {n:'Flo', d:'Period and cycle tracker.', u:'https://flo.health/', k:'period cycle tracker women app'},
+      {n:'CDC Milestone Tracker', d:'Track your child’s development from 2 months to 5 years.', u:'https://www.cdc.gov/act-early/milestones-app/', k:'child kids baby milestones development'}
+    ]}
+  ];
+  // patient search covers every section item
+  PSECTIONS.forEach(sec=>sec.items.forEach((it,j)=>{ if(it.u && !ITEMS.some(x=>x.n===it.n)) ITEMS.push({id:'ps-'+sec.id+j, sec:sec.id, n:it.n, tag:sec.n, d:it.d, u:it.u, a:[P], k:it.k||''}) }));
+  ITEMS.forEach(x=>{ if(x.id==='prep') x.u='#visit' });
+  window.addEventListener('hashchange',()=>{ if(location.hash==='#visit' && who===P){ openSection('visit'); setTimeout(()=>$('#openPrep')?.click(),30) } });
+
+
+  // Two-color line icons: navy stroke + the tile's accent as a soft fill.
+  const ICONS = {
+    visit:`<rect x="10" y="9" width="28" height="33" rx="4" class="f"/><rect x="18" y="5" width="12" height="7" rx="2" fill="#fff"/><path d="M16 22l3 3 5-6M16 32l3 3 5-6M28 23h6M28 33h6"/>`,
+    vaccines:`<g transform="rotate(-45 24 24)"><rect x="12" y="18" width="21" height="12" rx="2" class="f"/><path d="M33 24h6M39 17v14M3 24h9M17 18v5M22 18v5M27 18v5"/></g>`,
+    sick:`<path d="M20 9a4 4 0 0 1 8 0v20a8 8 0 1 1-8 0z" fill="#fff"/><circle cx="24" cy="35" r="4.5" class="f"/><path d="M24 31V17M29 14h3M29 19h3M29 24h3"/>`,
+    weight:`<rect x="8" y="9" width="32" height="31" rx="7" class="f"/><path d="M15 23a9 9 0 0 1 18 0M24 23l4-6"/><circle cx="24" cy="23" r="1.2" fill="currentColor"/>`,
+    books:`<path d="M24 15c-5-4-11-4-16-2v24c5-2 11-2 16 2z" class="f"/><path d="M24 15c5-4 11-4 16-2v24c-5-2-11-2-16 2zM24 15v24"/>`,
+    phone:`<rect x="14" y="5" width="20" height="38" rx="4" class="f"/><path d="M21 37h6"/><path d="M24 14l1.8 4.2 4.2 1.8-4.2 1.8L24 26l-1.8-4.2-4.2-1.8 4.2-1.8z" fill="currentColor" stroke="none"/>`
+  };
+  Object.assign(ICONS, {
+    cv:`<path d="M24 40S8 30 8 19a8 8 0 0 1 16-3 8 8 0 0 1 16 3c0 11-16 21-16 21z" class="f"/><path d="M12 24h7l3-5 4 9 3-4h7"/>`,
+    lab:`<path d="M19 6h10M21 6v13L11 37a3 3 0 0 0 3 5h20a3 3 0 0 0 3-5L27 19V6"/><path d="M15 31h18l3 6a3 3 0 0 1-3 4H15a3 3 0 0 1-3-4z" class="f" stroke="none"/>`,
+    raf:`<rect x="9" y="26" width="7" height="14" rx="1.5" class="f"/><rect x="20.5" y="18" width="7" height="22" rx="1.5" class="f"/><rect x="32" y="10" width="7" height="30" rx="1.5" class="f"/><path d="M6 42h36"/>`,
+    imm:`<circle cx="24" cy="17" r="8" class="f"/><path d="M12 42c0-7 5-12 12-12s12 5 12 12M21 17h.01M27 17h.01M21.5 20.5c1.5 1 3.5 1 5 0"/>`,
+    ad:`<g transform="rotate(-40 24 24)"><rect x="10" y="17" width="28" height="14" rx="7"/><path d="M24 17h7a7 7 0 0 1 0 14h-7z" class="f"/></g>`,
+    dm:`<path d="M24 6s-12 14-12 23a12 12 0 0 0 24 0C36 20 24 6 24 6z" class="f"/><path d="M19 30a5 5 0 0 0 5 5"/>`,
+    share:`<rect x="7" y="7" width="13" height="13" rx="2" class="f"/><rect x="28" y="7" width="13" height="13" rx="2" class="f"/><rect x="7" y="28" width="13" height="13" rx="2" class="f"/><path d="M28 28h5v5M41 28v.01M36 36h5v5M28 41h4"/>`,
+    lib:`<path d="M9 40V12M16 40V12M23 40V14"/><path d="M29 15l6-2 7 26-6 2z" class="f"/><path d="M6 41h36"/>`,
+    pbooks:`<rect x="10" y="26" width="28" height="7" rx="1.5" class="f"/><rect x="13" y="19" width="24" height="7" rx="1.5"/><rect x="9" y="33" width="30" height="7" rx="1.5"/>`
+  });
+  Object.assign(ICONS, {
+    words:`<path d="M8 10h32a3 3 0 0 1 3 3v17a3 3 0 0 1-3 3H22l-8 7v-7H8a3 3 0 0 1-3-3V13a3 3 0 0 1 3-3z" class="f"/><path d="M13 18h22M13 23h16M13 28h10"/>`,
+    kilo:`<rect x="7" y="10" width="34" height="31" rx="4" class="f"/><path d="M7 18h34M16 6v8M32 6v8M17 26l3-2v12M27 24v12M27 31l6-7M29 29l4 7"/>`
+  });
+  const ACCENT = {words:'#8a5a1c', kilo:'#5b3fa0',cv:'#c0583b', lab:'#3e6f8f', raf:'#3b54c4', imm:'#2f6b48', ad:'#5b3fa0', dm:'#b0457a', share:'#0e1734', lib:'#8a5a1c', pbooks:'#4f7d32',visit:'#2f6b48', vaccines:'#3b54c4', sick:'#c0583b', weight:'#4f7d32', books:'#8a5a1c', phone:'#3e6f8f'};
+  const icon = id => `<svg class="ic" viewBox="0 0 48 48" aria-hidden="true" style="--a:${ACCENT[id]}">${ICONS[id]||''}</svg>`;
+
+  let prepBuilt=false;
+  const cardHTML = it => it.plan
+    ? `<button class="pc" type="button" id="openPrep" aria-expanded="false" aria-controls="prepWrap"><span class="top"><span class="nm">${esc(it.n)}</span><span class="x">Open ↓</span></span><span class="ds">${esc(it.d)}</span></button><div class="prep-wrap" id="prepWrap" hidden></div>`
+    : `<a class="pc${it.f?' feature':''}" ${it.tint?`style="--tint:${it.tint}"`:''} href="${it.u}"${linkAttrs(it.u)}><span class="top"><span class="nm">${esc(it.n)}</span><span class="x">${ext(it.u)?'↗':'→'}</span></span><span class="ds">${esc(it.d)}</span></a>`;
+  function renderPatientSections(){
+    $('#tiles').innerHTML = PSECTIONS.map((sec,i)=>`<button class="tile" role="listitem" style="--t:${sec.t};--a:${ACCENT[sec.id]}" data-sec="${sec.id}"><span class="tile-top">${icon(sec.id)}<span class="num">${String(i+1).padStart(2,'0')}</span></span><span class="nm">${esc(sec.n)}${sec.isNew?'<span class="new">New</span>':''}</span></button>`).join('');
+    $('#tiles').querySelectorAll('.tile').forEach(b=>b.addEventListener('click',()=>openSection(b.dataset.sec)));
+  }
+  function openSection(id){
+    const sec = PSECTIONS.find(x=>x.id===id); if(!sec) return;
+    prepBuilt=false;
+    const d=$('#detail');
+    d.innerHTML = `<button class="back" type="button" id="back">← All topics</button><h2 tabindex="-1" id="dh"><span class="dic">${icon(sec.id)}</span>${esc(sec.n)}</h2><div class="cards">${sec.items.map(cardHTML).join('')}${sec.more?`<p class="soon">${esc(sec.more)}</p>`:''}${sec.moreLink?`<p class="soon"><a href="${sec.moreLink.u}">${esc(sec.moreLink.n)}</a></p>`:''}</div>`;
+    $('#tiles').hidden=true; document.querySelector('.safety').hidden=true; $('#vl').hidden=true; d.hidden=false;
+    document.querySelector('.hero h1').parentElement.querySelector('.cc').hidden=true;
+    $('#back').addEventListener('click',closeSection);
+    const op=$('#openPrep');
+    if(op) op.addEventListener('click',()=>{
+      const wrap=$('#prepWrap'), open=wrap.hidden;
+      if(!prepBuilt){ wrap.appendChild($('#prepTpl').content.cloneNode(true)); wirePrep(); prepBuilt=true }
+      wrap.hidden=!open; op.setAttribute('aria-expanded',String(open));
+      op.querySelector('.x').textContent = open ? 'Close ↑' : 'Open ↓';
+      if(open) setTimeout(()=>$('#f1')?.focus(),50);
+    });
+    window.scrollTo({top:0}); $('#dh').focus({preventScroll:true});
+  }
+  function closeSection(){
+    $('#detail').hidden=true; $('#detail').innerHTML=''; $('#vl').hidden=false; $('#tiles').hidden=false; document.querySelector('.safety').hidden=false;
+    document.querySelector('.cc').hidden=false;
+    $('#tiles').querySelector('.tile')?.focus({preventScroll:true});
+  }
+  const byId = Object.fromEntries(ITEMS.map(i=>[i.id,i]));
+  const $ = s => document.querySelector(s);
+  const gate=$('#gate'), view=$('#view'), nav=$('#nav'), q=$('#q'), res=$('#res');
+  const esc = s => s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const ext = u => !u.startsWith(B) && !u.startsWith('#');
+  const linkAttrs = u => ext(u) ? ' target="_blank" rel="noopener"' : '';
+  // Session only: a shared exam-room or waiting-room computer won't stay in clinician mode.
+  const store = {get(){try{return sessionStorage.getItem('gg-who')}catch(e){return null}}, set(v){try{v?sessionStorage.setItem('gg-who',v):sessionStorage.removeItem('gg-who')}catch(e){}}};
+  let who = null;
+
+  function show(w, focus){
+    $('#about').hidden=true;
+    $('#homeLink').hidden = !w;
+    who = w; store.set(w);
+    try{ history.replaceState(null,'', w ? '#'+w : location.pathname) }catch(e){}
+    if(!w){ gate.hidden=false; view.hidden=true; nav.hidden=true; window.scrollTo(0,0); gate.querySelector('.door').focus({preventScroll:true}); return }
+    const v = VIEWS[w];
+    $('#vh').innerHTML = v.h; $('#vl').textContent = v.l;
+    $('#vn').innerHTML = v.note; $('#vn').hidden = !v.note;
+    $('#ph').textContent = v.ph;
+    q.placeholder = v.placeholder; q.value=''; closeRes();
+    $('#rx').innerHTML = v.ids.map((id,i)=>{const it=byId[id];return `<li style="animation-delay:${i*45}ms"><a href="${it.u}"${linkAttrs(it.u)}><span class="nm">${esc(it.n)}<small>${esc(it.tag)}</small></span><span class="ds">${esc(it.d)}</span></a></li>`}).join('');
+    $('#sections').innerHTML = SECTIONS.filter(s=>s.a.includes(w)).map(s=>`<li><a href="${s.u}"><span class="n">${esc(s.n)}</span><span class="d">${esc(s.d)}</span></a></li>`).join('');
+    $('#vl').hidden=false;
+    const isP = (w===P);
+    document.querySelector('.plan').hidden = (w===P || w===C || w===K);
+    $('#psecs').hidden = !isP;
+    const isK = (w===K);
+    $('#ksecs').hidden = !isK;
+    if(isK && !$('#ktiles').childElementCount) renderCuriousTiles();
+    const isC = (w===C);
+    $('#csecs').hidden = !isC; $('#shareWrap').hidden = true;
+    if(isC){ if(!$('#ctiles').childElementCount) renderClinicianTiles(); closeShare(); }
+    if(isP){ if(!$('#tiles').childElementCount) renderPatientSections(); closeSection(); }
+    else document.querySelector('.cc').hidden=false;
+    document.querySelector('.index').hidden = (w===C || w===K) || SECTIONS.filter(s=>s.a.includes(w)).length < 2;
+    gate.hidden=true; view.hidden=false; nav.hidden=false;
+    window.scrollTo(0,0);
+    if(focus) $('#vh').setAttribute('tabindex','-1'), $('#vh').focus({preventScroll:true});
+  }
+  document.querySelectorAll('.door').forEach(b=>b.addEventListener('click',()=>show(b.dataset.who,true)));
+  const goHome = e => { e.preventDefault(); show(null) };
+  $('#homeLink').addEventListener('click',goHome);
+  document.querySelector('.brand').addEventListener('click',goHome);
+
+  // search: only ever searches what this audience is allowed to see
+  let sel=0, hits=[];
+  function closeRes(){res.classList.remove('open');q.setAttribute('aria-expanded','false')}
+  function score(it,terms){
+    const hay=(it.n+' '+it.k+' '+it.d+' '+it.tag).toLowerCase(); let s=0;
+    for(const t of terms){ if(!hay.includes(t)) return 0; if(it.n.toLowerCase().includes(t)) s+=5; if((' '+it.k+' ').includes(' '+t)) s+=4; s+=1 }
+    return s;
+  }
+  function search(){
+    const terms=q.value.toLowerCase().trim().split(/\s+/).filter(Boolean);
+    if(!terms.length||!who){closeRes();return}
+    hits=ITEMS.filter(it=>it.a.includes(who)).map(it=>[score(it,terms),it]).filter(x=>x[0]>0).sort((a,b)=>b[0]-a[0]).map(x=>x[1]).slice(0,7);
+    sel=0;
+    res.innerHTML = hits.length
+      ? hits.map((it,i)=>`<a role="option" id="o${i}" aria-selected="${i===0}" href="${it.u}"${linkAttrs(it.u)}><span class="tag">${esc(it.tag)}</span><span><span class="nm">${esc(it.n)}</span><span class="ds">${esc(it.d)}</span></span><span class="go">↗</span></a>`).join('')
+      : `<div class="empty">Nothing here for “${esc(q.value)}”.${who===P?' For questions about your own health, ask your clinician.':''}</div>`;
+    res.classList.add('open'); q.setAttribute('aria-expanded','true');
+  }
+  function move(d){ if(!hits.length) return; sel=(sel+d+hits.length)%hits.length; res.querySelectorAll('a[role=option]').forEach((a,i)=>a.setAttribute('aria-selected',String(i===sel))) }
+  q.addEventListener('input',search); q.addEventListener('focus',search);
+  q.addEventListener('keydown',e=>{
+    if(e.key==='ArrowDown'){e.preventDefault();move(1)}
+    else if(e.key==='ArrowUp'){e.preventDefault();move(-1)}
+    else if(e.key==='Enter'){const a=res.querySelector('#o'+sel); if(a){e.preventDefault();a.click()}}
+    else if(e.key==='Escape'){q.value='';closeRes();q.blur()}
+  });
+  document.addEventListener('click',e=>{ if(!e.target.closest('.cc')) closeRes() });
+  $('#kHint').textContent = /Mac|iPhone|iPad/.test(navigator.platform||'') ? '⌘K' : 'Ctrl K';
+  const focusQ=()=>{ if(!who) return; q.focus(); q.scrollIntoView({block:'center',behavior:'smooth'}) };
+  $('#openSearch').addEventListener('click',focusQ);
+  document.addEventListener('keydown',e=>{ if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();focusQ()} });
+
+
+  // ---------- visit agenda (memory only; never stored) ----------
+  let F = [];
+  const lines = t => t.split(/\n+/).map(x=>x.trim()).filter(Boolean);
+  function agendaText(){
+    const [a,b,c,m,ch] = F.map(f=>f.value.trim());
+    const concerns=[a,b,c].filter(Boolean);
+    if(!concerns.length && !m && !ch) return '';
+    let t='My visit agenda\n';
+    if(concerns.length){ t+='\nWhat I want to talk about (most important first):\n'+concerns.map((x,i)=>`${i+1}. ${x}`).join('\n')+'\n' }
+    if(m) t+='\nMedicine questions:\n'+lines(m).map(x=>'- '+x).join('\n')+'\n';
+    if(ch) t+='\nChanges since my last visit:\n'+lines(ch).map(x=>'- '+x).join('\n')+'\n';
+    return t.trim();
+  }
+  function renderAgenda(){
+    const [a,b,c,m,ch] = F.map(f=>f.value.trim());
+    const concerns=[a,b,c].filter(Boolean);
+    $('#agWhen').textContent = 'Prepared ' + new Date().toLocaleDateString(undefined,{month:'long',day:'numeric',year:'numeric'});
+    const empty = !concerns.length && !m && !ch;
+    let h='';
+    h+=`<div class="blk"><p class="lbl">What I want to talk about</p>${concerns.length?'<ol>'+concerns.map((x,i)=>`<li${i===0?' class="top"':''}>${esc(x)}</li>`).join('')+'</ol>':'<p class="ph">Your top concern appears here as you type.</p>'}</div>`;
+    if(m) h+=`<div class="blk"><p class="lbl">Medicine questions</p><ol>${lines(m).map(x=>`<li>${esc(x)}</li>`).join('')}</ol></div>`;
+    if(ch) h+=`<div class="blk"><p class="lbl">Changes since my last visit</p><ol>${lines(ch).map(x=>`<li>${esc(x)}</li>`).join('')}</ol></div>`;
+    if(concerns.length>2 || (concerns.length && (m||ch))) h+=`<p class="tip" style="margin:6px 0 0">If time runs short, start with #1.</p>`;
+    $('#agBody').innerHTML=h;
+    $('#agCopy').disabled = $('#agPrint').disabled = empty;
+  }
+  function wirePrep(){
+  F = ['f1','f2','f3','f4','f5'].map(id=>$('#'+id));
+  F.forEach(f=>f.addEventListener('input',renderAgenda));
+  $('#agCopy').addEventListener('click', async ()=>{
+    const btn=$('#agCopy');
+    try{ await navigator.clipboard.writeText(agendaText()); btn.textContent='Copied ✓' }
+    catch(e){ btn.textContent='Select the agenda text to copy' }
+    setTimeout(()=>btn.textContent='Copy for MyChart',2200);
+  });
+  $('#agPrint').addEventListener('click', ()=>{ document.body.dataset.print='agenda'; try{ window.print() }catch(e){} });
+  $('#agClear').addEventListener('click', ()=>{ F.forEach(f=>f.value=''); renderAgenda(); F[0].focus() });
+  renderAgenda();
+  }
+
+
+
+
+  // ---------- curious tiles ----------
+  const KTILES = [
+    {id:'words', n:'Medicolalia', u:B+'/medicolalia/', t:'#f3eee5'},
+    {id:'kilo', n:'Kilodays', u:B+'/kiloday/', t:'var(--lilac)'},
+    {id:'books', n:'Books I recommend', u:B+'/patients/books/', t:'var(--green)'}
+  ];
+  function renderCuriousTiles(){
+    $('#ktiles').innerHTML = KTILES.map((k,i)=>`<a class="tile" role="listitem" style="--t:${k.t};--a:${ACCENT[k.id]}" href="${k.u}"><span class="tile-top">${icon(k.id)}<span class="num">${String(i+1).padStart(2,'0')}</span></span><span class="nm">${esc(k.n)}</span></a>`).join('');
+  }
+
+  // ---------- clinician tiles ----------
+  const CTILES = [
+    {id:'cv', kind:'Cardiovascular', t:'#f6e9e4'},
+    {id:'lab', kind:'Lab interpretation', t:'#e6eef3'},
+    {id:'raf', kind:'Risk adjustment', t:'var(--blue)'},
+    {id:'imm', kind:'Pediatric prevention', t:'var(--green)'},
+    {id:'ad', kind:'Mental health', t:'var(--lilac)'},
+    {id:'dm', kind:'Diabetes', t:'#f5e8ef'},
+    {id:'lib', kind:'Library', t:'#f3eee5'},
+    {id:'pbooks', kind:'Reading', n:'Books for clinicians', t:'#eef0f4'},
+    {id:'share', kind:'For your patients', n:'Share with a patient', d:'QR code, link, or MyChart message.', t:'#e8f0e2'}
+  ];
+  function renderClinicianTiles(){
+    $('#ctiles').innerHTML = CTILES.map(c=>{
+      const it = byId[c.id] || {};
+      const n = c.n || it.n, d = c.d || it.d;
+      const inner = `<span class="tile-top">${icon(c.id)}<span class="kind">${esc(c.kind)}</span></span><span class="nm">${esc(n)}<span class="sub2">${esc(d)}</span></span>`;
+      return c.id==='share'
+        ? `<button class="tile" role="listitem" style="--t:${c.t};--a:#2f6b48" id="openShare">${inner}</button>`
+        : `<a class="tile" role="listitem" style="--t:${c.t};--a:${ACCENT[c.id]}" href="${it.u}">${inner}</a>`;
+    }).join('');
+    $('#openShare').addEventListener('click',()=>{ buildShare(); $('#csecs').hidden=true; $('#shareWrap').hidden=false; document.querySelector('.cc').hidden=true; $('#vl').hidden=true; window.scrollTo({top:0}); $('#shH').setAttribute('tabindex','-1'); $('#shH').focus({preventScroll:true}) });
+    $('#shBack').addEventListener('click',closeShare);
+  }
+  function closeShare(){ $('#shareWrap').hidden=true; $('#csecs').hidden=false; document.querySelector('.cc').hidden=false; $('#vl').hidden=false; $('#openShare')?.focus({preventScroll:true}) }
+
+  // ---------- clinician: share with a patient ----------
+  const SHARE_RES = [
+    {n:'Flu guide', u:SB+'/flu/'},
+    {n:'RSV vaccine', u:SB+'/patients/vaccines/rsv/'},
+    {n:'Shingles vaccine', u:SB+'/patients/vaccines/shingles/'},
+    {n:'Pneumococcal vaccine', u:SB+'/patients/vaccines/pneumococcal/'},
+    {n:'COVID-19 vaccine', u:SB+'/patients/vaccines/covid/'},
+    {n:'Tdap vaccine', u:SB+'/patients/vaccines/tdap/'},
+    {n:'Flu comfort plan', u:SB+'/flu/#flu-plan'},
+    {n:'Weight & metabolic health', u:SB+'/patients/weight/'},
+    {n:'Plants Are Your Friends', u:'https://plants-chat-663367173026.us-east1.run.app/'},
+    {n:'Alex the Health Guide', u:'https://chatgpt.com/g/g-ncTCfLUXg-alex-the-health-guide'}
+  ];
+  let shareSel=null, shareBuilt=false;
+  const pretty = u => u.replace(/^https?:\/\//,'').replace(/\/$/,'');
+  function shareMessage(t){ return `Here is the link we talked about today: ${t.n}\n${t.u}\n\nIn an emergency, call 911. For a mental health crisis, call or text 988.` }
+  function pickShare(t, btn){
+    shareSel=t;
+    document.querySelectorAll('#share .chip').forEach(c=>c.setAttribute('aria-pressed', String(c===btn)));
+    $('#shTitle').textContent=t.n; $('#shUrl').textContent=pretty(t.u); $('#shNote').textContent='';
+    try{ const q=qrcode(0,'M'); q.addData(t.u); q.make(); $('#shQR').innerHTML=q.createSvgTag({cellSize:4, margin:2, scalable:true}); $('#shQR').setAttribute('aria-label','QR code for '+t.n) }
+    catch(e){ $('#shQR').textContent='' }
+  }
+  function buildShare(){
+    if(shareBuilt) return; shareBuilt=true;
+    const topics = PSECTIONS.map(sec=>({n:sec.n, u:SB+'/#p-'+sec.id, id:sec.id}));
+    $('#shTopics').innerHTML = topics.map((t,i)=>`<button class="chip" type="button" data-i="${i}" aria-pressed="false">${icon(t.id)}${esc(t.n)}</button>`).join('');
+    $('#shRes').innerHTML = SHARE_RES.map((t,i)=>`<button class="chip r" type="button" data-r="${i}" aria-pressed="false">${esc(t.n)}</button>`).join('');
+    $('#shTopics').querySelectorAll('.chip').forEach(b=>b.addEventListener('click',()=>pickShare(topics[b.dataset.i],b)));
+    $('#shRes').querySelectorAll('.chip').forEach(b=>b.addEventListener('click',()=>pickShare(SHARE_RES[b.dataset.r],b)));
+    const copy = async (txt, label) => { try{ await navigator.clipboard.writeText(txt); $('#shNote').textContent=label+' copied.' }catch(e){ $('#shNote').textContent=txt } };
+    $('#shMsg').addEventListener('click',()=>shareSel&&copy(shareMessage(shareSel),'Message'));
+    $('#shLink').addEventListener('click',()=>shareSel&&copy(shareSel.u,'Link'));
+    $('#shPrint').addEventListener('click',()=>{ document.body.dataset.print='share'; try{ window.print() }catch(e){} });
+    pickShare(topics[1], $('#shTopics .chip[data-i="1"]'));
+  }
+
+
+
+
+  // ---------- theme toggle ----------
+  (function(){
+    const root=document.documentElement, btn=$('#theme');
+    const label=()=>btn.setAttribute('aria-label', root.dataset.theme==='dark'?'Switch to light mode':'Switch to dark mode');
+    label();
+    btn.addEventListener('click',()=>{ root.dataset.theme = root.dataset.theme==='dark'?'light':'dark'; try{localStorage.setItem('gg-theme',root.dataset.theme)}catch(e){} label() });
+    // follow the device if the visitor never chose
+    try{ matchMedia('(prefers-color-scheme: dark)').addEventListener('change',e=>{ let saved=null; try{saved=localStorage.getItem('gg-theme')}catch(_){} if(!saved){ root.dataset.theme=e.matches?'dark':'light'; label() } }) }catch(e){}
+  })();
+
+
+  // ---------- about ----------
+  let beforeAbout=null;
+  function openAbout(){
+    if(!$('#about').hidden) return;
+    beforeAbout = who;
+    gate.hidden=true; view.hidden=true; nav.hidden=true; $('#about').hidden=false; $('#homeLink').hidden=false;
+    window.scrollTo(0,0); $('#abH').focus({preventScroll:true});
+  }
+  function closeAbout(){
+    $('#about').hidden=true;
+    try{ history.replaceState(null,'', beforeAbout ? '#'+beforeAbout : location.pathname) }catch(e){}
+    show(beforeAbout);
+  }
+  document.querySelectorAll('a[href="#about"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault(); try{history.replaceState(null,'','#about')}catch(_){} openAbout()}));
+  $('#abBack').addEventListener('click',closeAbout);
+
+  // gennadygelman.com/#patient on a handout skips the question entirely
+  const deep = h => { const m=/^p-([a-z]+)$/.exec(h); return m && PSECTIONS.some(x=>x.id===m[1]) ? m[1] : null };
+  const start = () => { const h=location.hash.slice(1), d=deep(h);
+    if(d){ show(P); openSection(d); return }
+    if(h==='about'){ show(VIEWS[store.get()] ? store.get() : null); openAbout(); return }
+    show(VIEWS[h] ? h : (VIEWS[store.get()] ? store.get() : null)) };
+  window.addEventListener('hashchange',()=>{ const h=location.hash.slice(1), d=deep(h); if(h==='about'){ openAbout(); return } if(d){ show(P); openSection(d); return } if(VIEWS[h]&&h!==who) show(h) });
+  start();
+})();
+</script>
+</body>
+</html>
