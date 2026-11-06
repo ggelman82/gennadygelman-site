@@ -34,10 +34,6 @@
   :root[data-theme="dark"] .doors .d-patient{--a:#2f6b48} :root[data-theme="dark"] .doors .d-clinician{--a:#3b54c4} :root[data-theme="dark"] .doors .d-curious{--a:#5b3fa0}
   :root[data-theme="dark"] .ic .f{fill-opacity:.85}
   :root[data-theme="dark"] .tile .num,:root[data-theme="dark"] .tile .kind{color:var(--faint)}
-  :root[data-theme="dark"] .pc.feature{background:color-mix(in oklab, var(--tint, var(--surface)) 14%, var(--surface))}
-  :root[data-theme="dark"] .prep{background:#14241b;border-color:rgba(143,208,168,.2)}
-  :root[data-theme="dark"] .card-side{background:#10182a}
-  :root[data-theme="dark"] .prep input,:root[data-theme="dark"] .prep textarea{border-color:var(--line)}
   :root[data-theme="dark"] .share-out{background:#161f3a}
   :root[data-theme="dark"] .notice{border-left-color:var(--accent)}
   :root[data-theme="dark"] .tile:hover,:root[data-theme="dark"] .door:hover{border-color:rgba(231,234,243,.3)}
@@ -145,32 +141,6 @@
   @media (max-width:640px){.index li a{grid-template-columns:1fr;gap:2px}}
 
 
-  /* ---------- visit prep (patient only) ---------- */
-  .prep{margin-top:32px;border-radius:22px;background:var(--green);display:grid;grid-template-columns:1.1fr 1fr;gap:0;overflow:hidden;border:1px solid rgba(47,107,72,.18)}
-  @media (max-width:860px){.prep{grid-template-columns:1fr}}
-  .prep-form{padding:clamp(20px,3vw,32px)}
-  .prep .k{font-family:"Geist Mono",monospace;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--green-ink);margin:0 0 8px}
-  .prep h2{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:clamp(26px,3.2vw,36px);line-height:1.05;margin:0 0 8px}
-  .prep .sub{color:var(--soft);font-size:15px;margin:0 0 20px;max-width:46ch}
-  .prep label{display:block;font-weight:600;font-size:14.5px;margin:16px 0 6px}
-  .prep label span{font-weight:400;color:var(--soft)}
-  .prep input,.prep textarea{width:100%;font:inherit;font-size:15.5px;color:var(--ink);background:var(--surface);border:1.5px solid rgba(14,23,52,.14);border-radius:12px;padding:11px 13px;resize:vertical}
-  .prep textarea{min-height:64px}
-  .prep input:focus,.prep textarea:focus{outline:none;border-color:var(--green-ink);box-shadow:0 0 0 4px rgba(47,107,72,.14)}
-  .prep .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  @media (max-width:520px){.prep .row{grid-template-columns:1fr}}
-  .prep .priv{display:flex;gap:8px;align-items:center;margin-top:18px;font-size:13px;color:var(--green-ink)}
-  .card-side{background:#fbfaf6;padding:clamp(20px,3vw,32px);border-left:1px dashed rgba(14,23,52,.18);display:flex;flex-direction:column}
-  @media (max-width:860px){.card-side{border-left:0;border-top:1px dashed rgba(14,23,52,.18)}}
-  .agenda{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px 22px;box-shadow:0 14px 34px -24px rgba(14,23,52,.45);font-size:15px;position:relative}
-  .agenda::before{content:"";position:absolute;inset:0 auto 0 0;width:4px;border-radius:14px 0 0 14px;background:var(--green-ink)}
-  .agenda h3{font-family:Newsreader,Georgia,serif;font-weight:500;font-size:21px;margin:0 0 2px}
-  .agenda .when{font-family:"Geist Mono",monospace;font-size:11px;color:var(--faint);letter-spacing:.06em;margin:0 0 14px}
-  .agenda .blk{margin:0 0 12px}
-  .agenda .lbl{font-family:"Geist Mono",monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin:0 0 3px}
-  .agenda ol{margin:0;padding-left:20px}
-  .agenda .ph{color:var(--faint);font-style:italic}
-  .agenda .top{font-weight:600}
   .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
   .btn{all:unset;cursor:pointer;font-size:14px;font-weight:600;padding:10px 16px;border-radius:999px;background:var(--btn);color:var(--btn-ink)}
   .btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
@@ -179,30 +149,11 @@
   .tip{font-size:13px;color:var(--soft);margin:12px 0 0}
   @media print{
     body *{visibility:hidden!important}
-    body[data-print="agenda"] .agenda, body[data-print="agenda"] .agenda *,
     body[data-print="share"] .share-card, body[data-print="share"] .share-card *{visibility:visible!important}
-    body[data-print="agenda"] .agenda{position:absolute;left:0;top:0;width:100%;box-shadow:none;border:0}
     body[data-print="share"] .share-card{position:absolute;left:50%;top:40px;transform:translateX(-50%);box-shadow:none;max-width:420px}
   }
 
 
-  /* ---------- patient sections ---------- */
-  .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;align-content:start}
-  @media (max-width:560px){.cards{grid-template-columns:1fr}}
-  .pc{display:flex;flex-direction:column;gap:6px;padding:16px 18px;border-radius:16px;background:var(--surface);border:1px solid var(--line);text-decoration:none;transition:transform .15s ease,box-shadow .15s ease,border-color .15s}
-  .pc:hover{transform:translateY(-2px);border-color:rgba(14,23,52,.28);box-shadow:0 12px 28px -20px rgba(14,23,52,.5)}
-  .pc .top{display:flex;justify-content:space-between;align-items:center;gap:10px}
-  .pc .nm{font-weight:600;font-size:16px;line-height:1.3}
-  .pc .ds{color:var(--soft);font-size:14px}
-  .pc .x{color:var(--faint);font-size:13px}
-  .pc.feature{grid-column:1/-1;background:var(--tint,var(--surface));border-color:transparent}
-  .pc.feature .nm{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:24px}
-  button.pc{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:6px;padding:16px 18px;border-radius:16px;grid-column:1/-1;background:var(--green);transition:transform .15s ease,box-shadow .15s ease}
-  button.pc:hover{transform:translateY(-2px);box-shadow:0 12px 28px -20px rgba(14,23,52,.5)}
-  button.pc:focus-visible,.pc:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-  button.pc .nm{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:24px}
-  .prep-wrap{grid-column:1/-1}
-  .prep-wrap .prep{margin-top:0}
 
 
   /* ---------- patient topic tiles ---------- */
@@ -219,8 +170,6 @@
   .ic{width:52px;height:52px;color:var(--ink);fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s ease}
   .ic .f{fill:var(--a);fill-opacity:.5}
   .tile:hover .ic{transform:rotate(-6deg) scale(1.06)}
-  .detail .dic{display:inline-block;vertical-align:-6px;margin-right:12px}
-  .detail .dic .ic{width:40px;height:40px}
 
   /* clinician tiles */
   a.tile{text-decoration:none;color:inherit}
@@ -262,31 +211,9 @@
   .safety{margin:16px 2px 0;font-size:13.5px;color:var(--soft)}
   .safety b{color:var(--ink)}
   .safety a{color:var(--ink);font-weight:600}
-  .detail{margin-top:26px}
   .back{all:unset;cursor:pointer;font-size:14px;color:var(--accent);display:inline-flex;gap:6px;align-items:center}
   .back:hover{text-decoration:underline;text-underline-offset:4px}
-  .detail h2{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:clamp(32px,4vw,44px);margin:10px 0 18px;letter-spacing:-.01em}
-  .detail .cards{grid-template-columns:repeat(2,1fr)}
-  @media (max-width:560px){.detail .cards{grid-template-columns:1fr}}
-  #dh{line-height:1.15}
-  .cg{grid-column:1/-1;margin:14px 0 0;font:600 12px/1.2 'Geist Mono',ui-monospace,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--soft)}
-  .cg:first-child{margin-top:0}
-  .cnote{grid-column:1/-1;margin:6px 0 0;padding:14px 16px;border-radius:14px;background:var(--surface);border:1px dashed var(--line);font-size:14px;line-height:1.55;color:var(--soft)}
-  .cnote b{color:var(--ink)}
-  .pc.app .nm a{color:inherit;text-decoration:none}.pc.app .nm a:hover{text-decoration:underline}
-  .pc.bookc{align-items:flex-start}
-  .detail .cards:has(.bookc){grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:18px}
-  .pc.bookc:hover{transform:none;box-shadow:none}
-  .bookc .cv{display:block;width:100%;margin:4px 0 10px;transform:rotate(-2deg);transition:transform .18s ease}
-  .bookc:hover .cv,.bookc:focus-visible .cv{transform:rotate(0) translateY(-5px)}
-  .bookc .cv img{display:block;width:100%;height:auto;aspect-ratio:2/3;object-fit:cover;background:#e5e2da;border-radius:3px 10px 10px 3px;box-shadow:-8px 9px 0 rgba(20,33,61,.08),0 18px 35px rgba(20,33,61,.14)}
-  .pc.app .nt{font-size:13px;font-style:italic}
-  .stores{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
-  .stores a{font-size:13px;padding:5px 10px;border-radius:999px;border:1px solid var(--line);text-decoration:none;color:var(--ink);background:var(--bg,transparent)}
-  .stores a:hover{border-color:var(--ink)}
-  .soon{grid-column:1/-1;font-size:14px;color:var(--soft);padding:12px 4px 0}
-  .soon a{color:var(--accent)}
-  #dh:focus,#shH:focus{outline:none}
+  #shH:focus{outline:none}
 
 
   /* ---------- clinician: share with a patient ---------- */
@@ -403,52 +330,11 @@
   </section>
 
 
-  <!-- Patient-only visit planner. Lives inside the "Your visit" section, closed until asked for. Nothing typed is stored or sent. -->
-  <template id="prepTpl">
-  <section class="prep" id="prep" aria-labelledby="prepH">
-    <div class="prep-form">
-      <p class="k">Before your visit</p>
-      <h2 id="prepH">Make your appointment count.</h2>
-      <p class="sub">Visits are short. Writing down your top concern ahead of time helps us get to what matters most. Fill in what applies and bring the result with you.</p>
-
-      <label for="f1">The one thing I most want to talk about</label>
-      <input id="f1" maxlength="160" placeholder="e.g. tired all the time for two months">
-
-      <div class="row">
-        <div><label for="f2">Something else <span>(optional)</span></label><input id="f2" maxlength="120"></div>
-        <div><label for="f3">One more <span>(optional)</span></label><input id="f3" maxlength="120"></div>
-      </div>
-
-      <label for="f4">Questions about my medicines <span>(refills, side effects, cost)</span></label>
-      <textarea id="f4" maxlength="400"></textarea>
-
-      <label for="f5">What's changed since my last visit <span>(ER visits, new specialists, new symptoms)</span></label>
-      <textarea id="f5" maxlength="400"></textarea>
-
-      <p class="priv"><span aria-hidden="true">●</span> Stays on your device. Nothing you type is saved or sent anywhere.</p>
-    </div>
-
-    <div class="card-side">
-      <div class="agenda" id="agenda" aria-live="polite">
-        <h3>My visit agenda</h3>
-        <p class="when" id="agWhen"></p>
-        <div id="agBody"></div>
-      </div>
-      <div class="actions">
-        <button class="btn" id="agCopy" type="button" disabled>Copy for MyChart</button>
-        <button class="btn ghost" id="agPrint" type="button" disabled>Print</button>
-        <button class="btn ghost" id="agClear" type="button">Clear</button>
-      </div>
-      <p class="tip" id="agTip">Tip: paste it into a MyChart message a day or two before your appointment, or show it to whoever rooms you.</p>
-    </div>
-  </section>
-  </template>
 
   <!-- Patient view: resources broken into topic sections -->
   <div id="psecs" hidden>
     <div class="tiles" id="tiles" role="list"></div>
     <p class="safety">In an emergency, call <a href="tel:911">911</a>. For a mental health crisis, call or text <a href="tel:988">988</a>.</p>
-    <div class="detail" id="detail" hidden></div>
   </div>
 
   <section class="plan">
@@ -518,9 +404,9 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   const ITEMS = [
     {id:'flu', n:'Influenza guide', tag:'Guide', d:'Prevent it, understand it, know what actually helps.', u:B+'/flu/', a:[P,C,K], k:'flu influenza fever cough cold vaccine shot respiratory sick season'},
     {id:'plants', n:'Plants Are Your Friends', tag:'AI chat', d:'A chatbot for eating more whole plant foods, built on NutritionFacts.org.', u:'https://plants-chat-663367173026.us-east1.run.app/', a:[P,C,K], k:'plants plant diet food nutrition vegan vegetarian whole food chatbot eat'},
-    {id:'weight', n:'Weight & metabolic health', tag:'Guide', d:'Ten trusted resources and a practical starting point.', u:B+'/#p-weight', a:[P,C], k:'weight obesity glp-1 glp1 ozempic wegovy mounjaro zepbound metabolic diet lose'},
-    {id:'books', n:'Books I recommend to patients', tag:'Reading', d:'Eight accessible books about metabolic health and living better.', u:B+'/#p-books', a:[P,C,K], k:'books reading read library shelf'},
-    {id:'apps', n:'Apps I recommend', tag:'Apps', d:'Put your phone to work: health record, nutrition, sleep and more.', u:B+'/#p-phone', a:[P,C], k:'apps app phone iphone android mychart tracker sleep'},
+    {id:'weight', n:'Weight & metabolic health', tag:'Guide', d:'Ten trusted resources and a practical starting point.', u:B+'/patients/weight/', a:[P,C], k:'weight obesity glp-1 glp1 ozempic wegovy mounjaro zepbound metabolic diet lose'},
+    {id:'books', n:'Books I recommend to patients', tag:'Reading', d:'Eight accessible books about metabolic health and living better.', u:B+'/patients/books/', a:[P,C,K], k:'books reading read library shelf'},
+    {id:'apps', n:'Apps I recommend', tag:'Apps', d:'Put your phone to work: health record, nutrition, sleep and more.', u:B+'/patients/apps/', a:[P,C], k:'apps app phone iphone android mychart tracker sleep'},
     {id:'alex', n:'Alex the Health Guide', tag:'AI chat', d:'Supportive, realistic conversations about nutrition, exercise and habits.', u:'https://chatgpt.com/g/g-ncTCfLUXg-alex-the-health-guide', a:[P,C], k:'alex coach exercise habits gpt chatbot motivation'},
     {id:'cv', n:'CV Risk Decision Tool', tag:'Tool', d:'Paste an Epic SmartPhrase; get PREVENT risk, lipid targets and risk enhancers.', u:B+'/tools/cv-risk/', a:[C], k:'cv cardiovascular heart risk prevent ascvd statin cholesterol lipid ldl lpa'},
     {id:'lab', n:'Clinical Lab Pattern Analyzer', tag:'Tool', d:'Paste lab results; get calculated relationships and pattern-level interpretation.', u:B+'/tools/lab-analyzer/', a:[C], k:'lab labs blood test cbc cmp anion gap interpretation results'},
@@ -535,7 +421,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     {id:'m1', n:'Medicolalia No. 1 · Migraine', tag:'Essay', d:'The headache is only half the story.', u:B+'/medicolalia/no-1/', a:[C,K], k:'migraine headache word etymology essay medicolalia'},
     {id:'kilo', n:'Kiloday calculator', tag:'Experiment', d:'Celebrate every thousand days. When is your next one?', u:B+'/kiloday/', a:[C,K], k:'kiloday birthday age days milestone celebrate'}
   ];
-  ITEMS.unshift({id:'prep', n:'Plan your visit', tag:'Tool', d:'Write down your top concerns and bring a one-page agenda to your appointment.', u:'#prep', a:[P], k:'visit appointment prepare agenda questions concerns doctor checkup mychart'});
+  ITEMS.unshift({id:'prep', n:'Plan your visit', tag:'Tool', d:'Write down your top concerns and bring a one-page agenda to your appointment.', u:'/patients/visit/#prep', a:[P], k:'visit appointment prepare agenda questions concerns doctor checkup mychart'});
   const SECTIONS = [
     {n:'Patient Resources', d:'Healthier eating, movement, seasonal illness, useful apps, and everyday decisions.', u:B+'/#patient', a:[P,C,K]},
     {n:'Clinical Tools', d:'Risk adjustment, cardiovascular prevention, lab interpretation, immunizations, and more.', u:B+'/tools/', a:[C]},
@@ -554,11 +440,11 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
 
   // ---------- patient sections ----------
   const PSECTIONS = [
-    {id:'visit', t:'var(--green)', n:'Plan Your Visit', i:'Get more out of the time you have with your clinician.', items:[
+    {id:'visit', p:'/patients/visit/', t:'var(--green)', n:'Plan Your Visit', i:'Get more out of the time you have with your clinician.', items:[
       {plan:true, n:'Make a visit agenda', d:'Write down what matters most and bring a one-page agenda. Takes two minutes.'},
       {n:'MyChart', d:'Message your care team, see results, request refills.', u:'https://www.mychart.org/', k:'mychart portal message refill results'}
     ]},
-    {id:'vaccines', t:'var(--blue)', n:'Vaccine information', isNew:true, i:'Short guides to the vaccines I recommend for adults.', items:[
+    {id:'vaccines', p:'/patients/vaccines/', t:'var(--blue)', n:'Vaccine information', isNew:true, i:'Short guides to the vaccines I recommend for adults.', items:[
       {n:'Flu', d:'Everyone 6 months and older, every year.', u:B+'/flu/', k:'flu vaccine shot influenza which vaccine'},
       {n:'RSV', d:'75 and older, or 50 to 74 with certain conditions. One dose.', u:B+'/patients/vaccines/rsv/', k:'rsv respiratory syncytial virus arexvy abrysvo mresvia older adults pregnancy'},
       {n:'Shingles', d:'50 and older. Two doses.', u:B+'/patients/vaccines/shingles/', k:'shingles shingrix zoster chickenpox rash nerve pain'},
@@ -567,13 +453,13 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       {n:'Tdap', d:'Every adult. Every 10 years, and in every pregnancy.', u:B+'/patients/vaccines/tdap/', k:'tdap tetanus diphtheria whooping cough pertussis booster pregnancy wound'},
       {n:'Where to get vaccinated', d:'Find vaccines near you.', u:'https://www.hhs.gov/vaccines/get-vaccinated/where/index.html', k:'vaccine shot where pharmacy near me'}
     ]},
-    {id:'sick', t:'#f6e9e4', n:'Feeling sick', i:'What to do, what helps, and when to get help.', items:[
+    {id:'sick', p:'/patients/sick/', t:'#f6e9e4', n:'Feeling sick', i:'What to do, what helps, and when to get help.', items:[
       {f:true, tint:'var(--blue)', n:'Influenza guide', d:'Prevent it, understand it, know what actually helps.', u:B+'/flu/', k:'flu influenza fever cough cold sick season'},
       {n:'Build your flu comfort plan', d:'Sleep, fluids, saline, and treating discomfort safely.', u:B+'/flu/#flu-plan', k:'flu comfort plan home care fluids'},
       {n:'Warning signs to watch for', d:'When flu symptoms mean you need urgent care.', u:'https://www.cdc.gov/flu/signs-symptoms/index.html', k:'warning signs emergency urgent breathing'},
       {n:'When to call', d:'Who should call early, and what needs urgent care.', u:B+'/flu/', k:'when to call doctor sick urgent'}
     ]},
-    {id:'weight', t:'#e8f0e2', n:'Weight loss guide', i:'More than one useful next step. Lasting progress can include food, activity, sleep, support, medication, or surgery. Start with the question you have today.', items:[
+    {id:'weight', p:'/patients/weight/', t:'#e8f0e2', n:'Weight loss guide', i:'More than one useful next step. Lasting progress can include food, activity, sleep, support, medication, or surgery. Start with the question you have today.', items:[
       {g:'Start here', f:true, tint:'var(--green)', n:'Understanding obesity', d:'A plain-language overview of obesity, health risks, evaluation, and treatment options from the UMass Memorial Health Library.', u:'https://umassmemorial.staywellhealthlibrary.com/RelatedItems/85,P07855', k:'weight obesity overview understanding bmi'},
       {g:'Food', n:'Harvard Healthy Eating Plate', d:'A visual guide to building meals around vegetables, fruit, whole grains, healthy proteins, and healthier oils.', u:'https://www.hsph.harvard.edu/nutritionsource/healthy-eating-plate/', k:'plate meal healthy eating nutrition'},
       {n:'Plants Are Your Friends', d:'Ask a chatbot about eating more whole plant foods.', u:'https://plants-chat-663367173026.us-east1.run.app/', k:'plants plant diet nutrition vegan chatbot'},
@@ -587,7 +473,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       {n:'The Obesity Code', d:'Jason Fung, MD. Insulin, eating patterns, and fasting, with context about the evidence.', u:B+'/patients/books/the-obesity-code/', k:'book insulin fasting fung'},
       {n:'Why We Get Sick', d:'Benjamin Bikman, PhD. Insulin resistance and metabolic health, and where the book overreaches.', u:B+'/patients/books/why-we-get-sick/', k:'book insulin resistance metabolic bikman'}
     ], notes:['<b>You do not have to do this alone.</b> Ask your care team whether a referral to a health coach is available and right for you.', 'Talk with your clinician before fasting, starting a weight-loss medication, or pursuing surgery, especially during pregnancy, with an eating-disorder history, or when using insulin or other glucose-lowering medication.']},
-    {id:'books', t:'#f3eee5', n:'Books I recommend', i:'A small shelf for living better. Bring the idea to your next visit.', items:[
+    {id:'books', p:'/patients/books/', t:'#f3eee5', n:'Books I recommend', i:'A small shelf for living better. Bring the idea to your next visit.', items:[
       {n:'How Not to Diet', d:'Patient summary.', u:B+'/patients/books/how-not-to-diet/', cov:'https://covers.openlibrary.org/b/isbn/9781250199225-L.jpg', k:'book weight diet greger'},
       {n:'How Not to Die', d:'Patient summary.', u:B+'/patients/books/how-not-to-die/', cov:'/books/recommended/how-not-to-die.jpg', k:'book nutrition greger'},
       {n:'Why We Get Sick', d:'Patient summary.', u:B+'/patients/books/why-we-get-sick/', cov:'https://covers.openlibrary.org/b/isbn/9781953295774-L.jpg', k:'book insulin resistance metabolic bikman'},
@@ -597,7 +483,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       {n:'The New Menopause', d:'Patient summary.', u:B+'/patients/books/the-new-menopause/', cov:'/books/recommended/the-new-menopause.jpg', k:'menopause hot flashes hormones women book'},
       {n:'The New Perimenopause', d:'Patient summary.', u:B+'/patients/books/the-new-perimenopause/', cov:'/books/the-new-perimenopause.jpg', k:'perimenopause hormones period women book'}
     ]},
-    {id:'phone', t:'#e6eef3', n:'Apps and AI tools I recommend', i:'Useful tools, not more digital clutter. Choose an app only when it solves a specific problem. You do not need to download everything here.', items:[
+    {id:'phone', p:'/patients/apps/', t:'#e6eef3', n:'Apps and AI tools I recommend', i:'Useful tools, not more digital clutter. Choose an app only when it solves a specific problem. You do not need to download everything here.', items:[
       {g:'AI guides', n:'Alex the Health Guide', d:'An AI guide for realistic talk about food, exercise, and habits.', u:'https://chatgpt.com/g/g-ncTCfLUXg-alex-the-health-guide', k:'alex ai coach chatbot habits'},
       {n:'Plants Are Your Friends', d:'Ask a chatbot about eating more whole plant foods.', u:'https://plants-chat-663367173026.us-east1.run.app/', k:'plants plant diet nutrition vegan chatbot'},
       {g:'Your health record', n:'MyChart', d:'Message your care team, review results, manage appointments, and, when your health system enables it, enter home blood pressure or glucose readings.', note:'Some health systems use their own branded MyChart app.', u:'https://www.mychart.org/', ios:'https://apps.apple.com/us/app/mychart/id382952264', android:'https://play.google.com/store/apps/details?id=epic.mychart.android', k:'mychart portal message refill results app'},
@@ -617,9 +503,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     ], notes:['<b>Health apps are not your medical record.</b> Before entering reproductive, symptom, medication, or mental-health information, review the app’s privacy settings and collect only what will help you. Do not rely on an app for emergencies or urgent medical advice.', 'The USDA’s Start Simple with MyPlate app has been retired. Use the <a href="https://www.myplate.gov/" target="_blank" rel="noopener">MyPlate.gov website ↗</a> instead.']}
   ];
   // patient search covers every section item
-  PSECTIONS.forEach(sec=>sec.items.forEach((it,j)=>{ if((it.u||it.ios) && !ITEMS.some(x=>x.n===it.n)) ITEMS.push({id:'ps-'+sec.id+j, sec:sec.id, n:it.n, tag:sec.n, d:it.d, u:it.u||('/#p-'+sec.id), a:[P], k:it.k||''}) }));
-  ITEMS.forEach(x=>{ if(x.id==='prep') x.u='#visit' });
-  window.addEventListener('hashchange',()=>{ if(location.hash==='#visit' && who===P){ openSection('visit'); setTimeout(()=>$('#openPrep')?.click(),30) } });
+  PSECTIONS.forEach(sec=>sec.items.forEach((it,j)=>{ if((it.u||it.ios) && !ITEMS.some(x=>x.n===it.n)) ITEMS.push({id:'ps-'+sec.id+j, sec:sec.id, n:it.n, tag:sec.n, d:it.d, u:it.u||sec.p, a:[P], k:it.k||''}) }));
 
 
   // Two-color line icons: navy stroke + the tile's accent as a soft fill.
@@ -649,43 +533,10 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   const ACCENT = {words:'#8a5a1c', kilo:'#5b3fa0',cv:'#c0583b', lab:'#3e6f8f', raf:'#3b54c4', imm:'#2f6b48', ad:'#5b3fa0', dm:'#b0457a', share:'#0e1734', lib:'#8a5a1c', pbooks:'#4f7d32',visit:'#2f6b48', vaccines:'#3b54c4', sick:'#c0583b', weight:'#4f7d32', books:'#8a5a1c', phone:'#3e6f8f'};
   const icon = id => `<svg class="ic" viewBox="0 0 48 48" aria-hidden="true" style="--a:${ACCENT[id]}">${ICONS[id]||''}</svg>`;
 
-  let prepBuilt=false;
-  const appHTML = it => `<div class="pc app"><span class="top"><span class="nm">${it.u?`<a href="${it.u}"${linkAttrs(it.u)}>${esc(it.n)} ↗</a>`:esc(it.n)}</span></span><span class="ds">${esc(it.d)}</span>${it.note?`<span class="ds nt">${esc(it.note)}</span>`:''}<span class="stores"><a href="${it.ios}" target="_blank" rel="noopener">${esc(it.iosL||'iPhone')} ↗</a><a href="${it.android}" target="_blank" rel="noopener">${esc(it.andL||'Android')} ↗</a></span></div>`;
-  const groupHTML = items => items.map(it=>(it.g?`<h3 class="cg">${esc(it.g)}</h3>`:'')+(it.ios?appHTML(it):cardHTML(it))).join('');
-  const cardHTML = it => it.cov
-    ? `<a class="pc bookc" href="${it.u}"><span class="cv"><img src="${it.cov}" alt="Cover of ${esc(it.n)}" width="200" height="300" loading="lazy"></span><span class="nm">${esc(it.n)}</span><span class="ds">${esc(it.d)}</span></a>`
-    : it.plan
-    ? `<button class="pc" type="button" id="openPrep" aria-expanded="false" aria-controls="prepWrap"><span class="top"><span class="nm">${esc(it.n)}</span><span class="x">Open ↓</span></span><span class="ds">${esc(it.d)}</span></button><div class="prep-wrap" id="prepWrap" hidden></div>`
-    : `<a class="pc${it.f?' feature':''}" ${it.tint?`style="--tint:${it.tint}"`:''} href="${it.u}"${linkAttrs(it.u)}><span class="top"><span class="nm">${esc(it.n)}</span><span class="x">${ext(it.u)?'↗':'→'}</span></span><span class="ds">${esc(it.d)}</span></a>`;
   function renderPatientSections(){
-    $('#tiles').innerHTML = PSECTIONS.map((sec,i)=>`<button class="tile" role="listitem" style="--t:${sec.t};--a:${ACCENT[sec.id]}" data-sec="${sec.id}"><span class="tile-top">${icon(sec.id)}<span class="num">${String(i+1).padStart(2,'0')}</span></span><span class="nm">${esc(sec.n)}${sec.isNew?'<span class="new">New</span>':''}</span></button>`).join('');
-    $('#tiles').querySelectorAll('.tile').forEach(b=>b.addEventListener('click',()=>openSection(b.dataset.sec)));
+    $('#tiles').innerHTML = PSECTIONS.map((sec,i)=>`<a class="tile" role="listitem" style="--t:${sec.t};--a:${ACCENT[sec.id]}" href="${sec.p}"><span class="tile-top">${icon(sec.id)}<span class="num">${String(i+1).padStart(2,'0')}</span></span><span class="nm">${esc(sec.n)}${sec.isNew?'<span class="new">New</span>':''}</span></a>`).join('');
   }
-  function openSection(id){
-    const sec = PSECTIONS.find(x=>x.id===id); if(!sec) return;
-    setTitle(sec.n);
-    prepBuilt=false;
-    const d=$('#detail');
-    d.innerHTML = `<button class="back" type="button" id="back">← All topics</button><h2 tabindex="-1" id="dh"><span class="dic">${icon(sec.id)}</span>${esc(sec.n)}</h2><div class="cards">${groupHTML(sec.items)}${(sec.notes||[]).map(n=>`<p class="cnote">${n}</p>`).join('')}${sec.more?`<p class="soon">${esc(sec.more)}</p>`:''}${sec.moreLink?`<p class="soon"><a href="${sec.moreLink.u}">${esc(sec.moreLink.n)}</a></p>`:''}</div>`;
-    $('#tiles').hidden=true; document.querySelector('.safety').hidden=true; $('#vl').hidden=true; d.hidden=false;
-    document.querySelector('.hero h1').parentElement.querySelector('.cc').hidden=true;
-    $('#back').addEventListener('click',closeSection);
-    const op=$('#openPrep');
-    if(op) op.addEventListener('click',()=>{
-      const wrap=$('#prepWrap'), open=wrap.hidden;
-      if(!prepBuilt){ wrap.appendChild($('#prepTpl').content.cloneNode(true)); wirePrep(); prepBuilt=true }
-      wrap.hidden=!open; op.setAttribute('aria-expanded',String(open));
-      op.querySelector('.x').textContent = open ? 'Close ↑' : 'Open ↓';
-      if(open) setTimeout(()=>$('#f1')?.focus(),50);
-    });
-    window.scrollTo({top:0}); $('#dh').focus({preventScroll:true});
-  }
-  function closeSection(){
-    setTitle(TNAME[who]);
-    $('#detail').hidden=true; $('#detail').innerHTML=''; $('#vl').hidden=false; $('#tiles').hidden=false; document.querySelector('.safety').hidden=false;
-    document.querySelector('.cc').hidden=false;
-    $('#tiles').querySelector('.tile')?.focus({preventScroll:true});
-  }
+  function closeSection(){ setTitle(TNAME[who]); document.querySelector('.cc').hidden=false; }
   const byId = Object.fromEntries(ITEMS.map(i=>[i.id,i]));
   const $ = s => document.querySelector(s);
   const gate=$('#gate'), view=$('#view'), nav=$('#nav'), q=$('#q'), res=$('#res');
@@ -765,45 +616,6 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   document.addEventListener('keydown',e=>{ if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();focusQ()} });
 
 
-  // ---------- visit agenda (memory only; never stored) ----------
-  let F = [];
-  const lines = t => t.split(/\n+/).map(x=>x.trim()).filter(Boolean);
-  function agendaText(){
-    const [a,b,c,m,ch] = F.map(f=>f.value.trim());
-    const concerns=[a,b,c].filter(Boolean);
-    if(!concerns.length && !m && !ch) return '';
-    let t='My visit agenda\n';
-    if(concerns.length){ t+='\nWhat I want to talk about (most important first):\n'+concerns.map((x,i)=>`${i+1}. ${x}`).join('\n')+'\n' }
-    if(m) t+='\nMedicine questions:\n'+lines(m).map(x=>'- '+x).join('\n')+'\n';
-    if(ch) t+='\nChanges since my last visit:\n'+lines(ch).map(x=>'- '+x).join('\n')+'\n';
-    return t.trim();
-  }
-  function renderAgenda(){
-    const [a,b,c,m,ch] = F.map(f=>f.value.trim());
-    const concerns=[a,b,c].filter(Boolean);
-    $('#agWhen').textContent = 'Prepared ' + new Date().toLocaleDateString(undefined,{month:'long',day:'numeric',year:'numeric'});
-    const empty = !concerns.length && !m && !ch;
-    let h='';
-    h+=`<div class="blk"><p class="lbl">What I want to talk about</p>${concerns.length?'<ol>'+concerns.map((x,i)=>`<li${i===0?' class="top"':''}>${esc(x)}</li>`).join('')+'</ol>':'<p class="ph">Your top concern appears here as you type.</p>'}</div>`;
-    if(m) h+=`<div class="blk"><p class="lbl">Medicine questions</p><ol>${lines(m).map(x=>`<li>${esc(x)}</li>`).join('')}</ol></div>`;
-    if(ch) h+=`<div class="blk"><p class="lbl">Changes since my last visit</p><ol>${lines(ch).map(x=>`<li>${esc(x)}</li>`).join('')}</ol></div>`;
-    if(concerns.length>2 || (concerns.length && (m||ch))) h+=`<p class="tip" style="margin:6px 0 0">If time runs short, start with #1.</p>`;
-    $('#agBody').innerHTML=h;
-    $('#agCopy').disabled = $('#agPrint').disabled = empty;
-  }
-  function wirePrep(){
-  F = ['f1','f2','f3','f4','f5'].map(id=>$('#'+id));
-  F.forEach(f=>f.addEventListener('input',renderAgenda));
-  $('#agCopy').addEventListener('click', async ()=>{
-    const btn=$('#agCopy');
-    try{ await navigator.clipboard.writeText(agendaText()); btn.textContent='Copied ✓' }
-    catch(e){ btn.textContent='Select the agenda text to copy' }
-    setTimeout(()=>btn.textContent='Copy for MyChart',2200);
-  });
-  $('#agPrint').addEventListener('click', ()=>{ document.body.dataset.print='agenda'; try{ window.print() }catch(e){} });
-  $('#agClear').addEventListener('click', ()=>{ F.forEach(f=>f.value=''); renderAgenda(); F[0].focus() });
-  renderAgenda();
-  }
 
 
 
@@ -812,7 +624,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   const KTILES = [
     {id:'words', n:'Medicolalia', u:B+'/medicolalia/', t:'#f3eee5'},
     {id:'kilo', n:'Kilodays', u:B+'/kiloday/', t:'var(--lilac)'},
-    {id:'books', n:'Books I recommend', u:B+'/#p-books', t:'var(--green)'}
+    {id:'books', n:'Books I recommend', u:B+'/patients/books/', t:'var(--green)'}
   ];
   function renderCuriousTiles(){
     $('#ktiles').innerHTML = KTILES.map((k,i)=>`<a class="tile" role="listitem" style="--t:${k.t};--a:${ACCENT[k.id]}" href="${k.u}"><span class="tile-top">${icon(k.id)}<span class="num">${String(i+1).padStart(2,'0')}</span></span><span class="nm">${esc(k.n)}</span></a>`).join('');
@@ -853,7 +665,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     {n:'COVID-19 vaccine', u:SB+'/patients/vaccines/covid/'},
     {n:'Tdap vaccine', u:SB+'/patients/vaccines/tdap/'},
     {n:'Flu comfort plan', u:SB+'/flu/#flu-plan'},
-    {n:'Weight loss guide', u:SB+'/#p-weight'},
+    {n:'Weight loss guide', u:SB+'/patients/weight/'},
     {n:'Plants Are Your Friends', u:'https://plants-chat-663367173026.us-east1.run.app/'},
     {n:'Alex the Health Guide', u:'https://chatgpt.com/g/g-ncTCfLUXg-alex-the-health-guide'}
   ];
@@ -869,7 +681,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   }
   function buildShare(){
     if(shareBuilt) return; shareBuilt=true;
-    const topics = PSECTIONS.map(sec=>({n:sec.n, u:SB+'/#p-'+sec.id, id:sec.id}));
+    const topics = PSECTIONS.map(sec=>({n:sec.n, u:SB+sec.p, id:sec.id}));
     $('#shTopics').innerHTML = topics.map((t,i)=>`<button class="chip" type="button" data-i="${i}" aria-pressed="false">${icon(t.id)}${esc(t.n)}</button>`).join('');
     $('#shRes').innerHTML = SHARE_RES.map((t,i)=>`<button class="chip r" type="button" data-r="${i}" aria-pressed="false">${esc(t.n)}</button>`).join('');
     $('#shTopics').querySelectorAll('.chip').forEach(b=>b.addEventListener('click',()=>pickShare(topics[b.dataset.i],b)));
@@ -912,12 +724,13 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   $('#abBack').addEventListener('click',closeAbout);
 
   // gennadygelman.com/#patient on a handout skips the question entirely
-  const deep = h => { const m=/^p-([a-z]+)$/.exec(h); return m && PSECTIONS.some(x=>x.id===m[1]) ? m[1] : null };
+  // Old links (/#p-weight, /#visit, /#prep) from printed QR codes and texts now go to each topic's own page.
+  const deep = h => { if(h==='visit'||h==='prep') return '/patients/visit/#prep'; const m=/^p-([a-z]+)$/.exec(h), sec=m&&PSECTIONS.find(x=>x.id===m[1]); return sec ? sec.p : null };
   const start = () => { const h=location.hash.slice(1), d=deep(h);
-    if(d){ show(P); openSection(d); return }
+    if(d){ location.replace(d); return }
     if(h==='about'){ show(VIEWS[store.get()] ? store.get() : null); openAbout(); return }
     show(VIEWS[h] ? h : (VIEWS[store.get()] ? store.get() : null)) };
-  window.addEventListener('hashchange',()=>{ const h=location.hash.slice(1), d=deep(h); if(h==='about'){ openAbout(); return } if(d){ show(P); openSection(d); return } if(VIEWS[h]&&h!==who) show(h) });
+  window.addEventListener('hashchange',()=>{ const h=location.hash.slice(1), d=deep(h); if(h==='about'){ openAbout(); return } if(d){ location.replace(d); return } if(VIEWS[h]&&h!==who) show(h) });
   start();
 })();
 </script>
