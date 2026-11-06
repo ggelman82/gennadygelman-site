@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Gennady Gelman, MD</title>
+<title>Home - Gennady Gelman</title>
 <script>(function(){var t=null;try{t=localStorage.getItem('gg-theme')}catch(e){}if(!t)t=(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light';document.documentElement.dataset.theme=t})();</script>
 <meta name="description" content="Patient guidance, clinical decision support, and a few ideas worth exploring, from Gennady Gelman, MD.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -527,6 +527,8 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     {n:'Medicolalia', d:'Medical terminology examined one word and one clinical story at a time.', u:B+'/medicolalia/', a:[C,K]},
     {n:'Kiloday', d:'A rational alternative to birthdays: thousand-day milestones in base ten.', u:B+'/kiloday/', a:[C,K]}
   ];
+  const TNAME = {patient:'Patient resources', clinician:'Clinician tools', curious:'Words, ideas, and experiments'};
+  const setTitle = n => { document.title = (n || 'Home') + ' - Gennady Gelman' };
   const VIEWS = {
     patient:{label:'Patient', h:'Resources for my <em>patients.</em>', l:'Pick a topic.', note:'', ph:'Start here', ids:['prep','flu','weight','plants','apps','books','alex'], placeholder:'Search: flu, weight, apps, books…'},
     clinician:{label:'Clinician', h:'Decision support, <em>built for Epic.</em>', l:'Paste from the chart, get an answer. Pick a tool.', note:'<b>For licensed clinicians and trainees.</b> These tools support clinical judgment; they do not replace it. Verify outputs before acting.', ph:'Tools', ids:['cv','lab','raf','imm','ad','dm','lib','prof'], placeholder:'Search: statin, RAF, vaccines, labs, guidelines…'},
@@ -624,6 +626,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   }
   function openSection(id){
     const sec = PSECTIONS.find(x=>x.id===id); if(!sec) return;
+    setTitle(sec.n);
     prepBuilt=false;
     const d=$('#detail');
     d.innerHTML = `<button class="back" type="button" id="back">← All topics</button><h2 tabindex="-1" id="dh"><span class="dic">${icon(sec.id)}</span>${esc(sec.n)}</h2><div class="cards">${sec.items.map(cardHTML).join('')}${sec.more?`<p class="soon">${esc(sec.more)}</p>`:''}${sec.moreLink?`<p class="soon"><a href="${sec.moreLink.u}">${esc(sec.moreLink.n)}</a></p>`:''}</div>`;
@@ -641,6 +644,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     window.scrollTo({top:0}); $('#dh').focus({preventScroll:true});
   }
   function closeSection(){
+    setTitle(TNAME[who]);
     $('#detail').hidden=true; $('#detail').innerHTML=''; $('#vl').hidden=false; $('#tiles').hidden=false; document.querySelector('.safety').hidden=false;
     document.querySelector('.cc').hidden=false;
     $('#tiles').querySelector('.tile')?.focus({preventScroll:true});
@@ -660,6 +664,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     $('#homeLink').hidden = !w;
     who = w; store.set(w);
     try{ history.replaceState(null,'', w ? '#'+w : location.pathname) }catch(e){}
+    setTitle(w ? TNAME[w] : 'Home');
     if(!w){ gate.hidden=false; view.hidden=true; nav.hidden=true; window.scrollTo(0,0); gate.querySelector('.door').focus({preventScroll:true}); return }
     const v = VIEWS[w];
     $('#vh').innerHTML = v.h; $('#vl').textContent = v.l;
@@ -797,10 +802,10 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         ? `<button class="tile" role="listitem" style="--t:${c.t};--a:#2f6b48" id="openShare">${inner}</button>`
         : `<a class="tile" role="listitem" style="--t:${c.t};--a:${ACCENT[c.id]}" href="${it.u}">${inner}</a>`;
     }).join('');
-    $('#openShare').addEventListener('click',()=>{ buildShare(); $('#csecs').hidden=true; $('#shareWrap').hidden=false; document.querySelector('.cc').hidden=true; $('#vl').hidden=true; window.scrollTo({top:0}); $('#shH').setAttribute('tabindex','-1'); $('#shH').focus({preventScroll:true}) });
+    $('#openShare').addEventListener('click',()=>{ setTitle('Share with a patient'); buildShare(); $('#csecs').hidden=true; $('#shareWrap').hidden=false; document.querySelector('.cc').hidden=true; $('#vl').hidden=true; window.scrollTo({top:0}); $('#shH').setAttribute('tabindex','-1'); $('#shH').focus({preventScroll:true}) });
     $('#shBack').addEventListener('click',closeShare);
   }
-  function closeShare(){ $('#shareWrap').hidden=true; $('#csecs').hidden=false; document.querySelector('.cc').hidden=false; $('#vl').hidden=false; $('#openShare')?.focus({preventScroll:true}) }
+  function closeShare(){ setTitle(TNAME[who]); $('#shareWrap').hidden=true; $('#csecs').hidden=false; document.querySelector('.cc').hidden=false; $('#vl').hidden=false; $('#openShare')?.focus({preventScroll:true}) }
 
   // ---------- clinician: share with a patient ----------
   const SHARE_RES = [
@@ -857,7 +862,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   let beforeAbout=null;
   function openAbout(){
     if(!$('#about').hidden) return;
-    beforeAbout = who;
+    beforeAbout = who; setTitle('About');
     gate.hidden=true; view.hidden=true; nav.hidden=true; $('#about').hidden=false; $('#homeLink').hidden=false;
     window.scrollTo(0,0); $('#abH').focus({preventScroll:true});
   }
