@@ -129,6 +129,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 .scene-figure{margin:28px 0;padding:14px 14px 10px;background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:0 6px 20px rgba(20,30,60,.08)}
 .scene-figure svg{display:block;width:100%;height:auto;border-radius:4px}
 .scene-figure figcaption{margin-top:10px;font-size:.85rem;color:var(--faint)}
+.scene-figure img{display:block;width:100%;height:auto;border-radius:4px}
 
 .dmfig{--edge:#8a90a6;margin:28px 0;padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
 .dmfig .dmrow{display:grid;grid-template-columns:1fr 1.45fr;gap:22px;align-items:end}
@@ -139,6 +140,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 :root[data-theme="dark"] .dmfig{--edge:#6b7390}
 .dmfig svg path[fill="none"]{stroke-linejoin:round}
 @media (max-width:640px){.dmfig .dmrow{grid-template-columns:1fr}}
+.dmfig.dmimg{padding:10px;background:#fff}.dmfig.dmimg img{display:block;width:100%;height:auto;border-radius:8px}.dmfig.dmimg figcaption{color:#6b7280}
 </style>
 </head>
 <body>
