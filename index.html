@@ -268,6 +268,16 @@
   .detail h2{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:clamp(32px,4vw,44px);margin:10px 0 18px;letter-spacing:-.01em}
   .detail .cards{grid-template-columns:repeat(2,1fr)}
   @media (max-width:560px){.detail .cards{grid-template-columns:1fr}}
+  #dh{line-height:1.15}
+  .cg{grid-column:1/-1;margin:14px 0 0;font:600 12px/1.2 'Geist Mono',ui-monospace,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--soft)}
+  .cg:first-child{margin-top:0}
+  .cnote{grid-column:1/-1;margin:6px 0 0;padding:14px 16px;border-radius:14px;background:var(--surface);border:1px dashed var(--line);font-size:14px;line-height:1.55;color:var(--soft)}
+  .cnote b{color:var(--ink)}
+  .pc.app .nm a{color:inherit;text-decoration:none}.pc.app .nm a:hover{text-decoration:underline}
+  .pc.app .nt{font-size:13px;font-style:italic}
+  .stores{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+  .stores a{font-size:13px;padding:5px 10px;border-radius:999px;border:1px solid var(--line);text-decoration:none;color:var(--ink);background:var(--bg,transparent)}
+  .stores a:hover{border-color:var(--ink)}
   .soon{grid-column:1/-1;font-size:14px;color:var(--soft);padding:12px 4px 0}
   .soon a{color:var(--accent)}
   #dh:focus,#shH:focus{outline:none}
@@ -502,9 +512,9 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   const ITEMS = [
     {id:'flu', n:'Influenza guide', tag:'Guide', d:'Prevent it, understand it, know what actually helps.', u:B+'/flu/', a:[P,C,K], k:'flu influenza fever cough cold vaccine shot respiratory sick season'},
     {id:'plants', n:'Plants Are Your Friends', tag:'AI chat', d:'A chatbot for eating more whole plant foods, built on NutritionFacts.org.', u:'https://plants-chat-663367173026.us-east1.run.app/', a:[P,C,K], k:'plants plant diet food nutrition vegan vegetarian whole food chatbot eat'},
-    {id:'weight', n:'Weight & metabolic health', tag:'Guide', d:'Ten trusted resources and a practical starting point.', u:B+'/patients/weight/', a:[P,C], k:'weight obesity glp-1 glp1 ozempic wegovy mounjaro zepbound metabolic diet lose'},
-    {id:'books', n:'Books I recommend to patients', tag:'Reading', d:'Eight accessible books about metabolic health and living better.', u:B+'/patients/books/', a:[P,C,K], k:'books reading read library shelf'},
-    {id:'apps', n:'Apps I recommend', tag:'Apps', d:'Put your phone to work: health record, nutrition, sleep and more.', u:B+'/patients/apps/', a:[P,C], k:'apps app phone iphone android mychart tracker sleep'},
+    {id:'weight', n:'Weight & metabolic health', tag:'Guide', d:'Ten trusted resources and a practical starting point.', u:B+'/#p-weight', a:[P,C], k:'weight obesity glp-1 glp1 ozempic wegovy mounjaro zepbound metabolic diet lose'},
+    {id:'books', n:'Books I recommend to patients', tag:'Reading', d:'Eight accessible books about metabolic health and living better.', u:B+'/#p-books', a:[P,C,K], k:'books reading read library shelf'},
+    {id:'apps', n:'Apps I recommend', tag:'Apps', d:'Put your phone to work: health record, nutrition, sleep and more.', u:B+'/#p-phone', a:[P,C], k:'apps app phone iphone android mychart tracker sleep'},
     {id:'alex', n:'Alex the Health Guide', tag:'AI chat', d:'Supportive, realistic conversations about nutrition, exercise and habits.', u:'https://chatgpt.com/g/g-ncTCfLUXg-alex-the-health-guide', a:[P,C], k:'alex coach exercise habits gpt chatbot motivation'},
     {id:'cv', n:'CV Risk Decision Tool', tag:'Tool', d:'Paste an Epic SmartPhrase; get PREVENT risk, lipid targets and risk enhancers.', u:B+'/tools/cv-risk/', a:[C], k:'cv cardiovascular heart risk prevent ascvd statin cholesterol lipid ldl lpa'},
     {id:'lab', n:'Clinical Lab Pattern Analyzer', tag:'Tool', d:'Paste lab results; get calculated relationships and pattern-level interpretation.', u:B+'/tools/lab-analyzer/', a:[C], k:'lab labs blood test cbc cmp anion gap interpretation results'},
@@ -521,7 +531,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   ];
   ITEMS.unshift({id:'prep', n:'Plan your visit', tag:'Tool', d:'Write down your top concerns and bring a one-page agenda to your appointment.', u:'#prep', a:[P], k:'visit appointment prepare agenda questions concerns doctor checkup mychart'});
   const SECTIONS = [
-    {n:'Patient Resources', d:'Healthier eating, movement, seasonal illness, useful apps, and everyday decisions.', u:B+'/patients/', a:[P,C,K]},
+    {n:'Patient Resources', d:'Healthier eating, movement, seasonal illness, useful apps, and everyday decisions.', u:B+'/#patient', a:[P,C,K]},
     {n:'Clinical Tools', d:'Risk adjustment, cardiovascular prevention, lab interpretation, immunizations, and more.', u:B+'/tools/', a:[C]},
     {n:'Professional Library', d:'Clinical references, AI tools, Epic essentials, guidelines, and lab pearls.', u:B+'/professional/', a:[C]},
     {n:'Medicolalia', d:'Medical terminology examined one word and one clinical story at a time.', u:B+'/medicolalia/', a:[C,K]},
@@ -557,13 +567,20 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       {n:'Warning signs to watch for', d:'When flu symptoms mean you need urgent care.', u:'https://www.cdc.gov/flu/signs-symptoms/index.html', k:'warning signs emergency urgent breathing'},
       {n:'When to call', d:'Who should call early, and what needs urgent care.', u:B+'/flu/', k:'when to call doctor sick urgent'}
     ]},
-    {id:'weight', t:'#e8f0e2', n:'Weight loss guide', i:'More than one useful next step. Pick one.', items:[
-      {f:true, tint:'var(--green)', n:'Weight & metabolic health', d:'Ten trusted resources and a practical starting point.', u:B+'/patients/weight/', k:'weight obesity metabolic lose diet glp-1 ozempic wegovy zepbound'},
+    {id:'weight', t:'#e8f0e2', n:'Weight loss guide', i:'More than one useful next step. Lasting progress can include food, activity, sleep, support, medication, or surgery. Start with the question you have today.', items:[
+      {g:'Start here', f:true, tint:'var(--green)', n:'Understanding obesity', d:'A plain-language overview of obesity, health risks, evaluation, and treatment options from the UMass Memorial Health Library.', u:'https://umassmemorial.staywellhealthlibrary.com/RelatedItems/85,P07855', k:'weight obesity overview understanding bmi'},
+      {g:'Food', n:'Harvard Healthy Eating Plate', d:'A visual guide to building meals around vegetables, fruit, whole grains, healthy proteins, and healthier oils.', u:'https://www.hsph.harvard.edu/nutritionsource/healthy-eating-plate/', k:'plate meal healthy eating nutrition'},
       {n:'Plants Are Your Friends', d:'Ask a chatbot about eating more whole plant foods.', u:'https://plants-chat-663367173026.us-east1.run.app/', k:'plants plant diet nutrition vegan chatbot'},
-      {n:'Harvard Healthy Eating Plate', d:'A picture of how to build a meal.', u:'https://www.hsph.harvard.edu/nutritionsource/healthy-eating-plate/', k:'plate meal healthy eating nutrition'},
-      {n:'Medications for weight loss', d:'An overview of prescription options.', u:'https://umassmemorial.staywellhealthlibrary.com/RelatedItems/85,P07858', k:'weight loss medication glp-1 semaglutide tirzepatide'},
-      {n:'Benefits of physical activity', d:'How movement helps sleep, mood, and mobility.', u:'https://www.cdc.gov/physical-activity-basics/about/', k:'exercise activity movement walking'}
-    ]},
+      {n:'NIH Body Weight Planner', d:'Estimate how changes in food and activity may affect weight over time. A planning estimate, not a prescription.', u:'https://www.niddk.nih.gov/bwp', k:'calories planner calorie needs nih'},
+      {n:'MyFitnessPal', d:'Track food and calories when structured self-monitoring helps. Not right for everyone, especially with a history of disordered eating.', u:'https://www.myfitnesspal.com/', k:'food tracking calories log diary'},
+      {n:'16/8 intermittent fasting', d:'Eating within an eight-hour daily window. Optional, not inherently better, and not appropriate for everyone.', u:'https://www.healthline.com/nutrition/16-8-intermittent-fasting', k:'fasting intermittent time restricted eating 16/8'},
+      {g:'Movement', n:'Benefits of physical activity', d:'How regular activity supports sleep, mood, mobility, heart health, diabetes prevention, and independence.', u:'https://www.cdc.gov/physical-activity-basics/about/', k:'exercise activity movement walking'},
+      {g:'Treatment options', n:'Medications for weight loss', d:'Prescription treatment as one possible part of long-term care. The choice should be individualized with your clinician.', u:'https://umassmemorial.staywellhealthlibrary.com/RelatedItems/85,P07858', k:'weight loss medication glp-1 semaglutide tirzepatide ozempic wegovy zepbound'},
+      {n:'Metabolic and bariatric surgery', d:'Who may benefit, and why lifelong follow-up matters.', u:'https://umassmemorial.staywellhealthlibrary.com/RelatedItems/85,P07859', k:'bariatric surgery gastric bypass sleeve'},
+      {g:'Three books to think with', n:'How Not to Diet', d:'Michael Greger, MD. Food quality, habits, and sustainable weight management.', u:B+'/patients/books/how-not-to-diet/', k:'book weight diet greger'},
+      {n:'The Obesity Code', d:'Jason Fung, MD. Insulin, eating patterns, and fasting, with context about the evidence.', u:B+'/patients/books/the-obesity-code/', k:'book insulin fasting fung'},
+      {n:'Why We Get Sick', d:'Benjamin Bikman, PhD. Insulin resistance and metabolic health, and where the book overreaches.', u:B+'/patients/books/why-we-get-sick/', k:'book insulin resistance metabolic bikman'}
+    ], notes:['<b>You do not have to do this alone.</b> Ask your care team whether a referral to a health coach is available and right for you.', 'Talk with your clinician before fasting, starting a weight-loss medication, or pursuing surgery, especially during pregnancy, with an eating-disorder history, or when using insulin or other glucose-lowering medication.']},
     {id:'books', t:'#f3eee5', n:'Books I recommend', i:'A small shelf for living better. Bring the idea to your next visit.', items:[
       {n:'How Not to Diet', d:'Patient summary.', u:B+'/patients/books/how-not-to-diet/', k:'book weight diet greger'},
       {n:'How Not to Die', d:'Patient summary.', u:B+'/patients/books/how-not-to-die/', k:'book nutrition greger'},
@@ -574,17 +591,27 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       {n:'The New Menopause', d:'Patient summary.', u:B+'/patients/books/the-new-menopause/', k:'menopause hot flashes hormones women book'},
       {n:'The New Perimenopause', d:'Patient summary.', u:B+'/patients/books/the-new-perimenopause/', k:'perimenopause hormones period women book'}
     ]},
-    {id:'phone', t:'#e6eef3', n:'Apps and AI tools I recommend', i:'Useful tools, not more digital clutter.', moreLink:{n:'See every app with iPhone and Android links →', u:B+'/patients/apps/'}, items:[
-      {n:'Alex the Health Guide', d:'An AI guide for realistic talk about food, exercise, and habits.', u:'https://chatgpt.com/g/g-ncTCfLUXg-alex-the-health-guide', k:'alex ai coach chatbot habits'},
-      {n:'Medisafe', d:'Medication reminders and refill tracking.', u:B+'/patients/apps/', k:'medication reminder pill refill'},
-      {n:'Insomnia Coach', d:'Free app from the VA with a guided sleep plan.', u:'https://mobile.va.gov/app/insomnia-coach', k:'sleep insomnia app cbt-i'},
-      {n:'Bearable', d:'Track mood and symptoms to spot patterns.', u:'https://bearable.app/', k:'mood tracker symptoms anxiety depression'},
-      {n:'Flo', d:'Period and cycle tracker.', u:'https://flo.health/', k:'period cycle tracker women app'},
-      {n:'CDC Milestone Tracker', d:'Track your child’s development from 2 months to 5 years.', u:'https://www.cdc.gov/act-early/milestones-app/', k:'child kids baby milestones development'}
-    ]}
+    {id:'phone', t:'#e6eef3', n:'Apps and AI tools I recommend', i:'Useful tools, not more digital clutter. Choose an app only when it solves a specific problem. You do not need to download everything here.', items:[
+      {g:'AI guides', n:'Alex the Health Guide', d:'An AI guide for realistic talk about food, exercise, and habits.', u:'https://chatgpt.com/g/g-ncTCfLUXg-alex-the-health-guide', k:'alex ai coach chatbot habits'},
+      {n:'Plants Are Your Friends', d:'Ask a chatbot about eating more whole plant foods.', u:'https://plants-chat-663367173026.us-east1.run.app/', k:'plants plant diet nutrition vegan chatbot'},
+      {g:'Your health record', n:'MyChart', d:'Message your care team, review results, manage appointments, and, when your health system enables it, enter home blood pressure or glucose readings.', note:'Some health systems use their own branded MyChart app.', u:'https://www.mychart.org/', ios:'https://apps.apple.com/us/app/mychart/id382952264', android:'https://play.google.com/store/apps/details?id=epic.mychart.android', k:'mychart portal message refill results app'},
+      {g:'Medications', n:'Medisafe', d:'Medication schedules, refill reminders, and optional family-support notifications.', ios:'https://apps.apple.com/us/app/medisafe-medication-management/id573916946', android:'https://play.google.com/store/apps/details?id=com.medisafe.android.client', k:'medication reminder pill refill'},
+      {g:'Food and nutrition', n:'Dr. Greger’s Daily Dozen', d:'A simple checklist of foods and activities from NutritionFacts.org and How Not to Die.', ios:'https://apps.apple.com/us/app/dr-gregers-daily-dozen/id1060700802', android:'https://play.google.com/store/apps/details?id=org.nutritionfacts.dailydozen', k:'daily dozen greger plant nutrition checklist'},
+      {n:'MyFitnessPal', d:'Track calories, nutrients, meals, and activity when structured self-monitoring would help.', note:'Tracking is not helpful for everyone, particularly with a history of disordered eating.', ios:'https://apps.apple.com/us/app/myfitnesspal-calorie-counter/id341232718', android:'https://play.google.com/store/apps/details?id=com.myfitnesspal.android', k:'food tracking calories'},
+      {n:'Fooducate', d:'Scan foods, review ingredients, and compare alternatives.', ios:'https://apps.apple.com/us/app/fooducate-nutrition-coach/id398436747', android:'https://play.google.com/store/apps/details?id=com.fooducate.nutritionapp', k:'food labels scan ingredients'},
+      {n:'Fastic', d:'An intermittent-fasting timer to structure eating windows.', note:'Discuss fasting first if you are pregnant, have an eating-disorder history, or use glucose-lowering medication.', ios:'https://apps.apple.com/us/app/fastic-weight-loss-fasting/id1459260306', android:'https://play.google.com/store/apps/details?id=de.fastic.app', k:'fasting timer intermittent'},
+      {g:'Sleep, mood and focus', n:'Insomnia Coach', d:'A free VA app with a guided weekly plan, sleep diary, and tools based on CBT for insomnia.', note:'It does not replace evaluation or treatment for sleep problems.', u:'https://mobile.va.gov/app/insomnia-coach', ios:'https://apps.apple.com/us/app/insomnia-coach/id1341944736', android:'https://play.google.com/store/apps/details?id=gov.va.mobilehealth.ncptsd.insomniacoach', k:'sleep insomnia app cbt-i'},
+      {n:'Bearable', d:'Track symptoms alongside sleep, stress, habits, and medications to spot patterns worth discussing.', note:'Patterns in an app suggest questions; they do not prove a cause.', u:'https://bearable.app/', ios:'https://apps.apple.com/us/app/bearable-symptom-tracker/id1482581097', android:'https://play.google.com/store/apps/details?id=com.bearable', k:'mood tracker symptoms anxiety depression'},
+      {n:'Pomodoro timer', d:'25-minute focus intervals with planned breaks. Any simple timer works; no subscription needed.', ios:'https://apps.apple.com/us/search?term=pomodoro%20timer', android:'https://play.google.com/store/search?q=pomodoro%20timer&c=apps', k:'focus pomodoro timer concentration'},
+      {g:'Women and children', n:'Flo', d:'Track periods, symptoms, ovulation estimates, pregnancy, and perimenopause patterns.', note:'Predictions are estimates. Review privacy settings before entering sensitive information.', u:'https://flo.health/', ios:'https://apps.apple.com/us/app/flo-cycle-period-tracker/id1038369065', android:'https://play.google.com/store/apps/details?id=org.iggymedia.periodtracker', k:'period cycle tracker women app perimenopause'},
+      {n:'CDC Milestone Tracker', d:'Track your child’s development from 2 months to 5 years, and know when to raise a concern.', u:'https://www.cdc.gov/act-early/milestones-app/', ios:'https://apps.apple.com/us/app/cdcs-milestone-tracker/id1232718688', android:'https://play.google.com/store/apps/details?id=gov.cdc.ncbddd.actearly.milestones', k:'child kids baby milestones development'},
+      {g:'Already on your phone', n:'Limit screen time', d:'Screen Time on Apple devices or Digital Wellbeing on Android shows patterns and sets limits.', iosL:'Apple instructions', andL:'Android instructions', ios:'https://support.apple.com/en-us/108806', android:'https://support.google.com/android/answer/9346420', k:'screen time digital wellbeing phone'},
+      {n:'Reduce evening blue light', d:'Schedule Night Shift (Apple) or Night Light (Android) as part of a wind-down routine.', iosL:'Apple instructions', andL:'Android instructions', ios:'https://support.apple.com/en-us/118583', android:'https://support.google.com/pixelphone/answer/7169926', k:'blue light night shift sleep'},
+      {n:'Update emergency information', d:'Add conditions, medications, allergies, and emergency contacts viewable while your phone is locked.', iosL:'Apple instructions', andL:'Android instructions', ios:'https://support.apple.com/en-us/105072', android:'https://support.google.com/android/answer/9319337', k:'medical id emergency information phone'}
+    ], notes:['<b>Health apps are not your medical record.</b> Before entering reproductive, symptom, medication, or mental-health information, review the app’s privacy settings and collect only what will help you. Do not rely on an app for emergencies or urgent medical advice.', 'The USDA’s Start Simple with MyPlate app has been retired. Use the <a href="https://www.myplate.gov/" target="_blank" rel="noopener">MyPlate.gov website ↗</a> instead.']}
   ];
   // patient search covers every section item
-  PSECTIONS.forEach(sec=>sec.items.forEach((it,j)=>{ if(it.u && !ITEMS.some(x=>x.n===it.n)) ITEMS.push({id:'ps-'+sec.id+j, sec:sec.id, n:it.n, tag:sec.n, d:it.d, u:it.u, a:[P], k:it.k||''}) }));
+  PSECTIONS.forEach(sec=>sec.items.forEach((it,j)=>{ if((it.u||it.ios) && !ITEMS.some(x=>x.n===it.n)) ITEMS.push({id:'ps-'+sec.id+j, sec:sec.id, n:it.n, tag:sec.n, d:it.d, u:it.u||('/#p-'+sec.id), a:[P], k:it.k||''}) }));
   ITEMS.forEach(x=>{ if(x.id==='prep') x.u='#visit' });
   window.addEventListener('hashchange',()=>{ if(location.hash==='#visit' && who===P){ openSection('visit'); setTimeout(()=>$('#openPrep')?.click(),30) } });
 
@@ -617,6 +644,8 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   const icon = id => `<svg class="ic" viewBox="0 0 48 48" aria-hidden="true" style="--a:${ACCENT[id]}">${ICONS[id]||''}</svg>`;
 
   let prepBuilt=false;
+  const appHTML = it => `<div class="pc app"><span class="top"><span class="nm">${it.u?`<a href="${it.u}"${linkAttrs(it.u)}>${esc(it.n)} ↗</a>`:esc(it.n)}</span></span><span class="ds">${esc(it.d)}</span>${it.note?`<span class="ds nt">${esc(it.note)}</span>`:''}<span class="stores"><a href="${it.ios}" target="_blank" rel="noopener">${esc(it.iosL||'iPhone')} ↗</a><a href="${it.android}" target="_blank" rel="noopener">${esc(it.andL||'Android')} ↗</a></span></div>`;
+  const groupHTML = items => items.map(it=>(it.g?`<h3 class="cg">${esc(it.g)}</h3>`:'')+(it.ios?appHTML(it):cardHTML(it))).join('');
   const cardHTML = it => it.plan
     ? `<button class="pc" type="button" id="openPrep" aria-expanded="false" aria-controls="prepWrap"><span class="top"><span class="nm">${esc(it.n)}</span><span class="x">Open ↓</span></span><span class="ds">${esc(it.d)}</span></button><div class="prep-wrap" id="prepWrap" hidden></div>`
     : `<a class="pc${it.f?' feature':''}" ${it.tint?`style="--tint:${it.tint}"`:''} href="${it.u}"${linkAttrs(it.u)}><span class="top"><span class="nm">${esc(it.n)}</span><span class="x">${ext(it.u)?'↗':'→'}</span></span><span class="ds">${esc(it.d)}</span></a>`;
@@ -629,7 +658,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     setTitle(sec.n);
     prepBuilt=false;
     const d=$('#detail');
-    d.innerHTML = `<button class="back" type="button" id="back">← All topics</button><h2 tabindex="-1" id="dh"><span class="dic">${icon(sec.id)}</span>${esc(sec.n)}</h2><div class="cards">${sec.items.map(cardHTML).join('')}${sec.more?`<p class="soon">${esc(sec.more)}</p>`:''}${sec.moreLink?`<p class="soon"><a href="${sec.moreLink.u}">${esc(sec.moreLink.n)}</a></p>`:''}</div>`;
+    d.innerHTML = `<button class="back" type="button" id="back">← All topics</button><h2 tabindex="-1" id="dh"><span class="dic">${icon(sec.id)}</span>${esc(sec.n)}</h2><div class="cards">${groupHTML(sec.items)}${(sec.notes||[]).map(n=>`<p class="cnote">${n}</p>`).join('')}${sec.more?`<p class="soon">${esc(sec.more)}</p>`:''}${sec.moreLink?`<p class="soon"><a href="${sec.moreLink.u}">${esc(sec.moreLink.n)}</a></p>`:''}</div>`;
     $('#tiles').hidden=true; document.querySelector('.safety').hidden=true; $('#vl').hidden=true; d.hidden=false;
     document.querySelector('.hero h1').parentElement.querySelector('.cc').hidden=true;
     $('#back').addEventListener('click',closeSection);
@@ -775,7 +804,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   const KTILES = [
     {id:'words', n:'Medicolalia', u:B+'/medicolalia/', t:'#f3eee5'},
     {id:'kilo', n:'Kilodays', u:B+'/kiloday/', t:'var(--lilac)'},
-    {id:'books', n:'Books I recommend', u:B+'/patients/books/', t:'var(--green)'}
+    {id:'books', n:'Books I recommend', u:B+'/#p-books', t:'var(--green)'}
   ];
   function renderCuriousTiles(){
     $('#ktiles').innerHTML = KTILES.map((k,i)=>`<a class="tile" role="listitem" style="--t:${k.t};--a:${ACCENT[k.id]}" href="${k.u}"><span class="tile-top">${icon(k.id)}<span class="num">${String(i+1).padStart(2,'0')}</span></span><span class="nm">${esc(k.n)}</span></a>`).join('');
@@ -816,7 +845,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     {n:'COVID-19 vaccine', u:SB+'/patients/vaccines/covid/'},
     {n:'Tdap vaccine', u:SB+'/patients/vaccines/tdap/'},
     {n:'Flu comfort plan', u:SB+'/flu/#flu-plan'},
-    {n:'Weight & metabolic health', u:SB+'/patients/weight/'},
+    {n:'Weight loss guide', u:SB+'/#p-weight'},
     {n:'Plants Are Your Friends', u:'https://plants-chat-663367173026.us-east1.run.app/'},
     {n:'Alex the Health Guide', u:'https://chatgpt.com/g/g-ncTCfLUXg-alex-the-health-guide'}
   ];
