@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kiloday Celebration Calculator - Gennady Gelman</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1714;
+    --paper: #f7f4ef;
+    --cream: #ede9e1;
+    --accent: #7b5ea7;
+    --accent2: #c8562e;
+    --accent3: #3b7a57;
+    --muted: #7a7570;
+    --rule: #ccc8bf;
+    --gold: #b8963e;
+    --ff-display: 'Playfair Display', Georgia, serif;
+    --ff-mono: 'DM Mono', 'Courier New', monospace;
+    --ff-body: 'DM Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--ff-body);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* ─── MASTHEAD ─── */
+  .masthead {
+    border-bottom: 2px solid var(--ink);
+    padding: 0.6rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--ff-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    animation: fadeDown 0.6s ease both;
+  }
+  .masthead-center {
+    font-family: var(--ff-display);
+    font-size: 13px;
+    font-style: italic;
+    color: var(--ink);
+    letter-spacing: 0;
+    text-transform: none;
+  }
+  .masthead a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .masthead a:hover, .masthead a:focus-visible { color: var(--accent); }
+
+  /* ─── HERO ─── */
+  .hero {
+    position: relative;
+    padding: 5rem 3rem 4rem;
+    border-bottom: 1px solid var(--rule);
+    overflow: hidden;
+    animation: fadeUp 0.9s ease 0.2s both;
+  }
+  .hero-bg-number {
+    position: absolute;
+    right: -0.05em;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--ff-mono);
+    font-size: 28vw;
+    font-weight: 500;
+    color: var(--cream);
+    line-height: 1;
+    user-select: none;
+    pointer-events: none;
+    letter-spacing: -0.05em;
+  }
+  .hero-eyebrow {
+    font-family: var(--ff-mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .hero-eyebrow::before, .hero-eyebrow::after {
+    content: '';
+    display: inline-block;
+    width: 40px;
+    height: 1px;
+    background: var(--accent);
+  }
+  .hero h1 {
+    font-family: var(--ff-display);
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 700;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    max-width: 700px;
+    position: relative;
+    z-index: 1;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero-sub {
+    margin-top: 2rem;
+    max-width: 480px;
+    font-size: 1.1rem;
+    color: var(--muted);
+    line-height: 1.7;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-pills {
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    position: relative;
+    z-index: 1;
+  }
+  .pill {
+    font-family: var(--ff-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--cream);
+    border: 1px solid var(--rule);
+    color: var(--ink);
+    padding: 5px 14px;
+    border-radius: 100px;
+  }
+  .pill.accent { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  /* ─── SECTIONS ─── */
+  .section {
+    padding: 4rem 3rem;
+    border-bottom: 1px solid var(--rule);
+    animation: fadeUp 0.8s ease both;
+  }
+  .section-header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .section-label {
+    font-family: var(--ff-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .section h2 {
+    font-family: var(--ff-display);
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+
+  /* ─── PAGAN LIST ─── */
+  .pagan-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 0;
+    border: 1px solid var(--rule);
+  }
+  .pagan-item {
+    padding: 1.5rem;
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    transition: background 0.2s;
+  }
+  .pagan-item:hover { background: var(--cream); }
+  .pagan-num {
+    font-family: var(--ff-mono);
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--rule);
+    line-height: 1;
+    margin-bottom: 0.75rem;
+  }
+  .pagan-title {
+    font-family: var(--ff-display);
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+    color: var(--accent2);
+  }
+  .pagan-body {
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  /* ─── BASE 10 ─── */
+  .base10-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+  @media (max-width: 700px) { .base10-layout { grid-template-columns: 1fr; } }
+  .base10-prose h3 {
+    font-family: var(--ff-display);
+    font-size: 1.4rem;
+    margin-bottom: 0.75rem;
+  }
+  .base10-prose p {
+    font-size: 14.5px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+  .milestone-list { list-style: none; margin-top: 1.5rem; }
+  .milestone-list li {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--rule);
+    font-size: 14px;
+  }
+  .ms-kd {
+    font-family: var(--ff-mono);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent);
+    min-width: 80px;
+  }
+  .ms-age { color: var(--muted); font-size: 13px; }
+  .grid-100 {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 3px;
+  }
+  .g100-cell {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--ff-mono);
+    font-size: 8px;
+    color: var(--muted);
+    background: var(--cream);
+    border-radius: 3px;
+    transition: transform 0.15s;
+  }
+  .g100-cell:hover { transform: scale(1.15); z-index: 1; }
+  .g100-cell.filled { background: var(--accent); color: #fff; }
+  .g100-cell.partial { background: #c4b8d9; color: var(--accent); }
+
+  /* ─── CALCULATOR ─── */
+  .calc-wrap {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 3rem;
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+  }
+  .calc-wrap::before {
+    content: '1,000';
+    position: absolute;
+    right: -0.1em;
+    bottom: -0.25em;
+    font-family: var(--ff-mono);
+    font-size: 14rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.04);
+    pointer-events: none;
+    line-height: 1;
+  }
+  .calc-wrap h2 {
+    font-family: var(--ff-display);
+    font-size: 2rem;
+    margin-bottom: 0.4rem;
+  }
+  .calc-wrap .calc-sub {
+    font-size: 14px;
+    color: rgba(247,244,239,0.55);
+    margin-bottom: 2rem;
+  }
+  .calc-input-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+  }
+  .calc-field { flex: 1; min-width: 180px; }
+  .calc-field label {
+    display: block;
+    font-family: var(--ff-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(247,244,239,0.5);
+    margin-bottom: 6px;
+  }
+  .calc-field input[type="date"] {
+    width: 100%;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: var(--paper);
+    padding: 10px 14px;
+    font-family: var(--ff-mono);
+    font-size: 14px;
+    border-radius: 2px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .calc-field input[type="date"]:focus { border-color: var(--accent); }
+  .calc-btn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 11px 28px;
+    font-family: var(--ff-mono);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .calc-btn:hover { background: #6a4d93; }
+  .calc-btn:active { transform: scale(0.98); }
+  .result-area { margin-top: 2.5rem; display: none; }
+  .result-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 1px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 1px;
+  }
+  .result-cell {
+    background: var(--ink);
+    padding: 1.25rem;
+  }
+  .result-cell .r-num {
+    font-family: var(--ff-mono);
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: var(--paper);
+    line-height: 1;
+  }
+  .result-cell .r-lbl {
+    font-size: 11px;
+    color: rgba(247,244,239,0.45);
+    margin-top: 4px;
+    font-family: var(--ff-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .result-cell.r-accent .r-num { color: #c4b8d9; }
+  .kd-msg {
+    margin-top: 1.5rem;
+    padding: 1.25rem 1.5rem;
+    border-left: 3px solid var(--accent);
+    background: rgba(123,94,167,0.12);
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(247,244,239,0.8);
+  }
+  .kd-msg strong { color: #c4b8d9; }
+  .upcoming-header {
+    font-family: var(--ff-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(247,244,239,0.4);
+    margin: 1.75rem 0 0.75rem;
+  }
+  .kd-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 5px 0;
+    font-family: var(--ff-mono);
+    font-size: 12px;
+  }
+  .kd-bar-label { color: #c4b8d9; min-width: 80px; }
+  .kd-bar-track {
+    flex: 1;
+    height: 4px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .kd-bar-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.6s ease; }
+  .kd-bar-date { color: rgba(247,244,239,0.45); min-width: 130px; text-align: right; }
+
+  /* ─── POUND CAKE ─── */
+  .recipe-layout {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 3rem;
+    align-items: start;
+  }
+  @media (max-width: 700px) { .recipe-layout { grid-template-columns: 1fr; } }
+  .recipe-intro {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: var(--muted);
+    margin-bottom: 2rem;
+  }
+  .recipe-intro strong { color: var(--ink); }
+  .recipe-steps { counter-reset: step; }
+  .recipe-step {
+    display: flex;
+    gap: 1.25rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--rule);
+    counter-increment: step;
+    align-items: flex-start;
+  }
+  .step-num {
+    font-family: var(--ff-mono);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--muted);
+    min-width: 24px;
+    margin-top: 3px;
+  }
+  .step-text { font-size: 14px; color: var(--ink); line-height: 1.65; }
+  .ingredient-card {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 2rem;
+    border-radius: 2px;
+  }
+  .ingredient-card h3 {
+    font-family: var(--ff-display);
+    font-size: 1.3rem;
+    font-style: italic;
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 0.75rem;
+  }
+  .ing-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0.55rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: 13px;
+  }
+  .ing-name { color: rgba(247,244,239,0.7); }
+  .ing-qty { font-family: var(--ff-mono); font-size: 12px; color: #c4b8d9; }
+  .pound-note {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: rgba(184,150,62,0.15);
+    border-left: 2px solid var(--gold);
+    font-size: 13px;
+    color: rgba(247,244,239,0.7);
+    font-style: italic;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    padding: 2.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 2px solid var(--ink);
+    font-family: var(--ff-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    animation: fadeUp 0.6s ease both;
+  }
+  footer .footer-center {
+    font-family: var(--ff-display);
+    font-style: italic;
+    font-size: 1rem;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--accent);
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .section:nth-child(2) { animation-delay: 0.1s; }
+  .section:nth-child(3) { animation-delay: 0.2s; }
+  .section:nth-child(4) { animation-delay: 0.3s; }
+  .section:nth-child(5) { animation-delay: 0.4s; }
+
+  @media (max-width: 600px) {
+    .masthead { padding: 0.5rem 1rem; }
+    .hero { padding: 3rem 1.5rem 2.5rem; }
+    .section { padding: 2.5rem 1.5rem; }
+    .calc-wrap { padding: 2rem 1.5rem; }
+    footer { padding: 1.5rem; flex-direction: column; gap: 0.75rem; text-align: center; }
+    .hero-bg-number { font-size: 40vw; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <a href="/" aria-label="Back to Gennady Gelman home">← GennadyGelman.com</a>
+  <span class="masthead-center">The Kiloday Gazette</span>
+  <span>Base-10 Living</span>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg-number">1K</div>
+  <div class="hero-eyebrow">A rational alternative to birthdays</div>
+  <h1>The <em>kiloday</em><br>is the new<br>birthday.</h1>
+  <p class="hero-sub">We count in base 10. We measure in base 10. We celebrate in… solar orbits? It's time to fix that.</p>
+  <div class="hero-pills">
+    <span class="pill accent">1,000 days</span>
+    <span class="pill">2,000 days</span>
+    <span class="pill">5,000 days</span>
+    <span class="pill">10,000 days</span>
+    <span class="pill">25,000 days</span>
+  </div>
+</div>
+
+<!-- PAGAN ORIGINS -->
+<section class="section">
+  <div class="section-header">
+    <div>
+      <div class="section-label">§ 1 — Origins</div>
+      <h2>Birthdays are pagan rituals.<br>Here's the receipts.</h2>
+    </div>
+  </div>
+  <div class="pagan-grid">
+    <div class="pagan-item">
+      <div class="pagan-num">01</div>
+      <div class="pagan-title">Candle fire magic</div>
+      <div class="pagan-body">Ancient Greeks lit candles on moon-cakes offered to Artemis — the smoke carried petitions skyward. We do this every year. Completely unironically.</div>
+    </div>
+    <div class="pagan-item">
+      <div class="pagan-num">02</div>
+      <div class="pagan-title">Communal chanting</div>
+      <div class="pagan-body">"Happy Birthday" is mass unison chanting around a fire-lit object. This ritual structure predates writing. The song itself is from 1893. The bones are much older.</div>
+    </div>
+    <div class="pagan-item">
+      <div class="pagan-num">03</div>
+      <div class="pagan-title">Wishing on the flame</div>
+      <div class="pagan-body">Making a silent wish before extinguishing fire is direct pyromancy — divination and petition via flame — from Mesopotamian and Greek mystery cults.</div>
+    </div>
+    <div class="pagan-item">
+      <div class="pagan-num">04</div>
+      <div class="pagan-title">The protective circle</div>
+      <div class="pagan-body">Gathering in a ring around the honored person, facing inward with a lit centerpiece, mirrors Germanic and Celtic protective circle magic to ward off spirits.</div>
+    </div>
+    <div class="pagan-item">
+      <div class="pagan-num">05</div>
+      <div class="pagan-title">Solar-cycle worship</div>
+      <div class="pagan-body">The birthday marks one revolution around the sun. Astronomers literally call it a "solar return." This is astrological observation dressed in frosting.</div>
+    </div>
+    <div class="pagan-item">
+      <div class="pagan-num">06</div>
+      <div class="pagan-title">Evil-eye vulnerability</div>
+      <div class="pagan-body">Many traditions held the birthday person was exposed to malicious spirits. Party horns, bright colors, and noise were apotropaic magic — demon deterrents.</div>
+    </div>
+    <div class="pagan-item">
+      <div class="pagan-num">07</div>
+      <div class="pagan-title">Tributary gift-giving</div>
+      <div class="pagan-body">Bringing offerings to the honored person mirrors votive offerings to gods and emperors. Roman <em>dies natalis</em> rites were performed for gods before people.</div>
+    </div>
+    <div class="pagan-item">
+      <div class="pagan-num">08</div>
+      <div class="pagan-title">The birthday crown</div>
+      <div class="pagan-body">Crowns and tiaras derive from Greek laurel wreaths and Roman imperial birthday rites — marking the wearer as temporarily divine, set apart, protected.</div>
+    </div>
+  </div>
+</section>
+
+<!-- BASE 10 -->
+<section class="section">
+  <div class="section-header">
+    <div>
+      <div class="section-label">§ 2 — The Argument</div>
+      <h2>We live in base 10.<br>Celebrate like it.</h2>
+    </div>
+  </div>
+  <div class="base10-layout">
+    <div class="base10-prose">
+      <h3>Every milestone that matters is a power of ten.</h3>
+      <p>$100k salary. 1M followers. 10-year anniversary. A century. Billion-dollar valuation. Our entire numerical civilization runs on base 10 — currency, measurement, computation, science.</p>
+      <p>Yet for the most personal milestones of all — the years of our lives — we still use solar orbits. An arbitrary, non-decimal, astronomical unit that wobbles with leap years and has nothing to do with how humans actually count.</p>
+      <p>Kilodays fix this. 1,000 days is 1,000 days. Absolute. Precise. Universal. And it arrives ~3× more often than a birthday, giving you more occasions to reflect and celebrate.</p>
+      <ul class="milestone-list">
+        <li><span class="ms-kd">1 kiloday</span><span>Age ~2.7 — first real milestone</span></li>
+        <li><span class="ms-kd">5 kilodays</span><span>Age ~13.7 — young adulthood</span></li>
+        <li><span class="ms-kd">10 kilodays</span><span>Age ~27.4 — five figures of days</span></li>
+        <li><span class="ms-kd">20 kilodays</span><span>Age ~54.8 — deep wisdom territory</span></li>
+        <li><span class="ms-kd">30 kilodays</span><span>Age ~82.1 — rare and venerable</span></li>
+      </ul>
+    </div>
+    <div>
+      <p style="font-size:12px;color:var(--muted);margin-bottom:8px;font-family:var(--ff-mono);letter-spacing:0.1em;text-transform:uppercase;">1,000 days — each cell = 10 days</p>
+      <div class="grid-100" id="grid100"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CALCULATOR -->
+<section class="section" style="padding-top: 0; padding-bottom: 0; border-bottom: none;">
+  <div class="calc-wrap">
+    <h2>How many days have you been alive?</h2>
+    <p class="calc-sub">Enter your birth date. Find your kiloday.</p>
+    <div class="calc-input-row">
+      <div class="calc-field">
+        <label for="bdate">Date of birth</label>
+        <input type="date" id="bdate">
+      </div>
+      <button class="calc-btn" onclick="calculate()">Calculate →</button>
+    </div>
+    <div class="result-area" id="resultArea">
+      <div class="result-row">
+        <div class="result-cell">
+          <div class="r-num" id="rDays">—</div>
+          <div class="r-lbl">Days alive</div>
+        </div>
+        <div class="result-cell r-accent">
+          <div class="r-num" id="rKilo">—</div>
+          <div class="r-lbl">Kilodays</div>
+        </div>
+        <div class="result-cell">
+          <div class="r-num" id="rYears">—</div>
+          <div class="r-lbl">Calendar years</div>
+        </div>
+        <div class="result-cell r-accent">
+          <div class="r-num" id="rNext">—</div>
+          <div class="r-lbl">Days to next kiloday</div>
+        </div>
+      </div>
+      <div class="kd-msg" id="kdMsg"></div>
+      <div class="upcoming-header">Upcoming kilodays</div>
+      <div id="kdBars"></div>
+    </div>
+  </div>
+</section>
+
+<!-- POUND CAKE -->
+<section class="section">
+  <div class="section-header">
+    <div>
+      <div class="section-label">§ 3 — The Ritual Food</div>
+      <h2>Celebrate with<br>pound cake.</h2>
+    </div>
+  </div>
+  <div class="recipe-layout">
+    <div>
+      <p class="recipe-intro">Pound cake is the only rational kiloday cake. It was invented with its own base-10 logic: <strong>one pound each</strong> of flour, butter, eggs, and sugar. Four equal parts. Pure arithmetic. The original recipe is a mathematical statement.</p>
+      <p class="recipe-intro" style="margin-top:-0.75rem;">Write your kiloday number in icing. No candles required.</p>
+      <div class="recipe-steps">
+        <div class="recipe-step"><span class="step-num">01</span><span class="step-text">Preheat oven to 325°F (163°C). Grease and flour a standard loaf or bundt pan.</span></div>
+        <div class="recipe-step"><span class="step-num">02</span><span class="step-text">Cream butter and sugar together until pale and fluffy — approximately 5 minutes with a stand mixer.</span></div>
+        <div class="recipe-step"><span class="step-num">03</span><span class="step-text">Add eggs one at a time, beating well after each addition. Scrape the bowl.</span></div>
+        <div class="recipe-step"><span class="step-num">04</span><span class="step-text">Gently fold in flour, salt, and baking powder. Do not overmix — stop when just combined.</span></div>
+        <div class="recipe-step"><span class="step-num">05</span><span class="step-text">Add vanilla extract and fold once more.</span></div>
+        <div class="recipe-step"><span class="step-num">06</span><span class="step-text">Pour into prepared pan. Bake 60–75 minutes until a skewer comes out clean.</span></div>
+        <div class="recipe-step"><span class="step-num">07</span><span class="step-text">Cool 15 minutes in pan, then turn out onto a rack. Ice with your kiloday number.</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="ingredient-card">
+        <h3>The base recipe</h3>
+        <div class="ing-item"><span class="ing-name">Unsalted butter, softened</span><span class="ing-qty">1 lb / 454 g</span></div>
+        <div class="ing-item"><span class="ing-name">Granulated sugar</span><span class="ing-qty">1 lb / 454 g</span></div>
+        <div class="ing-item"><span class="ing-name">Large eggs (~8)</span><span class="ing-qty">1 lb / 454 g</span></div>
+        <div class="ing-item"><span class="ing-name">All-purpose flour</span><span class="ing-qty">1 lb / 454 g</span></div>
+        <div class="ing-item"><span class="ing-name">Vanilla extract</span><span class="ing-qty">1 tsp</span></div>
+        <div class="ing-item"><span class="ing-name">Fine salt</span><span class="ing-qty">½ tsp</span></div>
+        <div class="ing-item" style="border:none;"><span class="ing-name">Baking powder</span><span class="ing-qty">1 tsp</span></div>
+        <div class="pound-note">The original 18th-century recipe had no leavening — just the four equal pounds. Modern baking powder is optional but recommended.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>The Kiloday Project</span>
+  <span class="footer-center">Happy kiloday.</span>
+  <span>Base 10 · Always</span>
+</footer>
+
+<script>
+  // Build the 10×10 grid
+  const g = document.getElementById('grid100');
+  for (let i = 0; i < 100; i++) {
+    const c = document.createElement('div');
+    c.className = 'g100-cell';
+    c.textContent = (i + 1) * 10;
+    if (i < 10) c.classList.add('filled');
+    else if (i < 15) c.classList.add('partial');
+    g.appendChild(c);
+  }
+
+  function calculate() {
+    const val = document.getElementById('bdate').value;
+    if (!val) return;
+    const [birthYear, birthMonth, birthDay] = val.split('-').map(Number);
+    const birthUtc = Date.UTC(birthYear, birthMonth - 1, birthDay);
+    const now = new Date();
+    const todayUtc = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+    const days = Math.floor((todayUtc - birthUtc) / 86400000);
+    if (days < 0) { alert('Birth date is in the future!'); return; }
+
+    const kilo = (days / 1000).toFixed(2);
+    const years = (days / 365.25).toFixed(1);
+    const curKilo = Math.floor(days / 1000);
+    const nextKiloDay = (curKilo + 1) * 1000;
+    const daysToNext = nextKiloDay - days;
+    const nextDate = new Date(birthUtc + nextKiloDay * 86400000);
+    const lastKiloDate = new Date(birthUtc + curKilo * 1000 * 86400000);
+
+    document.getElementById('rDays').textContent = days.toLocaleString();
+    document.getElementById('rKilo').textContent = kilo;
+    document.getElementById('rYears').textContent = years;
+    document.getElementById('rNext').textContent = daysToNext.toLocaleString();
+
+    const opts = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
+    const msg = document.getElementById('kdMsg');
+    msg.innerHTML = `You are on kiloday <strong>${curKilo.toLocaleString()}</strong>.${curKilo > 0 ? ' Your last kiloday was kiloday ' + curKilo.toLocaleString() + ', on ' + lastKiloDate.toLocaleDateString('en-US', opts) + '.' : ''} Your next kiloday — kiloday <strong>${(curKilo + 1).toLocaleString()}</strong> — falls on <strong>${nextDate.toLocaleDateString('en-US', opts)}</strong>, which is ${daysToNext} days from today.`;
+
+    let barsHtml = '';
+    for (let i = 1; i <= 6; i++) {
+      const kd = curKilo + i;
+      const kdate = new Date(birthUtc + kd * 1000 * 86400000);
+      const diff = kd * 1000 - days;
+      const pct = Math.max(8, Math.min(96, 96 - (diff / 1000) * 80));
+      barsHtml += `<div class="kd-bar-row">
+        <span class="kd-bar-label">Kiloday ${kd.toLocaleString()}</span>
+        <div class="kd-bar-track"><div class="kd-bar-fill" style="width:${pct}%"></div></div>
+        <span class="kd-bar-date">${kdate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' })}</span>
+      </div>`;
+    }
+    document.getElementById('kdBars').innerHTML = barsHtml;
+    document.getElementById('resultArea').style.display = 'block';
+  }
+</script>
+</body>
+</html>

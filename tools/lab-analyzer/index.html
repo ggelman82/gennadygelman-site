@@ -1,0 +1,1408 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Clinical Lab Pattern Analyzer - Gennady Gelman</title>
+  <style>
+    :root {
+      --ink: #17212b;
+      --muted: #607080;
+      --paper: #f4f7f8;
+      --card: #ffffff;
+      --line: #dce4e8;
+      --brand: #0d6b68;
+      --brand2: #084c61;
+      --green: #176b45;
+      --green-bg: #e8f6ee;
+      --green-line: #a8d8bd;
+      --yellow: #8a5700;
+      --yellow-bg: #fff6d9;
+      --yellow-line: #e8ca6b;
+      --red: #a12622;
+      --red-bg: #fdebea;
+      --red-line: #e7aaa7;
+      --blue: #285f8f;
+      --blue-bg: #eaf3fb;
+      --blue-line: #a9cae6;
+      --shadow: 0 12px 32px rgba(25, 45, 55, .08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 0 0, rgba(13,107,104,.09), transparent 30rem),
+        var(--paper);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.45;
+    }
+    .shell { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+    header { padding: 34px 0 22px; }
+    .eyebrow {
+      color: var(--brand); font-size: .78rem; font-weight: 800;
+      letter-spacing: .12em; text-transform: uppercase;
+    }
+    h1 { margin: 5px 0 5px; font-size: clamp(1.8rem, 3vw, 2.65rem); letter-spacing: -.035em; }
+    header p { max-width: 780px; color: var(--muted); margin: 0; }
+    .workspace { display: grid; grid-template-columns: minmax(0, 1.07fr) minmax(360px, .93fr); gap: 20px; }
+    .panel {
+      background: rgba(255,255,255,.95); border: 1px solid var(--line);
+      border-radius: 18px; box-shadow: var(--shadow); overflow: hidden;
+    }
+    .panel-head { padding: 18px 20px 14px; border-bottom: 1px solid var(--line); }
+    .panel-head h2 { margin: 0; font-size: 1.05rem; }
+    .panel-head p { margin: 3px 0 0; color: var(--muted); font-size: .88rem; }
+    .panel-body { padding: 18px 20px 20px; }
+    textarea {
+      display: block; width: 100%; min-height: 410px; resize: vertical;
+      border: 1px solid #c9d5da; border-radius: 12px; padding: 14px;
+      color: #16242d; background: #fbfcfd; font: 14px/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      outline: none;
+    }
+    textarea:focus, input:focus { border-color: var(--brand); box-shadow: 0 0 0 3px rgba(13,107,104,.12); }
+    .demographics { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+    label { display: grid; gap: 5px; color: var(--muted); font-size: .78rem; font-weight: 700; }
+    input, select {
+      width: 100%; border: 1px solid #c9d5da; border-radius: 9px; background: #fff;
+      color: var(--ink); padding: 9px 10px; font: inherit; outline: none;
+    }
+    .buttons { display: flex; gap: 9px; margin-top: 12px; flex-wrap: wrap; }
+    button {
+      border: 0; border-radius: 10px; padding: 10px 15px; font: inherit; font-weight: 800; cursor: pointer;
+    }
+    .primary { color: white; background: linear-gradient(135deg, var(--brand), var(--brand2)); }
+    .secondary { color: var(--brand2); background: #e9f1f2; }
+    .ghost { color: var(--muted); background: transparent; border: 1px solid var(--line); }
+    button:hover { filter: brightness(.98); transform: translateY(-1px); }
+    .status { min-height: 24px; margin-top: 10px; color: var(--muted); font-size: .84rem; }
+    .smartphrase-box { margin: 0 0 14px; border-color: #b9d8d6; background: #eef8f7; }
+    .smartphrase-box summary { color: var(--brand2); }
+    .smartphrase-body { padding: 0 12px 12px; }
+    .smartphrase-code {
+      margin: 0; padding: 12px; overflow-x: auto; border: 1px solid #c7dddc;
+      border-radius: 9px; background: white; white-space: pre-wrap;
+      font: .78rem/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    .smartphrase-actions { display: flex; align-items: center; gap: 9px; margin-top: 9px; }
+    .copy-status { color: var(--green); font-size: .74rem; font-weight: 800; }
+    .results { min-height: 550px; max-height: 760px; overflow: auto; padding: 16px; background: #f9fbfb; }
+    .empty {
+      min-height: 450px; display: grid; place-items: center; text-align: center;
+      color: var(--muted); padding: 30px;
+    }
+    .summary {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px;
+    }
+    .stat { background: white; border: 1px solid var(--line); border-radius: 11px; padding: 9px; text-align: center; }
+    .stat b { display: block; font-size: 1.2rem; }
+    .stat span { color: var(--muted); font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; }
+    .section-label {
+      margin: 16px 2px 8px; color: var(--muted); font-size: .72rem;
+      text-transform: uppercase; letter-spacing: .1em; font-weight: 900;
+    }
+    .legend { display: flex; gap: 7px; flex-wrap: wrap; margin: 0 0 12px; }
+    .legend span {
+      border-radius: 999px; padding: 4px 9px; font-size: .7rem; font-weight: 850;
+      border: 1px solid var(--line); background: white;
+    }
+    .legend .green { color: var(--green); border-color: var(--green-line); background: var(--green-bg); }
+    .legend .yellow { color: var(--yellow); border-color: var(--yellow-line); background: var(--yellow-bg); }
+    .legend .red { color: var(--red); border-color: var(--red-line); background: var(--red-bg); }
+    .legend .blue { color: var(--blue); border-color: var(--blue-line); background: var(--blue-bg); }
+    .flip-card {
+      position: relative; min-height: 190px; margin-bottom: 9px; border-radius: 12px;
+      perspective: 1100px; cursor: pointer; outline: none;
+    }
+    .flip-card:focus-visible { box-shadow: 0 0 0 4px rgba(13,107,104,.22); }
+    .flip-card-inner {
+      position: absolute; inset: 0; display: grid; transform-style: preserve-3d;
+      transition: transform .42s cubic-bezier(.2,.72,.2,1);
+    }
+    .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+    .card-face {
+      grid-area: 1 / 1; min-width: 0; overflow: auto; padding: 12px 13px;
+      border: 1px solid; border-radius: 12px; backface-visibility: hidden;
+      box-shadow: 0 7px 18px rgba(25,45,55,.07);
+    }
+    .card-front.green, .card-back.green { color: #123e2b; background: var(--green-bg); border-color: var(--green-line); }
+    .card-front.yellow, .card-back.yellow { color: #503700; background: var(--yellow-bg); border-color: var(--yellow-line); }
+    .card-front.red, .card-back.red { color: #5b1714; background: var(--red-bg); border-color: var(--red-line); }
+    .card-front.blue, .card-back.blue { color: #173f62; background: var(--blue-bg); border-color: var(--blue-line); }
+    .card-back { transform: rotateY(180deg); background-image: linear-gradient(rgba(255,255,255,.35), rgba(255,255,255,.35)); }
+    .card-face .top { display: flex; gap: 8px; align-items: flex-start; justify-content: space-between; }
+    .badges { display: flex; gap: 5px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+    .card-face h3 { margin: 0; font-size: 1rem; line-height: 1.25; }
+    .card-face h4 { margin: 9px 0 2px; font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; }
+    .card-face p { margin: 7px 0 0; font-size: .84rem; }
+    .card-value { margin-top: 17px !important; font-size: 1.38rem !important; font-weight: 900; line-height: 1.18; }
+    .flip-hint { position: absolute; right: 14px; bottom: 11px; font-size: .68rem; font-weight: 800; opacity: .68; }
+    .source-link { color: inherit; font-weight: 800; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+    .badge {
+      flex: 0 0 auto; border-radius: 999px; background: #edf2f4; color: var(--muted);
+      padding: 2px 7px; font-size: .65rem; text-transform: uppercase; font-weight: 900; letter-spacing: .05em;
+    }
+    details { border: 1px solid var(--line); border-radius: 12px; background: white; margin-top: 12px; }
+    summary { cursor: pointer; padding: 11px 13px; font-size: .86rem; font-weight: 800; }
+    .table-wrap { overflow: auto; padding: 0 12px 12px; }
+    table { width: 100%; border-collapse: collapse; font-size: .78rem; }
+    th, td { text-align: left; border-bottom: 1px solid #edf1f3; padding: 7px 6px; }
+    th { color: var(--muted); font-size: .68rem; text-transform: uppercase; letter-spacing: .05em; }
+    .callout {
+      margin: 20px 0 0; padding: 14px 16px; border-radius: 13px; border: 1px solid #d4e1e3;
+      background: rgba(255,255,255,.7); color: #4f606b; font-size: .82rem;
+    }
+    .callout b { color: var(--ink); }
+    .reference-guide { margin-top: 20px; box-shadow: 0 7px 18px rgba(25,45,55,.05); }
+    .reference-guide summary { padding: 14px 16px; color: var(--brand2); }
+    .reference-guide-content { padding: 0 16px 15px; color: var(--muted); font-size: .8rem; }
+    .reference-guide-content p { margin: 0 0 10px; }
+    .reference-list {
+      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px 20px; margin: 0; padding-left: 20px;
+    }
+    .reference-list li { padding-left: 2px; }
+    .reference-list a { color: var(--brand2); font-weight: 750; text-underline-offset: 2px; }
+    footer { padding: 14px 0 34px; color: var(--muted); font-size: .75rem; }
+    footer a { color: var(--brand2); font-weight: 750; }
+    @media (max-width: 860px) {
+      .workspace { grid-template-columns: 1fr; }
+      .results { max-height: none; }
+      .reference-list { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .flip-card-inner { transition: none; }
+    }
+    /* Compact card treatment used throughout the site. */
+    .workspace{gap:14px}.panel-head{padding:14px 16px 11px}.panel-body{padding:14px 16px 16px}
+    .results{min-height:460px;padding:12px}.empty-state{min-height:360px;padding:22px}
+  </style>
+</head>
+<body>
+  <header class="shell">
+    <div class="eyebrow">Clinician tool · prototype</div>
+    <h1>Clinical Lab Pattern Analyzer</h1>
+    <p>Paste a lab block. The tool normalizes common labels, calculates derived values, and surfaces clinically coherent patterns with explicit caveats.</p>
+  </header>
+
+  <main class="shell workspace">
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Input</h2>
+        <p>Works best with one result per line, but also recognizes compact BMP/CBC-style text.</p>
+      </div>
+      <div class="panel-body">
+        <details class="smartphrase-box">
+          <summary>Epic SmartPhrase template</summary>
+          <div class="smartphrase-body">
+            <pre class="smartphrase-code" id="labSmartPhrase">Age: @AGE@
+Sex: @LEGALSEX@
+Labs:@GETLABS(3M,2)@</pre>
+            <div class="smartphrase-actions">
+              <button class="secondary" type="button" onclick="copySmartPhrase('labSmartPhrase', this)">Copy SmartPhrase</button>
+              <span class="copy-status" aria-live="polite"></span>
+            </div>
+          </div>
+        </details>
+        <div class="demographics">
+          <label>Age (optional if pasted)
+            <input id="age" type="number" min="0" max="120" placeholder="e.g., 67" />
+          </label>
+          <label>Sex at birth (optional if pasted)
+            <select id="sex">
+              <option value="">Not provided</option>
+              <option value="female">Female</option>
+              <option value="male">Male</option>
+            </select>
+          </label>
+          <label>Fasting status
+            <select id="fasting">
+              <option value="">Unknown</option>
+              <option value="yes">Fasting</option>
+              <option value="no">Not fasting</option>
+            </select>
+          </label>
+          <label>Qualifying dialysis in prior 7 days
+            <select id="dialysis">
+              <option value="">Unknown</option>
+              <option value="no">No</option>
+              <option value="yes">Yes</option>
+            </select>
+          </label>
+        </div>
+        <textarea id="labText" spellcheck="false" placeholder="Paste Epic SmartPhrase output here."></textarea>
+        <div class="buttons">
+          <button class="primary" id="analyze">Parse SmartPhrase</button>
+          <button class="ghost" id="clear">Clear</button>
+        </div>
+        <div class="status" id="status"></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Relationships &amp; patterns</h2>
+        <p>Calculations are separated from contextual clinical inferences.</p>
+      </div>
+      <div class="results" id="results">
+        <div class="empty">Paste Epic SmartPhrase output and select <b>Parse SmartPhrase</b>.</div>
+      </div>
+    </section>
+  </main>
+
+  <details class="shell reference-guide">
+    <summary>Calculation reference guide and sources</summary>
+    <div class="reference-guide-content">
+      <p>Selected primary or authoritative references supporting the formulas and interpretive guardrails used in this tool. Individual result cards include the most relevant source on their reverse side.</p>
+      <ul class="reference-list">
+        <li><a href="https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf" target="_blank" rel="noopener noreferrer">KDIGO 2024 CKD guideline</a> — eGFR and albuminuria categories</li>
+        <li><a href="https://pubmed.ncbi.nlm.nih.gov/10225241/" target="_blank" rel="noopener noreferrer">Hillier et al.</a> — glucose-adjusted sodium</li>
+        <li><a href="https://pubmed.ncbi.nlm.nih.gov/41318320/" target="_blank" rel="noopener noreferrer">Adjusted calcium limitations review</a> — albumin-adjusted calcium</li>
+        <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6961927/" target="_blank" rel="noopener noreferrer">Protein-gap screening study</a> — protein gap and monoclonal gammopathy</li>
+        <li><a href="https://pubmed.ncbi.nlm.nih.gov/1132459/" target="_blank" rel="noopener noreferrer">Mentzer index report</a> — microcytosis screening ratio</li>
+        <li><a href="https://pubmed.ncbi.nlm.nih.gov/16729309/" target="_blank" rel="noopener noreferrer">Original FIB-4 validation</a> — liver-fibrosis risk stratification</li>
+        <li><a href="https://www.hrsa.gov/optn/data-calculators/allocation-calculators/meld-calculator" target="_blank" rel="noopener noreferrer">HRSA/OPTN MELD calculator</a> — MELD 3.0</li>
+        <li><a href="https://diabetesjournals.org/care/article/49/Supplement_1/S27/163926/2-Diagnosis-and-Classification-of-Diabetes" target="_blank" rel="noopener noreferrer">ADA Standards of Care 2026</a> — A1c and glycemia</li>
+        <li><a href="https://pubmed.ncbi.nlm.nih.gov/3899825/" target="_blank" rel="noopener noreferrer">Original HOMA model</a> — HOMA-IR</li>
+        <li><a href="https://pubmed.ncbi.nlm.nih.gov/10902785/" target="_blank" rel="noopener noreferrer">QUICKI validation</a> — insulin sensitivity</li>
+        <li><a href="https://pubmed.ncbi.nlm.nih.gov/31472061/" target="_blank" rel="noopener noreferrer">TyG validation</a> — triglyceride-glucose index</li>
+        <li><a href="https://professional.heart.org/en/science-news/2018-guideline-on-the-management-of-blood-cholesterol" target="_blank" rel="noopener noreferrer">AHA/ACC cholesterol guideline</a> — lipid relationships</li>
+        <li><a href="https://www.monash.edu/medicine/mchri/pcos/guideline" target="_blank" rel="noopener noreferrer">International PCOS guideline</a> — limits of LH/FSH interpretation</li>
+        <li><a href="https://aaic.alz.org/releases-2025/clinical-practice-guideline-blood-based-biomarkers.asp" target="_blank" rel="noopener noreferrer">Alzheimer’s Association guideline</a> — blood biomarker interpretation</li>
+      </ul>
+    </div>
+  </details>
+
+  <aside class="shell callout">
+    <b>Clinician use only.</b> This tool provides clinical decision support and is not a diagnostic device. It does not know the full history, symptoms, medications, baseline values, timing, local reference ranges, or specimen quality. Verify every parsed value and apply clinical judgment.
+  </aside>
+  <footer class="shell">
+    v1.8 · Rules are intentionally conservative. No patient data leaves this page. For questions or comments, contact <a href="mailto:me@gennadygelman.com">me@gennadygelman.com</a>.
+  </footer>
+
+<script>
+async function copySmartPhrase(id, button) {
+  const text = document.getElementById(id).textContent;
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch {
+    const area = document.createElement("textarea");
+    area.value = text;
+    area.style.position = "fixed";
+    area.style.opacity = "0";
+    document.body.appendChild(area);
+    area.select();
+    document.execCommand("copy");
+    area.remove();
+  }
+  const status = button.parentElement.querySelector(".copy-status");
+  status.textContent = "Copied";
+  setTimeout(() => status.textContent = "", 1800);
+}
+(() => {
+  "use strict";
+
+  const LABS = [
+    ["uacr", ["urine albumin.?creatinine ratio", "microalbumin.?creatinine ratio", "albumin.?creatinine ratio", "uacr", "acr"]],
+    ["urine_albumin", ["urine microalbumin", "microalbumin urine", "urine albumin"]],
+    ["urine_creatinine", ["urine creatinine", "creatinine urine"]],
+    ["anion_gap_reported", ["anion gap"]],
+    ["ag_ratio_reported", ["a/g ratio", "albumin globulin ratio"]],
+    ["total_protein", ["total protein", "protein total"]],
+    ["albumin", ["serum albumin", "albumin"]],
+    ["globulin", ["globulin total", "calculated globulin", "globulin"]],
+    ["hemoglobin", ["hemoglobin", "haemoglobin", "hgb", "hb"]],
+    ["hematocrit", ["hematocrit", "haematocrit", "hct"]],
+    ["mcv", ["mean corpuscular volume", "mcv"]],
+    ["mch", ["mean corpuscular hemoglobin", "mch"]],
+    ["mchc", ["mean corpuscular hemoglobin concentration", "mchc"]],
+    ["rdw", ["red cell distribution width", "rdw"]],
+    ["rdw_sd", ["rdw standard deviation", "rdw-sd"]],
+    ["rbc", ["red blood cell count", "red blood cells", "rbc"]],
+    ["wbc", ["white blood cell count", "white blood cells", "wbc"]],
+    ["platelets", ["platelet count", "platelets", "plt"]],
+    ["mpv", ["mean platelet volume", "mpv"]],
+    ["neutrophils_abs", ["absolute neutrophil count", "neutrophil #", "neutrophils absolute", "anc"]],
+    ["lymphocytes_abs", ["absolute lymphocyte count", "lymphocyte #", "lymphocytes absolute"]],
+    ["monocytes_abs", ["absolute monocyte count", "monocyte #", "monocytes absolute"]],
+    ["eosinophils_abs", ["absolute eosinophil count", "eosinophil #", "eosinophils absolute"]],
+    ["basophils_abs", ["absolute basophil count", "basophil #", "basophils absolute"]],
+    ["immature_grans_abs", ["immature grans #", "immature granulocytes absolute"]],
+    ["nrbc_abs", ["nrbc #", "nucleated rbc absolute"]],
+    ["neutrophils", ["neutrophil %", "neutrophils percent", "neutrophil percent", "neutrophils", "neut"]],
+    ["lymphocytes", ["lymphocyte %", "lymphocytes percent", "lymphocyte percent", "lymphocytes", "lymph"]],
+    ["monocytes", ["monocyte %", "monocytes percent", "monocyte percent", "monocytes"]],
+    ["eosinophils", ["eosinophil %", "eosinophils percent", "eosinophil percent", "eosinophils"]],
+    ["basophils", ["basophil %", "basophils percent", "basophil percent", "basophils"]],
+    ["immature_grans", ["immature grans %", "immature granulocytes percent"]],
+    ["nrbc", ["nrbc %", "nucleated rbc percent"]],
+    ["retic", ["reticulocyte percent", "retic percent", "reticulocytes", "retic"]],
+    ["ferritin", ["ferritin"]],
+    ["iron", ["serum iron", "iron"]],
+    ["tibc", ["total iron binding capacity", "tibc"]],
+    ["transferrin", ["transferrin"]],
+    ["sodium", ["serum sodium", "sodium", "na"]],
+    ["potassium", ["serum potassium", "potassium", "k"]],
+    ["chloride", ["serum chloride", "chloride", "cl"]],
+    ["bicarbonate", ["bicarbonate", "carbon dioxide", "co2", "tco2"]],
+    ["bun", ["blood urea nitrogen", "urea nitrogen", "bun"]],
+    ["creatinine", ["serum creatinine", "creatinine", "creat", "cr"]],
+    ["egfr", ["estimated gfr", "e.?gfr", "gfr"]],
+    ["glucose", ["serum glucose", "glucose", "glu"]],
+    ["insulin", ["fasting insulin", "serum insulin", "insulin"]],
+    ["calcium", ["serum calcium", "calcium", "ca"]],
+    ["magnesium", ["magnesium", "mg"]],
+    ["phosphorus", ["phosphorus", "phosphate", "phos"]],
+    ["measured_osm", ["measured osmolality", "serum osmolality", "osmolality", "osm"]],
+    ["ast", ["aspartate aminotransferase", "sgot", "ast"]],
+    ["alt", ["alanine aminotransferase", "sgpt", "alt"]],
+    ["alk_phos", ["alkaline phosphatase", "alk phos", "alp"]],
+    ["bilirubin", ["total bilirubin", "bilirubin total", "bilirubin"]],
+    ["ggt", ["gamma glutamyl transferase", "gamma-glutamyl transferase", "ggt"]],
+    ["inr", ["international normalized ratio", "inr"]],
+    ["a1c", ["hemoglobin a1c", "haemoglobin a1c", "hba1c", "a1c"]],
+    ["estimated_avg_glucose", ["estimated average glucose", "eag"]],
+    ["total_chol", ["total cholesterol", "cholesterol total", "cholesterol"]],
+    ["non_hdl", ["cholesterol non-hdl", "non-hdl cholesterol", "non hdl cholesterol"]],
+    ["ldl", ["ldl cholesterol", "ldl-c", "ldl"]],
+    ["hdl", ["cholesterol hdl", "hdl cholesterol", "hdl-c", "hdl"]],
+    ["triglycerides", ["triglycerides", "triglyceride", "tg"]],
+    ["vldl", ["vldl cholesterol", "vldl"]],
+    ["chol_hdl_ratio", ["cholesterol/hdl ratio", "cholesterol hdl ratio"]],
+    ["apob", ["apolipoprotein b", "apo b", "apob"]],
+    ["lpa", ["lipoprotein(a)", "lipoprotein a", "lipoprotein"]],
+    ["hs_crp", ["c reactive protein high sensitivity", "high sensitivity c reactive protein", "hs-crp", "hscrp"]],
+    ["ptau217", ["tau protein phosphorylat", "phosphorylated tau 217", "p-tau217", "ptau217"]],
+    ["ssa", ["sjogren's ab (ss-a)", "ssa antibody", "ss-a"]],
+    ["ssb", ["sjogren's ab (ss-b)", "ssb antibody", "ss-b"]],
+    ["tsh", ["thyroid stimulating hormone", "thyrotropin", "tsh"]],
+    ["free_t4", ["free thyroxine", "free t4", "ft4"]],
+    ["lh", ["luteinizing hormone", "lutropin", "lh"]],
+    ["fsh", ["follicle stimulating hormone", "follicle-stimulating hormone", "follitropin", "fsh"]],
+    ["b12", ["vitamin b12", "cobalamin", "b12"]],
+    ["folate", ["serum folate", "folate"]],
+    ["vitamin_d", ["25.?hydroxy vitamin d", "vitamin d 25", "vitamin d"]],
+    ["crp", ["c.?reactive protein", "crp"]],
+    ["esr", ["erythrocyte sedimentation rate", "sed rate", "esr"]],
+    ["ldh", ["lactate dehydrogenase", "ldh"]],
+    ["ck", ["creatine kinase", "total ck", "ck"]],
+    ["uric_acid", ["uric acid", "urate"]]
+  ];
+
+  const pretty = Object.fromEntries(LABS.map(([key]) => [key, key.replaceAll("_", " ").replace(/\b\w/g, x => x.toUpperCase())]));
+  Object.assign(pretty, {
+    bun: "BUN", egfr: "eGFR", uacr: "Urine ACR", rbc: "RBC", wbc: "WBC",
+    mcv: "MCV", mch: "MCH", mchc: "MCHC", rdw: "RDW", ast: "AST", alt: "ALT",
+    ggt: "GGT", inr: "INR", a1c: "A1c", ldl: "LDL", hdl: "HDL", tsh: "TSH",
+    free_t4: "Free T4", lh: "LH", fsh: "FSH", b12: "B12", crp: "CRP", hs_crp: "hs-CRP", esr: "ESR",
+    ldh: "LDH", ck: "CK", tibc: "TIBC", insulin: "Insulin", apob: "ApoB",
+    lpa: "Lp(a)", ptau217: "p-tau217", non_hdl: "Non-HDL",
+    estimated_avg_glucose: "Estimated average glucose", anion_gap_reported: "Reported anion gap",
+    ag_ratio_reported: "Reported A/G ratio",
+    neutrophils_abs: "Absolute neutrophils", lymphocytes_abs: "Absolute lymphocytes",
+    monocytes_abs: "Absolute monocytes", eosinophils_abs: "Absolute eosinophils"
+  });
+
+  const escRx = s => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const numPattern = "([<>]?\\s*-?\\d+(?:\\.\\d+)?)";
+
+  function keyForLabel(rawLabel) {
+    const label = rawLabel.replace(/\*/g, "").replace(/[,]+/g, " ").replace(/:+$/g, "").replace(/\s+/g, " ").trim();
+    let best = null;
+    for (const [key, aliases] of LABS) {
+      for (const alias of aliases) {
+        const rx = new RegExp(`^${alias.includes(".?") ? alias : escRx(alias)}$`, "i");
+        if (rx.test(label) && (!best || alias.length > best.length)) best = { key, length: alias.length };
+      }
+    }
+    if (best) return best.key;
+    const lowered = label.toLowerCase();
+    if (lowered.startsWith("microalb/creat ratio")) return "uacr";
+    if (lowered.startsWith("c reactive protein high")) return "hs_crp";
+    if (lowered.startsWith("tau protein phosphorylat")) return "ptau217";
+    return null;
+  }
+
+  function parseResultToken(resultText) {
+    const text = resultText.trim();
+    const numeric = text.match(/^([<>]?)\s*(-?[\d,]+(?:\.\d+)?)\s*(?:\(([^)]+)\))?\s*(?:\(([HLANC])\))?/i);
+    if (numeric) {
+      const value = Number(numeric[2].replace(/,/g, ""));
+      if (Number.isFinite(value)) {
+        return {
+          numeric: true,
+          value,
+          comparator: numeric[1] || "",
+          unit: numeric[3] || "",
+          flag: numeric[4]?.toUpperCase() || "",
+          qualifier: text.slice(numeric[0].length).trim()
+        };
+      }
+    }
+    const qualitative = text.replace(/\s+Dt:\s*\d{2}\/\d{2}\/\d{4}.*$/i, "").trim();
+    return qualitative ? { numeric: false, qualitative } : null;
+  }
+
+  function parseLabs(raw) {
+    const values = {};
+    const metadata = {};
+    const qualitative = [];
+    const unrecognized = [];
+    const text = raw
+      .replace(/\u2212/g, "-")
+      .replace(/\u00a0/g, " ")
+      .replace(/\r/g, "");
+
+    // Epic component export, including qualitative results that wrap to the next line.
+    const lines = text.split("\n");
+    let pendingLabel = "";
+    let pendingDate = "";
+    for (const originalLine of lines) {
+      const line = originalLine.trim();
+      if (!line) continue;
+      const inline = line.match(/^(.+?)\s+Value:\s*(.*?)\s+Dt:\s*(\d{2}\/\d{2}\/\d{4})\s*$/i);
+      const continuation = line.match(/^Value:\s*(.*?)\s*$/i);
+      let label, resultText, date = "";
+      if (inline) {
+        [, label, resultText, date] = inline;
+        pendingLabel = "";
+        pendingDate = "";
+      } else if (continuation && pendingLabel) {
+        label = pendingLabel;
+        resultText = continuation[1];
+        date = pendingDate;
+        pendingLabel = "";
+        pendingDate = "";
+      } else if (/\bDt:\s*\d{2}\/\d{2}\/\d{4}\s*$/i.test(line) && !/\bValue:/i.test(line)) {
+        pendingDate = line.match(/Dt:\s*(\d{2}\/\d{2}\/\d{4})/i)?.[1] || "";
+        pendingLabel = line.replace(/\s+Dt:\s*\d{2}\/\d{2}\/\d{4}\s*$/i, "").trim();
+        continue;
+      } else {
+        continue;
+      }
+
+      const parsedResult = parseResultToken(resultText);
+      if (!parsedResult) continue;
+      const cleanLabel = label.replace(/\s+/g, " ").trim();
+      const key = keyForLabel(cleanLabel);
+      if (parsedResult.numeric && key) {
+        values[key] = parsedResult.value;
+        metadata[key] = {
+          label: cleanLabel,
+          comparator: parsedResult.comparator,
+          unit: parsedResult.unit,
+          flag: parsedResult.flag,
+          qualifier: parsedResult.qualifier,
+          date
+        };
+      } else if (!parsedResult.numeric) {
+        qualitative.push({ label: cleanLabel, value: parsedResult.qualitative, date });
+      } else {
+        unrecognized.push({
+          label: cleanLabel,
+          value: parsedResult.value,
+          comparator: parsedResult.comparator,
+          unit: parsedResult.unit,
+          flag: parsedResult.flag,
+          date
+        });
+      }
+    }
+
+    // Fallback for simple one-result-per-line and compact panel text.
+    for (const [key, aliases] of LABS) {
+      if (Number.isFinite(values[key])) continue;
+      const sorted = [...aliases].sort((a,b) => b.length - a.length);
+      for (const alias of sorted) {
+        const safeAlias = alias.includes(".?") ? alias : escRx(alias);
+        const rx = new RegExp(
+          "(?:^|[\\n\\r,;|\\t]\\s*|\\s{2,})" +
+          "(" + safeAlias + ")" +
+          "\\s*(?:\\([^)]*\\))?\\s*(?:[:=]|\\s)\\s*" + numPattern +
+          "\\s*([^\\n\\r,;|\\t]{0,22})",
+          "i"
+        );
+        let match = text.match(rx);
+
+        // Compact panels such as "Na 139 K 4.2 Cl 102 CO2 24".
+        if (!match) {
+          const compact = new RegExp(
+            "(?:^|\\s)" + "(" + safeAlias + ")" +
+            "\\s*(?:[:=]\\s*)?" + numPattern +
+            "(?=\\s|$|[,;|])",
+            "i"
+          );
+          match = text.match(compact);
+        }
+        if (match) {
+          const rawValue = match[2].replace(/\s/g, "");
+          const value = Number(rawValue.replace(/[<>]/g, ""));
+          if (Number.isFinite(value)) {
+            values[key] = value;
+            metadata[key] = {
+              label: match[1],
+              comparator: rawValue.startsWith("<") ? "<" : rawValue.startsWith(">") ? ">" : "",
+              unit: (match[3] || "").trim().match(/^[a-zA-Zµμ%/0-9.^-]+/)?.[0] || ""
+            };
+            break;
+          }
+        }
+      }
+    }
+    return { values, metadata, qualitative, unrecognized };
+  }
+
+  function parseDemographics(raw) {
+    const age = raw.match(/(?:^|\n)\s*Age:\s*(\d+(?:\.\d+)?)\s*(?:y\.?o\.?)?/i);
+    const sex = raw.match(/(?:^|\n)\s*Sex:\s*(female|male)\b/i);
+    return {
+      age: age ? Number(age[1]) : null,
+      sex: sex ? sex[1].toLowerCase() : ""
+    };
+  }
+
+  const round = (n, digits = 1) => {
+    if (!Number.isFinite(n)) return null;
+    return Number(n.toFixed(digits));
+  };
+  const present = (v, ...keys) => keys.every(k => Number.isFinite(v[k]));
+  const valText = (n, digits = 1) => Number.isFinite(n) ? n.toFixed(digits).replace(/\.0$/, "") : "—";
+  const htmlEsc = value => String(value ?? "").replace(/[&<>"']/g, ch => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  })[ch]);
+
+  function finding(type, title, body, because, domain = "Other") {
+    return { type, title, body, because, domain };
+  }
+
+  const SOURCES = {
+    kidney: ["KDIGO 2024 CKD guideline", "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf"],
+    calcium: ["Adjusted calcium limitations review", "https://pubmed.ncbi.nlm.nih.gov/41318320/"],
+    sodium: ["Hillier sodium-correction study", "https://pubmed.ncbi.nlm.nih.gov/10225241/"],
+    protein: ["Protein-gap screening study", "https://pmc.ncbi.nlm.nih.gov/articles/PMC6961927/"],
+    anemia: ["Merck Manual: evaluation of anemia", "https://www.merckmanuals.com/professional/hematology-and-oncology/approach-to-the-patient-with-anemia/evaluation-of-anemia"],
+    mentzer: ["Original Mentzer index report", "https://pubmed.ncbi.nlm.nih.gov/1132459/"],
+    fib4: ["Original FIB-4 validation", "https://pubmed.ncbi.nlm.nih.gov/16729309/"],
+    lipids: ["AHA/ACC cholesterol guideline", "https://professional.heart.org/en/science-news/2018-guideline-on-the-management-of-blood-cholesterol"],
+    diabetes: ["ADA Standards of Care 2026", "https://diabetesjournals.org/care/article/49/Supplement_1/S27/163926/2-Diagnosis-and-Classification-of-Diabetes"],
+    homa: ["Original HOMA model", "https://pubmed.ncbi.nlm.nih.gov/3899825/"],
+    quicki: ["QUICKI validation", "https://pubmed.ncbi.nlm.nih.gov/10902785/"],
+    tyg: ["TyG formula and validation", "https://pubmed.ncbi.nlm.nih.gov/31472061/"],
+    meld: ["HRSA/OPTN MELD calculator", "https://www.hrsa.gov/optn/data-calculators/allocation-calculators/meld-calculator"],
+    thyroid: ["American Thyroid Association patient resources", "https://www.thyroid.org/thyroid-information/"],
+    reproductive: ["International evidence-based PCOS guideline", "https://www.monash.edu/medicine/mchri/pcos/guideline"],
+    neuro: ["Alzheimer's Association blood-biomarker guideline", "https://aaic.alz.org/releases-2025/clinical-practice-guideline-blood-based-biomarkers.asp"],
+    general: ["MedlinePlus medical tests", "https://medlineplus.gov/lab-tests/"]
+  };
+
+  function sourceFor(item) {
+    const t = item.title;
+    if (/MELD/.test(t)) return SOURCES.meld;
+    if (/calcium/i.test(t)) return SOURCES.calcium;
+    if (/sodium|osmol|anion gap|delta ratio/i.test(t)) return SOURCES.sodium;
+    if (/GFR|albuminuria|BUN\/creatinine/i.test(t)) return SOURCES.kidney;
+    if (/protein gap|globulin/i.test(t)) return SOURCES.protein;
+    if (/Mentzer/i.test(t)) return SOURCES.mentzer;
+    if (/neutrophil|transferrin|anemia|cytopen|MCV|macrocy|microcy/i.test(t)) return SOURCES.anemia;
+    if (/FIB-4|AST\/ALT/i.test(t)) return SOURCES.fib4;
+    if (/HOMA/i.test(t)) return SOURCES.homa;
+    if (/QUICKI/i.test(t)) return SOURCES.quicki;
+    if (/TyG|Triglyceride-glucose/i.test(t)) return SOURCES.tyg;
+    if (/A1c|glucose|insulin resistance/i.test(t)) return SOURCES.diabetes;
+    if (/cholesterol|ApoB|Lp\(a\)|CRP|triglyceride/i.test(t)) return SOURCES.lipids;
+    if (/LH\/FSH/i.test(t)) return SOURCES.reproductive;
+    if (/thyroid|TSH|free T4/i.test(t)) return SOURCES.thyroid;
+    if (/tau|Alzheimer/i.test(t)) return SOURCES.neuro;
+    return SOURCES.general;
+  }
+
+  function educationFor(item) {
+    const t = item.title;
+    let why = "This derived value combines related laboratory results to make a clinically useful relationship easier to see.";
+    let next = "Verify the source values and units, compare with the reporting laboratory ranges and prior results, and interpret it in the clinical context.";
+
+    if (/Albumin-adjusted calcium/.test(t)) {
+      why = "Total calcium changes with albumin because much circulating calcium is protein-bound; the estimate tries to separate that effect from a true calcium disorder.";
+      next = "Review symptoms, medications, kidney function, PTH, magnesium, phosphate, and prior calcium. Use ionized calcium when the distinction could change management.";
+    } else if (/Protein gap/.test(t)) {
+      why = "Total protein minus albumin estimates non-albumin proteins. A large gap can accompany polyclonal inflammation or a monoclonal protein, but is not a myeloma screen.";
+      next = "If persistently elevated or paired with anemia, kidney dysfunction, hypercalcemia, neuropathy, or bone findings, consider SPEP/immunofixation and serum free light chains.";
+    } else if (/Albumin\/globulin ratio/.test(t)) {
+      why = "The ratio summarizes the balance between albumin and globulins and can highlight disproportionate hypoalbuminemia or globulin elevation.";
+      next = "Confirm persistence and interpret alongside liver, kidney, inflammatory, infectious, and plasma-cell findings rather than acting on the ratio alone.";
+    } else if (/BUN\/creatinine/.test(t)) {
+      why = "BUN can rise disproportionately to creatinine with reduced renal perfusion or increased urea generation, including digestion of upper-GI blood.";
+      next = "Compare creatinine with baseline and integrate volume status, hemodynamics, medications, diet/catabolism, stool or bleeding history, and serial hemoglobin. The ratio cannot diagnose AKI or GI bleeding.";
+    } else if (/anion gap|Delta ratio/i.test(t)) {
+      why = "The anion gap estimates unmeasured ions and helps organize acid–base disorders. The delta ratio is only meaningful when a high-gap metabolic acidosis is actually present.";
+      next = "Verify the laboratory's potassium convention, check albumin, repeat unexpected values, and correlate with pH/blood gas, lactate, ketones, kidney function, toxins, and clinical status.";
+    } else if (/osmol/i.test(t)) {
+      why = "Calculated osmolality estimates total dissolved particles; effective osmolality emphasizes tonicity. A measured–calculated gap can suggest unmeasured osmoles.";
+      next = "Confirm units and timing. If the gap or tonicity is concerning, repeat testing and evaluate glucose, sodium, renal function, alcohols/toxic alcohols, ketones, and volume status as clinically indicated.";
+    } else if (/Glucose-adjusted sodium/.test(t)) {
+      why = "Hyperglycemia pulls water extracellularly and lowers measured sodium; adjustment estimates the sodium after glucose normalization.";
+      next = "Use measured tonicity and the clinical setting to guide treatment. Do not rapidly target the adjusted number, and use serial sodium/glucose values when abnormalities are substantial.";
+    } else if (/GFR category/.test(t)) {
+      why = "eGFR category helps communicate kidney filtration level and, with albuminuria, estimates CKD prognosis.";
+      next = "Compare with baseline and repeat when appropriate. One value does not establish AKI or CKD; chronicity requires at least 3 months unless another marker establishes it.";
+    } else if (/Albuminuria category/.test(t)) {
+      why = "Urine albumin identifies glomerular injury and adds prognostic information beyond eGFR.";
+      next = "Confirm a new elevation with repeat first-morning UACR and address transient causes such as exercise, fever, infection, marked hyperglycemia, or menstruation.";
+    } else if (/Mentzer/.test(t)) {
+      why = "MCV divided by RBC count is a historical screening clue sometimes used to distinguish iron deficiency from thalassemia trait in microcytosis.";
+      next = "Do not diagnose from the ratio. Review ferritin/iron studies, inflammation, smear, reticulocytes, bleeding risk, and hemoglobin analysis when appropriate.";
+    } else if (/neutrophil|NLR/i.test(t)) {
+      why = "Absolute counts are more clinically meaningful than differential percentages. NLR is a nonspecific inflammatory/stress marker without a universal clinical cutoff.";
+      next = "Use the absolute count, trend, symptoms, medications, and infection or marrow context. Do not act on NLR alone.";
+    } else if (/Transferrin saturation/.test(t)) {
+      why = "Transferrin saturation estimates how much circulating iron-binding capacity is occupied and complements ferritin.";
+      next = "Interpret with ferritin, CBC/indices, inflammation, kidney/liver disease, recent iron exposure, and bleeding history.";
+    } else if (/FIB-4/.test(t)) {
+      why = "FIB-4 combines age, AST, ALT, and platelets to triage the likelihood of advanced liver fibrosis.";
+      next = "Use age-appropriate thresholds and the intended liver-disease population. Intermediate or high results generally need a second-line fibrosis assessment rather than a diagnosis from FIB-4 alone.";
+    } else if (/AST\/ALT/.test(t)) {
+      why = "The ratio can provide etiologic context in liver injury, but it is too nonspecific to diagnose alcohol-related disease or fibrosis.";
+      next = "Interpret the individual enzymes, degree and pattern of elevation, medications, alcohol exposure, metabolic risk, viral testing, imaging, and trends.";
+    } else if (/MELD/.test(t)) {
+      why = "MELD 3.0 estimates short-term mortality for liver-transplant allocation using bilirubin, INR, creatinine, sodium, albumin, and sex.";
+      next = "Use only in the intended advanced-liver-disease/transplant context. Verify same-day values, dialysis criteria, exceptions, and the official transplant-program calculation.";
+    } else if (/Non-HDL|Remnant|ApoB|Lp\(a\)|CRP|Triglyceride\/HDL/.test(t)) {
+      why = "This lipid-related measure summarizes atherogenic particles or residual cardiovascular risk from a different angle than LDL cholesterol alone.";
+      next = "Interpret it within the patient's ASCVD context, fasting status when relevant, current therapy, secondary causes, and the guideline framework being used.";
+    } else if (/A1c-derived/.test(t)) {
+      why = "The equation translates A1c into an approximate average glucose to make chronic glycemia easier to interpret.";
+      next = "Check for altered red-cell turnover, anemia, transfusion, hemoglobin variants, or advanced kidney disease when A1c and measured glucose disagree.";
+    } else if (/HOMA-IR/.test(t)) {
+      why = "HOMA-IR uses fasting insulin and glucose as a surrogate estimate of insulin resistance.";
+      next = "Treat it as a continuous contextual measure, not a diagnosis. Assays and population cutoffs vary; prioritize established metabolic risk factors and outcomes.";
+    } else if (/QUICKI/.test(t)) {
+      why = "QUICKI transforms fasting insulin and glucose into a surrogate insulin-sensitivity estimate.";
+      next = "Use it as an informational research-style measure. There is no universal clinical cutoff, and insulin assays are not standardized.";
+    } else if (/TyG/.test(t)) {
+      why = "The TyG index combines fasting triglycerides and glucose as a surrogate marker correlated with insulin resistance.";
+      next = "Interpret as a continuous contextual signal only; population thresholds vary and it should not diagnose insulin resistance by itself.";
+    } else if (/LH\/FSH/.test(t)) {
+      why = "The ratio displays the relative gonadotropin pattern but has no universal normal range and is not diagnostic of PCOS, menopause, ovarian reserve, or pituitary disease.";
+      next = "Interpret individual LH and FSH values with age, cycle phase, pregnancy status, estradiol, symptoms, contraception, and fertility/endocrine medications.";
+    }
+    return { why, next, source: sourceFor(item) };
+  }
+
+  function numericBody(item) {
+    const match = String(item.body).replace(/,/g, "").match(/-?\d+(?:\.\d+)?/);
+    return match ? Number(match[0]) : null;
+  }
+
+  function calculationColor(item, v, demographics) {
+    const t = item.title;
+    const n = numericBody(item);
+    const redOutside = (value, lowRed, lowYellow, highYellow, highRed) =>
+      value <= lowRed || value >= highRed ? "red" : value < lowYellow || value > highYellow ? "yellow" : "green";
+
+    if (/Albumin-adjusted calcium/.test(t) && Number.isFinite(n)) return redOutside(n, 7.5, 8.5, 10.5, 12);
+    if (/Protein gap/.test(t) && Number.isFinite(n)) return n >= 4 ? "yellow" : "green";
+    if (/Albumin\/globulin/.test(t) && Number.isFinite(n)) return n < 1 || n > 2.5 ? "yellow" : "green";
+    if (/BUN\/creatinine/.test(t) && Number.isFinite(n)) return n >= 35 ? "red" : n >= 20 ? "yellow" : "green";
+    if (/Anion gap \(without K\)|Albumin-adjusted anion gap/.test(t) && Number.isFinite(n)) return n >= 25 ? "red" : n > 12 ? "yellow" : n >= 3 ? "green" : "yellow";
+    if (/Anion gap \(including K\)/.test(t) && Number.isFinite(n)) return n >= 29 ? "red" : n > 16 ? "yellow" : n >= 7 ? "green" : "yellow";
+    if (/Calculated serum osmolality|effective osmolality/.test(t) && Number.isFinite(n)) return redOutside(n, 260, 275, 295, 320);
+    if (/Osmolal gap/.test(t) && Number.isFinite(n)) return Math.abs(n) > 20 ? "red" : Math.abs(n) > 10 ? "yellow" : "green";
+    if (/Glucose-adjusted sodium/.test(t) && Number.isFinite(n)) return redOutside(n, 125, 135, 145, 155);
+    if (/Absolute neutrophil count/.test(t) && Number.isFinite(n)) return n < .5 ? "red" : n < 1.5 ? "yellow" : "green";
+    if (/Transferrin saturation/.test(t) && Number.isFinite(n)) return n < 10 ? "red" : n < 20 || n > 50 ? "yellow" : "green";
+    if (/GFR category/.test(t) && Number.isFinite(v.egfr)) return v.egfr < 30 ? "red" : v.egfr < 60 ? "yellow" : "green";
+    if (/Albuminuria category/.test(t) && Number.isFinite(v.uacr)) return v.uacr >= 300 ? "red" : v.uacr >= 30 ? "yellow" : "green";
+    if (/FIB-4/.test(t) && Number.isFinite(n)) {
+      const upper = demographics.age >= 65 ? 2 : 2.67;
+      return n >= upper ? "red" : n >= 1.3 ? "yellow" : "green";
+    }
+    if (/MELD 3.0/.test(t) && Number.isFinite(n)) return n >= 20 ? "red" : n >= 10 ? "yellow" : "green";
+    if (/Non-HDL/.test(t) && Number.isFinite(n)) return n >= 190 ? "red" : n >= 130 ? "yellow" : "green";
+    if (/ApoB/.test(t) && Number.isFinite(n)) return n >= 130 ? "red" : n >= 90 ? "yellow" : "green";
+    if (/Lp\(a\)/.test(t) && Number.isFinite(n)) return n >= 125 ? "red" : n >= 75 ? "yellow" : "green";
+    if (/High-sensitivity CRP/.test(t) && Number.isFinite(n)) return n < 1 ? "green" : "yellow";
+    if (/A1c-derived/.test(t) && Number.isFinite(v.a1c)) return v.a1c >= 6.5 ? "red" : v.a1c >= 5.7 ? "yellow" : "green";
+
+    // No defensible universal reference range: keep the card informational blue.
+    return "blue";
+  }
+
+  function patternColor(item) {
+    if (item.type === "high") return "red";
+    if (item.type === "moderate") return "yellow";
+    if (/not elevated|internally consistent|normal albumin-adjusted|no configured pattern/i.test(item.title)) return "green";
+    if (/context|needs|requires assay-specific|fasting status needed/i.test(item.title)) return "blue";
+    return "yellow";
+  }
+
+  function colorLabel(color) {
+    return ({ green: "Reassuring", yellow: "Review", red: "Concerning", blue: "Informational" })[color] || "Review";
+  }
+
+  function analyze(v, demographics) {
+    const calculations = [];
+    const patterns = [];
+    const addCalc = (title, body, because, domain) => calculations.push(finding("calc", title, body, because, domain));
+    const add = (severity, title, body, because, domain) => patterns.push(finding(severity, title, body, because, domain));
+
+    let bunCr, ag, correctedAg, calcOsm, effectiveOsm, correctedNa16, correctedNa24;
+    let correctedCa, proteinGap, agRatio, mentzer, tsat, fib4;
+
+    // Calcium adjustment is an estimate, not a substitute for ionized calcium.
+    if (present(v, "calcium", "albumin")) {
+      correctedCa = v.calcium + 0.8 * (4 - v.albumin);
+      if (Math.abs(v.albumin - 4) >= 0.1) {
+        addCalc("Albumin-adjusted calcium estimate", `${valText(correctedCa)} mg/dL`,
+          `${v.calcium} + 0.8 × (4 − ${v.albumin}). Use as a rough estimate only; albumin-adjustment formulas can misclassify calcium status, especially with critical illness or kidney failure. Measure ionized calcium when the distinction matters.`,
+          "Protein / calcium");
+      }
+    }
+
+    // Protein / plasma-cell relationships
+    if (present(v, "total_protein", "albumin")) {
+      proteinGap = v.total_protein - v.albumin;
+      const glob = Number.isFinite(v.globulin) ? v.globulin : proteinGap;
+      agRatio = glob > 0 ? v.albumin / glob : null;
+      addCalc("Protein gap", `${valText(proteinGap)} g/dL (total protein − albumin)`, `${v.total_protein} − ${v.albumin}`, "Protein / calcium");
+      if (agRatio !== null) addCalc("Albumin/globulin ratio", valText(agRatio, 2), `${v.albumin} ÷ ${valText(glob)}`, "Protein / calcium");
+    } else if (present(v, "albumin", "globulin")) {
+      agRatio = v.albumin / v.globulin;
+      addCalc("Albumin/globulin ratio", valText(agRatio, 2), `${v.albumin} ÷ ${v.globulin}`, "Protein / calcium");
+    }
+    if (Number.isFinite(agRatio) && Number.isFinite(v.ag_ratio_reported) && Math.abs(agRatio - v.ag_ratio_reported) > 0.15) {
+      add("low", "Reported and calculated A/G ratios differ",
+        `Reported A/G ratio is ${v.ag_ratio_reported}; calculated ratio is ${valText(agRatio, 2)}.`,
+        "Check whether total protein, albumin, and globulin came from the same specimen and whether the laboratory uses rounded component values.",
+        "Protein / calcium");
+    }
+
+    if (Number.isFinite(proteinGap) && proteinGap >= 4) {
+      const supporting = [];
+      const anemiaCut = demographics.sex === "female" ? 12 : demographics.sex === "male" ? 13 : 11;
+      if (Number.isFinite(v.hemoglobin) && v.hemoglobin < anemiaCut) supporting.push(`anemia (Hgb ${v.hemoglobin})`);
+      if ((Number.isFinite(v.creatinine) && v.creatinine >= 2) || (Number.isFinite(v.egfr) && v.egfr < 40)) supporting.push("substantial renal dysfunction");
+      const calciumForPattern = Number.isFinite(correctedCa) ? correctedCa : v.calcium;
+      if (Number.isFinite(calciumForPattern) && calciumForPattern > 10.5) {
+        supporting.push(`possible hypercalcemia (${Number.isFinite(correctedCa) ? "albumin-adjusted " : ""}Ca ${valText(calciumForPattern)})`);
+      }
+      if (supporting.length) {
+        add("moderate", "Elevated protein gap with supporting abnormalities",
+          `Protein gap ${valText(proteinGap)} g/dL plus ${supporting.join(", ")}. This constellation can justify evaluation for monoclonal protein, while also considering inflammatory, infectious, hepatic, and renal explanations.`,
+          "A protein gap is not a myeloma screen; the accompanying abnormalities make the pattern more meaningful. Consider SPEP with immunofixation and serum free light chains when clinically appropriate.",
+          "Protein / calcium");
+      } else {
+        add("low", "Isolated elevated protein gap",
+          `Protein gap is ${valText(proteinGap)} g/dL. This is nonspecific and has low yield as a stand-alone trigger for monoclonal gammopathy testing.`,
+          "Common alternatives include polyclonal inflammation, chronic infection, liver disease, and dehydration.",
+          "Protein / calcium");
+      }
+    }
+
+    if (Number.isFinite(v.calcium)) {
+      const interpretedCa = Number.isFinite(correctedCa) ? correctedCa : v.calcium;
+      const calciumLabel = Number.isFinite(correctedCa) && Math.abs(v.albumin - 4) >= 0.1
+        ? `albumin-adjusted estimate ${valText(interpretedCa)} mg/dL (measured ${v.calcium})`
+        : `${v.calcium} mg/dL`;
+      const calciumCaution = "Interpret with the reporting laboratory range, albumin, medications, volume status, kidney function, PTH, and prior values. Confirm consequential or discordant results with ionized calcium.";
+      if (interpretedCa >= 12) {
+        add("high", "Marked hypercalcemia pattern", `Calcium is ${calciumLabel}.`, calciumCaution, "Protein / calcium");
+      } else if (interpretedCa > 10.5) {
+        add("moderate", "Possible hypercalcemia", `Calcium is ${calciumLabel}.`, calciumCaution, "Protein / calcium");
+      } else if (interpretedCa <= 7.5) {
+        add("high", "Marked hypocalcemia pattern", `Calcium is ${calciumLabel}.`, `${calciumCaution} Symptoms, ECG/QT interval, magnesium, phosphate, and vitamin D affect urgency and interpretation.`, "Protein / calcium");
+      } else if (interpretedCa < 8.5) {
+        add("moderate", "Possible hypocalcemia", `Calcium is ${calciumLabel}.`, `${calciumCaution} Review magnesium, phosphate, and vitamin D.`, "Protein / calcium");
+      } else if (v.calcium < 8.5 && Number.isFinite(correctedCa)) {
+        add("low", "Low measured calcium with a normal albumin-adjusted estimate",
+          `Measured calcium is ${v.calcium} mg/dL; the rough albumin-adjusted estimate is ${valText(correctedCa)} mg/dL.`,
+          "This may reflect low protein-bound calcium rather than low ionized calcium, but the correction formula is imperfect. Use ionized calcium if clinically important.",
+          "Protein / calcium");
+      } else if (v.calcium >= 10.5 && Number.isFinite(correctedCa) && correctedCa <= 10.5) {
+        add("low", "High measured calcium with a normal albumin-adjusted estimate",
+          `Measured calcium is ${v.calcium} mg/dL; the rough albumin-adjusted estimate is ${valText(correctedCa)} mg/dL.`,
+          "High albumin or hemoconcentration may contribute. Repeat and/or measure ionized calcium if clinically important.",
+          "Protein / calcium");
+      }
+    }
+
+    // Renal / volume
+    if (present(v, "bun", "creatinine") && v.creatinine > 0) {
+      bunCr = v.bun / v.creatinine;
+      addCalc("BUN/creatinine ratio", valText(bunCr), `${v.bun} ÷ ${v.creatinine}`, "Renal / volume");
+      const anemiaCut = demographics.sex === "female" ? 12 : demographics.sex === "male" ? 13 : 11;
+      const anemia = Number.isFinite(v.hemoglobin) && v.hemoglobin < anemiaCut;
+      const anemiaText = anemia ? ` Anemia is present (Hgb ${v.hemoglobin} g/dL).` : "";
+      const lowCreatinineCaution = v.bun <= 20 && bunCr >= 20
+        ? " Because the BUN itself is not elevated, a low creatinine/low muscle mass may be inflating the ratio."
+        : "";
+      const commonCaution = "The ratio is supportive rather than diagnostic and cannot establish AKI from one panel. Compare creatinine with baseline and integrate volume findings, hemodynamics, medications, protein/catabolic state, liver function, stool/bleeding history, and serial hemoglobin.";
+
+      if (bunCr < 20) {
+        add("low", anemia ? "Anemia without disproportionate BUN elevation" : "BUN/creatinine ratio not elevated",
+          `BUN/creatinine ratio is ${valText(bunCr)} (<20).${anemiaText} This does not support prerenal physiology or upper-GI bleeding as the explanation for the current labs.`,
+          anemia
+            ? "A lower ratio does not exclude upper-GI bleeding and does not evaluate lower-GI blood loss, which usually does not raise BUN disproportionately. Continue the anemia workup based on acuity, indices, iron studies, reticulocytes, symptoms, medications, and bleeding risk."
+            : `${commonCaution} A lower ratio does not exclude volume depletion or GI bleeding.`,
+          "Renal / volume");
+      } else if (bunCr < 30) {
+        add(anemia ? "moderate" : "low", anemia ? "Elevated BUN/creatinine ratio with anemia" : "Elevated BUN/creatinine ratio",
+          `BUN/creatinine ratio is ${valText(bunCr)} (20–29.9).${anemiaText} This is compatible with reduced effective circulating volume or increased urea generation${anemia ? "; upper-GI blood loss is also part of the differential" : ""}.${lowCreatinineCaution}`,
+          `${commonCaution} This range has limited specificity for distinguishing prerenal physiology from upper-GI bleeding.`,
+          "Renal / volume");
+      } else if (bunCr < 35) {
+        add("moderate", anemia ? "Marked BUN/creatinine elevation with anemia" : "Marked BUN/creatinine elevation",
+          `BUN/creatinine ratio is ${valText(bunCr)} (30–34.9).${anemiaText} Prerenal physiology is plausible${anemia ? ", and the combination increases concern for an upper-GI source" : "; upper-GI bleeding is another possible cause of disproportionate urea generation"}.${lowCreatinineCaution}`,
+          `${commonCaution} Look specifically for melena, hematemesis, orthostasis, NSAID/antiplatelet/anticoagulant exposure, and a falling hemoglobin.`,
+          "Renal / volume");
+      } else {
+        add(anemia ? "high" : "moderate", anemia ? "BUN/creatinine ≥35 with anemia — assess for upper-GI bleeding" : "BUN/creatinine ratio ≥35",
+          `BUN/creatinine ratio is ${valText(bunCr)} (≥35).${anemiaText} This degree of disproportionate BUN elevation supports prerenal physiology and, when anemia is present, makes upper-GI bleeding substantially more concerning.${lowCreatinineCaution}`,
+          `${commonCaution} If bleeding symptoms, hemodynamic instability, or an acute hemoglobin decline are present, this warrants urgent clinical assessment. The ratio still does not identify the bleeding site by itself.`,
+          "Renal / volume");
+      }
+    }
+
+    if (Number.isFinite(v.egfr)) {
+      const stage = v.egfr >= 90 ? "G1" : v.egfr >= 60 ? "G2" : v.egfr >= 45 ? "G3a" : v.egfr >= 30 ? "G3b" : v.egfr >= 15 ? "G4" : "G5";
+      addCalc("GFR category", `${stage} (eGFR ${v.egfr})`, "KDIGO GFR category; chronicity is not established by one result.", "Renal / volume");
+      if (v.egfr < 60) add("moderate", "Reduced eGFR",
+        `eGFR is ${v.egfr} mL/min/1.73 m² (${stage}).`,
+        "A single value does not distinguish AKI from CKD or establish >3 months of chronicity. Compare with baseline and repeat as clinically indicated.",
+        "Renal / volume");
+    }
+    if (Number.isFinite(v.uacr)) {
+      const cat = v.uacr < 30 ? "A1" : v.uacr <= 300 ? "A2" : "A3";
+      addCalc("Albuminuria category", `${cat} (urine ACR ${v.uacr} mg/g)`, "A1 <30; A2 30–300; A3 >300 mg/g.", "Renal / volume");
+      if (v.uacr >= 30) add("moderate", `${cat} albuminuria`,
+        `Urine ACR is ${v.uacr} mg/g.`,
+        "Confirm persistence; exercise, infection, fever, marked hyperglycemia, menstruation, and acute illness can transiently increase albuminuria.",
+        "Renal / volume");
+    }
+
+    // Acid-base / electrolytes
+    if (present(v, "sodium", "chloride", "bicarbonate")) {
+      ag = v.sodium - v.chloride - v.bicarbonate;
+      addCalc("Anion gap (without K)", `${valText(ag)} mmol/L`, `${v.sodium} − ${v.chloride} − ${v.bicarbonate}`, "Acid–base / electrolytes");
+      if (Number.isFinite(v.potassium)) {
+        const agWithK = v.sodium + v.potassium - v.chloride - v.bicarbonate;
+        addCalc("Anion gap (including K)", `${valText(agWithK)} mmol/L`, `${v.sodium} + ${v.potassium} − ${v.chloride} − ${v.bicarbonate}`, "Acid–base / electrolytes");
+        if (Number.isFinite(v.anion_gap_reported)) {
+          const diffNoK = Math.abs(v.anion_gap_reported - ag);
+          const diffWithK = Math.abs(v.anion_gap_reported - agWithK);
+          if (diffWithK + 0.5 < diffNoK) {
+            add("low", "Reported anion gap appears to include potassium",
+              `Reported gap ${v.anion_gap_reported}; calculated gap is ${valText(ag)} without K and ${valText(agWithK)} with K.`,
+              "Anion-gap formulas differ across laboratories. Use the formula and reference interval employed by the reporting lab; the values are mathematically concordant.",
+              "Acid–base / electrolytes");
+          }
+        }
+      }
+      if (Number.isFinite(v.albumin)) {
+        correctedAg = ag + 2.5 * (4 - v.albumin);
+        addCalc("Albumin-adjusted anion gap", `${valText(correctedAg)} mmol/L`, `${valText(ag)} + 2.5 × (4 − ${v.albumin})`, "Acid–base / electrolytes");
+      }
+      const usedAg = correctedAg ?? ag;
+      if (v.bicarbonate < 22 && usedAg > 16) {
+        add("moderate", "High-anion-gap metabolic acidosis pattern",
+          `Bicarbonate is ${v.bicarbonate}; ${correctedAg !== undefined ? "albumin-adjusted " : ""}anion gap is ${valText(usedAg)}.`,
+          "Confirm with clinical context and, when relevant, blood gas, lactate, ketones, renal function, toxic exposure assessment, and repeat chemistry.",
+          "Acid–base / electrolytes");
+        const delta = (usedAg - 12) / (24 - v.bicarbonate);
+        if (Number.isFinite(delta) && delta >= 0) addCalc("Delta ratio", valText(delta, 2),
+          `(${valText(usedAg)} − 12) ÷ (24 − ${v.bicarbonate}); a screening heuristic for mixed metabolic disorders.`,
+          "Acid–base / electrolytes");
+      } else if (v.bicarbonate < 22 && usedAg <= 16) {
+        add("low", "Low-bicarbonate, non-gap pattern",
+          `Bicarbonate is ${v.bicarbonate} with an anion gap of ${valText(usedAg)}.`,
+          "Could reflect non-gap metabolic acidosis, chronic respiratory alkalosis, or specimen artifact; a blood gas and chloride/urine context may clarify.",
+          "Acid–base / electrolytes");
+      }
+    }
+
+    if (present(v, "sodium", "glucose", "bun")) {
+      calcOsm = 2 * v.sodium + v.glucose / 18 + v.bun / 2.8;
+      addCalc("Calculated serum osmolality", `${valText(calcOsm)} mOsm/kg`, `2 × ${v.sodium} + ${v.glucose}/18 + ${v.bun}/2.8`, "Acid–base / electrolytes");
+      if (Number.isFinite(v.measured_osm)) {
+        const osmGap = v.measured_osm - calcOsm;
+        addCalc("Osmolal gap", `${valText(osmGap)} mOsm/kg`, `${v.measured_osm} − ${valText(calcOsm)}`, "Acid–base / electrolytes");
+        if (osmGap > 10) add("moderate", "Elevated osmolal gap",
+          `Measured minus calculated osmolality is approximately ${valText(osmGap)} mOsm/kg.`,
+          "Formula and assay variation matter. Consider alcohols, toxic alcohols, ketones, lactate, renal failure, and exogenous osmoles in context.",
+          "Acid–base / electrolytes");
+      }
+    }
+    if (present(v, "sodium", "glucose")) {
+      effectiveOsm = 2 * v.sodium + v.glucose / 18;
+      addCalc("Calculated effective osmolality (tonicity)", `${valText(effectiveOsm)} mOsm/kg`,
+        `2 × ${v.sodium} + ${v.glucose}/18; BUN is excluded because it is not an effective osmole.`,
+        "Acid–base / electrolytes");
+
+      if (v.glucose > 100) {
+        const glucoseHundreds = (v.glucose - 100) / 100;
+        correctedNa16 = v.sodium + 1.6 * glucoseHundreds;
+        correctedNa24 = v.sodium + 2.4 * glucoseHundreds;
+        addCalc("Glucose-adjusted sodium (Katz 1.6)", `${valText(correctedNa16)} mmol/L`,
+          `${v.sodium} + 1.6 × ((${v.glucose} − 100)/100)`,
+          "Acid–base / electrolytes");
+        addCalc("Glucose-adjusted sodium (Hillier 2.4)", `${valText(correctedNa24)} mmol/L`,
+          `${v.sodium} + 2.4 × ((${v.glucose} − 100)/100)`,
+          "Acid–base / electrolytes");
+      }
+
+      const sodiumLowEstimate = Number.isFinite(correctedNa16) ? correctedNa16 : v.sodium;
+      const sodiumHighEstimate = Number.isFinite(correctedNa24) ? correctedNa24 : v.sodium;
+      const sodiumContext = Number.isFinite(correctedNa16)
+        ? `Measured sodium ${v.sodium}; glucose-adjusted estimates ${valText(correctedNa16)}–${valText(correctedNa24)} mmol/L; calculated tonicity ${valText(effectiveOsm)} mOsm/kg.`
+        : `Sodium is ${v.sodium} mmol/L; calculated tonicity is ${valText(effectiveOsm)} mOsm/kg.`;
+
+      if (v.sodium <= 124 && sodiumLowEstimate < 125 && effectiveOsm < 275) {
+        add("high", "Marked hypotonic hyponatremia pattern", sodiumContext,
+          "Confirm promptly and interpret with symptoms, acuity, medications, volume status, urine osmolality, and urine sodium. The safe correction rate depends on chronicity and risk factors.",
+          "Acid–base / electrolytes");
+      } else if (v.sodium < 135 && Number.isFinite(correctedNa16) && correctedNa16 >= 135) {
+        add("low", "Low measured sodium explained by hyperglycemia", sodiumContext,
+          "This is a translocational/hypertonic pattern rather than proven hypotonic hyponatremia. Reassess sodium as glucose falls; the two correction factors intentionally show physiologic uncertainty.",
+          "Acid–base / electrolytes");
+      } else if (sodiumLowEstimate < 135) {
+        add("moderate", "Hyponatremia persists after glucose adjustment", sodiumContext,
+          "Confirm tonicity and interpret with symptoms, acuity, medications, volume status, urine osmolality, and urine sodium.",
+          "Acid–base / electrolytes");
+      }
+
+      if (sodiumHighEstimate >= 150) {
+        add("high", "Marked hypernatremia after glucose adjustment", sodiumContext,
+          "Assess acuity, neurologic symptoms, water balance, renal losses, intake/access, and repeat measurement. Correction planning depends on duration and cause.",
+          "Acid–base / electrolytes");
+      } else if (sodiumHighEstimate > 145) {
+        add("moderate", "Hypernatremia after glucose adjustment", sodiumContext,
+          "The measured sodium can conceal a free-water deficit during hyperglycemia. Interpret with volume status, urine output/osmolality, and trajectory.",
+          "Acid–base / electrolytes");
+      }
+    }
+    if (Number.isFinite(v.potassium)) {
+      if (v.potassium >= 6) add("high", "Marked hyperkalemia", `Potassium is ${v.potassium} mmol/L.`, "Confirm urgently when unexpected and assess ECG/clinical context; hemolysis and collection artifact can falsely elevate potassium.", "Acid–base / electrolytes");
+      else if (v.potassium >= 5.5) add("moderate", "Hyperkalemia", `Potassium is ${v.potassium} mmol/L.`, "Review renal function, medications, acid–base status, and hemolysis; urgency depends on trajectory, symptoms, and ECG.", "Acid–base / electrolytes");
+      else if (v.potassium <= 3) add("high", "Marked hypokalemia", `Potassium is ${v.potassium} mmol/L.`, "Assess symptoms/ECG, magnesium, losses, medications, and replacement needs.", "Acid–base / electrolytes");
+      else if (v.potassium < 3.5) add("moderate", "Hypokalemia", `Potassium is ${v.potassium} mmol/L.`, "Consider GI/renal losses, medications, magnesium, and acid–base pattern.", "Acid–base / electrolytes");
+    }
+    if (Number.isFinite(v.magnesium)) {
+      if (v.magnesium <= 1.2) add("high", "Marked hypomagnesemia", `Magnesium is ${v.magnesium} mg/dL.`,
+        "Assess symptoms/ECG, medications, GI and renal losses, and associated potassium and calcium abnormalities. Use the reporting laboratory range and verify units.",
+        "Acid–base / electrolytes");
+      else if (v.magnesium < 1.7) add("moderate", "Hypomagnesemia", `Magnesium is ${v.magnesium} mg/dL.`,
+        "Low magnesium can sustain renal potassium wasting and contribute to hypocalcemia. Review medications, GI/renal losses, and replacement needs.",
+        "Acid–base / electrolytes");
+      else if (v.magnesium > 2.6) add("low", "Elevated magnesium", `Magnesium is ${v.magnesium} mg/dL.`,
+        "Interpret with kidney function, magnesium-containing medications or supplements, and the reporting laboratory range.",
+        "Acid–base / electrolytes");
+    }
+    if (present(v, "potassium", "magnesium") && v.potassium < 3.5 && v.magnesium < 1.7) {
+      add("moderate", "Hypokalemia with hypomagnesemia",
+        `Potassium is ${v.potassium} mmol/L and magnesium is ${v.magnesium} mg/dL.`,
+        "Potassium may remain difficult to correct until magnesium deficiency is addressed; evaluate and replace both as clinically appropriate.",
+        "Acid–base / electrolytes");
+    }
+    if (present(v, "calcium", "magnesium") && (Number.isFinite(correctedCa) ? correctedCa : v.calcium) < 8.5 && v.magnesium < 1.7) {
+      add("moderate", "Low calcium pattern with hypomagnesemia",
+        `Calcium is ${Number.isFinite(correctedCa) ? `${valText(correctedCa)} mg/dL after rough albumin adjustment` : `${v.calcium} mg/dL`} and magnesium is ${v.magnesium} mg/dL.`,
+        "Magnesium deficiency can impair PTH secretion/action and contribute to hypocalcemia. Confirm clinically important calcium abnormalities with ionized calcium.",
+        "Protein / calcium");
+    }
+    if (Number.isFinite(v.phosphorus)) {
+      if (v.phosphorus <= 1) add("high", "Marked hypophosphatemia", `Phosphorus is ${v.phosphorus} mg/dL.`,
+        "Verify units and assess symptoms, nutrition/refeeding, insulin shifts, respiratory alkalosis, alcohol use, medications, and renal losses.",
+        "Acid–base / electrolytes");
+      else if (v.phosphorus < 2.5) add("moderate", "Hypophosphatemia", `Phosphorus is ${v.phosphorus} mg/dL.`,
+        "Interpret with nutrition/refeeding, insulin shifts, acid–base status, vitamin D/PTH, medications, and renal losses.",
+        "Acid–base / electrolytes");
+      else if (v.phosphorus > 4.5) add("low", "Elevated phosphorus", `Phosphorus is ${v.phosphorus} mg/dL.`,
+        "Interpret with kidney function, timing/hemolysis, calcium, PTH, vitamin D, diet, and the reporting laboratory range. Trends are more informative than an isolated value.",
+        "Acid–base / electrolytes");
+    }
+
+    // Hematology / iron
+    if (present(v, "mcv", "rbc") && v.rbc > 0) {
+      mentzer = v.mcv / v.rbc;
+      if (v.mcv < 80) {
+        addCalc("Mentzer index", valText(mentzer, 2), `${v.mcv} ÷ ${v.rbc}`, "Hematology / iron");
+      }
+    }
+    if (Number.isFinite(v.mcv) && v.mcv < 80) {
+      const clues = [];
+      if (Number.isFinite(v.ferritin)) clues.push(`ferritin ${v.ferritin}`);
+      if (Number.isFinite(v.rdw)) clues.push(`RDW ${v.rdw}`);
+      if (Number.isFinite(mentzer)) clues.push(`Mentzer ${valText(mentzer, 2)}`);
+      let interpretation = "Microcytosis is present.";
+      if (Number.isFinite(v.ferritin) && v.ferritin < 30) interpretation += " Low ferritin strongly supports iron deficiency.";
+      else if (Number.isFinite(mentzer)) interpretation += mentzer < 13
+        ? " Mentzer <13 leans toward a thalassemia-trait pattern."
+        : " Mentzer ≥13 leans toward an iron-deficiency pattern.";
+      add("moderate", "Microcytosis", `${interpretation}${clues.length ? ` (${clues.join("; ")})` : ""}`,
+        "Mentzer is only a screening heuristic and performs imperfectly, especially in adults or mixed disease. Interpret with ferritin, transferrin saturation, inflammation, smear, RBC count, and hemoglobin electrophoresis when appropriate.",
+        "Hematology / iron");
+    } else if (Number.isFinite(v.mcv) && v.mcv > 100) {
+      add("moderate", "Macrocytosis", `MCV is ${v.mcv} fL.`,
+        "Consider B12/folate status, alcohol/liver disease, thyroid disease, medications, reticulocytosis, and marrow disease; anemia and other cytopenias change urgency.",
+        "Hematology / iron");
+    }
+    const anemiaCut = demographics.sex === "female" ? 12 : demographics.sex === "male" ? 13 : 11;
+    if (Number.isFinite(v.hemoglobin) && v.hemoglobin < anemiaCut) {
+      const morphology = !Number.isFinite(v.mcv) ? "" : v.mcv < 80 ? "microcytic" : v.mcv > 100 ? "macrocytic" : "normocytic";
+      add("moderate", `${morphology ? morphology[0].toUpperCase() + morphology.slice(1) + " " : ""}anemia`,
+        `Hemoglobin is ${v.hemoglobin} g/dL${Number.isFinite(v.mcv) ? ` with MCV ${v.mcv} fL` : ""}${Number.isFinite(v.rdw) ? ` and RDW ${v.rdw}%` : ""}.`,
+        morphology === "normocytic"
+          ? "Compare with baseline and reticulocyte count. Consider blood loss, inflammation, kidney disease, hemolysis, endocrine disease, nutritional deficiency, and marrow disease according to context."
+          : "Severity, trajectory, reticulocyte response, smear, iron studies, renal function, nutritional markers, medications, and bleeding context determine the next step.",
+        "Hematology / iron");
+    }
+    if (present(v, "iron", "tibc") && v.tibc > 0) {
+      tsat = 100 * v.iron / v.tibc;
+      addCalc("Transferrin saturation", `${valText(tsat)}%`, `100 × ${v.iron} ÷ ${v.tibc}`, "Hematology / iron");
+      if (tsat < 20) add("low", "Low transferrin saturation", `Calculated TSAT is ${valText(tsat)}%.`, "Supports iron-restricted erythropoiesis but does not distinguish absolute deficiency from inflammation without ferritin and context.", "Hematology / iron");
+      if (tsat > 45) add("low", "Elevated transferrin saturation", `Calculated TSAT is ${valText(tsat)}%.`, "Repeat fasting when appropriate and interpret with ferritin, liver disease, supplements/transfusions, and hereditary iron-loading risk.", "Hematology / iron");
+    }
+    if (Number.isFinite(v.neutrophils_abs)) {
+      addCalc("Absolute neutrophil count", `${valText(v.neutrophils_abs, 2)} K/µL`, "Directly reported absolute count; preferred over a percentage-derived estimate.", "Hematology / iron");
+    } else if (present(v, "wbc", "neutrophils")) {
+      addCalc("Absolute neutrophil count estimate", `${valText(v.wbc * v.neutrophils / 100, 2)} K/µL`, `${v.wbc} × ${v.neutrophils}%`, "Hematology / iron");
+    }
+    if (present(v, "neutrophils_abs", "lymphocytes_abs") && v.lymphocytes_abs > 0) {
+      addCalc("Neutrophil/lymphocyte ratio", valText(v.neutrophils_abs / v.lymphocytes_abs, 2), `${v.neutrophils_abs} ÷ ${v.lymphocytes_abs}. NLR is nonspecific.`, "Hematology / iron");
+    } else if (present(v, "neutrophils", "lymphocytes") && v.lymphocytes > 0) {
+      addCalc("Neutrophil/lymphocyte ratio", valText(v.neutrophils / v.lymphocytes, 2), `${v.neutrophils}% ÷ ${v.lymphocytes}%. NLR is nonspecific.`, "Hematology / iron");
+    }
+    if (Number.isFinite(v.eosinophils) && v.eosinophils > 5 && Number.isFinite(v.eosinophils_abs) && v.eosinophils_abs <= 0.5) {
+      add("low", "Relative eosinophil percentage with normal absolute count",
+        `Eosinophils are ${v.eosinophils}% but the absolute count is ${v.eosinophils_abs} K/µL.`,
+        "Clinical eosinophilia is defined by the absolute count, not the percentage alone. A lower neutrophil fraction can make the percentage appear high.",
+        "Hematology / iron");
+    }
+
+    const cytopenias = [];
+    if (Number.isFinite(v.hemoglobin) && v.hemoglobin < (demographics.sex === "female" ? 12 : 13)) cytopenias.push("anemia");
+    if (Number.isFinite(v.wbc) && v.wbc < 4) cytopenias.push("leukopenia");
+    if (Number.isFinite(v.platelets) && v.platelets < 150) cytopenias.push("thrombocytopenia");
+    if (cytopenias.length >= 2) add("moderate", "Multiple cytopenias",
+      `${cytopenias.join(" and ")} are present.`,
+      "Confirm with repeat CBC/differential and smear; medications, infection, liver/splenic disease, nutritional deficiency, hemolysis/consumption, and marrow disorders are among the context-dependent possibilities.",
+      "Hematology / iron");
+
+    // Liver / metabolic / thyroid
+    if (present(v, "ast", "alt") && v.alt > 0) {
+      const ratio = v.ast / v.alt;
+      addCalc("AST/ALT ratio", valText(ratio, 2), `${v.ast} ÷ ${v.alt}`, "Liver / metabolic");
+      if (Number.isFinite(demographics.age) && demographics.age > 0 && Number.isFinite(v.platelets) && v.platelets > 0) {
+        fib4 = demographics.age * v.ast / (v.platelets * Math.sqrt(v.alt));
+        addCalc("FIB-4", valText(fib4, 2), `age × AST ÷ (platelets × √ALT)`, "Liver / metabolic");
+        const lowCut = demographics.age > 65 ? 2.0 : 1.3;
+        if (fib4 < lowCut) add("low", "FIB-4 below usual primary-care rule-out threshold",
+          `FIB-4 is ${valText(fib4, 2)}.`,
+          `The usual lower threshold is ${lowCut} at this age. FIB-4 is less reliable in acute illness, age <35, thrombocytopenia from another cause, and very advanced age.`,
+          "Liver / metabolic");
+        else if (fib4 > 2.67) add("moderate", "Elevated FIB-4",
+          `FIB-4 is ${valText(fib4, 2)}.`,
+          "This supports secondary fibrosis assessment rather than diagnosing cirrhosis. Interpret in the relevant liver-disease pathway.",
+          "Liver / metabolic");
+        else add("low", "Indeterminate FIB-4 range",
+          `FIB-4 is ${valText(fib4, 2)}.`,
+          "Consider secondary fibrosis assessment when the patient belongs to an at-risk population.",
+          "Liver / metabolic");
+      }
+    }
+    if (present(v, "bilirubin", "inr", "creatinine", "sodium", "albumin")) {
+      if (Number.isFinite(demographics.age) && demographics.age >= 18 && demographics.sex) {
+        const female = demographics.sex === "female" ? 1 : 0;
+        const boundedBilirubin = Math.max(1, v.bilirubin);
+        const boundedInr = Math.max(1, v.inr);
+        const dialysisCr = demographics.dialysis === "yes" ? 3 : v.creatinine;
+        const boundedCreatinine = Math.min(3, Math.max(1, dialysisCr));
+        const boundedSodium = Math.min(137, Math.max(125, v.sodium));
+        const boundedAlbumin = Math.min(3.5, Math.max(1.5, v.albumin));
+        const meldRaw =
+          1.33 * female +
+          4.56 * Math.log(boundedBilirubin) +
+          0.82 * (137 - boundedSodium) -
+          0.24 * (137 - boundedSodium) * Math.log(boundedBilirubin) +
+          9.09 * Math.log(boundedInr) +
+          11.14 * Math.log(boundedCreatinine) +
+          1.85 * (3.5 - boundedAlbumin) -
+          1.83 * (3.5 - boundedAlbumin) * Math.log(boundedCreatinine) +
+          6;
+        const meld3 = Math.min(40, Math.max(6, Math.round(meldRaw)));
+        const dialysisText = demographics.dialysis === "yes"
+          ? "Creatinine set to 3.0 because qualifying dialysis was selected."
+          : demographics.dialysis === "no"
+            ? "No qualifying dialysis selected."
+            : "Dialysis status is unknown; this provisional result uses the measured creatinine and can be wrong if there were at least 2 dialysis treatments or ≥24 hours of continuous dialysis in the preceding 7 days.";
+        addCalc("MELD 3.0", `${meld3} points`,
+          `Current OPTN adult formula using bilirubin, INR, creatinine, sodium, albumin, and sex. Applied bounds: bilirubin and INR ≥1; creatinine 1–3; sodium 125–137; albumin 1.5–3.5; final score 6–40. ${dialysisText}`,
+          "Liver / metabolic");
+        add("low", "MELD 3.0 context",
+          `Calculated MELD 3.0 is ${meld3}.`,
+          "MELD 3.0 estimates short-term mortality and supports liver-transplant allocation in patients with advanced liver disease; it is not a general liver-function score. Verify contemporaneous labs, dialysis status, transplant-program rules, and exception criteria before clinical use.",
+          "Liver / metabolic");
+      } else {
+        add("low", "MELD 3.0 needs adult age and sex",
+          "All five laboratory inputs are present, but an adult age and sex are required for this implementation.",
+          "The current adult OPTN formula includes a female-sex coefficient. Pediatric allocation uses a different pathway, and this tool does not calculate PELD.",
+          "Liver / metabolic");
+      }
+    }
+    if (present(v, "total_chol", "hdl")) {
+      const nonHdl = v.total_chol - v.hdl;
+      addCalc("Non-HDL cholesterol", `${valText(nonHdl, 0)} mg/dL`, `${v.total_chol} − ${v.hdl}`, "Liver / metabolic");
+      if (Number.isFinite(v.non_hdl) && Math.abs(v.non_hdl - nonHdl) > 2) {
+        add("low", "Reported and calculated non-HDL differ",
+          `Reported non-HDL is ${v.non_hdl} mg/dL; calculated value is ${valText(nonHdl, 0)} mg/dL.`,
+          "Small differences may reflect rounding. Larger differences warrant checking whether results came from the same specimen.",
+          "Liver / metabolic");
+      }
+      if (Number.isFinite(v.ldl)) addCalc("Remnant cholesterol estimate",
+        `${valText(v.total_chol - v.hdl - v.ldl, 0)} mg/dL`, `${v.total_chol} − ${v.hdl} − ${v.ldl}`, "Liver / metabolic");
+    }
+    if (Number.isFinite(v.a1c)) {
+      const calculatedEag = 28.7 * v.a1c - 46.7;
+      addCalc("A1c-derived estimated average glucose", `${valText(calculatedEag, 0)} mg/dL`,
+        `28.7 × ${v.a1c} − 46.7.`,
+        "Liver / metabolic");
+      if (Number.isFinite(v.estimated_avg_glucose) && Math.abs(v.estimated_avg_glucose - calculatedEag) <= 5) {
+        add("low", "Reported eAG is internally consistent with A1c",
+          `A1c ${v.a1c}% corresponds to approximately ${valText(calculatedEag, 0)} mg/dL; reported eAG is ${v.estimated_avg_glucose} mg/dL.`,
+          "eAG is calculated from A1c rather than an independent glucose measurement.",
+          "Liver / metabolic");
+      }
+      if (v.a1c >= 6.5) {
+        add("moderate", "A1c in the diabetes range", `A1c is ${v.a1c}%.`,
+          "In an asymptomatic patient, diagnosis generally requires confirmation unless there is unequivocal hyperglycemia. Altered red-cell turnover, anemia, transfusion, hemoglobin variants, and advanced kidney disease can distort A1c.",
+          "Liver / metabolic");
+      } else if (v.a1c >= 5.7) {
+        add("low", "A1c in the prediabetes range", `A1c is ${v.a1c}%.`,
+          "Interpret with prior values and factors affecting red-cell turnover. This identifies dysglycemia risk, not a direct measurement of insulin resistance.",
+          "Liver / metabolic");
+      }
+    }
+    if (Number.isFinite(v.apob)) {
+      addCalc("ApoB", `${v.apob} mg/dL`, "Directly measured atherogenic particle number; treatment targets depend on clinical risk and guideline framework.", "Liver / metabolic");
+    }
+    if (Number.isFinite(v.lpa)) {
+      addCalc("Lp(a)", `${v.lpa} nmol/L`, "Directly measured inherited risk enhancer; use the reported units because mg/dL and nmol/L are not reliably interconvertible.", "Liver / metabolic");
+    }
+    if (Number.isFinite(v.hs_crp)) {
+      addCalc("High-sensitivity CRP", `${v.hs_crp} mg/L`, "Cardiovascular risk interpretation requires a clinically stable patient; acute infection or inflammation can invalidate the result.", "Liver / metabolic");
+    }
+    if (present(v, "triglycerides", "hdl") && v.hdl > 0) {
+      const tgHdl = v.triglycerides / v.hdl;
+      addCalc("Triglyceride/HDL ratio", valText(tgHdl, 2),
+        `${v.triglycerides} ÷ ${v.hdl}. This is a nonspecific cardiometabolic marker, not a diagnostic test for insulin resistance; performance and proposed thresholds vary by sex, ancestry, metabolic state, and fasting status.`,
+        "Insulin resistance");
+    }
+
+    const hasInsulinInputs = present(v, "glucose", "insulin") && v.glucose > 0 && v.insulin > 0;
+    const hasTygInputs = present(v, "glucose", "triglycerides") && v.glucose > 0 && v.triglycerides > 0;
+    if (demographics.fasting === "yes") {
+      if (hasInsulinInputs) {
+        const homaIr = v.glucose * v.insulin / 405;
+        const quicki = 1 / (Math.log10(v.insulin) + Math.log10(v.glucose));
+        addCalc("HOMA-IR", valText(homaIr, 2),
+          `${v.insulin} µIU/mL × ${v.glucose} mg/dL ÷ 405. Requires paired fasting insulin and glucose. Higher values imply greater insulin resistance, but there is no universal clinical cutoff and insulin assays are not standardized.`,
+          "Insulin resistance");
+        addCalc("QUICKI", valText(quicki, 3),
+          `1 ÷ [log₁₀(${v.insulin}) + log₁₀(${v.glucose})]. Requires paired fasting insulin and glucose. Lower values imply lower insulin sensitivity; use as a continuous research/surrogate measure rather than a stand-alone diagnosis.`,
+          "Insulin resistance");
+      }
+      if (hasTygInputs) {
+        const tyg = Math.log(v.triglycerides * v.glucose / 2);
+        addCalc("Triglyceride-glucose (TyG) index", valText(tyg, 2),
+          `ln[${v.triglycerides} mg/dL × ${v.glucose} mg/dL ÷ 2]. Requires fasting triglycerides and glucose. Higher values correlate with insulin resistance, but proposed cutoffs are population-specific and should not diagnose it alone.`,
+          "Insulin resistance");
+      }
+    } else if (hasInsulinInputs || hasTygInputs) {
+      const available = [
+        hasInsulinInputs ? "HOMA-IR and QUICKI" : "",
+        hasTygInputs ? "TyG" : ""
+      ].filter(Boolean).join(" and ");
+      add("low", "Fasting status needed for insulin-resistance indices",
+        `${available} inputs are present, but the fasting status is ${demographics.fasting === "no" ? "nonfasting" : "unknown"}.`,
+        "These indices were validated using fasting samples. Select “Fasting” only when the glucose, insulin, and/or triglyceride specimens were collected fasting; otherwise the tool intentionally suppresses the calculations.",
+        "Insulin resistance");
+    }
+    if (Number.isFinite(v.triglycerides) && v.triglycerides >= 500) add("high", "Severe hypertriglyceridemia",
+      `Triglycerides are ${v.triglycerides} mg/dL.`,
+      "Confirm fasting status and persistence; pancreatitis risk rises substantially at very high levels, especially ≥1,000 mg/dL. Assess secondary causes.",
+      "Liver / metabolic");
+
+    if (present(v, "tsh", "free_t4")) {
+      if (v.tsh > 4.5 && v.free_t4 < 0.8) add("moderate", "Primary hypothyroid biochemical pattern", `TSH ${v.tsh} with free T4 ${v.free_t4}.`, "Use local ranges and clinical context; medications, illness, assay interference, pregnancy, and timing can alter interpretation.", "Thyroid");
+      else if (v.tsh > 4.5) add("low", "Elevated TSH with non-low free T4", `TSH ${v.tsh} with free T4 ${v.free_t4}.`, "Compatible with subclinical hypothyroidism if persistent and within local ranges; repeat/context determine significance.", "Thyroid");
+      else if (v.tsh < 0.1 && v.free_t4 > 1.8) add("moderate", "Thyrotoxic biochemical pattern", `TSH ${v.tsh} with free T4 ${v.free_t4}.`, "Use local ranges and clinical context; exogenous hormone, thyroiditis, endogenous hyperthyroidism, assay interference, and acute illness are possibilities.", "Thyroid");
+      else if (v.tsh < 0.4) add("low", "Suppressed/low TSH without high free T4", `TSH ${v.tsh} with free T4 ${v.free_t4}.`, "Could be subclinical hyperthyroidism, medication effect, recovery/illness, central disease, or assay effect depending on free T4 and T3.", "Thyroid");
+    }
+    if (present(v, "lh", "fsh") && v.fsh > 0) {
+      const lhFshRatio = v.lh / v.fsh;
+      addCalc("LH/FSH ratio", valText(lhFshRatio, 2),
+        `${v.lh} ÷ ${v.fsh}. This ratio is context-dependent and is not diagnostic of PCOS, menopause, ovarian reserve, or pituitary disease. Interpret the individual values using assay-specific ranges together with age, menstrual-cycle phase, pregnancy status, symptoms, estradiol, hormonal contraception, and fertility or endocrine medications.`,
+        "Reproductive hormones");
+    }
+    if (Number.isFinite(v.ptau217)) {
+      add("low", "Plasma phosphorylated-tau result requires assay-specific interpretation",
+        `p-tau217 is ${v.ptau217} pg/mL.`,
+        "Do not diagnose Alzheimer disease from this number alone. Cutoffs and intermediate zones are assay-specific, and interpretation belongs within a cognitive evaluation with pretest probability and an established confirmatory pathway.",
+        "Neurologic biomarkers");
+    }
+
+    const rank = { high: 0, moderate: 1, low: 2 };
+    patterns.sort((a,b) => rank[a.type] - rank[b.type] || a.domain.localeCompare(b.domain));
+    return { calculations, patterns };
+  }
+
+  function render(parsed, analysis) {
+    const { values: v, metadata } = parsed;
+    const keys = Object.keys(v);
+    const result = document.getElementById("results");
+    if (!keys.length) {
+      result.innerHTML = `<div class="empty">No recognizable lab values were found. Try one result per line using common labels such as “Hemoglobin 11.2 g/dL” or “BUN: 28”.</div>`;
+      return;
+    }
+
+    const severeCount = analysis.patterns.filter(x => x.type === "high").length;
+    let html = `
+      <div class="summary">
+        <div class="stat"><b>${keys.length}</b><span>Labs parsed</span></div>
+        <div class="stat"><b>${analysis.calculations.length}</b><span>Calculations</span></div>
+        <div class="stat"><b>${analysis.patterns.length}</b><span>Patterns</span></div>
+      </div>
+      <div class="legend" aria-label="Card color legend">
+        <span class="green">Green · reassuring</span>
+        <span class="yellow">Yellow · review</span>
+        <span class="red">Red · concerning</span>
+        <span class="blue">Blue · informational/no universal range</span>
+      </div>`;
+
+    if (severeCount) html += `<div class="section-label">Potentially time-sensitive</div>`;
+
+    const groups = [
+      ["Patterns requiring context", analysis.patterns],
+      ["Derived calculations", analysis.calculations]
+    ];
+    for (const [label, items] of groups) {
+      if (!items.length) continue;
+      html += `<div class="section-label">${label}</div>`;
+      for (const item of items) {
+        const isCalc = item.type === "calc";
+        const color = isCalc ? calculationColor(item, v, {
+          age: Number(document.getElementById("age").value) || null,
+          sex: document.getElementById("sex").value
+        }) : patternColor(item);
+        const education = educationFor(item);
+        const sourceLabel = htmlEsc(education.source[0]);
+        const sourceUrl = htmlEsc(education.source[1]);
+        const frontValueClass = isCalc ? "card-value" : "";
+        const backNext = isCalc ? education.next : item.because;
+        html += `<article class="flip-card" role="button" tabindex="0" aria-label="${htmlEsc(item.title)}. ${colorLabel(color)}. Activate to flip." aria-pressed="false">
+          <div class="flip-card-inner">
+            <section class="card-face card-front ${color}">
+              <div class="top"><h3>${htmlEsc(item.title)}</h3><div class="badges"><span class="badge">${colorLabel(color)}</span><span class="badge">${htmlEsc(item.domain)}</span></div></div>
+              <p class="${frontValueClass}">${htmlEsc(item.body)}</p>
+              <span class="flip-hint">Click to learn why ↻</span>
+            </section>
+            <section class="card-face card-back ${color}">
+              <div class="top"><h3>${htmlEsc(item.title)}</h3><span class="badge">${colorLabel(color)}</span></div>
+              <h4>Why calculate it</h4>
+              <p>${htmlEsc(education.why)}</p>
+              ${isCalc ? `<h4>Formula / limitation</h4><p>${htmlEsc(item.because)}</p>` : ""}
+              <h4>Next steps</h4>
+              <p>${htmlEsc(backNext)}</p>
+              <h4>Further learning</h4>
+              <p><a class="source-link" href="${sourceUrl}" target="_blank" rel="noopener noreferrer">${sourceLabel}</a></p>
+              <span class="flip-hint">Click to return ↻</span>
+            </section>
+          </div>
+        </article>`;
+      }
+    }
+    if (!analysis.patterns.length) {
+      html += `<article class="flip-card" role="button" tabindex="0" aria-label="No configured pattern threshold was crossed. Activate to flip." aria-pressed="false">
+        <div class="flip-card-inner">
+          <section class="card-face card-front green"><div class="top"><h3>No configured pattern threshold was crossed</h3></div>
+            <p>The configured relationship rules did not identify an additional alert.</p><span class="flip-hint">Click to learn why ↻</span></section>
+          <section class="card-face card-back green"><h3>Important limitation</h3>
+            <p>The parsed values may still be abnormal by the reporting laboratory’s reference ranges. This prototype does not import every assay-specific range, symptom, medication, or prior result.</p>
+            <span class="flip-hint">Click to return ↻</span></section>
+        </div></article>`;
+    }
+
+    html += `<details><summary>Parsed values — verify before use</summary><div class="table-wrap"><table>
+      <thead><tr><th>Normalized lab</th><th>Value</th><th>Unit</th><th>Flag/qualifier</th><th>Date</th><th>Matched label</th></tr></thead><tbody>`;
+    for (const key of keys.sort()) {
+      html += `<tr><td>${htmlEsc(pretty[key] || key)}</td><td>${htmlEsc((metadata[key]?.comparator || "") + v[key])}</td><td>${htmlEsc(metadata[key]?.unit || "—")}</td><td>${htmlEsc([metadata[key]?.flag, metadata[key]?.qualifier].filter(Boolean).join(" · ") || "—")}</td><td>${htmlEsc(metadata[key]?.date || "—")}</td><td>${htmlEsc(metadata[key]?.label || "—")}</td></tr>`;
+    }
+    html += `</tbody></table></div></details>`;
+    if (parsed.qualitative?.length) {
+      html += `<details><summary>Qualitative results (${parsed.qualitative.length})</summary><div class="table-wrap"><table>
+        <thead><tr><th>Component</th><th>Result</th><th>Date</th></tr></thead><tbody>`;
+      for (const item of parsed.qualitative) {
+        html += `<tr><td>${htmlEsc(item.label)}</td><td>${htmlEsc(item.value)}</td><td>${htmlEsc(item.date || "—")}</td></tr>`;
+      }
+      html += `</tbody></table></div></details>`;
+    }
+    if (parsed.unrecognized?.length) {
+      html += `<details><summary>Parsed but not yet mapped (${parsed.unrecognized.length})</summary><div class="table-wrap"><table>
+        <thead><tr><th>Component</th><th>Value</th><th>Unit</th><th>Flag</th><th>Date</th></tr></thead><tbody>`;
+      for (const item of parsed.unrecognized) {
+        html += `<tr><td>${htmlEsc(item.label)}</td><td>${htmlEsc((item.comparator || "") + item.value)}</td><td>${htmlEsc(item.unit || "—")}</td><td>${htmlEsc(item.flag || "—")}</td><td>${htmlEsc(item.date || "—")}</td></tr>`;
+      }
+      html += `</tbody></table></div></details>`;
+    }
+    result.innerHTML = html;
+  }
+
+  function run() {
+    const raw = document.getElementById("labText").value;
+    const pastedDemographics = parseDemographics(raw);
+    const ageRaw = Number(document.getElementById("age").value);
+    const demographics = {
+      age: Number.isFinite(ageRaw) && ageRaw > 0 ? ageRaw : pastedDemographics.age,
+      sex: document.getElementById("sex").value || pastedDemographics.sex,
+      fasting: document.getElementById("fasting").value,
+      dialysis: document.getElementById("dialysis").value
+    };
+    if (!document.getElementById("age").value && demographics.age) document.getElementById("age").value = demographics.age;
+    if (!document.getElementById("sex").value && demographics.sex) document.getElementById("sex").value = demographics.sex;
+    const parsed = parseLabs(raw);
+    const analysis = analyze(parsed.values, demographics);
+    render(parsed, analysis);
+    document.getElementById("status").textContent =
+      Object.keys(parsed.values).length
+        ? `Parsed ${Object.keys(parsed.values).length} values. Please verify the parsed-value table.`
+        : "Nothing parsed. Try one lab per line.";
+  }
+
+  document.getElementById("analyze").addEventListener("click", run);
+  document.getElementById("results").addEventListener("click", event => {
+    if (event.target.closest("a")) return;
+    const card = event.target.closest(".flip-card");
+    if (!card) return;
+    const flipped = card.classList.toggle("flipped");
+    card.setAttribute("aria-pressed", String(flipped));
+  });
+  document.getElementById("results").addEventListener("keydown", event => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    const card = event.target.closest(".flip-card");
+    if (!card) return;
+    event.preventDefault();
+    const flipped = card.classList.toggle("flipped");
+    card.setAttribute("aria-pressed", String(flipped));
+  });
+  document.getElementById("clear").addEventListener("click", () => {
+    document.getElementById("labText").value = "";
+    document.getElementById("age").value = "";
+    document.getElementById("sex").value = "";
+    document.getElementById("fasting").value = "";
+    document.getElementById("dialysis").value = "";
+    document.getElementById("status").textContent = "";
+    document.getElementById("results").innerHTML = `<div class="empty">Paste Epic SmartPhrase output and select <b>Parse SmartPhrase</b>.</div>`;
+  });
+})();
+</script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a56052a9aa1b9026',t:'MTc5MzkyODUyMQ=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a56052a9aa1b9026',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

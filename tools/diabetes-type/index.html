@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Diabetes Type Evidence Tool - Gennady Gelman</title>
+  <style>
+    :root {
+      --ink:#14213d; --muted:#5d687a; --paper:#f4f6f3; --card:#fff; --line:#d8dedb;
+      --blue:#275dad; --blue-soft:#e7f0fb; --green:#267158; --green-soft:#e5f2ec;
+      --amber:#93620d; --amber-soft:#fff4d8; --violet:#6a4fa3; --violet-soft:#eee8f8;
+      --red:#9a3f38; --red-soft:#f9e9e6; --shadow:0 18px 50px rgba(20,33,61,.09);
+    }
+    *{box-sizing:border-box} body{margin:0;color:var(--ink);background:radial-gradient(circle at 85% 0,rgba(39,93,173,.10),transparent 32rem),var(--paper);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}
+    a{color:inherit}.shell{width:min(1220px,calc(100% - 32px));margin-inline:auto}
+    header{padding:34px 0 24px}.topline{display:flex;align-items:center;justify-content:space-between;gap:18px}.back{font-size:.82rem;font-weight:750;text-decoration:none;border-bottom:1px solid currentColor}.eyebrow{color:var(--blue);font-size:.73rem;font-weight:850;letter-spacing:.13em;text-transform:uppercase}
+    h1{max-width:900px;margin:8px 0 8px;font-size:clamp(2.2rem,5vw,4.8rem);letter-spacing:-.055em;line-height:.98}.intro{max-width:850px;margin:0;color:var(--muted);font-size:1rem}
+    .workspace{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(350px,.9fr);gap:20px;align-items:start}.panel{overflow:hidden;border:1px solid var(--line);border-radius:22px;background:rgba(255,255,255,.96);box-shadow:var(--shadow)}.panel-head{padding:19px 22px 15px;border-bottom:1px solid var(--line)}.panel-head h2{margin:0;font-size:1.08rem}.panel-head p{margin:4px 0 0;color:var(--muted);font-size:.84rem}.panel-body{padding:20px 22px}
+    .section-title{display:flex;align-items:center;gap:10px;margin:26px 0 12px;font-size:.75rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase}.section-title:first-child{margin-top:0}.section-title::after{height:1px;flex:1;background:var(--line);content:""}.hint{margin:-6px 0 13px;color:var(--muted);font-size:.78rem}
+    .antibody-grid{display:grid;grid-template-columns:1fr;gap:10px}.lever{display:grid;grid-template-columns:minmax(150px,1fr) minmax(240px,1.2fr);gap:14px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:14px;background:#fbfcfc}.lever-label strong{display:block;font-size:.88rem}.lever-label span{display:block;color:var(--muted);font-size:.71rem}.segments{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:4px;border-radius:11px;background:#edf0ef}.segments input{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);opacity:0}.segments label{display:block;padding:8px 4px;border-radius:8px;color:var(--muted);font-size:.72rem;font-weight:800;text-align:center;cursor:pointer}.segments input:focus-visible+label{outline:2px solid var(--blue);outline-offset:1px}.segments input:checked+label{color:var(--ink);background:white;box-shadow:0 2px 8px rgba(20,33,61,.12)}.segments input[value="positive"]:checked+label{color:#8e2723;background:var(--red-soft)}
+    .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.field{display:grid;gap:5px;color:var(--muted);font-size:.75rem;font-weight:750}.field.wide{grid-column:1/-1}.input-pair{display:grid;grid-template-columns:1.35fr 1fr;gap:6px}input,select{width:100%;min-width:0;border:1px solid #c8d2ce;border-radius:10px;background:white;color:var(--ink);padding:10px 11px;font:inherit;outline:none}input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(39,93,173,.12)}
+    .actions{display:flex;gap:9px;margin-top:22px;flex-wrap:wrap}button{border:0;border-radius:11px;padding:11px 16px;font:inherit;font-weight:850;cursor:pointer}.primary{color:white;background:linear-gradient(135deg,var(--blue),#183e77)}.secondary{color:var(--blue);background:var(--blue-soft)}button:hover{transform:translateY(-1px)}
+    .result-panel{position:sticky;top:16px}.results{padding:20px 22px 24px}.empty{display:grid;min-height:440px;place-items:center;padding:30px;color:var(--muted);text-align:center}.result-kicker{margin:0 0 8px;color:var(--blue);font-size:.7rem;font-weight:900;letter-spacing:.11em;text-transform:uppercase}.result-title{margin:0;font-size:clamp(2rem,4vw,3.3rem);letter-spacing:-.05em;line-height:1}.confidence{display:inline-flex;margin:14px 0 0;padding:6px 10px;border-radius:99px;background:var(--blue-soft);color:#1c4c8f;font-size:.72rem;font-weight:850}.summary{margin:17px 0 0;color:var(--muted);font-size:.9rem}.score-note{margin:20px 0 8px;color:var(--muted);font-size:.71rem}.score-row{display:grid;grid-template-columns:122px 1fr 34px;gap:9px;align-items:center;margin:8px 0;font-size:.75rem;font-weight:750}.track{height:8px;overflow:hidden;border-radius:99px;background:#e9edeb}.fill{height:100%;border-radius:inherit;background:var(--blue)}.score-row:nth-child(2) .fill{background:var(--green)}.score-row:nth-child(3) .fill{background:var(--violet)}.score-row:nth-child(4) .fill{background:var(--amber)}
+    .evidence-box{margin-top:20px;padding-top:16px;border-top:1px solid var(--line)}.evidence-box h3{margin:0 0 8px;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase}.evidence-box ul{margin:0;padding-left:19px;color:var(--muted);font-size:.81rem}.evidence-box li{margin:6px 0}.warning{margin-top:15px;padding:12px 13px;border:1px solid #ead39b;border-radius:12px;background:var(--amber-soft);color:#6d4a0c;font-size:.78rem}.urgent{border-color:#e7b5af;background:var(--red-soft);color:#762f2a}
+    details{margin-top:20px;border:1px solid var(--line);border-radius:14px;background:white}summary{padding:13px 15px;cursor:pointer;font-size:.82rem;font-weight:850}.details-body{padding:0 15px 14px;color:var(--muted);font-size:.78rem}.details-body p{margin:0 0 9px}.details-body a{color:var(--blue);font-weight:750}.callout{margin:20px auto 0;padding:15px 17px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.72);color:var(--muted);font-size:.8rem}.callout b{color:var(--ink)}footer{display:flex;justify-content:space-between;gap:20px;padding:18px 0 34px;color:var(--muted);font-size:.74rem}
+    @media(max-width:900px){.workspace{grid-template-columns:1fr}.result-panel{position:static}.empty{min-height:260px}}@media(max-width:620px){.lever{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.field.wide{grid-column:auto}.topline{align-items:flex-start}.segments label{font-size:.68rem}.score-row{grid-template-columns:105px 1fr 28px}footer{flex-direction:column}}
+    /* Compact card treatment used throughout the site. */
+    .workspace{gap:14px}.panel{border-radius:18px}.panel-head{padding:15px 17px 12px}.panel-body{padding:16px 17px}
+    .lever{padding:9px 10px;border-radius:12px}.results{padding:16px 17px 18px}.empty{min-height:350px;padding:22px}
+    details{margin-top:15px}.callout{margin-top:15px;padding:12px 14px}
+  </style>
+</head>
+<body>
+  <header class="shell">
+    <div class="topline"><div class="eyebrow">Clinician decision support · v1.0</div><a class="back" href="/tools/">← Clinical tools</a></div>
+    <h1>What type of diabetes does the evidence support?</h1>
+    <p class="intro">Combine islet autoantibodies, contextualized C-peptide, and clinical clues. The result is an explainable phenotype assessment—not a diagnosis or a mathematically validated probability.</p>
+  </header>
+
+  <main class="shell workspace">
+    <section class="panel" aria-labelledby="inputs-heading">
+      <div class="panel-head"><h2 id="inputs-heading">Evidence</h2><p>Use “not tested” rather than treating missing data as negative.</p></div>
+      <div class="panel-body">
+        <div class="section-title">Islet autoantibodies</div>
+        <p class="hint">Select the laboratory interpretation using that assay’s reference range.</p>
+        <div class="antibody-grid" id="antibodies"></div>
+
+        <div class="section-title">Beta-cell reserve</div>
+        <div class="form-grid">
+          <label class="field">C-peptide
+            <span class="input-pair"><input id="cpeptide" type="number" min="0" step="any" placeholder="Value" /><select id="cunit" aria-label="C-peptide unit"><option value="ng">ng/mL</option><option value="nmol">nmol/L</option><option value="pmol">pmol/L</option></select></span>
+          </label>
+          <label class="field">Collection context
+            <select id="collection"><option value="unknown">Unknown</option><option value="random">Random / within 5 hours of food</option><option value="fasting">Fasting</option></select>
+          </label>
+          <label class="field">Paired glucose (mg/dL)
+            <input id="glucose" type="number" min="20" max="1000" step="any" placeholder="Optional" />
+          </label>
+          <label class="field">Kidney function
+            <select id="kidney"><option value="unknown">Unknown</option><option value="ok">eGFR ≥30</option><option value="low">eGFR &lt;30 / kidney failure</option></select>
+          </label>
+          <label class="field wide">Recent hyperglycemic emergency
+            <select id="recentEmergency"><option value="no">No / more than 2 weeks ago</option><option value="yes">DKA or hyperosmolar emergency within 2 weeks</option><option value="unknown">Unknown</option></select>
+          </label>
+        </div>
+
+        <div class="section-title">Clinical context</div>
+        <div class="form-grid">
+          <label class="field">Most recent A1C (%)
+            <input id="a1c" type="number" min="3" max="25" step="0.1" placeholder="Optional" />
+          </label>
+          <label class="field">Currently treated for diabetes
+            <select id="treated"><option value="unknown">Unknown</option><option value="no">No</option><option value="yes">Yes</option></select>
+          </label>
+          <label class="field">Currently using insulin
+            <select id="usingInsulin"><option value="unknown">Unknown</option><option value="no">No</option><option value="yes">Yes</option></select>
+          </label>
+          <label class="field">When insulin was first required
+            <select id="insulin"><option value="unknown">Unknown / not applicable</option><option value="never">Never used</option><option value="early">Within 6 months of diagnosis</option><option value="later">More than 6 months after diagnosis</option></select>
+          </label>
+          <label class="field">Age at diagnosis
+            <input id="age" type="number" min="0" max="120" placeholder="Years" />
+          </label>
+          <label class="field">Years since diagnosis
+            <input id="duration" type="number" min="0" max="100" step="any" placeholder="Years" />
+          </label>
+          <label class="field">BMI at/near diagnosis
+            <input id="bmi" type="number" min="10" max="80" step="any" placeholder="Optional" />
+          </label>
+          <label class="field">DKA at presentation
+            <select id="dka"><option value="unknown">Unknown</option><option value="no">No</option><option value="yes">Yes</option></select>
+          </label>
+          <label class="field">Exogenous insulin before IAA test
+            <select id="insulinBeforeIaa"><option value="unknown">Unknown</option><option value="no">No</option><option value="yes">Yes</option></select>
+          </label>
+          <label class="field wide">Family history pattern
+            <select id="family"><option value="unknown">Unknown / none</option><option value="t1">First-degree relative with type 1 diabetes</option><option value="t2">First-degree relative with type 2 diabetes</option><option value="mody">Diabetes in successive generations, often diagnosed young</option><option value="maternal">Maternal-line diabetes with deafness or other mitochondrial features</option></select>
+          </label>
+          <label class="field wide">Pancreatic disease or resection
+            <select id="pancreas"><option value="no">No known pancreatic disease</option><option value="yes">Chronic pancreatitis, pancreatic cancer, cystic fibrosis, hemochromatosis, or pancreatic resection</option><option value="unknown">Unknown</option></select>
+          </label>
+        </div>
+        <div class="actions"><button class="primary" id="analyze">Interpret evidence</button><button class="secondary" id="reset">Reset</button></div>
+      </div>
+    </section>
+
+    <section class="panel result-panel" aria-labelledby="result-heading">
+      <div class="panel-head"><h2 id="result-heading">Interpretation</h2><p>Updates when you select “Interpret evidence.”</p></div>
+      <div class="results" id="results" aria-live="polite"><div class="empty">Enter the available results, leaving unmeasured items as <b>not tested</b>.</div></div>
+    </section>
+  </main>
+
+  <details class="shell">
+    <summary>Interpretive rules, limitations, and sources</summary>
+    <div class="details-body">
+      <p><b>Autoantibodies:</b> GAD65 is the preferred first test in adults; if negative, IA-2 and/or ZnT8 add sensitivity. Multiple confirmed islet autoantibodies strongly support autoimmune diabetes. A negative panel does not exclude type 1 diabetes.</p>
+      <p><b>C-peptide:</b> This tool converts results to nmol/L. A nonfasting value below 0.20 nmol/L supports severe insulin deficiency, 0.20–0.60 nmol/L is an overlap zone, and above 0.60 nmol/L indicates substantial endogenous secretion. Interpretation depends on glucose, timing, diabetes duration, kidney function, and recent metabolic decompensation.</p>
+      <p><b>A1C and treatment:</b> A1C describes recent glycemic exposure but does not distinguish diabetes type. Current treatment— including insulin—may reflect severity, clinician choice, or disease duration. The interval from diagnosis to insulin requirement is more discriminating than insulin use alone.</p>
+      <p><b>Insulin autoantibodies:</b> IAA is most interpretable before exogenous insulin exposure. Antibodies measured after insulin treatment may reflect therapy rather than spontaneous beta-cell autoimmunity.</p>
+      <p><b>Sources:</b> <a href="https://diabetesjournals.org/care/article/49/Supplement_1/S27/163926/2-Diagnosis-and-Classification-of-Diabetes" target="_blank" rel="noopener noreferrer">ADA Standards of Care 2026: Diagnosis and Classification</a>; <a href="https://diabetesjournals.org/care/article/44/11/2589/138492/The-Management-of-Type-1-Diabetes-in-Adults-A" target="_blank" rel="noopener noreferrer">ADA/EASD adult type 1 diabetes consensus report</a>.</p>
+    </div>
+  </details>
+  <aside class="shell callout"><b>Clinician use only.</b> This tool is educational decision support, not a diagnostic device. It cannot exclude ketosis-prone diabetes, medication-induced diabetes, endocrinopathies, genetic syndromes, or other secondary causes. Do not delay insulin when clinically indicated.</aside>
+  <footer class="shell"><span>No entered data is transmitted or stored.</span><span>© <span id="year"></span> Gennady Gelman, MD</span></footer>
+
+  <script>
+    (() => {
+      "use strict";
+      const antibodyDefs = [
+        ["gad", "GAD65 antibody", "Glutamic acid decarboxylase 65"],
+        ["ia2", "IA-2 antibody", "Islet antigen-2 / ICA512"],
+        ["znt8", "ZnT8 antibody", "Zinc transporter 8"],
+        ["iaa", "Insulin autoantibody (IAA)", "Interpret cautiously after insulin exposure"],
+        ["ica", "Islet cell antibody (ICA)", "Optional indirect immunofluorescence assay"]
+      ];
+      const antibodyBox = document.getElementById("antibodies");
+      antibodyDefs.forEach(([id, name, note]) => {
+        const row = document.createElement("div"); row.className = "lever";
+        row.innerHTML = `<div class="lever-label"><strong>${name}</strong><span>${note}</span></div><div class="segments" role="radiogroup" aria-label="${name}">${[["unknown","Not tested"],["negative","Negative"],["positive","Positive"]].map(([v,l]) => `<input type="radio" id="${id}-${v}" name="${id}" value="${v}" ${v === "unknown" ? "checked" : ""}><label for="${id}-${v}">${l}</label>`).join("")}</div>`;
+        antibodyBox.appendChild(row);
+      });
+      document.getElementById("year").textContent = new Date().getFullYear();
+      const value = id => document.getElementById(id).value;
+      const number = id => { const n = Number(value(id)); return value(id) === "" || !Number.isFinite(n) ? null : n; };
+      const abValue = id => document.querySelector(`input[name="${id}"]:checked`).value;
+      const esc = s => s.replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]);
+
+      function cPeptideNmol() {
+        const raw = number("cpeptide"); if (raw === null) return null;
+        if (value("cunit") === "ng") return raw * 0.331;
+        if (value("cunit") === "pmol") return raw / 1000;
+        return raw;
+      }
+
+      function analyze() {
+        const scores = { autoimmune:0, type2:0, monogenic:0, pancreatic:0 };
+        const evidence = [], cautions = [];
+        const abs = Object.fromEntries(antibodyDefs.map(([id]) => [id, abValue(id)]));
+        const positives = Object.entries(abs).filter(([,v]) => v === "positive").map(([k]) => k);
+        const tested = Object.values(abs).filter(v => v !== "unknown").length;
+        const allNegative = tested >= 3 && positives.length === 0;
+        const iaaConfounded = abs.iaa === "positive" && value("insulinBeforeIaa") === "yes";
+
+        positives.forEach(id => {
+          if (id === "iaa" && iaaConfounded) { scores.autoimmune += .5; return; }
+          scores.autoimmune += id === "ica" ? 2 : 3;
+        });
+        if (positives.length >= 2 && !(positives.length === 2 && iaaConfounded)) { scores.autoimmune += 3; evidence.push(`${positives.length} positive islet autoantibodies strongly support autoimmune diabetes.`); }
+        else if (positives.length === 1) evidence.push("One positive islet autoantibody supports autoimmunity, but assay specificity, titer, and clinical context matter.");
+        if (allNegative) { scores.type2 += 1.5; scores.monogenic += 1; evidence.push("At least three tested islet autoantibodies are negative; this lowers—but does not eliminate—the likelihood of autoimmune diabetes."); }
+        if (iaaConfounded) cautions.push("IAA was positive after exogenous insulin exposure and is therefore not counted as strong evidence of spontaneous autoimmunity.");
+
+        const cp = cPeptideNmol();
+        if (cp !== null) {
+          if (cp < .2) { scores.autoimmune += 2; scores.pancreatic += 1.5; evidence.push(`C-peptide ${cp.toFixed(2)} nmol/L indicates severe insulin deficiency if collected under valid conditions.`); }
+          else if (cp <= .6) { scores.autoimmune += 1; scores.type2 += .5; scores.monogenic += .5; evidence.push(`C-peptide ${cp.toFixed(2)} nmol/L lies in the overlap zone and does not separate type 1, type 2, and some monogenic forms.`); }
+          else { scores.type2 += 3; scores.monogenic += 1.5; evidence.push(`C-peptide ${cp.toFixed(2)} nmol/L demonstrates substantial endogenous insulin secretion.`); }
+          const glucose = number("glucose");
+          if (glucose !== null && glucose < 70) cautions.push("Paired glucose is below 70 mg/dL; C-peptide may be physiologically suppressed and should not be interpreted as evidence of beta-cell failure.");
+          if (value("collection") === "fasting") cautions.push("A fasting C-peptide is less stimulated than a random/post-meal result; a low value may need confirmation under suitable glycemia.");
+          if (value("kidney") === "low") cautions.push("Advanced kidney dysfunction can raise measured C-peptide through reduced clearance.");
+          if (value("recentEmergency") === "yes") cautions.push("Do not rely on C-peptide obtained within 2 weeks of a hyperglycemic emergency; transient beta-cell suppression can mislead.");
+        }
+
+        const age = number("age"), duration = number("duration"), bmi = number("bmi"), a1c = number("a1c");
+        if (a1c !== null) {
+          if (a1c >= 6.5) evidence.push(`A1C ${a1c.toFixed(1)}% is in the diabetes range, but A1C does not determine diabetes type.`);
+          else if (a1c >= 5.7) evidence.push(`A1C ${a1c.toFixed(1)}% is in the prediabetes range and does not establish the diabetes phenotype.`);
+          else evidence.push(`A1C ${a1c.toFixed(1)}% is below the diabetes range; treatment effects and other diagnostic glucose results still matter.`);
+        }
+        if (value("treated") === "yes") evidence.push("The patient is receiving diabetes treatment; treatment choice alone does not establish etiology.");
+        if (value("usingInsulin") === "yes") evidence.push("Current insulin use establishes treatment need, not autoimmune etiology; time from diagnosis to insulin is more informative.");
+        if (value("treated") === "no" && value("usingInsulin") === "yes") cautions.push("The entries conflict: current insulin use is diabetes treatment. Recheck treatment status.");
+        if (value("usingInsulin") === "yes" && abs.iaa === "positive" && value("insulinBeforeIaa") === "unknown") cautions.push("Because the patient currently uses insulin, confirm whether IAA was measured before insulin exposure.");
+        if (a1c !== null && a1c < 6.5 && value("treated") === "no") cautions.push("Without treatment or another diagnostic glucose result, an A1C below 6.5% does not establish diabetes; classification may be premature.");
+        if (age !== null && age < 35) { scores.autoimmune += .5; scores.monogenic += 1; evidence.push("Diagnosis before age 35 modestly increases consideration of autoimmune or monogenic diabetes."); }
+        if (bmi !== null && bmi >= 30) { scores.type2 += 1.5; evidence.push("Obesity near diagnosis supports insulin resistance but does not exclude type 1 diabetes."); }
+        if (value("insulin") === "early") { scores.autoimmune += 1.5; evidence.push("Insulin requirement within 6 months supports marked insulin deficiency."); }
+        if (value("insulin") === "never" && duration !== null && duration >= 3) { scores.type2 += 1; scores.monogenic += 1; evidence.push("Several years without insulin supports preserved beta-cell function."); }
+        if (value("dka") === "yes") { scores.autoimmune += 1; evidence.push("DKA at presentation supports severe insulin deficiency, though ketosis-prone type 2 diabetes remains possible."); }
+        if (value("family") === "t1") { scores.autoimmune += 1; evidence.push("A first-degree relative with type 1 diabetes modestly supports autoimmune susceptibility."); }
+        if (value("family") === "t2") { scores.type2 += 1.5; evidence.push("A first-degree relative with type 2 diabetes supports a familial type 2 pattern."); }
+        if (value("family") === "mody") { scores.monogenic += 4; evidence.push("Young-onset diabetes across successive generations is a red flag for autosomal-dominant monogenic diabetes."); }
+        if (value("family") === "maternal") { scores.monogenic += 4; evidence.push("Maternal-line diabetes with deafness or other syndromic features raises concern for mitochondrial diabetes."); }
+        if (value("pancreas") === "yes") { scores.pancreatic += 5; evidence.push("Known exocrine pancreatic disease or resection strongly supports pancreatogenic/secondary diabetes."); }
+
+        const entries = Object.entries(scores).sort((a,b) => b[1]-a[1]);
+        const labels = {autoimmune:"Autoimmune diabetes",type2:"Type 2 diabetes",monogenic:"Monogenic diabetes",pancreatic:"Pancreatogenic / secondary"};
+        const [leadKey, leadScore] = entries[0]; const runner = entries[1];
+        const noData = tested === 0 && cp === null && a1c === null && age === null && duration === null && bmi === null && value("family") === "unknown" && value("pancreas") !== "yes" && value("insulin") === "unknown" && value("treated") === "unknown" && value("usingInsulin") === "unknown" && value("dka") === "unknown";
+        let title = labels[leadKey], confidence = "Limited evidence", summary = "The available findings are insufficient for a confident phenotype assignment.";
+        if (noData || leadScore < 2) { title = "Indeterminate"; }
+        else {
+          const gap = leadScore - runner[1]; confidence = leadScore >= 7 && gap >= 3 ? "Strongly favored" : leadScore >= 4 && gap >= 1.5 ? "Favored" : "Mixed / close differential";
+          const summaries = {
+            autoimmune:"The pattern most strongly supports immune-mediated beta-cell failure (type 1 diabetes; adult-onset disease is sometimes called LADA).",
+            type2:"The pattern most strongly supports insulin-resistant type 2 diabetes with retained endogenous insulin secretion.",
+            monogenic:"The pattern warrants evaluation for monogenic diabetes; family history and preserved secretion are clues, not confirmation.",
+            pancreatic:"The pattern raises secondary diabetes from exocrine pancreatic disease or loss of pancreatic tissue."
+          }; summary = summaries[leadKey];
+        }
+        if (positives.length === 0 && tested > 0) cautions.push("Negative antibodies do not exclude type 1 diabetes, particularly years after diagnosis or when only a limited panel was tested.");
+        if (value("dka") === "yes") cautions.push("Current or suspected DKA is an emergency; classification must not delay insulin and acute treatment.");
+        if (evidence.length === 0) evidence.push("No high-value discriminating finding was entered.");
+        const max = Math.max(1, ...entries.map(([,s]) => s));
+        document.getElementById("results").innerHTML = `
+          <p class="result-kicker">Best-supported phenotype</p><h3 class="result-title">${esc(title)}</h3><span class="confidence">${esc(confidence)}</span><p class="summary">${esc(summary)}</p>
+          <p class="score-note">Relative evidence fit—not disease probability</p>
+          <div>${entries.map(([k,s]) => `<div class="score-row"><span>${esc(labels[k])}</span><div class="track"><div class="fill" style="width:${Math.round(s/max*100)}%"></div></div><span>${s.toFixed(1)}</span></div>`).join("")}</div>
+          <div class="evidence-box"><h3>What drove this result</h3><ul>${evidence.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>
+          ${cautions.length ? `<div class="warning ${value("dka") === "yes" ? "urgent" : ""}"><b>Interpretive cautions</b><ul>${cautions.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>` : ""}`;
+      }
+      document.getElementById("analyze").addEventListener("click", analyze);
+      document.getElementById("reset").addEventListener("click", () => { document.querySelectorAll("input[type=radio][value=unknown]").forEach(x => x.checked = true); document.querySelectorAll("input[type=number]").forEach(x => x.value = ""); document.querySelectorAll("select").forEach(x => x.selectedIndex = 0); document.getElementById("results").innerHTML = '<div class="empty">Enter the available results, leaving unmeasured items as <b>not tested</b>.</div>'; });
+    })();
+  </script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a56052ad6d5e9026',t:'MTc5MzkyODUyMQ=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a56052ad6d5e9026',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clinical Reference Library - Gennady Gelman</title>
+<link rel="icon" href="/favicon.svg">
+<meta name="description" content="A curated directory of clinical tools, calculators, guidelines, apps, lab pearls, and frequently referenced articles.">
+<style>
+:root {
+  --bg:#f7f8fb; --card:#ffffff; --ink:#131722; --muted:#667085; --line:#e5e7eb;
+  --accent:#6d5dfc; --accent2:#0ea5e9; --chip:#eef2ff; --shadow:0 10px 30px rgba(20,25,40,.07);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+a{color:inherit}
+.page-nav{display:flex;gap:20px;flex-wrap:wrap;align-items:center;margin-bottom:14px;font-size:14px;font-weight:700}.page-nav a:first-child{margin-right:auto}.wrap{max-width:1220px;margin:auto;padding:34px 22px 70px}
+.hero{padding:30px 0 22px}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+h1{font-size:clamp(36px,6vw,68px);line-height:.98;margin:10px 0 14px;letter-spacing:-.045em}
+.lede{max-width:760px;color:var(--muted);font-size:18px;line-height:1.6}
+.reviewed{display:inline-flex;margin-top:14px;font-size:13px;color:var(--muted);gap:7px;align-items:center}
+.dot{width:8px;height:8px;border-radius:50%;background:#22c55e;display:inline-block}
+.toolbar{position:sticky;top:0;z-index:20;background:rgba(247,248,251,.93);backdrop-filter:blur(14px);padding:14px 0 10px}
+.searchrow{display:grid;grid-template-columns:minmax(0,1fr) 190px 110px;gap:10px}
+.searchbox,.type,.clear{border:1px solid var(--line);background:white;border-radius:14px;height:52px;font:inherit}
+.searchbox{padding:0 16px;font-size:16px;outline:none}
+.searchbox:focus,.type:focus{border-color:#b8b1ff;box-shadow:0 0 0 4px rgba(109,93,252,.12)}
+.type{padding:0 12px}
+.clear{cursor:pointer;font-weight:750}
+.chips{display:flex;gap:8px;overflow:auto;padding:12px 1px 5px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{white-space:nowrap;border:1px solid var(--line);background:white;border-radius:999px;padding:9px 13px;font-weight:700;font-size:14px;cursor:pointer}
+.chip.active{background:var(--ink);border-color:var(--ink);color:white}
+.summary{display:flex;justify-content:space-between;align-items:center;margin:24px 0 12px;color:var(--muted);font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;min-height:220px;transition:.18s ease}
+.card:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(20,25,40,.1)}
+.cardtop{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.icon{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;font-weight:900;background:linear-gradient(135deg,#efeaff,#e5f7ff);color:#4f46e5;border:1px solid #e7e2ff}
+.badge{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;background:var(--chip);color:#4f46e5;border-radius:999px;padding:6px 8px}
+.card h3{font-size:18px;line-height:1.25;margin:15px 0 8px;letter-spacing:-.015em}
+.meta{font-size:12px;font-weight:800;color:var(--accent);margin:-2px 0 8px}
+.desc{color:var(--muted);line-height:1.5;font-size:16px;margin:0 0 15px;flex:1}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:13px}
+.tag{font-size:12px;background:#f3f4f6;border:1px solid #eceef1;border-radius:999px;padding:5px 7px;color:#4b5563}
+.open{text-decoration:none;font-weight:800;font-size:14px;display:inline-flex;gap:6px;align-items:center}
+.open:hover{color:var(--accent)}
+.pearls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.pearl{background:white;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.pearl summary{cursor:pointer;padding:16px 18px;font-weight:800;list-style:none;display:flex;justify-content:space-between;gap:10px}
+.pearl summary::-webkit-details-marker{display:none}
+.pearl summary::after{content:"+";font-size:22px;color:var(--accent)}
+.pearl[open] summary::after{content:"–"}
+.pearlbody{padding:0 18px 18px}
+.formula{background:#111827;color:white;border-radius:12px;padding:12px 13px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;line-height:1.5;overflow:auto}
+.use{color:var(--muted);font-size:16px;line-height:1.55;margin:12px 0 0}
+.empty{display:none;text-align:center;padding:50px 20px;color:var(--muted)}
+.submit{margin-top:42px;border-radius:24px;padding:28px;background:linear-gradient(135deg,#111827,#312e81);color:white;display:flex;justify-content:space-between;align-items:center;gap:24px}
+.submit h2{margin:0 0 8px;font-size:28px}
+.submit p{margin:0;color:#d4d4df;max-width:670px;line-height:1.5}
+.submitbtn{background:white;color:#111827;text-decoration:none;font-weight:900;border-radius:14px;padding:14px 18px;white-space:nowrap}
+.foot{margin-top:22px;color:var(--muted);font-size:12px;line-height:1.5}
+@media (max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.searchrow{grid-template-columns:1fr 160px}.clear{grid-column:1/-1}}
+@media (max-width:620px){.wrap{padding:22px 15px 50px}.hero{padding-top:18px}.searchrow{grid-template-columns:1fr}.toolbar{padding-top:8px}.grid{grid-template-columns:1fr}.pearls{grid-template-columns:1fr}.submit{align-items:flex-start;flex-direction:column}.submitbtn{width:100%;text-align:center}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="page-nav" aria-label="Site navigation"><a href="/">Gennady Gelman, MD</a><a href="/professional">← Students &amp; Colleagues</a><a href="/search">Search site</a></nav>
+  <header class="hero">
+    <div class="eyebrow">Students & Colleagues</div>
+    <h1>Clinical Tools<br>& Resources</h1>
+    <p class="lede">A practical directory of clinical AI, calculators, guidelines, apps, lab pearls, patient resources, and frequently referenced articles.</p>
+    <div class="reviewed"><span class="dot"></span> Last reviewed September 2026</div>
+  </header>
+
+  <section class="toolbar" aria-label="Resource filters">
+    <div class="searchrow">
+      <input id="search" aria-label="Search clinical resources" class="searchbox" type="search" autocomplete="off" placeholder="Search tools, topics, descriptions…">
+      <select id="type" class="type" aria-label="Filter by type">
+        <option value="All">All types</option><option value="Website">Website type</option><option value="Calculator">Calculator type</option><option value="App">App type</option><option value="Guideline">Guideline type</option><option value="Article">Article type</option>
+      </select>
+      <button id="clear" class="clear" type="button">Clear</button>
+    </div>
+    <div id="chips" class="chips">
+      <button class="chip active" data-category="All">All</button><button class="chip" data-category="AI">AI</button><button class="chip" data-category="Calculators">Calculators</button><button class="chip" data-category="Lab Pearls">Lab Pearls</button><button class="chip" data-category="Guidelines">Guidelines</button><button class="chip" data-category="Pharmacy">Pharmacy</button><button class="chip" data-category="Nutrition &amp; Lifestyle">Nutrition &amp; Lifestyle</button><button class="chip" data-category="Vaccines &amp; Travel">Vaccines &amp; Travel</button><button class="chip" data-category="Mental Health">Mental Health</button><button class="chip" data-category="Pediatrics">Pediatrics</button><button class="chip" data-category="Women&#x27;s Health">Women&#x27;s Health</button><button class="chip" data-category="Geriatrics">Geriatrics</button><button class="chip" data-category="Patient &amp; Community">Patient &amp; Community</button><button class="chip" data-category="Articles">Articles</button>
+    </div>
+  </section>
+
+  <div class="summary"><span id="count" role="status" aria-live="polite"></span><span id="activeLabel">All resources</span></div>
+
+  <main>
+    <noscript>Enable JavaScript to search this directory, or <a href="/professional#library">browse the clinical library</a>.</noscript>
+    <div id="grid" class="grid"></div>
+    <div id="pearls" class="pearls"></div>
+    <div id="empty" class="empty">No resources match those filters.</div>
+  </main>
+
+  <section class="submit">
+    <div>
+      <h2>Know a resource worth adding?</h2>
+      <p>Send the resource name, link, and a quick note about why it belongs here. The email draft is pre-filled for you.</p>
+    </div>
+    <a class="submitbtn" href="mailto:me@gennadygelman.com?subject=New%20Clinical%20Resource%20Suggestion&body=Resource%20name%3A%0AURL%3A%0AType%3A%0AWhy%20it%27s%20useful%3A%0A">Submit a Resource →</a>
+  </section>
+
+  <p class="foot">This is a curated educational directory, not a substitute for clinical judgment or local policy. External resources may change; verify current guidance before use.</p>
+</div>
+
+<script>
+const resources = [{"name": "ChatGPT", "category": "AI", "type": "Website", "description": "OpenAI's general-purpose AI assistant for answering questions, drafting, and summarization.", "platforms": ["Web", "iOS", "Android"], "url": "https://chatgpt.com"}, {"name": "Anthropic Claude", "category": "AI", "type": "Website", "description": "Anthropic's AI assistant focused on safety, reasoning, and long-context analysis.", "platforms": ["Web", "iOS", "Android"], "url": "https://claude.ai"}, {"name": "Google Gemini", "category": "AI", "type": "Website", "description": "Google DeepMind's AI assistant, tightly integrated with Google Search and Workspace.", "platforms": ["Web", "iOS", "Android"], "url": "https://gemini.google.com"}, {"name": "Microsoft Copilot", "category": "AI", "type": "Website", "description": "Microsoft's AI assistant integrated across Bing, Edge, Windows, and Microsoft 365.", "platforms": ["Web", "iOS", "Android"], "url": "https://copilot.microsoft.com"}, {"name": "Perplexity", "category": "AI", "type": "Website", "description": "AI-powered answer engine with real-time web access and inline citations.", "platforms": ["Web", "iOS", "Android"], "url": "https://www.perplexity.ai"}, {"name": "Google NotebookLM", "category": "AI", "type": "Website", "description": "AI research assistant that organizes, summarizes, and answers questions across uploaded documents.", "platforms": ["Web"], "url": "https://notebooklm.google.com"}, {"name": "Grok", "category": "AI", "type": "Website", "description": "xAI's conversational AI assistant, also integrated with X.", "platforms": ["Web", "iOS", "Android"], "url": "https://grok.com"}, {"name": "OpenEvidence", "category": "AI", "type": "Website", "description": "Clinician-only AI for searching and summarizing medical literature; partnered with NEJM and JAMA.", "platforms": ["Web", "iOS", "Android"], "url": "https://www.openevidence.com"}, {"name": "Doximity GPT", "category": "AI", "type": "Website", "description": "HIPAA-compliant clinician chatbot with physician-verified answers, drug reference, and prior-auth letter drafting.", "platforms": ["Web", "iOS", "Android"], "url": "https://www.doximity.com/doximity-gpt-info"}, {"name": "Linus Health", "category": "AI", "type": "App", "description": "iPad-based, AI-augmented digital cognitive assessment platform for early detection of cognitive impairment in primary care.", "platforms": ["iOS"], "url": "https://linushealth.com"}, {"name": "Brook Health", "category": "AI", "type": "App", "description": "AI-augmented remote patient monitoring and health coaching platform for chronic conditions, including diabetes and hypertension.", "platforms": ["Web", "iOS", "Android"], "url": "https://brook.health"}, {"name": "DAX Copilot (Microsoft / Nuance)", "category": "AI", "type": "App", "description": "Ambient documentation embedded natively in Epic; drafts notes, referral letters, and after-visit summaries.", "platforms": ["Web", "iOS"], "url": "https://www.microsoft.com/en-us/health-solutions/clinical-workflow/dax-copilot"}, {"name": "NEJM AI", "category": "AI", "type": "Article", "description": "Peer-reviewed New England Journal of Medicine publication focused on AI in healthcare and medicine.", "platforms": ["Web"], "url": "https://ai.nejm.org"}, {"name": "JAMA AI", "category": "AI", "type": "Article", "description": "JAMA Network collection covering AI advancements, evaluation, and research in healthcare.", "platforms": ["Web"], "url": "https://jamanetwork.com/collections/44024/artificial-intelligence"}, {"name": "MDCalc", "category": "Calculators", "type": "Calculator", "description": "Comprehensive library of medical calculators, clinical equations, and decision-support tools.", "platforms": ["Web", "iOS", "Android"], "url": "https://www.mdcalc.com"}, {"name": "USPSTF Prevention TaskForce (ePSS)", "category": "Calculators", "type": "Website", "description": "Evidence-based USPSTF preventive care recommendations searchable by patient age, sex, and risk factors.", "platforms": ["Web", "iOS", "Android"], "url": "https://epss.ahrq.gov"}, {"name": "AHA PREVENT Calculator", "category": "Calculators", "type": "Calculator", "description": "Estimates 10- and 30-year risk of total cardiovascular disease, including heart failure, for ages 30–79.", "platforms": ["Web"], "url": "https://professional.heart.org/en/guidelines-and-statements/prevent-calculator"}, {"name": "QRISK3", "category": "Calculators", "type": "Calculator", "description": "Open-access 10-year CVD risk calculator that includes CKD, RA, SLE, AF, and severe mental illness.", "platforms": ["Web"], "url": "https://qrisk.org"}, {"name": "FRAX", "category": "Calculators", "type": "Calculator", "description": "10-year fracture risk calculator integrating clinical risk factors with or without BMD.", "platforms": ["Web", "iOS", "Android"], "url": "https://frax.shef.ac.uk/FRAX/"}, {"name": "Aspirin Guide", "category": "Calculators", "type": "Calculator", "description": "Assists clinicians in shared decision-making about aspirin for primary prevention.", "platforms": ["Web", "iOS"], "url": "http://www.aspiringuide.com"}, {"name": "TheNNT", "category": "Calculators", "type": "Website", "description": "Evidence-based reviews of therapies organized around Number Needed to Treat and Number Needed to Harm.", "platforms": ["Web"], "url": "https://thennt.com"}, {"name": "SEER Cancer Stat Facts", "category": "Calculators", "type": "Website", "description": "NCI statistics on cancer incidence, mortality, and survival by site and stage.", "platforms": ["Web"], "url": "https://seer.cancer.gov/statfacts/"}, {"name": "MME Opioid Conversion Calculator (MDCalc)", "category": "Calculators", "type": "Calculator", "description": "Converts opioid dosages to morphine milligram equivalents for safe prescribing.", "platforms": ["Web", "iOS", "Android"], "url": "https://www.mdcalc.com/calc/10170/morphine-milligram-equivalents-mme-calculator"}, {"name": "American Family Physician (AFP)", "category": "Guidelines", "type": "Website", "description": "AAFP's peer-reviewed journal providing continuing medical education for family physicians.", "platforms": ["Web"], "url": "https://www.aafp.org/pubs/afp.html"}, {"name": "FamilyDoctor.org", "category": "Guidelines", "type": "Website", "description": "AAFP's patient-facing health information site, organized by topic.", "platforms": ["Web"], "url": "https://familydoctor.org"}, {"name": "Family Practice Notebook", "category": "Guidelines", "type": "Website", "description": "Concise medical reference for primary care and family medicine, actively maintained.", "platforms": ["Web"], "url": "https://fpnotebook.com"}, {"name": "Radiopaedia", "category": "Guidelines", "type": "Website", "description": "Free radiology reference and case library covering imaging findings, diagnoses, and teaching cases.", "platforms": ["Web", "iOS", "Android"], "url": "https://radiopaedia.org"}, {"name": "2026 ACC/AHA Dyslipidemia Guideline", "category": "Guidelines", "type": "Guideline", "description": "2026 dyslipidemia guideline with universal Lp(a) screening, lower LDL targets, and lifecourse emphasis.", "platforms": ["Web"], "url": "https://www.ahajournals.org/doi/10.1161/CIR.0000000000001423"}, {"name": "Diabetes Care — Standards of Care 2026", "category": "Guidelines", "type": "Guideline", "description": "ADA's annual Standards of Medical Care in Diabetes, 2026 supplement.", "platforms": ["Web"], "url": "https://diabetesjournals.org/care/issue/49/Supplement_1"}, {"name": "ADA Standards of Care App", "category": "Guidelines", "type": "App", "description": "Living ADA Standards with interactive tables and algorithms.", "platforms": ["iOS", "Android"], "url": "https://professional.diabetes.org/standards-of-care"}, {"name": "GOLD 2026 COPD Report", "category": "Guidelines", "type": "Guideline", "description": "Global COPD strategy with updated disease activity, biologics, and escalation guidance.", "platforms": ["Web"], "url": "https://goldcopd.org/2026-gold-report-and-pocket-guide/"}, {"name": "GINA 2026 Asthma Strategy", "category": "Guidelines", "type": "Guideline", "description": "Global asthma strategy with updated primary-care exacerbation flowcharts and biologic decision tree.", "platforms": ["Web"], "url": "https://ginasthma.org/2026-gina-strategy-report/"}, {"name": "KDIGO CKD Guideline (2024)", "category": "Guidelines", "type": "Guideline", "description": "CKD evaluation and management guideline including cystatin C, SGLT2 inhibitors, and statin use.", "platforms": ["Web"], "url": "https://kdigo.org/guidelines/ckd-evaluation-and-management/"}, {"name": "GoodRx", "category": "Pharmacy", "type": "Website", "description": "Compares local cash prices for prescription medications and provides coupons.", "platforms": ["Web", "iOS", "Android"], "url": "https://www.goodrx.com"}, {"name": "LactMed (Drugs and Lactation Database)", "category": "Pharmacy", "type": "Website", "description": "NIH database on maternal medications, lactation, and the breastfed infant.", "platforms": ["Web"], "url": "https://www.ncbi.nlm.nih.gov/books/NBK501922/"}, {"name": "CDC Opioid Prescribing Guideline (2022)", "category": "Pharmacy", "type": "Guideline", "description": "CDC clinical practice guideline for prescribing opioids for pain.", "platforms": ["Web"], "url": "https://www.cdc.gov/overdose-prevention/hcp/clinical-guidance/recommendations-and-principles.html"}, {"name": "Healthy Eating Plate", "category": "Nutrition & Lifestyle", "type": "Website", "description": "Harvard T.H. Chan School of Public Health's science-based visual guide to healthy eating.", "platforms": ["Web"], "url": "https://nutritionsource.hsph.harvard.edu/healthy-eating-plate/"}, {"name": "MyFitnessPal", "category": "Nutrition & Lifestyle", "type": "App", "description": "Calorie counter and diet tracking app for weight management and macro tracking.", "platforms": ["Web", "iOS", "Android"], "url": "https://www.myfitnesspal.com"}, {"name": "NIDDK Body Weight Planner", "category": "Nutrition & Lifestyle", "type": "Calculator", "description": "NIH tool that predicts weight changes based on diet and physical activity inputs.", "platforms": ["Web"], "url": "https://www.niddk.nih.gov/bwp"}, {"name": "The Daily Dozen Checklist", "category": "Nutrition & Lifestyle", "type": "App", "description": "Tracks daily servings of food groups based on Dr. Greger's nutrition recommendations.", "platforms": ["Web", "iOS", "Android"], "url": "https://nutritionfacts.org/daily-dozen/"}, {"name": "Fastic", "category": "Nutrition & Lifestyle", "type": "App", "description": "Intermittent fasting and holistic wellness app with tracking and education.", "platforms": ["Web", "iOS", "Android"], "url": "https://fastic.com"}, {"name": "Fooducate", "category": "Nutrition & Lifestyle", "type": "App", "description": "Nutrition scanner and diet tracking app providing food-quality grades and analysis.", "platforms": ["Web", "iOS", "Android"], "url": "https://www.fooducate.com"}, {"name": "CDC Travel Health (Yellow Book)", "category": "Vaccines & Travel", "type": "Website", "description": "Destination-specific health and vaccine recommendations for international travel.", "platforms": ["Web"], "url": "https://wwwnc.cdc.gov/travel"}, {"name": "CDC Vaccine Schedules App", "category": "Vaccines & Travel", "type": "App", "description": "Quick access to pediatric, adult, and catch-up immunization schedules for clinicians.", "platforms": ["iOS", "Android"], "url": "https://www.cdc.gov/vaccines/hcp/imz-schedules/app.html"}, {"name": "PneumoRecs VaxAdvisor", "category": "Vaccines & Travel", "type": "App", "description": "CDC tool for determining pneumococcal vaccine recommendations by patient profile.", "platforms": ["Web", "iOS", "Android"], "url": "https://www.cdc.gov/pneumococcal/hcp/vaccine-recommendations/app.html"}, {"name": "Insomnia Coach", "category": "Mental Health", "type": "App", "description": "Free VA CBT-I-based self-care app with a guided training plan, sleep diary, and tools for managing insomnia.", "platforms": ["iOS", "Android"], "url": "https://mobile.va.gov/app/insomnia-coach"}, {"name": "PHQ & GAD Screeners", "category": "Mental Health", "type": "Website", "description": "Official source for PHQ-9, GAD-7, PHQ-15, and related validated screeners.", "platforms": ["Web"], "url": "https://www.phqscreeners.com"}, {"name": "AUDIT / AUDIT-C (WHO)", "category": "Mental Health", "type": "Website", "description": "Alcohol use screeners with primary-care implementation guidance.", "platforms": ["Web"], "url": "https://auditscreen.org"}, {"name": "KidsHealth", "category": "Pediatrics", "type": "Website", "description": "Nemours-backed parent, child, and teen-facing site for children's health and parenting topics.", "platforms": ["Web"], "url": "https://kidshealth.org"}, {"name": "HealthyChildren.org", "category": "Pediatrics", "type": "Website", "description": "AAP-backed, ad-free parent-facing site covering ages and stages, safety, and nutrition.", "platforms": ["Web"], "url": "https://www.healthychildren.org"}, {"name": "Bright Futures (AAP)", "category": "Pediatrics", "type": "Guideline", "description": "AAP periodicity schedule, anticipatory guidance, and visit forms for ages 0–21.", "platforms": ["Web"], "url": "https://www.aap.org/en/practice-management/bright-futures/"}, {"name": "CDC's Milestone Tracker App", "category": "Pediatrics", "type": "App", "description": "Helps parents track and document developmental milestones from age 2 months to 5 years.", "platforms": ["Web", "iOS", "Android"], "url": "https://www.cdc.gov/act-early/milestones-app/index.html"}, {"name": "Massachusetts Community Water Fluoridation Status", "category": "Pediatrics", "type": "Website", "description": "State resource detailing fluoridation status of Massachusetts public water systems.", "platforms": ["Web"], "url": "https://www.mass.gov/info-details/community-water-fluoridation-status"}, {"name": "Bedsider Birth Control Support Network", "category": "Women's Health", "type": "Website", "description": "Patient-facing resource on contraceptive options, side effects, and access; provider portal also available.", "platforms": ["Web"], "url": "https://www.bedsider.org"}, {"name": "ACOG Clinical", "category": "Women's Health", "type": "Guideline", "description": "ACOG Practice Bulletins, Committee Opinions, due-date calculator, and immunization tools.", "platforms": ["Web", "iOS", "Android"], "url": "https://www.acog.org/clinical"}, {"name": "Reproductive Health Access Project", "category": "Women's Health", "type": "Website", "description": "Free multilingual patient fact sheets and clinician guides for contraception, EC, and miscarriage management.", "platforms": ["Web"], "url": "https://www.reproductiveaccess.org/resources/"}, {"name": "ASCCP Management Guidelines", "category": "Women's Health", "type": "Guideline", "description": "Risk-based management guidelines for abnormal cervical cancer screening results.", "platforms": ["Web", "iOS", "Android"], "url": "https://app.asccp.org"}, {"name": "AGS Beers Criteria", "category": "Geriatrics", "type": "Guideline", "description": "Standard reference for potentially inappropriate medications in adults aged 65 and older.", "platforms": ["Web"], "url": "https://www.americangeriatrics.org/publications-tools/beers-criteria"}, {"name": "Deprescribing.org", "category": "Geriatrics", "type": "Website", "description": "Evidence-based deprescribing algorithms with patient handouts.", "platforms": ["Web"], "url": "https://deprescribing.org"}, {"name": "Ada", "category": "Patient & Community", "type": "Website", "description": "AI-powered patient-facing symptom checker for personalized health assessments.", "platforms": ["Web", "iOS", "Android"], "url": "https://ada.com"}, {"name": "findhelp.org", "category": "Patient & Community", "type": "Website", "description": "National search for free and reduced-cost social care services, including food, housing, transportation, and financial assistance.", "platforms": ["Web"], "url": "https://www.findhelp.org"}, {"name": "Clinical Problems Caused by Obesity", "category": "Articles", "type": "Article", "description": "Comprehensive open-access Endotext chapter on the medical consequences of obesity.", "platforms": ["Web"], "meta": "Endotext", "url": "https://www.ncbi.nlm.nih.gov/books/NBK278973/"}, {"name": "Effects of Intermittent Fasting on Health, Aging, and Disease", "category": "Articles", "type": "Article", "description": "de Cabo & Mattson review of the metabolic, aging, and disease effects of intermittent fasting.", "platforms": ["Web"], "meta": "NEJM · 2019", "url": "https://www.nejm.org/doi/full/10.1056/NEJMra1905136"}, {"name": "Serial Bone Density Measurement for Osteoporosis Screening", "category": "Articles", "type": "Article", "description": "Gourlay et al. on the appropriate interval between repeat DXA scans in older women.", "platforms": ["Web"], "meta": "NEJM · 2012", "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa1107142"}, {"name": "Radiation-Induced Breast Cancer from Digital Mammography Screening", "category": "Articles", "type": "Article", "description": "Modeling study of radiation-induced cancer incidence and mortality from screening mammography.", "platforms": ["Web"], "meta": "Ann Intern Med · 2016", "url": "https://www.acpjournals.org/doi/10.7326/M15-1241"}, {"name": "SELECT Trial — Semaglutide and Cardiovascular Outcomes", "category": "Articles", "type": "Article", "description": "Semaglutide 2.4 mg reduced major adverse cardiovascular events by 20% in non-diabetic adults with obesity and CVD.", "platforms": ["Web"], "meta": "NEJM · 2023", "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa2307563"}, {"name": "SURMOUNT-1 — Tirzepatide for Obesity", "category": "Articles", "type": "Article", "description": "Tirzepatide produced up to about 22.5% weight loss in adults with obesity without diabetes over 72 weeks.", "platforms": ["Web"], "meta": "NEJM · 2022", "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa2206038"}, {"name": "FLOW Trial — Semaglutide in CKD with T2D", "category": "Articles", "type": "Article", "description": "Semaglutide reduced major kidney outcomes by 24% and cardiovascular death by 29% in T2D with CKD.", "platforms": ["Web"], "meta": "NEJM · 2024", "url": "https://www.nejm.org/doi/10.1056/NEJMoa2403347"}, {"name": "Recombinant Zoster Vaccine and Dementia Risk", "category": "Articles", "type": "Article", "description": "Two doses of recombinant zoster vaccine were associated with a 51% lower risk of dementia in adults aged 65 and older.", "platforms": ["Web"], "meta": "Nature Communications · 2026", "url": "https://www.nature.com/articles/s41467-026-69289-0"}];
+const pearls = [{"name": "BUN/Creatinine ratio", "formula": "BUN : Cr > 20 : 1 (mg/dL units)", "use": "Ratio > 20:1 suggests upper GI bleed because absorbed blood protein elevates BUN out of proportion to creatinine. Less reliable in CKD, steroid use, or a high-protein diet."}, {"name": "Mentzer Index", "formula": "MCV ÷ RBC count (×10⁶/µL)", "use": "For microcytic anemia: <13 suggests beta-thalassemia trait; >13 suggests iron deficiency. A quick bedside differentiator before ferritin or hemoglobin electrophoresis."}, {"name": "A:G ratio / globulin gap", "formula": "Albumin ÷ (Total protein − Albumin)", "use": "An inverted ratio (<1) or globulin gap >4 g/dL raises suspicion for monoclonal gammopathy. Next steps may include SPEP/UPEP, serum free light chains, and immunofixation."}, {"name": "Sodium correction for hyperglycemia", "formula": "Corrected Na = Measured Na + 1.6 × (Glucose − 100) / 100 (Katz); use 2.4 when glucose >400 (Hillier)", "use": "Estimates true serum sodium in DKA/HHS, where osmotic water shift causes pseudohyponatremia."}, {"name": "Corrected calcium for albumin", "formula": "Corrected Ca = Measured Ca + 0.8 × (4.0 − Albumin g/dL)", "use": "Adjusts total calcium for hypoalbuminemia. Less accurate in critical illness or acid-base disturbance; check ionized calcium directly when in doubt."}, {"name": "AST/ALT ratio", "formula": "AST ÷ ALT", "use": "Ratio >2 suggests alcoholic liver disease; <1 is typical of NAFLD or viral hepatitis; >1 may occur in cirrhosis of any cause. Useful as a first-pass pattern."}, {"name": "Anion gap with albumin correction", "formula": "AG = Na − (Cl + HCO₃); add 2.5 per 1 g/dL drop in albumin below 4.0", "use": "Gateway to evaluating metabolic acidosis. Correcting for hypoalbuminemia prevents missing an elevated gap."}, {"name": "FENa / FEUrea", "formula": "FENa = (UNa × PCr) ÷ (PNa × UCr) × 100; FEUrea = (UUrea × PCr) ÷ (PUrea × UCr) × 100", "use": "FENa <1% suggests pre-renal AKI and >2% suggests ATN. FEUrea <35% can support pre-renal physiology when diuretics make FENa less reliable."}];
+let activeCategory = "All";
+const search = document.getElementById("search");
+const type = document.getElementById("type");
+const grid = document.getElementById("grid");
+const pearlsEl = document.getElementById("pearls");
+const count = document.getElementById("count");
+const activeLabel = document.getElementById("activeLabel");
+const empty = document.getElementById("empty");
+
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+}
+function initials(name) {
+  return name.replace(/[^A-Za-z0-9 ]/g," ").split(/\s+/).filter(Boolean).slice(0,2).map(x=>x[0]).join("").toUpperCase();
+}
+function render() {
+  const q = search.value.trim().toLowerCase();
+  const t = type.value;
+
+  const shown = resources.filter(r => {
+    const categoryOK = activeCategory === "All" || r.category === activeCategory;
+    const typeOK = t === "All" || r.type === t;
+    const hay = [r.name,r.category,r.type,r.description,(r.platforms||[]).join(" "),r.meta||""].join(" ").toLowerCase();
+    const searchOK = !q || hay.includes(q);
+    return categoryOK && typeOK && searchOK;
+  });
+
+  const showPearls = (activeCategory === "All" || activeCategory === "Lab Pearls") && t === "All";
+  const pearlShown = showPearls ? pearls.filter(p => !q || [p.name,p.formula,p.use].join(" ").toLowerCase().includes(q)) : [];
+
+  grid.innerHTML = shown.map(r => `
+    <article class="card">
+      <div class="cardtop">
+        <div class="icon">${esc(initials(r.name))}</div>
+        <span class="badge">${esc(r.type)}</span>
+      </div>
+      <h3>${esc(r.name)}</h3>
+      ${r.meta ? `<div class="meta">${esc(r.meta)}</div>` : ""}
+      <p class="desc">${esc(r.description)}</p>
+      <div class="tags">
+        <span class="tag">${esc(r.category)}</span>
+        ${(r.platforms||[]).map(p=>`<span class="tag">${esc(p)}</span>`).join("")}
+      </div>
+      <a class="open" href="${esc(r.url)}" target="_blank" rel="noopener noreferrer">Open resource ↗</a>
+    </article>`).join("");
+
+  pearlsEl.innerHTML = pearlShown.map(p => `
+    <details class="pearl">
+      <summary>${esc(p.name)}</summary>
+      <div class="pearlbody">
+        <div class="formula">${esc(p.formula)}</div>
+        <p class="use">${esc(p.use)}</p>
+      </div>
+    </details>`).join("");
+
+  const total = shown.length + pearlShown.length;
+  count.textContent = `${total} item${total===1?"":"s"}`;
+  activeLabel.textContent = activeCategory === "All" ? (t === "All" ? "All resources" : t) : `${activeCategory}${t==="All"?"":" · "+t}`;
+  empty.style.display = total ? "none" : "block";
+  grid.style.display = shown.length ? "grid" : "none";
+  pearlsEl.style.display = pearlShown.length ? "grid" : "none";
+}
+document.getElementById("chips").addEventListener("click", e => {
+  const btn = e.target.closest(".chip");
+  if (!btn) return;
+  activeCategory = btn.dataset.category;
+  document.querySelectorAll(".chip").forEach(b => b.classList.toggle("active", b === btn));
+  render();
+});
+search.addEventListener("input", render);
+type.addEventListener("change", render);
+document.getElementById("clear").addEventListener("click", () => {
+  search.value = ""; type.value = "All"; activeCategory = "All";
+  document.querySelectorAll(".chip").forEach(b => b.classList.toggle("active", b.dataset.category === "All"));
+  render();
+});
+render();
+</script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a56052b098729026',t:'MTc5MzkyODUyMg=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a56052b098729026',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

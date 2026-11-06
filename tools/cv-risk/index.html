@@ -1,0 +1,1054 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cardiovascular Risk Calculator - Gennady Gelman</title>
+<style>
+:root{
+  --bg:#f5f7fb;--card:#fff;--text:#162033;--muted:#657087;--line:#dbe1ec;
+  --accent:#3157c8;--accent2:#e9efff;--ok:#18794e;--warn:#a15c00;--bad:#b42318;
+  --purple:#6d3fa0;--shadow:0 8px 28px rgba(25,40,75,.08)
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
+main{max-width:1180px;margin:auto;padding:22px}
+.top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:16px}
+h1{font-size:26px;margin:0 0 5px}
+.sub{color:var(--muted);font-size:14px}
+.badge{font-size:12px;padding:6px 9px;border:1px solid var(--line);border-radius:999px;background:white;max-width:390px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0;box-shadow:var(--shadow)}
+h2{font-size:18px;margin:0 0 13px}
+h3{font-size:15px;margin:0 0 8px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media(max-width:900px){.grid,.grid3{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.grid,.grid3,.grid2{grid-template-columns:1fr}.top{display:block}}
+label{display:block;font-size:12px;font-weight:700;color:#445069;margin:0 0 5px}
+input,select,textarea{width:100%;border:1px solid #cbd3e1;border-radius:10px;padding:10px 11px;background:#fff;color:var(--text);font:inherit}
+input:focus,select:focus,textarea:focus{outline:2px solid #b8c8ff;border-color:#7891e7}
+textarea{min-height:118px;resize:vertical}
+.hint{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.35}
+.row{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+.chip{border:1px solid #c8d0df;background:white;border-radius:999px;padding:8px 12px;cursor:pointer;font-size:13px}
+.chip.on{background:var(--accent2);border-color:#7590e9;color:#173a9a;font-weight:700}
+.chip.danger.on{background:#fff0ef;border-color:#e89189;color:#941f17}
+.btn{border:0;border-radius:10px;padding:10px 15px;font-weight:750;cursor:pointer}
+.primary{background:var(--accent);color:white}.secondary{background:#edf0f6;color:#26344f}
+.divider{height:1px;background:var(--line);margin:14px 0}
+.results{display:none}
+.kicker{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#66738e;font-weight:850}
+.small{font-size:12px;color:var(--muted);line-height:1.4}
+.alert{padding:11px 12px;border-radius:10px;margin-top:10px}
+.alert.warn{background:#fff6e9;color:#774400}.alert.bad{background:#fff0ef;color:#821d16}.alert.ok{background:#edf8f2;color:#145c3c}.alert.info{background:#f0f4ff;color:#2d4c9b}
+.risk-dashboard{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:14px 0}
+@media(max-width:760px){.risk-dashboard{grid-template-columns:1fr}}
+.riskcard{border:2px solid var(--line);border-radius:15px;padding:15px 16px;background:#fff;min-height:128px}
+.riskcard .rlabel{font-size:12px;font-weight:850;letter-spacing:.02em;text-transform:uppercase;color:#4b5871}
+.riskcard .rvalue{font-size:37px;line-height:1.05;font-weight:850;letter-spacing:-1.2px;margin:7px 0 4px}
+.riskcard .rband{font-size:12px;font-weight:800}
+.riskcard .rnote{font-size:11px;color:var(--muted);margin-top:6px}
+.risk-low{border-color:#80c59c;background:#f1fbf5}.risk-low .rvalue,.risk-low .rband{color:#126b3d}
+.risk-borderline{border-color:#e3c264;background:#fffaf0}.risk-borderline .rvalue,.risk-borderline .rband{color:#875b00}
+.risk-intermediate{border-color:#e9a45a;background:#fff6eb}.risk-intermediate .rvalue,.risk-intermediate .rband{color:#a34e00}
+.risk-high{border-color:#e08c84;background:#fff1f0}.risk-high .rvalue,.risk-high .rband{color:#a32118}
+.risk-neutral{border-color:#aebce6;background:#f7f9ff}.risk-neutral .rvalue{color:#2949aa}
+.mesa{border-color:#a991d2;background:#fbf8ff}.mesa .rvalue{color:#62348f}
+.mesa-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+@media(max-width:600px){.mesa-grid{grid-template-columns:1fr}}
+.mesa-stat{border:1px solid #d7c9eb;background:#fff;border-radius:13px;padding:14px}
+.mesa-stat b{display:block;font-size:30px;color:#62348f}
+.mesa-stat span{font-size:12px;color:var(--muted);font-weight:700}
+.priority{border:2px solid #3157c8;background:linear-gradient(135deg,#f2f6ff,#fff);border-radius:16px;padding:17px 18px;margin:14px 0}
+.priority h2{font-size:22px;margin:3px 0 8px}
+.priority .lead{font-size:16px;font-weight:800;line-height:1.35}
+.priority-list{display:grid;gap:9px;margin-top:12px}
+.priority-item{border:1px solid #cfd8ef;background:#fff;border-radius:11px;padding:11px 12px}
+.priority-item b{display:block;margin-bottom:3px}
+.rec{padding:13px;border-left:4px solid #6f86d9;background:#f6f8ff;border-radius:10px;margin:9px 0}
+.rec b{display:block;margin-bottom:4px}.rec-ok{border-left-color:#3f9b6d;background:#edf8f2}.rec-warn{border-left-color:#d39a25;background:#fff7e8}.rec-high{border-left-color:#c9433b;background:#fff0ef}.rec-purple{border-left-color:#7b55a5;background:#faf6ff}
+.bm-table{width:100%;border-collapse:collapse}.bm-table tr{border-bottom:1px solid var(--line)}.bm-table tr:last-child{border-bottom:none}.bm-table td{padding:9px 4px;font-size:13px;vertical-align:middle}.bm-name{color:var(--muted);font-weight:750;width:170px}.bm-val{font-weight:650}
+.flag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:999px;border:1px solid;margin-left:7px;font-weight:800}
+.flag-ok{background:#edf8f2;border-color:#a8d5bc;color:#176a43}.flag-warn{background:#fff7e8;border-color:#e8c989;color:#8a5700}.flag-hi{background:#fff0ef;border-color:#e6a09a;color:#9b2219}.flag-info{background:#f0f4ff;border-color:#b8c7ef;color:#3154a8}
+.patient{background:#f9fafc}
+.hidden{display:none!important}
+.missing{border:2px solid #d92d20!important;background:#fff1f0!important}
+#missingSummary{display:none;border:1px solid #e08c84;background:#fff1f0;color:#8f1d16;border-radius:11px;padding:10px 12px;margin:12px 0;font-size:12px;font-weight:700}
+#missingSummary.show{display:block}
+.footer{font-size:11px;color:#6b7487;text-align:center;padding:18px;line-height:1.5}
+.evidence{padding:0;overflow:hidden}
+.evidence>summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:17px 18px;cursor:pointer;font-weight:800;color:#26344f}
+.evidence>summary::-webkit-details-marker{display:none}
+.evidence>summary::after{content:'+';display:grid;place-items:center;flex:0 0 28px;width:28px;height:28px;border-radius:50%;background:var(--accent2);color:var(--accent);font-size:20px;line-height:1}
+.evidence[open]>summary::after{content:'\2212'}
+.evidence[open]>summary{border-bottom:1px solid var(--line)}
+.evidence-intro{font-size:12px;color:var(--muted);line-height:1.5;margin:0 0 15px}
+.evidence-body{padding:17px 18px 19px}
+.evidence-groups{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.evidence-group{border:1px solid var(--line);border-radius:13px;padding:14px;background:#fbfcff}
+.evidence-group h3{color:#35425d;margin-bottom:10px}
+.source{padding:9px 0;border-top:1px solid #e4e8f0}
+.source:first-of-type{border-top:0;padding-top:0}
+.source:last-child{padding-bottom:0}
+.source a{color:#244dbd;font-size:13px;font-weight:800;text-decoration:none}
+.source a:hover,.source a:focus{text-decoration:underline}
+.source p{font-size:11px;color:var(--muted);line-height:1.4;margin:4px 0 0}
+@media(max-width:850px){.evidence-groups{grid-template-columns:1fr}}
+
+.risk-dashboard.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media(max-width:950px){.risk-dashboard.four{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.risk-dashboard.four{grid-template-columns:1fr}}
+.ideal-card{border:1px solid #cfd8ef;background:linear-gradient(135deg,#f8faff,#fff);border-radius:14px;padding:15px;margin-top:15px}
+.ideal-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}
+.ideal-values{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.ideal-stat{border:1px solid #dce3f2;background:white;border-radius:11px;padding:11px}.ideal-stat b{display:block;font-size:25px}.ideal-stat span{font-size:11px;color:var(--muted);font-weight:750}
+.compare{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:14px}.mini{border:1px solid var(--line);border-radius:11px;padding:11px;background:#fff}.mini.active{border:2px solid #728bdc;background:#f5f7ff}.mini .n{font-size:11px;text-transform:uppercase;font-weight:850;color:#596681}.mini .v{font-size:25px;font-weight:850;margin:4px 0}.mini .why{font-size:11px;color:var(--muted);line-height:1.35}
+.whatif{margin-top:15px;border-top:1px solid var(--line);padding-top:14px}.whatgrid{display:flex;gap:8px;flex-wrap:wrap}.what{border:1px solid #c8d0df;background:#fff;border-radius:9px;padding:8px 10px;cursor:pointer;font-size:12px}.what.on{background:#e9efff;border-color:#7590e9;color:#173a9a;font-weight:800}.impact{margin-top:10px;padding:11px 12px;background:#eef5ff;border-radius:10px;color:#294c9d;font-size:13px;font-weight:750}.teach{font-size:11px;color:var(--muted);line-height:1.4;margin-top:8px}.engine-note{font-size:10px;color:#7b8496;margin-top:13px;line-height:1.4}
+@media(max-width:760px){.compare{grid-template-columns:1fr}.ideal-values{grid-template-columns:1fr}.ideal-head{display:block}}
+
+</style>
+</head>
+<body>
+<main>
+<div class="top">
+  <div>
+    <h1>CV Risk Decision Tool <span style="color:#63708a">v30.3</span></h1>
+    <div class="sub">Clinician use only • AHA PREVENT + race-free MESA CAC risk + 2026 dyslipidemia decision support</div>
+  </div>
+  <div class="badge">PREVENT is calculated in your browser. If an actual CAC score is entered, the MESA-required variables are sent to the official MESA race-free calculator service.</div>
+</div>
+
+<div class="card">
+  <h2>1. Paste chart data</h2>
+  <textarea id="paste" placeholder="Paste SmartPhrase / chart summary here. Parser recognizes age, sex, BP, total cholesterol, HDL, LDL, eGFR, BMI, A1c, UACR, CAC, diabetes, smoking and medication clues."></textarea>
+  <div class="row" style="margin-top:10px">
+    <button class="btn primary" onclick="parseAndCalculate()">Parse & calculate</button>
+    <button class="btn secondary" onclick="clearAll()">Clear</button>
+  </div>
+</div>
+
+<div class="card">
+  <h2>2. PREVENT inputs</h2>
+  <div id="missingSummary"></div>
+  <div class="grid">
+    <div><label>Age</label><input id="age" type="number" min="30" max="85"></div>
+    <div><label>Biological sex</label><select id="sex"><option value="">Select</option><option value="1">Female</option><option value="0">Male</option></select></div>
+    <div><label>Systolic BP (mmHg)</label><input id="sbp" type="number" min="70" max="260"></div>
+    <div><label>eGFR (mL/min/1.73m²)</label><input id="egfr" type="number" min="1" max="200"><div class="hint">PREVENT requires a valid eGFR.</div></div>
+    <div><label>Total cholesterol (mg/dL)</label><input id="tc" type="number"><div class="hint">Values &lt;130 are floored to 130 for PREVENT only. MESA uses the entered value.</div></div>
+    <div><label>HDL-C (mg/dL)</label><input id="hdl" type="number"></div>
+    <div><label>LDL-C (mg/dL)</label><input id="ldl" type="number"><div class="hint">Used for treatment guidance. Never altered.</div></div>
+    <div><label>Triglycerides (mg/dL)</label><input id="tg" type="number"></div>
+    <div><label>BMI (kg/m²)</label><input id="bmi" type="number"></div>
+    <div><label>Lp(a) (nmol/L)</label><input id="lpa" type="number" min="0"><div class="hint">Values reported as &lt;X are parsed as X for threshold logic (e.g. &lt;10 → 10).</div></div>
+    <div><label>ApoB (mg/dL)</label><input id="apob" type="number" min="0"></div>
+    <div><label>hsCRP (mg/L)</label><input id="hscrp" type="number" min="0" step="0.1"></div>
+    <div><label>HbA1c (%)</label><input id="a1c" type="number" min="3" max="20" step="0.1"><div class="hint">Optional PREVENT predictor.</div></div>
+    <div><label>UACR (mg/g)</label><input id="uacr" type="number" min="0" max="25000" step="0.1"><div class="hint">Optional PREVENT predictor.</div></div>
+    <div><label>SDI decile (1-10)</label><input id="sdi" type="number" min="1" max="10" step="1"><div class="hint">Optional PREVENT predictor. ZIP to SDI is not guessed.</div></div>
+  </div>
+  <div class="divider"></div>
+  <div class="grid3">
+    <div><label>Diabetes</label><select id="dm"><option value="">Unknown / not entered</option><option value="0">No</option><option value="1">Yes</option></select></div>
+    <div><label>Current cigarette smoking</label><select id="smoke"><option value="">Unknown / not entered</option><option value="0">No</option><option value="1">Yes</option></select></div>
+    <div><label>Antihypertensive treatment</label><select id="bptx"><option value="">Unknown / not entered</option><option value="0">No</option><option value="1">Yes</option></select></div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>3. Clinical context and CAC</h2>
+  <div class="grid3">
+    <div>
+      <label>Prevention setting</label>
+      <div class="row">
+        <button id="prevPrimary" class="chip on" onclick="setPrevention('primary',this)">Primary</button>
+        <button id="prevSecondary" class="chip" onclick="setPrevention('secondary',this)">Secondary</button>
+        <button id="prevVeryHigh" class="chip" onclick="setPrevention('vhigh',this)">Secondary - very high risk</button>
+      </div>
+      <div class="hint">PREVENT and MESA are primary-prevention risk calculators.</div>
+    </div>
+    <div>
+      <label>Actual CAC score (Agatston)</label>
+      <input id="cac" type="number" min="0" step="1" placeholder="Enter 0, 12, 186, 900..." oninput="syncCACFromNumber();calculateSoft()">
+      <div class="hint"><b>Enter 0 when CAC is zero.</b> Any numeric value, including 0, can trigger race-free MESA if the other required inputs are known.</div>
+    </div>
+    <div>
+      <label>If exact CAC is not available</label>
+      <select id="cacQual" onchange="calculateSoft()">
+        <option value="unknown">Not known</option>
+        <option value="zero">Reported CAC 0</option>
+        <option value="mild">Reported CAC 1-99</option>
+        <option value="strong">Reported CAC ≥100 / ≥75th percentile</option>
+      </select>
+      <div class="hint">Qualitative CAC can inform treatment guidance, but MESA is not calculated without an actual Agatston score.</div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="grid3">
+    <div>
+      <label>Family history of heart attack for MESA</label>
+      <select id="fhhx"><option value="">Unknown / not entered</option><option value="0">No</option><option value="1">Yes</option></select>
+      <div class="hint">MESA definition: heart attack in a parent, sibling, or child.</div>
+    </div>
+    <div>
+      <label>Pregnancy / reproductive status</label>
+      <select id="repro" onchange="calculateSoft()">
+        <option value="unspecified">Not specified / not applicable</option>
+        <option value="notpreg">Not pregnant or lactating</option>
+        <option value="planning">Planning pregnancy</option>
+        <option value="pregnant">Pregnant</option>
+        <option value="lactating">Lactating</option>
+      </select>
+    </div>
+    <div>
+      <label>Current antihypertensive regimen (optional)</label>
+      <input id="bpmednames" placeholder="e.g. losartan 100 mg + amlodipine 5 mg">
+    </div>
+  </div>
+  <div class="divider"></div>
+  <label>Risk-enhancing / special-population factors</label>
+  <div class="row">
+    <button id="rfHiv" class="chip" onclick="toggleChip(this)">HIV</button>
+    <button id="rfCkd" class="chip" onclick="toggleChip(this)">CKD stage 3-4</button>
+    <button id="rfFh" class="chip" onclick="toggleChip(this)">Familial hypercholesterolemia</button>
+    <button id="rfFam" class="chip" onclick="toggleFamily(this)">Family history premature ASCVD</button>
+    <button id="rfInflam" class="chip" onclick="toggleChip(this)">Chronic inflammatory disease</button>
+    <button id="rfAncestry" class="chip" onclick="toggleChip(this)">South Asian / Filipino ancestry</button>
+    <button id="rfRepro" class="chip" onclick="toggleChip(this)">Preeclampsia / premature menopause</button>
+  </div>
+</div>
+
+<div class="card">
+  <h2>4. Lipid treatment context</h2>
+  <div class="row" style="margin-bottom:12px">
+    <button id="statinIntol" class="chip danger" onclick="toggleChip(this)">Prior statin intolerance</button>
+    <button id="ezIntol" class="chip danger" onclick="toggleChip(this)">Prior ezetimibe intolerance</button>
+  </div>
+  <div class="grid2">
+    <div>
+      <label>Current lipid-lowering medication</label>
+      <select id="med" onchange="syncStatinUse();calculateSoft()">
+        <option value="unknown">Unknown / not entered</option>
+        <option value="none">None</option>
+        <option value="statin_unspecified">Statin (drug/dose not specified)</option>
+        <option value="atorvastatin">Atorvastatin</option>
+        <option value="rosuvastatin">Rosuvastatin</option>
+        <option value="simvastatin">Simvastatin</option>
+        <option value="pravastatin">Pravastatin</option>
+        <option value="lovastatin">Lovastatin</option>
+        <option value="ezetimibe">Ezetimibe</option>
+        <option value="evolocumab">Evolocumab (Repatha)</option>
+        <option value="alirocumab">Alirocumab (Praluent)</option>
+        <option value="inclisiran">Inclisiran (Leqvio)</option>
+        <option value="enlicitide">Enlicitide (oral PCSK9)</option>
+        <option value="bempedoic">Bempedoic acid</option>
+        <option value="combo">Combination / other</option>
+      </select>
+    </div>
+    <div><label>Dose / regimen</label><input id="dose" placeholder="e.g. 20 mg daily"></div>
+  </div>
+  <div class="grid2" style="margin-top:10px">
+    <div>
+      <label>Current statin use for PREVENT</label>
+      <select id="statinUse" onchange="calculateSoft()">
+        <option value="">Unknown / not entered</option><option value="0">No</option><option value="1">Yes</option>
+      </select>
+      <div class="hint">PREVENT uses current statin use. Nonstatins alone do not count as statin use.</div>
+    </div><div></div>
+  </div>
+  <div style="margin-top:14px"><button class="btn primary" onclick="calculate()">Calculate / update</button></div>
+</div>
+
+<section id="results" class="results">
+
+<div class="card">
+  <div class="kicker">Clinician result</div>
+  <div class="row" style="justify-content:space-between;align-items:flex-start;margin-top:4px">
+    <div><h2 style="margin:0 0 4px">PREVENT risk profile</h2><div id="modelTag" class="small">—</div></div>
+    <div id="riskBand" class="small"></div>
+  </div>
+  <div class="kicker" style="margin-top:16px">10-year predicted risk</div>
+  <div class="risk-dashboard four">
+    <div id="cvd10Card" class="riskcard risk-neutral"><div class="rlabel">Total CVD</div><div id="cvd10" class="rvalue">—</div><div id="cvd10Band" class="rband"></div><div class="rnote">ASCVD + heart failure composite</div></div>
+    <div id="ascvd10Card" class="riskcard risk-neutral"><div class="rlabel">ASCVD</div><div id="ascvd10" class="rvalue">—</div><div id="ascvd10Band" class="rband"></div><div class="rnote">MI / coronary death / stroke</div></div>
+    <div id="hf10Card" class="riskcard risk-neutral"><div class="rlabel">Heart failure</div><div id="hf10" class="rvalue">—</div><div id="hf10Band" class="rband"></div><div class="rnote">PREVENT-HF</div></div>
+    <div id="preventAgeCard" class="riskcard risk-neutral"><div class="rlabel">PREVENT-Age</div><div id="preventAge" class="rvalue">—</div><div id="preventAgeBand" class="rband">Base-equation metric</div><div id="preventAgeNote" class="rnote">Equivalent heart/risk age derived from 10-year PREVENT-CVD.</div></div>
+  </div>
+  <div class="kicker" style="margin-top:16px">30-year predicted risk</div>
+  <div class="risk-dashboard">
+    <div id="cvd30Card" class="riskcard risk-neutral"><div class="rlabel">Total CVD</div><div id="cvd30" class="rvalue">—</div><div class="rnote">Available through age 59</div></div>
+    <div id="ascvd30Card" class="riskcard risk-neutral"><div class="rlabel">ASCVD</div><div id="ascvd30" class="rvalue">—</div><div class="rnote">Available through age 59</div></div>
+    <div id="hf30Card" class="riskcard risk-neutral"><div class="rlabel">Heart failure</div><div id="hf30" class="rvalue">—</div><div class="rnote">Available through age 59</div></div>
+  </div>
+
+  <div id="idealBox" class="ideal-card">
+    <div class="ideal-head"><div><div class="kicker">Idealized risk-factor scenario</div><h2 style="margin:3px 0 0">Best-case from the modifiable factors shown below</h2></div><div class="small" style="max-width:440px">Same age and nonmodifiable context. This is a hypothetical PREVENT recalculation for teaching, not a causal treatment-effect estimate.</div></div>
+    <div class="ideal-values"><div class="ideal-stat"><b id="idealCvd">—</b><span>10-y total CVD</span></div><div class="ideal-stat"><b id="idealAsc">—</b><span>10-y ASCVD</span></div><div class="ideal-stat"><b id="idealHf">—</b><span>10-y heart failure</span></div></div>
+  </div>
+  <div id="comparisons" class="compare"></div>
+  <div class="whatif"><div class="kicker">What if?</div><div class="small" style="margin:4px 0 9px">Only applicable factors are offered. Combine as many as you want.</div><div id="whatButtons" class="whatgrid"></div><div id="impact" class="impact hidden"></div><div id="bpWarning" class="teach hidden"><b>Important:</b> “BP controlled without medication” models an idealized phenotype. It is not a recommendation to discontinue antihypertensive therapy.</div><div id="weightNote" class="teach hidden">BMI is not a direct term in the 10-year PREVENT-ASCVD equation, but it is a direct term in PREVENT-HF and therefore changes can affect the broader outcome suite.</div></div>
+  <div class="engine-note">CVD, ASCVD, and HF are modeled separately; ASCVD + HF can numerically exceed total CVD. 30-year estimates apply only through age 59. PREVENT-Age always uses the base 10-year PREVENT-CVD equation even when an enhanced optional-predictor model is selected.</div>
+</div>
+
+<div id="mesaCard" class="card hidden">
+  <div class="kicker">CAC-informed coronary risk</div>
+  <h2 style="margin-top:4px">Race-free MESA 10-year CHD risk</h2>
+  <div id="mesaStatus" class="small"></div>
+  <div id="mesaValues" class="mesa-grid hidden">
+    <div class="mesa-stat"><span>Using actual CAC</span><b id="mesaWith">—</b><div id="mesaWithNote" class="small"></div></div>
+    <div class="mesa-stat"><span>Without considering CAC</span><b id="mesaWithout">—</b><div class="small">Same MESA risk-factor profile, excluding the CAC result.</div></div>
+  </div>
+  <div id="mesaDelta" class="alert info hidden"></div>
+  <div class="small" style="margin-top:10px">MESA predicts CHD, not the same endpoint as PREVENT ASCVD or total CVD. Do not compare the percentages as if they were interchangeable.</div>
+</div>
+
+<div id="priorityCard" class="priority">
+  <div class="kicker">What to focus on</div>
+  <h2>Clinical priority</h2>
+  <div id="priorityLead" class="lead">—</div>
+  <div id="priorityWhy" class="small" style="margin-top:7px"></div>
+  <div id="priorityList" class="priority-list"></div>
+  <div class="small" style="margin-top:10px">Priority ranking is heuristic decision support based on current treatment gaps and risk context. It is not an individualized causal treatment-effect estimate.</div>
+</div>
+
+<div id="bmCard" class="card">
+  <div class="kicker">Color-coded clinical context</div>
+  <h2 style="margin-top:4px">Lipids & risk markers</h2>
+  <table id="bmTable" class="bm-table"></table>
+</div>
+
+<div class="card">
+  <div class="kicker">Treatment support</div>
+  <h2 style="margin-top:4px">Decision summary</h2>
+  <div id="recommendations"></div>
+</div>
+
+<div id="lpaEffect" class="card" aria-labelledby="lpaEffectTitle" data-revision="lpa-effect-2026-10-23">
+  <div class="kicker">Additional clinician context</div>
+  <h2 id="lpaEffectTitle" style="margin-top:4px">Effect of Lp(a)</h2>
+  <p class="small">The March 13, 2026 ACC/AHA multisociety dyslipidemia guideline (Table 4) describes an observational association between Lp(a) and ASCVD relative risk, compared with the population median of 20 nmol/L. These UK Biobank estimates are a general guide and may differ in other populations.</p>
+  <div class="grid2">
+    <div class="mini"><div class="n">Patient Lp(a)</div><div id="lpaEffectValue" class="v">—</div></div>
+    <div class="mini"><div class="n">Illustrative ASCVD relative-risk factor</div><div id="lpaEffectFactor" class="v">—</div><div id="lpaEffectRange" class="why"></div></div>
+  </div>
+  <div class="alert info"><b>Illustration only — not a validated PREVENT probability adjustment.</b> Multiplying an original PREVENT score by an observational relative-risk factor does not produce a calibrated personal event probability or a guideline-endorsed PREVENT recalculation. PREVENT already reflects a population with varying Lp(a). The official scores and categories above, treatment support, and patient letter continue to use the original PREVENT results.</div>
+  <div id="lpaEffectStatus" class="small" style="margin-top:12px" aria-live="polite"></div>
+  <div id="lpaEffectScores" class="grid2 hidden" style="margin-top:12px">
+    <div class="mini"><div class="n">Original PREVENT-ASCVD · 10 years</div><div id="lpaEffectOriginal" class="v">—</div><div class="why">Official original score, repeated unchanged.</div></div>
+    <div class="mini"><div class="n">Illustrative multiplied score · 10-year ASCVD</div><div id="lpaEffectProduct" class="v">—</div><div id="lpaEffectMath" class="why"></div></div>
+  </div>
+  <p class="small">This ASCVD association is not applied to heart failure, total CVD, PREVENT-Age, MESA, or 30-year results. No validated adjustment for those outputs is implied.</p>
+  <details class="small">
+    <summary style="cursor:pointer;font-weight:750">How the illustrative factor is selected</summary>
+    <p>Table 4 lists reference Lp(a) &lt;75 nmol/L; 1.2× at 75–124; 1.4× at 125; 2× at 250; 3× at 350; and 4× at 430 nmol/L. For this illustration, values between the listed anchors use the lower anchor: 125–&lt;250 → 1.4×, 250–&lt;350 → 2×, 350–&lt;430 → 3×, and ≥430 → 4×. These stepwise bands are this tool’s approximation, not exact guideline cutoffs for a continuous biological relationship. Below 75, 1× is a display convention; no downward adjustment is made. Values above 430 are not extrapolated beyond 4×.</p>
+    <p>Only nmol/L is accepted here; do not enter mg/dL or use a fixed unit conversion. A chart value reported as &lt;X or &gt;X is handled by the existing parser as X; confirm the actual result before interpreting a factor.</p>
+  </details>
+  <p class="small"><a href="https://www.ahajournals.org/doi/10.1161/CIR.0000000000001423" target="_blank" rel="noopener noreferrer">Source: 2026 ACC/AHA multisociety dyslipidemia guideline, Table 4</a>.</p>
+</div>
+
+<div class="card patient">
+  <div class="kicker">Patient output</div>
+  <h2 style="margin-top:4px">Patient letter</h2>
+  <textarea id="patientText" style="min-height:390px"></textarea>
+  <div class="small" style="margin-top:7px">Patient output uses PREVENT for overall cardiovascular risk. MESA stays clinician-facing because it predicts a different coronary endpoint.</div>
+</div>
+
+</section>
+
+<details class="card evidence">
+  <summary>
+    <span><span class="kicker" style="display:block;margin-bottom:3px">Guidelines &amp; supporting evidence</span>Read more: evidence behind this tool</span>
+  </summary>
+  <div class="evidence-body">
+    <p class="evidence-intro">These are the principal guidelines, derivation studies, and validation studies supporting the calculations and decision pathways used above. Links open the original publication or official project page.</p>
+    <div class="evidence-groups">
+      <div class="evidence-group">
+        <h3>Current guidelines</h3>
+        <div class="source">
+          <a href="https://www.ahajournals.org/doi/10.1161/CIR.0000000000001423" target="_blank" rel="noopener noreferrer">2026 ACC/AHA Multisociety Dyslipidemia Guideline</a>
+          <p>Published March 13, 2026. Introduces PREVENT-based treatment thresholds, LDL and non-HDL goals, risk enhancers, and selective CAC reclassification.</p>
+        </div>
+        <div class="source">
+          <a href="https://www.ahajournals.org/doi/10.1161/CIR.0000000000001356" target="_blank" rel="noopener noreferrer">2025 AHA/ACC High Blood Pressure Guideline</a>
+          <p>Supports contemporary BP thresholds, treatment decisions, and integration of predicted cardiovascular risk.</p>
+        </div>
+        <div class="source">
+          <a href="https://professional.heart.org/en/guidelines-and-statements/prevent-calculator" target="_blank" rel="noopener noreferrer">Official AHA PREVENT Calculator</a>
+          <p>Clinical implementation of 10- and 30-year CVD, ASCVD, and heart-failure risk estimates, including PREVENT-Age.</p>
+        </div>
+      </div>
+
+      <div class="evidence-group">
+        <h3>PREVENT models</h3>
+        <div class="source">
+          <a href="https://www.ahajournals.org/doi/10.1161/CIRCULATIONAHA.123.067626" target="_blank" rel="noopener noreferrer">Development and Validation of the AHA PREVENT Equations</a>
+          <p>Khan et al., Circulation, 2024. Derivation and validation of the sex-specific, race-free PREVENT equations in more than 6 million adults.</p>
+        </div>
+        <div class="source">
+          <a href="https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2824692" target="_blank" rel="noopener noreferrer">External Validation of PREVENT</a>
+          <p>Scheuermann et al., JAMA Network Open, 2024. Evaluates discrimination and calibration in a nationally representative US cohort.</p>
+        </div>
+        <div class="source">
+          <a href="https://jamanetwork.com/journals/jamacardiology/fullarticle/2836740" target="_blank" rel="noopener noreferrer">PREVENT Risk Age Equations</a>
+          <p>Krishnan et al., JAMA Cardiology, 2025. Describes the PREVENT-Age communication metric displayed in this tool.</p>
+        </div>
+      </div>
+
+      <div class="evidence-group">
+        <h3>Coronary calcium &amp; MESA</h3>
+        <div class="source">
+          <a href="https://jamanetwork.com/journals/jama/article-abstract/2853347" target="_blank" rel="noopener noreferrer">CAC Added to the PREVENT-ASCVD Equations</a>
+          <p>Huang et al., JAMA, 2026. Finds that CAC provides its greatest reclassification value in borderline- and intermediate-risk patients.</p>
+        </div>
+        <div class="source">
+          <a href="https://www.jacc.org/doi/10.1016/j.jacc.2015.08.035" target="_blank" rel="noopener noreferrer">Derivation and Validation of the MESA CAC Risk Score</a>
+          <p>McClelland et al., JACC, 2015. Establishes the 10-year CHD model using traditional risk factors with and without CAC.</p>
+        </div>
+        <div class="source">
+          <a href="https://mesa-nhlbi.org/researchers/tools/mesa-score-risk-calculator-nr" target="_blank" rel="noopener noreferrer">Official Race-Free MESA Risk Score</a>
+          <p>MESA’s current race-free calculator and project description. The model excludes race/ethnicity and related interaction terms.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</details>
+
+<div class="footer">
+  <strong>For clinician use only.</strong> Decision support, not a substitute for clinical judgment. PREVENT is used for primary prevention. Established ASCVD follows the secondary-prevention pathway. Pregnancy and lactation require medication-specific review.<br>
+  PREVENT engine: pinned public implementation of the AHA PREVENT equations. Race-free MESA: official MESA score-norace service when CAC is entered.<br><br>
+  Clinical tool developed by Gennady Gelman, MD
+</div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/gh/winefont/PREVENT-ASCVD@9d5bd38146d92b5f52c11ee6b6bfe1f761726157/web/prevent-engine.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const n=id=>{const el=$(id); if(!el)return null; const v=String(el.value??'').trim(); return v===''?null:Number(v)};
+const sel=id=>{const v=$(id).value; return v===''?null:Number(v)};
+const on=id=>$(id).classList.contains('on');
+let preventionState='primary';
+let lastMesa=null;
+let mesaRequestSeq=0;
+
+function toggleChip(el){el.classList.toggle('on');calculateSoft()}
+function toggleFamily(el){
+  el.classList.toggle('on');
+  if(el.classList.contains('on') && $('fhhx').value==='') $('fhhx').value='1';
+  calculateSoft();
+}
+function setPrevention(v,el){
+  preventionState=v;
+  ['prevPrimary','prevSecondary','prevVeryHigh'].forEach(id=>$(id).classList.toggle('on',$(id)===el));
+  calculateSoft();
+}
+function isStatin(m){return ['statin_unspecified','atorvastatin','rosuvastatin','simvastatin','pravastatin','lovastatin'].includes(m)}
+function isLipidLowering(m){return m!=='unknown'&&m!=='none'}
+function syncStatinUse(){
+  const m=$('med').value;
+  if(isStatin(m)) $('statinUse').value='1';
+  else if(m==='none' || (m!=='unknown' && !isStatin(m))) $('statinUse').value='0';
+}
+function syncCACFromNumber(){
+  const c=n('cac');
+  if(c===null) return;
+  if(c===0) $('cacQual').value='zero';
+  else if(c<100) $('cacQual').value='mild';
+  else $('cacQual').value='strong';
+}
+function actualCAC(){
+  const c=n('cac');
+  return c!==null && Number.isFinite(c) && c>=0 ? Math.round(c) : null;
+}
+function cacCategory(){
+  const c=actualCAC();
+  if(c!==null) return c===0?'zero':c<100?'mild':'strong';
+  return $('cacQual').value;
+}
+function enhancerNames(){
+  return [
+    ['HIV','rfHiv'],['CKD stage 3-4','rfCkd'],['Familial hypercholesterolemia','rfFh'],
+    ['Family history premature ASCVD','rfFam'],['Chronic inflammatory disease','rfInflam'],
+    ['South Asian / Filipino ancestry','rfAncestry'],['Preeclampsia / premature menopause','rfRepro']
+  ].filter(x=>on(x[1])).map(x=>x[0]);
+}
+function medLabel(m){
+  const map={
+    unknown:'medication not specified',none:'no lipid-lowering medication',statin_unspecified:'statin',
+    atorvastatin:'atorvastatin',rosuvastatin:'rosuvastatin',simvastatin:'simvastatin',
+    pravastatin:'pravastatin',lovastatin:'lovastatin',ezetimibe:'ezetimibe',
+    evolocumab:'evolocumab',alirocumab:'alirocumab',inclisiran:'inclisiran',
+    enlicitide:'oral PCSK9 therapy',bempedoic:'bempedoic acid',combo:'combination / other therapy'
+  };
+  return map[m]||m;
+}
+function getP(){
+  const tcEntered=n('tc');
+  const statin=sel('statinUse');
+  return {
+    age:n('age'), sex:sel('sex'), sbp:n('sbp'), egfr:n('egfr'),
+    tcActual:tcEntered, tc:tcEntered===null?null:Math.max(130,tcEntered),
+    hdl:n('hdl'), ldl:n('ldl'), tg:n('tg'), bmi:n('bmi'), lpa:n('lpa'),
+    apob:n('apob'), hscrp:n('hscrp'), hba1c:n('a1c'), uacr:n('uacr'), sdi:n('sdi'),
+    dm:sel('dm'), smoking:sel('smoke'), bptreat:sel('bptx'), statin,
+    med:$('med').value,dose:$('dose').value.trim(),bpmednames:$('bpmednames').value.trim(),
+    prevention:preventionState,cac:actualCAC(),cacCat:cacCategory(),fhhx:sel('fhhx'),
+    repro:$('repro').value,enhancers:enhancerNames(),
+    statinIntol:on('statinIntol'),ezIntol:on('ezIntol')
+  };
+}
+function requiredMissing(p){
+  if(p.prevention!=='primary') return [];
+  const req=[['age',p.age],['sex',p.sex],['sbp',p.sbp],['eGFR',p.egfr],['total cholesterol',p.tc],['HDL-C',p.hdl],['BMI',p.bmi],['diabetes status',p.dm],['smoking status',p.smoking],['BP treatment status',p.bptreat],['statin use',p.statin]];
+  return req.filter(x=>x[1]===null || Number.isNaN(x[1])).map(x=>x[0]);
+}
+function highlightMissing(p){
+  const ids=['age','sex','sbp','egfr','tc','hdl','bmi','dm','smoke','bptx','statinUse'];
+  ids.forEach(id=>$(id).classList.remove('missing'));
+  if(p.prevention!=='primary'){ $('missingSummary').classList.remove('show'); return; }
+  const map={age:'age',sex:'sex',sbp:'sbp','eGFR':'egfr','total cholesterol':'tc','HDL-C':'hdl','BMI':'bmi','diabetes status':'dm','smoking status':'smoke','BP treatment status':'bptx','statin use':'statinUse'};
+  const miss=requiredMissing(p);
+  miss.forEach(x=>$(map[x])?.classList.add('missing'));
+  const box=$('missingSummary');
+  if(miss.length){box.textContent='Required for a complete PREVENT calculation: '+miss.join(', ')+'.';box.classList.add('show')}
+  else box.classList.remove('show');
+}
+function preventModelLabel(m){
+  return {base:'Base PREVENT',uacr:'UACR-enhanced PREVENT',hba1c:'HbA1c-enhanced PREVENT',sdi:'SDI-enhanced PREVENT',full:'Full optional-predictor PREVENT'}[m]||m;
+}
+function pct(x){return x==null||!Number.isFinite(x)?'—':x.toFixed(1)+'%'}
+function band(r){
+  if(r==null||!Number.isFinite(r))return '';
+  if(r<3)return 'Low';
+  if(r<5)return 'Borderline';
+  if(r<10)return 'Intermediate';
+  return 'High';
+}
+function riskClass(r){
+  if(r==null||!Number.isFinite(r))return 'risk-neutral';
+  if(r<3)return 'risk-low';
+  if(r<5)return 'risk-borderline';
+  if(r<10)return 'risk-intermediate';
+  return 'risk-high';
+}
+function setRiskCard(prefix,r,showBand=true){
+  $(prefix).textContent=pct(r);
+  const card=$(prefix+'Card');
+  if(card){card.className='riskcard '+riskClass(r)}
+  const b=$(prefix+'Band'); if(b) b.textContent=showBand?band(r):'';
+}
+
+const preventLabels={base:'Base',uacr:'Base + UACR',hba1c:'Base + HbA1c',sdi:'Base + SDI',full:'Full model'};
+function toPreventParams(p){return{sex:p.sex,age:p.age,tc:p.tc,hdl:p.hdl,sbp:p.sbp,dm:p.dm,smoking:p.smoking,bmi:p.bmi,egfr:p.egfr,bptreat:p.bptreat,statin:p.statin,uacr:p.uacr,hba1c:p.hba1c,sdi:p.sdi}}
+function allRisks(model,p){
+  if(typeof PREVENT==='undefined')return null;
+  const fn={base:PREVENT.preventBase,uacr:PREVENT.preventUacr,hba1c:PREVENT.preventHba1c,sdi:PREVENT.preventSdi,full:PREVENT.preventFull}[model];
+  try{return fn?fn(toPreventParams(p)):null}catch(e){console.error(e);return null}
+}
+function availableModels(p){let a=['base'];if(p.uacr!=null)a.push('uacr');if(p.hba1c!=null)a.push('hba1c');if(p.sdi!=null)a.push('sdi');if([p.uacr,p.hba1c,p.sdi].filter(x=>x!=null).length>=2)a.push('full');return a}
+function preventAgeFromCvdRisk(sex,cvd10Pct){
+  // Krishnan et al., JAMA Cardiology 2025. Input is 10-y PREVENT-CVD risk in percent.
+  if(!Number.isFinite(cvd10Pct)||cvd10Pct<=0||![0,1].includes(sex))return null;
+  return sex===1?45.09746+11.27498*Math.log(cvd10Pct):41.55092+11.72711*Math.log(cvd10Pct)
+}
+function renderPreventAge(p){
+  const c=$('preventAgeCard');['risk-low','risk-borderline','risk-intermediate','risk-high','risk-neutral'].forEach(x=>c.classList.remove(x));
+  const base=allRisks('base',p),age=base?preventAgeFromCvdRisk(p.sex,base.cvd10):null;
+  if(!Number.isFinite(age)){$('preventAge').textContent='—';c.classList.add('risk-neutral');$('preventAgeBand').textContent='Not available';$('preventAgeNote').textContent='Requires a valid base-model 10-year PREVENT-CVD estimate.';return}
+  const rounded=Math.round(age),delta=age-p.age;$('preventAge').textContent=rounded+' yr';
+  if(delta<=0)c.classList.add('risk-low');else if(delta<=10)c.classList.add('risk-borderline');else c.classList.add('risk-high');
+  $('preventAgeBand').textContent=Math.abs(Math.round(delta))<1?'About the same as chronological age':`${Math.abs(Math.round(delta))} y ${delta>0?'older':'younger'} than chronological age`;
+  $('preventAgeNote').textContent='Base-equation risk-age metric; UACR, HbA1c, and SDI are not included in PREVENT-Age.';
+}
+function renderComparisons(p,model){
+  const box=$('comparisons');box.innerHTML='';
+  availableModels(p).forEach(m=>{const rr=allRisks(m,p);if(!rr||!Number.isFinite(rr.ascvd10))return;const sel=allRisks(model,p)?.ascvd10,d=Number.isFinite(sel)?rr.ascvd10-sel:0;let why='Required clinical factors only.';if(m==='uacr')why=`Adds UACR${p.uacr!=null?` ${p.uacr} mg/g`:''}.`;if(m==='hba1c')why=`Adds HbA1c${p.hba1c!=null?` ${p.hba1c}%`:''}.`;if(m==='sdi')why=`Adds SDI decile${p.sdi!=null?` ${p.sdi}`:''}.`;if(m==='full')why='Uses the combined optional-predictor equation; missing optional terms use the equation’s published missing-value terms.';const el=document.createElement('div');el.className='mini'+(m===model?' active':'');el.innerHTML=`<div class="n">${preventLabels[m]}${m===model?' • USED':''}</div><div class="v">${rr.ascvd10.toFixed(1)}%</div><div class="why">${why}${m!==model?` Difference vs used model: ${d>=0?'+':''}${d.toFixed(1)} pp.`:''}</div>`;box.appendChild(el)})
+}
+let whatState={};
+function calcWithWhat(p){let q={...p};if(whatState.smoke)q.smoking=0;if(whatState.bp)q.sbp=120;if(whatState.bpNoMeds){q.sbp=Math.min(q.sbp,120);q.bptreat=0}if(whatState.weight)q.bmi=25;if(whatState.lipids)q.tc=Math.max(130,q.hdl+100);if(whatState.a1c&&q.hba1c!=null)q.hba1c=q.dm?7:5.3;return q}
+function buildWhat(p,model,baseRisk){
+  const b=$('whatButtons');b.innerHTML='';whatState={};const opts=[];
+  if(p.smoking)opts.push(['smoke','Quit smoking']);if(p.sbp>120)opts.push(['bp','SBP → 120']);if(p.bptreat)opts.push(['bpNoMeds',p.sbp<=120?'Same BP without meds':'SBP → 120 without meds']);if(p.bmi>25)opts.push(['weight','BMI → 25']);if((p.tc-p.hdl)>100)opts.push(['lipids','Non-HDL → 100']);if(p.hba1c!=null&&((p.dm&&p.hba1c>7)||(!p.dm&&p.hba1c>5.3)))opts.push(['a1c',p.dm?'A1c → 7.0%':'A1c → 5.3%']);
+  opts.forEach(([key,label])=>{const x=document.createElement('button');x.className='what';x.textContent=label;x.onclick=()=>{whatState[key]=!whatState[key];x.classList.toggle('on');refreshWhat(p,model,baseRisk)};b.appendChild(x)});
+  $('bpWarning').classList.toggle('hidden',!p.bptreat);$('weightNote').classList.toggle('hidden',!(p.bmi>25));
+  const q={...p};if(p.smoking===1)q.smoking=0;if(p.bptreat===1){q.sbp=Math.min(q.sbp,120);q.bptreat=0}else if(p.sbp>120)q.sbp=120;if(p.bmi>25)q.bmi=25;if((p.tc-p.hdl)>100)q.tc=Math.max(130,q.hdl+100);if(q.hba1c!=null&&((q.dm&&q.hba1c>7)||(!q.dm&&q.hba1c>5.3)))q.hba1c=q.dm?7:5.3;
+  const ir=allRisks(model,q);$('idealCvd').textContent=ir?pct(ir.cvd10):'—';$('idealAsc').textContent=ir?pct(ir.ascvd10):'—';$('idealHf').textContent=ir?pct(ir.hf10):'—';
+}
+function refreshWhat(p,model,baseRisk){
+  const q=calcWithWhat(p),rr=allRisks(model,q),r=rr&&Number.isFinite(rr.ascvd10)?rr.ascvd10:null,active=Object.values(whatState).some(Boolean);$('impact').classList.toggle('hidden',!active);if(active&&Number.isFinite(r)){let txt=`Hypothetical 10-year ASCVD risk: ${r.toFixed(1)}% (${Math.abs(baseRisk-r).toFixed(1)} percentage points ${r<=baseRisk?'lower':'higher'}).`;if(Number.isFinite(rr.cvd10)&&Number.isFinite(rr.hf10))txt+=` Total CVD ${rr.cvd10.toFixed(1)}%; HF ${rr.hf10.toFixed(1)}%.`;$('impact').textContent=txt}
+}
+function clearTeachingPanels(na=false){$('comparisons').innerHTML='';$('whatButtons').innerHTML='';$('impact').classList.add('hidden');$('bpWarning').classList.add('hidden');$('weightNote').classList.add('hidden');['idealCvd','idealAsc','idealHf'].forEach(id=>$(id).textContent=na?'N/A':'—');$('preventAge').textContent=na?'N/A':'—';$('preventAgeBand').textContent=na?'Not applicable':'Base-equation metric';$('preventAgeNote').textContent=na?'PREVENT-Age is a primary-prevention metric.':'Equivalent heart/risk age derived from 10-year PREVENT-CVD.'}
+function calcPrevent(p){
+  if(p.prevention!=='primary') return null;
+  if(requiredMissing(p).length) return null;
+  if(!window.PREVENT || typeof PREVENT.calculate!=='function') return null;
+  const params={
+    sex:p.sex,age:p.age,tc:p.tc,hdl:p.hdl,sbp:p.sbp,dm:p.dm,smoking:p.smoking,
+    bmi:p.bmi,egfr:p.egfr,bptreat:p.bptreat,statin:p.statin,
+    uacr:p.uacr,hba1c:p.hba1c,sdi:p.sdi
+  };
+  return PREVENT.calculate(params);
+}
+function lpaIllustrativeFactor(value){
+  if(!Number.isFinite(value)||value<0)return null;
+  if(value<75)return {factor:1,range:'<75 nmol/L · reference (1× display convention)'};
+  if(value<125)return {factor:1.2,range:'75–<125 nmol/L'};
+  if(value<250)return {factor:1.4,range:'125–<250 nmol/L · stepwise approximation'};
+  if(value<350)return {factor:2,range:'250–<350 nmol/L · stepwise approximation'};
+  if(value<430)return {factor:3,range:'350–<430 nmol/L · stepwise approximation'};
+  return {factor:4,range:'≥430 nmol/L · 4× anchor; no further extrapolation'};
+}
+function renderLpaEffect(p,rr){
+  const info=lpaIllustrativeFactor(p.lpa);
+  $('lpaEffectValue').textContent=Number.isFinite(p.lpa)?p.lpa+' nmol/L':'Not entered';
+  $('lpaEffectFactor').textContent=info?info.factor.toFixed(1)+'×':'—';
+  $('lpaEffectRange').textContent=info?info.range:'';
+  $('lpaEffectScores').classList.add('hidden');
+  ['lpaEffectOriginal','lpaEffectProduct'].forEach(id=>$(id).textContent='—');
+  $('lpaEffectMath').textContent='';
+  let status='';
+  if(!info)status=p.lpa===null?'Enter Lp(a) in nmol/L to see the factor and illustration.':'Enter a finite, nonnegative Lp(a) in nmol/L.';
+  else if(p.prevention!=='primary')status='PREVENT is not applicable in established ASCVD; no multiplied score is shown. The Lp(a) factor above is observational context only.';
+  else if(!rr||!Number.isFinite(rr.ascvd10))status='Complete valid PREVENT inputs to see the original ASCVD score and illustrative multiplication.';
+  else{
+    const product=rr.ascvd10*info.factor;
+    $('lpaEffectOriginal').textContent=pct(rr.ascvd10);
+    // Show the arithmetic, without capping it into a plausible-looking probability.
+    $('lpaEffectProduct').textContent=pct(product)+(product>=100?' (not a probability)':'');
+    $('lpaEffectMath').textContent='Original unrounded score × '+info.factor.toFixed(1)+' = '+pct(product)+'. Arithmetic illustration only; not an adjusted event probability.';
+    $('lpaEffectScores').classList.remove('hidden');
+    status=info.factor===1?'Reference range: the 1× illustration repeats the original score and does not lower it.':'The selected factor is approximate. It describes an observational ASCVD association, not a treatment effect.';
+    if(product>=100)status+=' The arithmetic reaches or exceeds 100%; it cannot be interpreted as an event probability.';
+  }
+  $('lpaEffectStatus').textContent=status;
+}
+function renderPrevent(p,rr){
+  if(p.prevention!=='primary'){
+    $('modelTag').textContent='Secondary prevention pathway';
+    $('riskBand').textContent='PREVENT is not applicable in established ASCVD.';
+    ['cvd10','ascvd10','hf10','cvd30','ascvd30','hf30'].forEach(id=>setRiskCard(id,null,false));
+    clearTeachingPanels(true);
+    return;
+  }
+  if(!rr){
+    $('modelTag').textContent='Incomplete or invalid PREVENT inputs';
+    $('riskBand').textContent='';
+    ['cvd10','ascvd10','hf10','cvd30','ascvd30','hf30'].forEach(id=>setRiskCard(id,null,false));
+    clearTeachingPanels(false);
+    return;
+  }
+  $('modelTag').textContent=preventModelLabel(rr.model)+' selected';
+  $('riskBand').textContent=band(rr.ascvd10)+' 10-year ASCVD risk';
+  setRiskCard('cvd10',rr.cvd10);setRiskCard('ascvd10',rr.ascvd10);setRiskCard('hf10',rr.hf10);
+  setRiskCard('cvd30',rr.cvd30,false);setRiskCard('ascvd30',rr.ascvd30,false);setRiskCard('hf30',rr.hf30,false);
+  renderPreventAge(p);
+}
+function ldlGoal(p,ascvdRisk){
+  if(p.prevention==='vhigh') return 55;
+  if(p.prevention==='secondary') return 70;
+  if(p.ldl!=null && p.ldl>=190) return 100;
+  if(p.dm===1 || on('rfCkd') || (ascvdRisk!=null&&ascvdRisk>=10) || p.cacCat==='strong') return 70;
+  if(on('rfFh')) return 100;
+  if((ascvdRisk!=null&&ascvdRisk>=3) || p.cacCat==='mild') return 100;
+  return null;
+}
+function priorityCandidates(p,ascvdRisk){
+  const out=[];
+  if(p.smoking===1){
+    out.push({key:'smoking',score:100,title:'Smoking cessation',body:'Current smoking is the dominant modifiable cardiovascular risk factor. Prioritize cessation treatment and follow-up.'});
+  }
+  if(p.sbp!=null){
+    let s=10,txt='Blood pressure is already near the <130 mm Hg treatment goal.';
+    if(p.sbp>=180){s=100;txt='Systolic BP is severely elevated. Confirm promptly and address blood pressure before focusing on smaller residual risk gaps.'}
+    else if(p.sbp>=160){s=95;txt='Systolic BP is markedly above goal. Blood pressure control is a major current treatment opportunity.'}
+    else if(p.sbp>=140){s=85;txt='Systolic BP is clearly above goal. Intensifying blood pressure management is a high-yield current opportunity.'}
+    else if(p.sbp>=130){s=55;txt='Systolic BP is modestly above the <130 mm Hg goal. Blood pressure optimization remains worthwhile.'}
+    out.push({key:'bp',score:s,title:'Blood pressure',body:txt});
+  }
+  const goal=ldlGoal(p,ascvdRisk);
+  if(p.ldl!=null){
+    let s=15,txt='';
+    if(p.ldl>=190){s=95;txt='LDL-C is ≥190 mg/dL. Lipid lowering is a major treatment priority independent of short-term calculated risk.'}
+    else if(goal!=null){
+      const gap=p.ldl-goal;
+      if(gap>=60){s=90;txt=`LDL-C is ${Math.round(gap)} mg/dL above the current ${goal} mg/dL treatment goal.`}
+      else if(gap>=30){s=75;txt=`LDL-C is ${Math.round(gap)} mg/dL above the current ${goal} mg/dL treatment goal.`}
+      else if(gap>0){s=55;txt=`LDL-C remains above the current ${goal} mg/dL treatment goal.`}
+      else {s=15;txt=`LDL-C is at or below the current ${goal} mg/dL treatment goal. Continue effective therapy rather than treating the number more aggressively by default.`}
+    } else {
+      if(p.ldl>=160){s=60;txt='LDL-C is ≥160 mg/dL and remains a meaningful risk-enhancing treatment consideration.'}
+      else if(p.ldl>=130){s=35;txt='LDL-C is elevated, but the current overall risk context does not create as large a treatment gap as the higher-ranked items.'}
+      else txt='LDL-C is not a major residual treatment gap in the current risk context.';
+    }
+    if(p.cac!=null && p.cac>0 && s<55) txt+=' Positive CAC supports continuing lipid-lowering therapy despite good current LDL control.';
+    out.push({key:'lipid',score:s,title:'LDL / lipid therapy',body:txt,goal});
+  }
+  if(p.dm===1 && p.hba1c!=null){
+    let s=15,txt=`A1c ${p.hba1c.toFixed(1)}% is well controlled.`;
+    if(p.hba1c>=9){s=85;txt=`A1c ${p.hba1c.toFixed(1)}% indicates a large glycemic treatment gap.`}
+    else if(p.hba1c>=8){s=70;txt=`A1c ${p.hba1c.toFixed(1)}% remains substantially above usual treatment targets.`}
+    else if(p.hba1c>=7){s=45;txt=`A1c ${p.hba1c.toFixed(1)}% is above a typical treatment target; individualize based on comorbidity and hypoglycemia risk.`}
+    out.push({key:'dm',score:s,title:'Diabetes control',body:txt});
+  }
+  if(p.bmi!=null && p.bmi>=30){
+    const s=p.bmi>=35?40:28;
+    out.push({key:'weight',score:s,title:'Weight / metabolic health',body:`BMI is ${p.bmi.toFixed(1)} kg/m². Weight management can improve multiple downstream risk factors, but it should not distract from larger immediate BP, smoking, or lipid gaps.`});
+  }
+  return out.sort((a,b)=>b.score-a.score);
+}
+function renderPriority(p,ascvdRisk){
+  const list=priorityCandidates(p,ascvdRisk);
+  const lead=$('priorityLead'),why=$('priorityWhy'),box=$('priorityList');
+  if(!list.length){lead.textContent='Not enough data to rank modifiable priorities.';why.textContent='Enter BP, LDL-C, smoking status and treatment context.';box.innerHTML='';return}
+  const a=list[0], b=list[1];
+  if(b && a.score>=60 && b.score>=60 && Math.abs(a.score-b.score)<=8){
+    lead.textContent=`Co-priorities: ${a.title} and ${b.title}`;
+    why.textContent='Both represent substantial current treatment gaps.';
+  }else{
+    lead.textContent=`Highest-yield current focus: ${a.title}`;
+    if(a.key==='bp'){
+      const lip=list.find(x=>x.key==='lipid');
+      if(lip && lip.score<=30) why.textContent='Blood pressure control is the larger current modifiable treatment gap than further LDL lowering.';
+      else why.textContent=a.body;
+    }else if(a.key==='lipid'){
+      const bp=list.find(x=>x.key==='bp');
+      if(bp && bp.score<=20) why.textContent='LDL lowering is the larger current modifiable treatment gap; blood pressure is already controlled.';
+      else why.textContent=a.body;
+    }else why.textContent=a.body;
+  }
+  box.innerHTML=list.slice(0,4).map((x,i)=>`<div class="priority-item"><b>${i+1}. ${x.title}</b>${x.body}</div>`).join('');
+}
+function renderBiomarkers(p,ascvdRisk){
+  const goal=ldlGoal(p,ascvdRisk);let rows='';
+  if(p.ldl!=null){
+    let f='<span class="flag flag-info">Context dependent</span>';
+    if(goal!=null) f=p.ldl<=goal?`<span class="flag flag-ok">At goal ≤${goal}</span>`:`<span class="flag flag-hi">Above goal ${goal}</span>`;
+    rows+=`<tr><td class="bm-name">LDL-C</td><td class="bm-val">${p.ldl} mg/dL ${f}</td></tr>`;
+  }
+  if(p.lpa!=null){const f=p.lpa>=125?'<span class="flag flag-hi">Risk enhancer ≥125</span>':'<span class="flag flag-ok">&lt;125</span>';rows+=`<tr><td class="bm-name">Lp(a)</td><td class="bm-val">${p.lpa} nmol/L ${f}</td></tr>`}
+  if(p.apob!=null){const f=p.apob>=130?'<span class="flag flag-hi">High</span>':p.apob>=90?'<span class="flag flag-warn">Elevated</span>':'<span class="flag flag-ok">Lower</span>';rows+=`<tr><td class="bm-name">ApoB</td><td class="bm-val">${p.apob} mg/dL ${f}</td></tr>`}
+  if(p.hscrp!=null){const f=p.hscrp>=2?'<span class="flag flag-warn">Risk-enhancing level if persistent</span>':'<span class="flag flag-ok">&lt;2</span>';rows+=`<tr><td class="bm-name">hsCRP</td><td class="bm-val">${p.hscrp} mg/L ${f}</td></tr>`}
+  if(p.tg!=null){const f=p.tg>=500?'<span class="flag flag-hi">Severe</span>':p.tg>=150?'<span class="flag flag-warn">Elevated</span>':'<span class="flag flag-ok">Normal</span>';rows+=`<tr><td class="bm-name">Triglycerides</td><td class="bm-val">${p.tg} mg/dL ${f}</td></tr>`}
+  if(p.cac!=null){const f=p.cac===0?'<span class="flag flag-ok">CAC 0</span>':p.cac<100?'<span class="flag flag-warn">CAC 1-99</span>':'<span class="flag flag-hi">CAC ≥100</span>';rows+=`<tr><td class="bm-name">CAC</td><td class="bm-val">${p.cac} Agatston ${f}</td></tr>`}
+  $('bmTable').innerHTML=rows||'<tr><td class="small">No optional biomarkers entered.</td></tr>';
+}
+function lipidRecommendation(p,ascvdRisk){
+  const goal=ldlGoal(p,ascvdRisk);
+  if(p.repro==='pregnant'||p.repro==='planning'||p.repro==='lactating'){
+    return ['rec-warn','Lipid therapy safety','Pregnancy, pregnancy planning, or lactation changes medication safety. Review the specific agent before initiating or continuing therapy.'];
+  }
+  if(p.ldl==null) return ['','Lipids','LDL-C is not entered, so treatment intensity cannot be assessed.'];
+  if(p.ldl>=190){
+    if(p.statinIntol) return ['rec-high','Lipids','LDL-C ≥190 mg/dL with prior statin intolerance. Confirm the intolerance phenotype and use the maximally tolerated regimen; consider nonstatin escalation based on response and prior ezetimibe tolerance.'];
+    return ['rec-high','Lipids','LDL-C ≥190 mg/dL. Use maximally tolerated high-intensity statin therapy unless contraindicated, then add nonstatin therapy if needed to achieve an appropriate reduction.'];
+  }
+  if(goal==null){
+    if(p.cac===0) return ['rec-ok','Lipids','CAC is 0 and there is no major LDL treatment gap identified from the current inputs. Continue risk-factor management and use shared decision-making for lipid therapy when appropriate.'];
+    return ['','Lipids','No major LDL treatment gap is identified from the current risk context.'];
+  }
+  const at=p.ldl<=goal;
+  const med=medLabel(p.med)+(p.dose?' '+p.dose:'');
+  if(at){
+    return ['rec-ok','Lipids',`LDL-C ${p.ldl} mg/dL is at the current goal of ≤${goal} mg/dL. ${p.med!=='unknown'&&p.med!=='none'?`Continue ${med}.`:'Maintain the current effective prevention strategy.'}${p.cac!=null&&p.cac>0?' Positive CAC supports continued lipid-lowering therapy.':''}`];
+  }
+  if(p.statinIntol){
+    let s=`LDL-C ${p.ldl} mg/dL remains above the ≤${goal} mg/dL goal with prior statin intolerance. Use the maximally tolerated statin exposure if any.`;
+    if(!p.ezIntol)s+=' Ezetimibe is a reasonable next oral add-on when appropriate.';
+    else s+=' Prior ezetimibe intolerance makes alternative nonstatin therapy more relevant.';
+    return ['rec-high','Lipids',s];
+  }
+  if(isStatin(p.med)){
+    return ['rec-high','Lipids',`LDL-C ${p.ldl} mg/dL remains above the ≤${goal} mg/dL goal on ${med}. Optimize statin intensity/adherence first, then add nonstatin therapy if the goal remains unmet.`];
+  }
+  if(p.med==='none'){
+    return ['rec-high','Lipids',`LDL-C ${p.ldl} mg/dL is above the ≤${goal} mg/dL goal. Initiate appropriate lipid-lowering therapy after shared decision-making.`];
+  }
+  return ['rec-high','Lipids',`LDL-C ${p.ldl} mg/dL is above the ≤${goal} mg/dL goal. Current regimen: ${med}. Review adherence, tolerated statin exposure, and whether add-on therapy is needed.`];
+}
+function renderRecommendations(p,ascvdRisk){
+  const rec=[];
+  if(p.sbp!=null){
+    if(p.sbp>=140) rec.push(['rec-high','Blood pressure',`SBP ${p.sbp} mm Hg is substantially above the <130 mm Hg treatment goal. ${p.bptreat===1?'Optimize the current antihypertensive regimen':'Confirm with repeat/home measurements and initiate treatment when indicated'}.${p.bpmednames?' Current regimen: '+p.bpmednames+'.':''}`]);
+    else if(p.sbp>=130) rec.push(['rec-warn','Blood pressure',`SBP ${p.sbp} mm Hg is above the <130 mm Hg goal. Confirm the pattern and optimize lifestyle and medication therapy as appropriate.`]);
+    else rec.push(['rec-ok','Blood pressure',`SBP ${p.sbp} mm Hg is at goal. Continue the current strategy.`]);
+  }
+  rec.push(lipidRecommendation(p,ascvdRisk));
+  if(p.cac!=null){
+    if(p.cac===0) rec.push(['rec-ok','CAC','CAC is 0. This can lower estimated near-term coronary risk, but it does not erase risk from smoking, diabetes, severe hypercholesterolemia, strong family history, or other high-risk conditions.']);
+    else rec.push(['rec-purple','CAC',`CAC ${p.cac} confirms coronary atherosclerotic burden and strengthens the rationale for durable risk-factor control, especially lipid lowering.`]);
+  }else if(p.cacCat!=='unknown'){
+    rec.push(['rec-purple','CAC','CAC is available only qualitatively. It can inform the treatment pathway, but enter the actual Agatston score to calculate race-free MESA risk.']);
+  }
+  if(p.smoking===1) rec.push(['rec-high','Smoking','Prioritize smoking cessation treatment. This is a major modifiable cardiovascular risk factor.']);
+  if(p.enhancers.length) rec.push(['','Risk enhancers',p.enhancers.join(', ')+'. These personalize treatment decisions rather than being silently inserted into PREVENT.']);
+  $('recommendations').innerHTML=rec.map(x=>`<div class="rec ${x[0]}"><b>${x[1]}</b>${x[2]}</div>`).join('');
+}
+function patientLipidParagraph(p,ascvdRisk){
+  if(p.ldl==null) return '';
+  const goal=ldlGoal(p,ascvdRisk);
+  const med=medLabel(p.med)+(p.dose?' '+p.dose:'');
+  const safety=(p.repro==='pregnant'||p.repro==='planning'||p.repro==='lactating')
+    ? ' Pregnancy, pregnancy planning, or breastfeeding changes which cholesterol medicines are safe, so we should review your medicine before making any change.' : '';
+
+  if(p.ldl>=190){
+    return `Your LDL cholesterol is ${p.ldl} mg/dL. A level of 190 or higher is important even when short-term risk is low. We should use the strongest cholesterol-lowering treatment you can safely tolerate and recheck the level.${safety}`;
+  }
+  if(goal==null){
+    const plan=p.med!=='unknown'&&p.med!=='none'?` Continue ${med}.`:'';
+    return `Your LDL cholesterol is ${p.ldl} mg/dL. The current results do not identify a major cholesterol treatment gap.${plan}${safety}`;
+  }
+  if(p.ldl<=goal){
+    const plan=p.med!=='unknown'&&p.med!=='none'?` Continue ${med}.`:' Continue the strategy that has brought it to goal.';
+    return `Your LDL cholesterol is ${p.ldl} mg/dL, at the current goal of ${goal} or lower.${plan} Lowering it further is not the main priority right now.${safety}`;
+  }
+
+  let plan='We should discuss starting an appropriate cholesterol-lowering medicine.';
+  if(p.statinIntol) plan=p.ezIntol?'We should review what statin exposure you can tolerate and discuss other cholesterol-lowering options.':'We should use any statin dose you can tolerate and consider ezetimibe as an additional oral option.';
+  else if(isStatin(p.med)) plan=`You are taking ${med}. We should review consistency and whether the dose should be increased before adding another medicine.`;
+  else if(p.med!=='unknown'&&p.med!=='none') plan=`You are taking ${med}. We should review whether an additional or different medicine is needed.`;
+  return `Your LDL cholesterol is ${p.ldl} mg/dL, above the current goal of ${goal} or lower. ${plan}${safety}`;
+}
+function patientBpParagraph(p){
+  if(p.sbp==null) return '';
+  if(p.sbp>=180) return `Your systolic blood pressure is ${p.sbp} mm Hg. This is severely elevated and should be confirmed and addressed promptly.`;
+  if(p.sbp>=140) return `Your systolic blood pressure is ${p.sbp} mm Hg, clearly above the usual goal of less than 130. We should confirm the pattern with home readings and strengthen treatment.`;
+  if(p.sbp>=130) return `Your systolic blood pressure is ${p.sbp} mm Hg, modestly above the usual goal of less than 130. Home readings can help determine whether treatment should change.`;
+  return `Your systolic blood pressure is ${p.sbp} mm Hg, at the usual goal of less than 130. Continue the strategy that is keeping it controlled.`;
+}
+function patientPriorityParagraph(p,ascvdRisk){
+  const list=priorityCandidates(p,ascvdRisk);
+  if(!list.length) return '';
+  const a=list[0],b=list[1];
+  if(a.score<40) return 'Your blood pressure and cholesterol are reasonably controlled, and these results do not identify a major medication treatment gap.';
+  if(b&&a.score>=60&&b.score>=60&&Math.abs(a.score-b.score)<=8){
+    return `The two biggest treatment opportunities right now are ${a.title.toLowerCase()} and ${b.title.toLowerCase()}. Both deserve attention rather than focusing on only one number.`;
+  }
+  if(a.key==='smoking') return 'The single most important step for lowering your cardiovascular risk is stopping smoking. Medication and structured support can substantially improve the chance of success.';
+  if(a.key==='bp'){
+    const lip=list.find(x=>x.key==='lipid');
+    if(lip&&lip.score<=30) return 'The biggest treatment opportunity right now is blood pressure control. Your LDL cholesterol is already well controlled, so improving blood pressure is more important than trying to lower LDL further.';
+    return 'The biggest treatment opportunity right now is improving blood pressure control.';
+  }
+  if(a.key==='lipid'){
+    const bp=list.find(x=>x.key==='bp');
+    if(bp&&bp.score<=20) return 'The biggest treatment opportunity right now is lowering LDL cholesterol. Your blood pressure is already controlled.';
+    return 'The biggest treatment opportunity right now is lowering LDL cholesterol.';
+  }
+  if(a.key==='dm') return 'The biggest treatment opportunity right now is improving diabetes control.';
+  if(a.key==='weight') return 'Weight and metabolic health are the main remaining opportunities identified here, although the plan should be realistic and individualized.';
+  return '';
+}
+function patientMarkerParagraphs(p){
+  const out=[];
+  if(p.lpa!=null){
+    if(p.lpa>=125) out.push(`Your lipoprotein(a), or Lp(a), is ${p.lpa} nmol/L. Lp(a) is a mostly inherited cholesterol-related particle that can increase the risk of plaque in the arteries. A level of 125 or higher is a risk enhancer. Lifestyle usually changes this number very little, so the practical response is careful control of LDL cholesterol and other risk factors.`);
+    else out.push(`Your lipoprotein(a), or Lp(a), is ${p.lpa} nmol/L. Lp(a) is a mostly inherited cholesterol-related particle. Your result is below the risk-enhancing level of 125 and does not add extra risk in this assessment.`);
+  }
+  if(p.apob!=null){
+    if(p.apob>=130) out.push(`Your apolipoprotein B, or ApoB, is ${p.apob} mg/dL. ApoB estimates the number of cholesterol-carrying particles that can enter the artery wall and form plaque. This result is high and may show substantial particle-related risk even when the LDL result appears less concerning.`);
+    else if(p.apob>=90) out.push(`Your apolipoprotein B, or ApoB, is ${p.apob} mg/dL. ApoB estimates the number of cholesterol-carrying particles that can enter the artery wall and form plaque. This result is elevated and may show more particle-related risk than the LDL result alone.`);
+    else out.push(`Your apolipoprotein B, or ApoB, is ${p.apob} mg/dL. ApoB estimates the number of cholesterol-carrying particles that can enter the artery wall and form plaque. This result is in a lower range and is reassuring about the number of these particles.`);
+  }
+  if(p.hscrp!=null){
+    if(p.hscrp>=2) out.push(`Your high-sensitivity C-reactive protein, or hsCRP, is ${p.hscrp} mg/L. hsCRP is a general marker of inflammation, not a test for inflammation in the heart itself. A persistent level of 2 or higher can add cardiovascular risk, but infection, injury, and other temporary conditions can also raise it. If this result was unexpected, it is best interpreted or repeated when you are otherwise well.`);
+    else out.push(`Your high-sensitivity C-reactive protein, or hsCRP, is ${p.hscrp} mg/L. hsCRP is a general marker of inflammation, not a test for inflammation in the heart itself. Your result is below the risk-enhancing level of 2.`);
+  }
+  return out;
+}
+function patientMessage(p,rr,ascvdRisk){
+  if(p.prevention==='primary'&&!rr) return 'I do not yet have enough information to prepare an accurate cardiovascular risk letter. Please review the missing values above.';
+
+  const paragraphs=[];
+  if(p.prevention==='primary'){
+    let risk=`Your estimated chance of a heart attack, stroke, or another artery-related cardiovascular event in the next 10 years is ${pct(rr.ascvd10)}. This is in the ${band(rr.ascvd10).toLowerCase()} range.`;
+    if(p.age<=59&&Number.isFinite(rr.ascvd30)&&rr.ascvd30>=10) risk+=` Your estimated 30-year chance is ${pct(rr.ascvd30)}, which helps show longer-term risk that may not appear in the 10-year number.`;
+    risk+=' These estimates help guide prevention but cannot predict exactly what will happen to you.';
+    paragraphs.push(risk);
+  }else{
+    paragraphs.push('Because you already have plaque-related disease in the heart or arteries, a primary-prevention risk calculator is not the right guide. The goal is to prevent another cardiovascular event by controlling the important risk factors.');
+  }
+
+  const treatment=[];
+  const priority=patientPriorityParagraph(p,ascvdRisk); if(priority) treatment.push(priority);
+  const bp=patientBpParagraph(p); if(bp) treatment.push(bp);
+  const lipid=patientLipidParagraph(p,ascvdRisk); if(lipid) treatment.push(lipid);
+  if(treatment.length) paragraphs.push(treatment.join(' '));
+
+  if(p.cac===0) paragraphs.push('Your coronary artery calcium score is 0. This means no calcified plaque was seen and is reassuring for near-term coronary risk, but it does not eliminate all risk.');
+  else if(p.cac!=null&&p.cac>0) paragraphs.push(`Your coronary artery calcium score is ${p.cac}. This confirms calcified plaque in the arteries supplying the heart and supports consistent long-term control of cholesterol and blood pressure, as well as smoking and diabetes when present.`);
+
+  paragraphs.push(...patientMarkerParagraphs(p));
+
+  const top=priorityCandidates(p,ascvdRisk)[0];
+  if(top&&top.score<40) paragraphs.push('Continue the treatments and healthy habits that are working. We can review these results together and decide whether any change is worthwhile.');
+  else paragraphs.push('We can use these results to choose the next step based on likely benefit, possible side effects, and what matters most to you.');
+  return paragraphs.join('\n\n');
+}
+function mesaRequiredMissing(p){
+  const miss=[];
+  if(p.prevention!=='primary') miss.push('primary-prevention setting');
+  if(p.cac===null) miss.push('actual CAC score');
+  if(p.age===null||p.age<45||p.age>85) miss.push('age 45-85');
+  if(p.sex===null) miss.push('sex');
+  if(p.dm===null) miss.push('diabetes status');
+  if(p.smoking===null) miss.push('smoking status');
+  if(p.fhhx===null) miss.push('family history of heart attack');
+  if(p.tcActual===null) miss.push('total cholesterol');
+  if(p.hdl===null) miss.push('HDL-C');
+  if(p.sbp===null) miss.push('systolic BP');
+  if(p.bptreat===null) miss.push('hypertension medication status');
+  if(p.med==='unknown') miss.push('lipid-lowering medication status');
+  return miss;
+}
+function parseMesaNumber(x){
+  if(x==null)return null;
+  if(typeof x==='number')return Number.isFinite(x)?x:null;
+  const m=String(x).match(/-?\d+(?:\.\d+)?/);
+  return m?Number(m[0]):null;
+}
+async function updateMesa(p){
+  const card=$('mesaCard'), vals=$('mesaValues'), delta=$('mesaDelta'), status=$('mesaStatus');
+  const wantsMesa=p.cac!==null || p.cacCat!=='unknown';
+  if(!wantsMesa){card.classList.add('hidden');lastMesa=null;return}
+  card.classList.remove('hidden');vals.classList.add('hidden');delta.classList.add('hidden');
+  const miss=mesaRequiredMissing(p);
+  if(miss.length){
+    status.innerHTML=`MESA not calculated. Needed: <b>${miss.join(', ')}</b>.`;
+    lastMesa=null;return;
+  }
+  const seq=++mesaRequestSeq;
+  status.textContent='Calculating with the official race-free MESA service...';
+  const g=p.sex===1?'f':'m';
+  const lipid=isLipidLowering(p.med)?1:0;
+  const url=`https://tools.mesa-nhlbi.org/MESACHDRiskCoronaryAge/api/score-norace/${g}/${Math.round(p.age)}/${p.dm}/${p.smoking}/${p.fhhx}/${Math.round(p.tcActual)}/${Math.round(p.hdl)}/${p.sbp}/${lipid}/${p.bptreat}/${p.cac}`;
+  try{
+    const res=await fetch(url,{headers:{Accept:'application/json'}});
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const data=await res.json();
+    if(seq!==mesaRequestSeq)return;
+    const withCAC=parseMesaNumber(data.cac_riskscore ?? data.CAC_RiskScore ?? data.cacRiskScore);
+    const withoutCAC=parseMesaNumber(data.nocac_riskscore ?? data.NoCAC_RiskScore ?? data.nocacRiskScore);
+    if(withCAC===null||withoutCAC===null) throw new Error('Unexpected MESA response');
+    lastMesa={withCAC,withoutCAC};
+    $('mesaWith').textContent=withCAC.toFixed(1)+'%';
+    $('mesaWithout').textContent=withoutCAC.toFixed(1)+'%';
+    $('mesaWithNote').textContent=`CAC ${p.cac} Agatston included.`;
+    const d=withCAC-withoutCAC;
+    if(Math.abs(d)<0.05) delta.textContent='The CAC result produces little change in the MESA 10-year CHD estimate.';
+    else if(d<0) delta.textContent=`CAC ${p.cac} lowers the MESA 10-year CHD estimate by ${Math.abs(d).toFixed(1)} percentage points compared with the same profile without CAC.`;
+    else delta.textContent=`CAC ${p.cac} raises the MESA 10-year CHD estimate by ${d.toFixed(1)} percentage points compared with the same profile without CAC.`;
+    status.textContent='Official race-free MESA calculation completed.';
+    vals.classList.remove('hidden');delta.classList.remove('hidden');
+  }catch(err){
+    console.error(err);
+    lastMesa=null;
+    status.innerHTML='The race-free MESA service could not be reached from this browser. PREVENT and the rest of the decision support are still available. You can verify the MESA result using the official MESA calculator.';
+  }
+}
+async function calculate(){
+  const p=getP();highlightMissing(p);$('results').style.display='block';
+  const rr=calcPrevent(p);renderPrevent(p,rr);renderLpaEffect(p,rr);
+  if(p.prevention==='primary'&&rr){renderComparisons(p,rr.model);buildWhat(p,rr.model,rr.ascvd10)}
+  const ascvdRisk=rr?.ascvd10??null;
+  renderPriority(p,ascvdRisk);renderBiomarkers(p,ascvdRisk);renderRecommendations(p,ascvdRisk);
+  $('patientText').value=patientMessage(p,rr,ascvdRisk);
+  updateMesa(p);
+  $('results').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function calculateSoft(){if($('results').style.display==='block')calculate()}
+function setv(id,v){if(v!==null&&v!==undefined&&v!=='')$(id).value=String(v).trim()}
+function parseAndCalculate(){
+  const raw=$('paste').value.replace(/\u00a0/g,' ').replace(/\r/g,'');
+  // Clear parser-owned fields to prevent stale chart data.
+  ['age','sbp','egfr','tc','hdl','ldl','tg','bmi','lpa','apob','hscrp','a1c','uacr','sdi','cac','dose','bpmednames'].forEach(id=>$(id).value='');
+  ['sex','dm','smoke','bptx','fhhx','statinUse'].forEach(id=>$(id).value='');
+  $('med').value='unknown';$('cacQual').value='unknown';$('repro').value='unspecified';
+  preventionState='primary';['prevPrimary','prevSecondary','prevVeryHigh'].forEach(id=>$(id).classList.remove('on'));$('prevPrimary').classList.add('on');
+  ['rfHiv','rfCkd','rfFh','rfFam','rfInflam','rfAncestry','rfRepro','statinIntol','ezIntol'].forEach(id=>$(id).classList.remove('on'));
+  const m=(re)=>{const x=raw.match(re);return x?x[1]:null};
+  const fieldBlock=(label,next)=>{
+    const start=raw.match(new RegExp('^\\s*'+label+'[ \\t]*:[ \\t]*([^\\n]*)','im'));
+    if(!start)return '';
+    const tail=raw.slice(start.index+start[0].length);
+    return start[1]+'\n'+tail.split(new RegExp('^\\s*(?:'+next+')[ \\t]*:', 'im'))[0];
+  };
+  const bmiBlock=fieldBlock('BMI','Last BP|BP Medications|Statin|Smoking|Zip|DM');
+  const bpBlock=fieldBlock('Last BP','BP Medications|Statin|Smoking|Zip|DM');
+  setv('age',m(/\bAGE\s*[:=]\s*(\d{1,3})/i)||m(/\b(\d{1,3})\s*(?:y\.?\s*o\.?|yo|years?\s*old)\b/i));
+  const sx=m(/\bSEX\s*[:=]\s*(female|male|f|m)\b/i)||m(/\b(female|male)\b/i);if(sx)$('sex').value=sx.toLowerCase().startsWith('f')?'1':'0';
+  // Direct BP values plus Epic-style "BP Readings from Last..." blocks.
+  setv('sbp',
+    m(/\b(?:SBP|systolic(?:\s+blood\s+pressure)?)\s*[:=]?\s*(\d{2,3})\b/i) ||
+    m(/\bBP[ \t]*[:=][ \t]*(\d{2,3})\s*\/\s*\d{2,3}\b/i) ||
+    (bpBlock.match(/(?:^|\n)[ \t]*\d{1,2}\/\d{1,2}\/\d{2,4}[ \t:]+(\d{2,3})\s*\/\s*\d{2,3}\b/m)||[])[1]
+  );
+  // Accept both GFR and eGFR labels.
+  setv('egfr',m(/\b(?:eGFR|GFR)\s*[:=]?\s*[<>≤≥]?\s*(\d+(?:\.\d+)?)/i));
+  setv('tc',m(/\b(?:total\s+cholesterol|cholesterol,\s*total|TC)\s*[:=]?\s*(\d+(?:\.\d+)?)/i));
+  setv('hdl',m(/\bHDL(?:-?C)?\s*[:=]?\s*(\d+(?:\.\d+)?)/i));
+  setv('ldl',m(/\bLDL(?:-?C)?\s*[:=]?\s*(\d+(?:\.\d+)?)/i));
+  setv('tg',m(/\b(?:triglycerides|TG)\s*[:=]?\s*(\d+(?:\.\d+)?)/i));
+  // Direct BMI, sentence-style BMI, plus Epic-style "BMI Readings from Last..." blocks.
+  setv('bmi',
+    (bmiBlock.match(/^\s*(\d+(?:\.\d+)?)(?!\s*\/)/)||[])[1] ||
+    (bmiBlock.match(/Body\s+mass\s+index\s+is[ \t]+(\d+(?:\.\d+)?)[ \t]*kg[ \t]*\/[ \t]*m(?:²|2)/i)||[])[1] ||
+    (bmiBlock.match(/(?:^|\n)[ \t]*\d{1,2}\/\d{1,2}\/\d{2,4}[ \t:]+(\d+(?:\.\d+)?)[ \t]*kg[ \t]*\/[ \t]*m(?:²|2)/m)||[])[1]
+  );
+  setv('a1c',m(/\b(?:A1C|HbA1c)\s*[:=]?\s*(\d+(?:\.\d+)?)/i));
+  // Accept UACR, ACR, and common urine albumin/creatinine labels.
+  setv('uacr',m(/\b(?:UACR|ACR|urine\s+albumin(?:\s*\/\s*|\s+to\s+)creatinine(?:\s+ratio)?|albumin\s*\/\s*creatinine(?:\s+ratio)?)\s*[:=]?\s*(\d+(?:\.\d+)?)/i));
+  // Accept Lp(a) or LPA, including assay-limit values such as "<10".
+  setv('lpa',m(/\b(?:Lp\(a\)|LPA)\s*[:=]?\s*[<>≤≥]?\s*(\d+(?:\.\d+)?)/i));
+  setv('apob',m(/\bApoB\s*[:=]?\s*(\d+(?:\.\d+)?)/i));
+  setv('hscrp',m(/\bhs-?CRP\s*[:=]?\s*(\d+(?:\.\d+)?)/i));
+  const cac=m(/\b(?:CAC|coronary\s+artery\s+calcium(?:\s+score)?)\s*[:=]?\s*(\d+)\b/i);
+  if(cac!==null){setv('cac',cac);syncCACFromNumber()}
+  if(/\b(diabetes|DM2|T2DM|type\s*2\s*diabetes)\b/i.test(raw) && !/\b(no|without)\s+(?:diabetes|DM)\b/i.test(raw))$('dm').value='1';
+  else if(/\b(no\s+diabetes|without\s+diabetes|non-?diabetic)\b/i.test(raw))$('dm').value='0';
+  else if(/(?:^|\r?\n)[ \t]*(?:DM|Diabetes)[ \t]*:[ \t]*(?=\r?\n|$)/i.test(raw))$('dm').value='0';
+  // Prioritize explicit former-smoking language before looking for current-smoking terms.
+  if(/\b(?:quit|stopped|ceased)\s+(?:smoking|cigarettes?|tobacco)\b|\bformer(?:ly)?\s+(?:a\s+)?smoker\b|\bnever\s+(?:smoked|smoker|used\s+(?:smokeless\s+)?tobacco)\b|\bnon-?smoker\b|\bsmoking\s*[:=]\s*no\b/i.test(raw))$('smoke').value='0';
+  else if(/\b(?:current\s+smoker|currently\s+smokes?|smoking\s*[:=]\s*yes)\b/i.test(raw))$('smoke').value='1';
+  if(/\b(family\s+history|FHx).{0,40}\b(MI|myocardial\s+infarction|heart\s+attack)\b/i.test(raw))$('fhhx').value='1';
+  if(/\b(no|denies)\s+(?:family\s+history|FHx).{0,40}\b(MI|myocardial\s+infarction|heart\s+attack)\b/i.test(raw))$('fhhx').value='0';
+  const bpRx=/\b(lisinopril|losartan|valsartan|olmesartan|irbesartan|telmisartan|amlodipine|nifedipine|metoprolol|carvedilol|atenolol|hydrochlorothiazide|chlorthalidone|spironolactone|eplerenone|diltiazem|verapamil)\b/i;
+  if(bpRx.test(raw))$('bptx').value='1';
+  else if(/\b(?:antihypertensive|BP\s+med(?:ication)?s?)\s*[:=]\s*no\b/i.test(raw))$('bptx').value='0';
+  else if(/^[ \t]*BP Medications[ \t]*:[ \t]*(?:\n|$)/im.test(raw))$('bptx').value='0';
+  const meds=[
+    ['atorvastatin',/\batorvastatin\b/i],['rosuvastatin',/\brosuvastatin\b/i],['simvastatin',/\bsimvastatin\b/i],
+    ['pravastatin',/\bpravastatin\b/i],['lovastatin',/\blovastatin\b/i],['ezetimibe',/\bezetimibe\b|\bZetia\b/i],
+    ['evolocumab',/\bevolocumab\b|\bRepatha\b/i],['alirocumab',/\balirocumab\b|\bPraluent\b/i],
+    ['inclisiran',/\binclisiran\b|\bLeqvio\b/i],['enlicitide',/\benlicitide\b/i],['bempedoic',/\bbempedoic\b/i]
+  ];
+  const found=meds.find(x=>x[1].test(raw));
+  if(found){
+    $('med').value=found[0];
+    if(isStatin(found[0]))$('statinUse').value='1';else $('statinUse').value='0';
+    const re=new RegExp(found[0]+'[^\\n]{0,40}?(\\d+(?:\\.\\d+)?)\\s*mg','i');const d=m(re);if(d)setv('dose',d+' mg');
+  }else if(/\bstatin\s*[:=]\s*yes\b|\bon\s+(?:a\s+)?statin\b/i.test(raw)){
+    $('statinUse').value='1';
+    $('med').value='statin_unspecified';
+  }else if(/\bstatin\s*[:=]\s*no\b|\bno\s+statin\b|\bnot\s+on\s+(?:a\s+)?statin\b|^[ \t]*Statin[ \t]*:[ \t]*(?:\n|$)/im.test(raw)){
+    $('statinUse').value='0';
+    if($('med').value==='unknown')$('med').value='none';
+  }
+  if(/\bstatin\s+(?:intolerance|intolerant)\b/i.test(raw))$('statinIntol').classList.add('on');
+  if(/\b(?:ezetimibe|Zetia)\s+(?:intolerance|intolerant)\b/i.test(raw))$('ezIntol').classList.add('on');
+  if(/\bCKD\s*(?:stage\s*)?[34]\b/i.test(raw))$('rfCkd').classList.add('on');
+  if(/\bHIV\b/i.test(raw))$('rfHiv').classList.add('on');
+  if(/\bfamilial\s+hypercholesterolemia\b|\bFH\b/i.test(raw))$('rfFh').classList.add('on');
+  calculate();
+}
+function clearAll(){
+  ['paste','age','sbp','egfr','tc','hdl','ldl','tg','bmi','lpa','apob','hscrp','a1c','uacr','sdi','cac','dose','bpmednames'].forEach(id=>$(id).value='');
+  ['sex','dm','smoke','bptx','fhhx','statinUse'].forEach(id=>$(id).value='');
+  $('med').value='unknown';$('cacQual').value='unknown';$('repro').value='unspecified';
+  preventionState='primary';['prevPrimary','prevSecondary','prevVeryHigh'].forEach(id=>$(id).classList.remove('on'));$('prevPrimary').classList.add('on');
+  ['rfHiv','rfCkd','rfFh','rfFam','rfInflam','rfAncestry','rfRepro','statinIntol','ezIntol'].forEach(id=>$(id).classList.remove('on'));
+  $('results').style.display='none';$('missingSummary').classList.remove('show');
+  lastMesa=null;
+}
+</script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a56052aabb199026',t:'MTc5MzkyODUyMQ=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a56052aabb199026',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
