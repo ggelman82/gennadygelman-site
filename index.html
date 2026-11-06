@@ -274,6 +274,12 @@
   .cnote{grid-column:1/-1;margin:6px 0 0;padding:14px 16px;border-radius:14px;background:var(--surface);border:1px dashed var(--line);font-size:14px;line-height:1.55;color:var(--soft)}
   .cnote b{color:var(--ink)}
   .pc.app .nm a{color:inherit;text-decoration:none}.pc.app .nm a:hover{text-decoration:underline}
+  .pc.bookc{align-items:flex-start}
+  .detail .cards:has(.bookc){grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:18px}
+  .pc.bookc:hover{transform:none;box-shadow:none}
+  .bookc .cv{display:block;width:100%;margin:4px 0 10px;transform:rotate(-2deg);transition:transform .18s ease}
+  .bookc:hover .cv,.bookc:focus-visible .cv{transform:rotate(0) translateY(-5px)}
+  .bookc .cv img{display:block;width:100%;height:auto;aspect-ratio:2/3;object-fit:cover;background:#e5e2da;border-radius:3px 10px 10px 3px;box-shadow:-8px 9px 0 rgba(20,33,61,.08),0 18px 35px rgba(20,33,61,.14)}
   .pc.app .nt{font-size:13px;font-style:italic}
   .stores{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
   .stores a{font-size:13px;padding:5px 10px;border-radius:999px;border:1px solid var(--line);text-decoration:none;color:var(--ink);background:var(--bg,transparent)}
@@ -582,14 +588,14 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       {n:'Why We Get Sick', d:'Benjamin Bikman, PhD. Insulin resistance and metabolic health, and where the book overreaches.', u:B+'/patients/books/why-we-get-sick/', k:'book insulin resistance metabolic bikman'}
     ], notes:['<b>You do not have to do this alone.</b> Ask your care team whether a referral to a health coach is available and right for you.', 'Talk with your clinician before fasting, starting a weight-loss medication, or pursuing surgery, especially during pregnancy, with an eating-disorder history, or when using insulin or other glucose-lowering medication.']},
     {id:'books', t:'#f3eee5', n:'Books I recommend', i:'A small shelf for living better. Bring the idea to your next visit.', items:[
-      {n:'How Not to Diet', d:'Patient summary.', u:B+'/patients/books/how-not-to-diet/', k:'book weight diet greger'},
-      {n:'How Not to Die', d:'Patient summary.', u:B+'/patients/books/how-not-to-die/', k:'book nutrition greger'},
-      {n:'Why We Get Sick', d:'Patient summary.', u:B+'/patients/books/why-we-get-sick/', k:'book insulin resistance metabolic bikman'},
-      {n:'The Obesity Code', d:'Patient summary.', u:B+'/patients/books/the-obesity-code/', k:'book insulin fasting fung'},
-      {n:'Why We Sleep', d:'Patient summary.', u:B+'/patients/books/why-we-sleep/', k:'sleep insomnia book'},
-      {n:'Staring at the Sun', d:'Patient summary: living with the fear of death.', u:B+'/patients/books/staring-at-the-sun/', k:'anxiety death fear mood book'},
-      {n:'The New Menopause', d:'Patient summary.', u:B+'/patients/books/the-new-menopause/', k:'menopause hot flashes hormones women book'},
-      {n:'The New Perimenopause', d:'Patient summary.', u:B+'/patients/books/the-new-perimenopause/', k:'perimenopause hormones period women book'}
+      {n:'How Not to Diet', d:'Patient summary.', u:B+'/patients/books/how-not-to-diet/', cov:'https://covers.openlibrary.org/b/isbn/9781250199225-L.jpg', k:'book weight diet greger'},
+      {n:'How Not to Die', d:'Patient summary.', u:B+'/patients/books/how-not-to-die/', cov:'/books/recommended/how-not-to-die.jpg', k:'book nutrition greger'},
+      {n:'Why We Get Sick', d:'Patient summary.', u:B+'/patients/books/why-we-get-sick/', cov:'https://covers.openlibrary.org/b/isbn/9781953295774-L.jpg', k:'book insulin resistance metabolic bikman'},
+      {n:'The Obesity Code', d:'Patient summary.', u:B+'/patients/books/the-obesity-code/', cov:'/books/recommended/the-obesity-code.jpg', k:'book insulin fasting fung'},
+      {n:'Why We Sleep', d:'Patient summary.', u:B+'/patients/books/why-we-sleep/', cov:'https://covers.openlibrary.org/b/isbn/9781501144318-L.jpg', k:'sleep insomnia book'},
+      {n:'Staring at the Sun', d:'Patient summary: living with the fear of death.', u:B+'/patients/books/staring-at-the-sun/', cov:'/books/recommended/staring-at-the-sun.jpg', k:'anxiety death fear mood book'},
+      {n:'The New Menopause', d:'Patient summary.', u:B+'/patients/books/the-new-menopause/', cov:'/books/recommended/the-new-menopause.jpg', k:'menopause hot flashes hormones women book'},
+      {n:'The New Perimenopause', d:'Patient summary.', u:B+'/patients/books/the-new-perimenopause/', cov:'/books/the-new-perimenopause.jpg', k:'perimenopause hormones period women book'}
     ]},
     {id:'phone', t:'#e6eef3', n:'Apps and AI tools I recommend', i:'Useful tools, not more digital clutter. Choose an app only when it solves a specific problem. You do not need to download everything here.', items:[
       {g:'AI guides', n:'Alex the Health Guide', d:'An AI guide for realistic talk about food, exercise, and habits.', u:'https://chatgpt.com/g/g-ncTCfLUXg-alex-the-health-guide', k:'alex ai coach chatbot habits'},
@@ -646,7 +652,9 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   let prepBuilt=false;
   const appHTML = it => `<div class="pc app"><span class="top"><span class="nm">${it.u?`<a href="${it.u}"${linkAttrs(it.u)}>${esc(it.n)} ↗</a>`:esc(it.n)}</span></span><span class="ds">${esc(it.d)}</span>${it.note?`<span class="ds nt">${esc(it.note)}</span>`:''}<span class="stores"><a href="${it.ios}" target="_blank" rel="noopener">${esc(it.iosL||'iPhone')} ↗</a><a href="${it.android}" target="_blank" rel="noopener">${esc(it.andL||'Android')} ↗</a></span></div>`;
   const groupHTML = items => items.map(it=>(it.g?`<h3 class="cg">${esc(it.g)}</h3>`:'')+(it.ios?appHTML(it):cardHTML(it))).join('');
-  const cardHTML = it => it.plan
+  const cardHTML = it => it.cov
+    ? `<a class="pc bookc" href="${it.u}"><span class="cv"><img src="${it.cov}" alt="Cover of ${esc(it.n)}" width="200" height="300" loading="lazy"></span><span class="nm">${esc(it.n)}</span><span class="ds">${esc(it.d)}</span></a>`
+    : it.plan
     ? `<button class="pc" type="button" id="openPrep" aria-expanded="false" aria-controls="prepWrap"><span class="top"><span class="nm">${esc(it.n)}</span><span class="x">Open ↓</span></span><span class="ds">${esc(it.d)}</span></button><div class="prep-wrap" id="prepWrap" hidden></div>`
     : `<a class="pc${it.f?' feature':''}" ${it.tint?`style="--tint:${it.tint}"`:''} href="${it.u}"${linkAttrs(it.u)}><span class="top"><span class="nm">${esc(it.n)}</span><span class="x">${ext(it.u)?'↗':'→'}</span></span><span class="ds">${esc(it.d)}</span></a>`;
   function renderPatientSections(){
