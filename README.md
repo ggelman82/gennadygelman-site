@@ -9,8 +9,12 @@ Personal site, not affiliated with any employer.
 
 ## Patient topic pages
 
-Each patient topic has its own page (`/patients/visit/`, `/patients/sick/`, `/patients/weight/`, `/patients/books/`, `/patients/apps/`; vaccines is hand-built at `/patients/vaccines/`). They are generated from the `PSECTIONS` list in `index.html`, which also drives the homepage tiles, search and the clinician QR codes. After editing a topic there, run:
+Each patient topic has its own page (`/patients/visit/`, `/patients/sick/`, `/patients/weight/`, `/patients/books/`, `/patients/ai/`, `/patients/apps/`; vaccines is hand-built at `/patients/vaccines/`). They are generated from the `PSECTIONS` list in `index.html`, which also drives the homepage tiles, search and the clinician QR codes. After editing a topic there, run:
 
     node scripts/build-patient-pages.mjs
 
 Old links such as `gennadygelman.com/#p-weight` or `/#visit` (printed QR codes, texts) redirect to the matching page.
+
+## Card icons
+
+Card icons come from `scripts/glyphs.json` (48×48 two-color SVG glyphs: strokes use `currentColor`, shapes with `class="f"` take the card's accent). In `PSECTIONS`, give an item `ic:'<glyph name>'` to show one.
