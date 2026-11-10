@@ -90,6 +90,11 @@ footer a{color:inherit;text-decoration:none}
 @media (max-width:480px){.hub{grid-template-columns:1fr}}
 .hub a{display:flex;flex-direction:column;gap:6px;justify-content:flex-start;min-height:150px;padding:18px;border-radius:18px;background:var(--surface);border:1px solid var(--line);text-decoration:none;color:var(--ink);transition:transform .16s ease,box-shadow .16s ease}
 .hub a:hover{transform:translateY(-3px);box-shadow:0 14px 30px -20px rgba(14,23,52,.55)}
+.gi{width:40px;height:40px;margin-bottom:4px;color:var(--ink);fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;flex:none;transition:transform .2s ease}
+.gi .f{fill:var(--a);fill-opacity:.45}
+:root[data-theme="dark"] .gi{color:#e7eaf3}
+:root[data-theme="dark"] .gi .f{fill-opacity:.8}
+a:hover>.gi{transform:rotate(-6deg) scale(1.06)}
 .hub .nm{font-family:Newsreader,Georgia,serif;font-size:28px;line-height:1.05}
 .hub .who{font-size:14px;color:var(--soft);margin-top:auto}
 .hub .k{font-family:"Geist Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
@@ -253,10 +258,10 @@ details.big{background:var(--tint);border-color:transparent}
 <aside class="ans" id="vxAns" aria-live="polite"></aside>
 </div></div></details></section><section class="s" id="treatment" aria-labelledby="h4"><span class="num">04</span><h2 id="h4">Comfort counts.</h2><p>For most otherwise healthy people, influenza gets better with time and supportive care. The basic prescription is surprisingly boring.</p>
 <div class="cards4">
-<div><h3>Sleep</h3><p>Sleep is not wasted time when you are sick. Your body is mounting an immune response. Give it the opportunity to work.</p></div>
-<div><h3>Drink</h3><p>Water, tea, broth, ice chips, and oral rehydration drinks all count. Small, frequent sips can be easier when you feel nauseated.</p></div>
-<div><h3>Use saline</h3><p>Warm salt-water gargles can soothe the throat. Nasal saline can loosen mucus. Use safe water for nasal irrigation.</p></div>
-<div><h3>Treat discomfort</h3><p>You do not have to chase a modest fever if you are comfortable. But you do not earn bonus points for suffering.</p></div>
+<div><svg class="gi" viewBox="0 0 48 48" aria-hidden="true" style="--a:#c0583b"><rect x="5" y="24" width="38" height="10" rx="3" class="f"/><path d="M5 14v26M43 30v10M5 34h38"/><rect x="9" y="17" width="10" height="7" rx="3" fill="#fff"/></svg><h3>Sleep</h3><p>Sleep is not wasted time when you are sick. Your body is mounting an immune response. Give it the opportunity to work.</p></div>
+<div><svg class="gi" viewBox="0 0 48 48" aria-hidden="true" style="--a:#c0583b"><path d="M9 16h24v14a10 10 0 0 1-10 10h-4A10 10 0 0 1 9 30z" class="f"/><path d="M33 20h3a5 5 0 0 1 0 10h-3M15 6c-2 3 2 5 0 8M22 6c-2 3 2 5 0 8"/></svg><h3>Drink</h3><p>Water, tea, broth, ice chips, and oral rehydration drinks all count. Small, frequent sips can be easier when you feel nauseated.</p></div>
+<div><svg class="gi" viewBox="0 0 48 48" aria-hidden="true" style="--a:#c0583b"><path d="M24 5s14 15 14 25a14 14 0 0 1-28 0C10 20 24 5 24 5z" class="f"/><path d="M17 31a7 7 0 0 0 7 7"/></svg><h3>Use saline</h3><p>Warm salt-water gargles can soothe the throat. Nasal saline can loosen mucus. Use safe water for nasal irrigation.</p></div>
+<div><svg class="gi" viewBox="0 0 48 48" aria-hidden="true" style="--a:#c0583b"><path d="M20 9a4 4 0 0 1 8 0v20a8 8 0 1 1-8 0z" fill="#fff"/><circle cx="24" cy="35" r="4.5" class="f"/><path d="M24 31V17M29 14h3M29 19h3M29 24h3"/></svg><h3>Treat discomfort</h3><p>You do not have to chase a modest fever if you are comfortable. But you do not earn bonus points for suffering.</p></div>
 </div>
 <div class="box warn"><p class="k">Medication reality check</p><h3>Over the counter does not mean risk-free.</h3>
 <p>Acetaminophen can be dangerous in excessive doses. Ibuprofen and other NSAIDs can cause bleeding, affect the kidneys, and interact with medicines. Many combination cold products already contain acetaminophen. Read every label.</p></div></section><section class="s" id="medicines" aria-labelledby="h5"><span class="num">05</span><h2 id="h5">Know what you are treating and why.</h2><details class="acc"><summary><span><strong>Antivirals</strong><small>Most important for higher-risk patients</small></span></summary><div class="in"><p>Antiviral treatment is recommended promptly for people who are hospitalized, very sick, or at higher risk of serious complications.</p>

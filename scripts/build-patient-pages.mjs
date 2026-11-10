@@ -25,7 +25,10 @@ const data = new Function(
 )();
 const { PSECTIONS, ICONS, ACCENT } = data;
 
-const SHORT = { visit: 'Plan your visit', vaccines: 'Vaccines', sick: 'Feeling sick', weight: 'Weight loss', books: 'Books', phone: 'Apps & AI tools' };
+const SHORT = { visit: 'Plan your visit', vaccines: 'Vaccines', sick: 'Feeling sick', weight: 'Weight loss', books: 'Books', ai: 'AI tools', phone: 'Apps' };
+// Shared two-color card icons (also used by the Python-built pages).
+const GLYPHS = JSON.parse(readFileSync(join(ROOT, 'scripts', 'glyphs.json'), 'utf8'));
+const gi = (name, acc) => name && GLYPHS[name] ? `<svg class="gi" viewBox="0 0 48 48" aria-hidden="true" style="--a:${acc}">${GLYPHS[name]}</svg>` : '';
 const SKIP = new Set(['vaccines']);
 
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -40,12 +43,13 @@ const printUrl = u => {
 };
 const icon = id => `<svg class="ic" viewBox="0 0 48 48" aria-hidden="true" style="--a:${ACCENT[id]}">${ICONS[id] || ''}</svg>`;
 
-const appHTML = it => `<div class="pc app"><span class="top"><span class="nm">${it.u ? `<a href="${it.u}"${linkAttrs(it.u)}>${esc(it.n)} ↗</a>` : esc(it.n)}</span></span><span class="ds">${esc(it.d)}</span>${it.note ? `<span class="ds nt">${esc(it.note)}</span>` : ''}<span class="stores"><a href="${it.ios}" target="_blank" rel="noopener">${esc(it.iosL || 'iPhone')} ↗</a><a href="${it.android}" target="_blank" rel="noopener">${esc(it.andL || 'Android')} ↗</a></span></div>`;
+const appHTML = it => `<div class="pc app">${gi(it.ic, CUR_ACC)}<span class="top"><span class="nm">${it.u ? `<a href="${it.u}"${linkAttrs(it.u)}>${esc(it.n)} ↗</a>` : esc(it.n)}</span></span><span class="ds">${esc(it.d)}</span>${it.note ? `<span class="ds nt">${esc(it.note)}</span>` : ''}<span class="stores"><a href="${it.ios}" target="_blank" rel="noopener">${esc(it.iosL || 'iPhone')} ↗</a><a href="${it.android}" target="_blank" rel="noopener">${esc(it.andL || 'Android')} ↗</a></span></div>`;
 const cardHTML = it => {
   if (it.plan) return PREP;
   if (it.cov) return `<a class="pc bookc" href="${it.u}" data-url="${esc(printUrl(it.u))}"><span class="cv"><img src="${it.cov}" alt="Cover of ${esc(it.n)}" width="200" height="300" loading="lazy"></span><span class="nm">${esc(it.n)}</span><span class="ds">${esc(it.d)}</span></a>`;
-  return `<a class="pc${it.f ? ' feature' : ''}"${it.tint ? ` style="--tint:${it.tint}"` : ''} href="${it.u}"${linkAttrs(it.u)} data-url="${esc(printUrl(it.u))}"><span class="top"><span class="nm">${esc(it.n)}</span><span class="x">${ext(it.u) ? '↗' : '→'}</span></span><span class="ds">${esc(it.d)}</span></a>`;
+  return `<a class="pc${it.f ? ' feature' : ''}"${it.tint ? ` style="--tint:${it.tint}"` : ''} href="${it.u}"${linkAttrs(it.u)} data-url="${esc(printUrl(it.u))}">${gi(it.ic, CUR_ACC)}<span class="top"><span class="nm">${esc(it.n)}</span><span class="x">${ext(it.u) ? '↗' : '→'}</span></span><span class="ds">${esc(it.d)}</span></a>`;
 };
+let CUR_ACC = '#3b54c4';
 const groupHTML = items => items.map(it => (it.g ? `<h2 class="cg">${esc(it.g)}</h2>` : '') + (it.ios ? appHTML(it) : cardHTML(it))).join('');
 
 // ---------- visit agenda builder (only on /patients/visit/) ----------
@@ -156,6 +160,11 @@ h1{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:clamp(38px,6vw
 a.pc:hover{transform:translateY(-2px);border-color:rgba(14,23,52,.28);box-shadow:0 12px 28px -20px rgba(14,23,52,.5)}
 .pc:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .pc .top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.gi{width:36px;height:36px;margin-bottom:4px;color:var(--ink);fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;flex:none;transition:transform .2s ease}
+.gi .f{fill:var(--a);fill-opacity:.45}
+:root[data-theme="dark"] .gi .f{fill-opacity:.8}
+a.pc:hover .gi{transform:rotate(-6deg) scale(1.06)}
+.pc.feature .gi{width:44px;height:44px}
 .pc .nm{font-weight:600;font-size:16px;line-height:1.3}
 .pc .ds{color:var(--soft);font-size:14px}
 .pc .x{color:var(--faint);font-size:13px}
@@ -248,6 +257,7 @@ const vnav = cur => `<nav class="vnav" aria-label="Patient topics"><ul>${PSECTIO
 
 const page = sec => {
   const url = SITE + sec.p, desc = esc(strip(sec.i));
+  CUR_ACC = ACCENT[sec.id] || "#3b54c4";
   const body = `<div class="cards">${groupHTML(sec.items)}${(sec.notes || []).map(n => `<p class="cnote">${n}</p>`).join('')}${sec.more ? `<p class="soon">${esc(sec.more)}</p>` : ''}${sec.moreLink ? `<p class="soon"><a href="${sec.moreLink.u}">${esc(sec.moreLink.n)}</a></p>` : ''}</div>`;
   return `<!DOCTYPE html>
 <html lang="en">
