@@ -146,6 +146,67 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 .dmfig svg path[fill="none"]{stroke-linejoin:round}
 @media (max-width:640px){.dmfig .dmrow{grid-template-columns:1fr}}
 .dmfig.dmimg{padding:10px;background:#fff}.dmfig.dmimg img{display:block;width:100%;height:auto;border-radius:8px}.dmfig.dmimg figcaption{color:#6b7280}
+section.s{scroll-margin-top:80px}
+.vx{margin:18px 0 6px}
+.vx-form{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:clamp(16px,3vw,24px)}
+.vx-row{display:flex;flex-wrap:wrap;gap:16px 28px;align-items:flex-end}
+.vx-age{display:flex;flex-direction:column;gap:6px;font-weight:500;font-size:15px}
+.vx-age input{width:120px;font:500 18px Geist,system-ui,sans-serif;padding:9px 12px;border-radius:12px;border:1px solid var(--line);background:var(--paper);color:var(--ink)}
+.vx-age input:focus{outline:3px solid var(--accent);outline-offset:1px}
+.vx form fieldset,.vx fieldset{border:0;margin:0;padding:0;min-width:0}
+.vx legend{font-weight:500;font-size:15px;padding:0;margin-bottom:6px}
+.vx legend span{display:block;font-weight:400;font-size:14px;color:var(--soft)}
+.vx-conds{margin-top:20px!important}
+.vx-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+@media (max-width:640px){.vx-grid{grid-template-columns:1fr}}
+.vx-opt{position:relative;display:inline-flex;align-items:center;gap:8px;margin:0 6px 0 0;padding:8px 13px;border-radius:12px;border:1px solid var(--line);background:var(--paper);cursor:pointer;font-size:14.5px;line-height:1.35}
+.vx-opt input{position:absolute;opacity:0;width:1px;height:1px}
+.vx-opt:has(input:checked){background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.vx-opt:focus-within{outline:3px solid var(--accent);outline-offset:2px}
+.vx-c{display:flex;margin:0}
+.vx-hint{color:var(--soft);font-size:15px;margin:16px 2px 0!important}
+.vx-out{margin-top:16px}
+.vx-sum{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px;padding:12px 4px;font-size:15px;color:var(--soft)}
+.vx-sum b{font-size:22px;color:var(--ink);font-family:Newsreader,Georgia,serif;font-weight:500;margin-right:3px}
+.vx-acts{margin-left:auto;display:flex;gap:8px}
+.vx-acts button,.vx-st button{font:500 13.5px Geist,system-ui,sans-serif;padding:7px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.vx-st{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.vx-st button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.vx-acts button:focus-visible,.vx-st button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.vx-card{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:14px;padding:14px 16px;margin:0 0 10px}
+.vx-card.ask{border-left-color:var(--faint)}
+.vx-card.part{border-left-color:#c48a12}
+.vx-card.done{border-left-color:var(--good);opacity:.8}
+.vx-top{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.vx-n{font-family:Newsreader,Georgia,serif;font-size:24px;line-height:1.1;color:var(--ink);text-decoration:none;margin-right:4px}
+.vx-n:hover{text-decoration:underline;text-underline-offset:4px}
+.vx-b{display:inline-block;font:500 11px/1.4 "Geist Mono",monospace;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:6px;border:1px solid var(--line);color:var(--soft);white-space:nowrap}
+.vx-b.ph{background:#f3eee5;border-color:#e2d3b8;color:#7a4f14}
+.vx-b.of{background:var(--tint);border-color:transparent;color:var(--accent)}
+.vx-b.ok{background:#e2ede6;border-color:transparent;color:#2f6b48}
+.vx-b.ip{background:#f6edd9;border-color:transparent;color:#8a5a1c}
+.vx-b.ask{background:var(--paper)}
+:root[data-theme="dark"] .vx-b.ph{background:#2e2618;border-color:#4a3c22;color:#e0b070}
+:root[data-theme="dark"] .vx-b.ok{background:#18291f;color:#8fd0a8}
+:root[data-theme="dark"] .vx-b.ip{background:#2e2618;color:#e0b070}
+.vx-why{margin:8px 0 0!important;font-size:15px;color:var(--soft)}
+.vx-why b{color:var(--ink);font-weight:500}
+.vx-next{margin:8px 0 0!important;font-size:15px}
+.vx-mc{display:inline-block;margin-top:6px;font-size:13.5px}
+.vx-h3{font:600 12px/1.2 "Geist Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);margin:20px 2px 10px}
+.vx-foot{font-size:14px;color:var(--soft);margin:14px 2px 0!important}
+.vx-where{border-collapse:collapse;width:100%;max-width:64ch;font-size:15px}
+.vx-where th,.vx-where td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}
+.vx-where thead th{font:500 11px/1.4 "Geist Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.vx-where tbody th{font-weight:600;white-space:nowrap}
+.vx-where .vx-b{margin-right:6px}
+@media (max-width:640px){.vx-where thead{display:none}.vx-where tr{display:block;padding:10px 0;border-bottom:1px solid var(--line)}.vx-where th,.vx-where td{display:block;border:0;padding:2px 2px}.vx-where tbody th{white-space:normal}}
+.vx-parts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:6px 0 14px;max-width:64ch}
+@media (max-width:640px){.vx-parts{grid-template-columns:1fr}}
+.vx-parts div{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.vx-parts b{display:block;margin-bottom:4px}
+.vx-parts span{color:var(--soft);font-size:15px}
+@media print{.vx-form,.vx-st,.vx-acts,#guides,#where,#medicare{display:none!important}.vx-card{break-inside:avoid}}
 </style>
 </head>
 <body>
@@ -156,8 +217,67 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 </div></header>
 <nav class="vnav" aria-label="Vaccine guides"><ul><li><a href="/flu/">Flu</a></li><li><a href="/patients/vaccines/rsv/">RSV</a></li><li><a href="/patients/vaccines/shingles/">Shingles</a></li><li><a href="/patients/vaccines/pneumococcal/">Pneumococcal</a></li><li><a href="/patients/vaccines/covid/">COVID-19</a></li><li><a href="/patients/vaccines/tdap/">Tdap</a></li></ul></nav>
 <main class="wrap">
-<div class="hero"><p class="eyebrow">Vaccine information</p><h1>Vaccines</h1><p class="lede">Short guides to the vaccines I recommend for adults: who needs each one, how many doses, when, and what to expect.</p></div>
+<div class="hero"><p class="eyebrow">Vaccine information</p><h1>Vaccines</h1><p class="lede">Short guides to the vaccines I recommend for adults: who needs each one, how many doses, when, and what to expect. Start with the checklist below to see which ones you may need.</p></div>
+<section class="s" id="chooser" aria-labelledby="vxH">
+<span class="num">01</span>
+<h2 id="vxH" data-toc="Which vaccines do I need?">Which vaccines do I need?</h2>
+<p>Answer a few questions to see which adult vaccines may be due for you. Then mark the ones you have already had, and the list narrows to what is left. Your answers stay on this device. Nothing is sent anywhere.</p>
+<div class="vx" id="vx">
+<form class="vx-form" id="vxForm" autocomplete="off" onsubmit="return false">
+<div class="vx-row">
+<label class="vx-age" for="vxAge"><span>Your age</span><input id="vxAge" type="number" inputmode="numeric" min="18" max="110" placeholder="e.g. 67"></label>
+<fieldset class="vx-yn"><legend>Do you have Medicare?</legend>
+<label class="vx-opt"><input type="radio" name="vxMed" value="yes"> Yes</label>
+<label class="vx-opt"><input type="radio" name="vxMed" value="no"> No</label>
+</fieldset>
+<fieldset class="vx-yn" id="vxPregQ"><legend>Pregnant now?</legend>
+<label class="vx-opt"><input type="radio" name="vxPreg" value="yes"> Yes</label>
+<label class="vx-opt"><input type="radio" name="vxPreg" value="no"> No</label>
+</fieldset>
+</div>
+<fieldset class="vx-conds"><legend>Do any of these apply to you? <span>Check all that apply. Skip this if none do.</span></legend>
+<div class="vx-grid" id="vxConds"></div>
+</fieldset>
+</form>
+<div class="vx-out" id="vxOut" aria-live="polite"></div>
+</div>
+</section>
+
+<section class="s" id="guides" aria-labelledby="gdH">
+<span class="num">02</span>
+<h2 id="gdH" data-toc="Vaccine guides">Vaccine guides</h2>
+<p>Short guides to each vaccine: who needs it, how many doses, when, and what to expect.</p>
 <div class="hub"><a href="/flu/"><svg class="gi" viewBox="0 0 48 48" aria-hidden="true" style="--a:#c0583b"><path d="M20 9a4 4 0 0 1 8 0v20a8 8 0 1 1-8 0z" fill="#fff"/><circle cx="24" cy="35" r="4.5" class="f"/><path d="M24 31V17M29 14h3M29 19h3M29 24h3"/></svg><span class="k">Every fall</span><span><span class="nm">Flu</span></span><span class="who">Everyone 6 months and older, every year.</span></a><a href="/patients/vaccines/rsv/"><svg class="gi" viewBox="0 0 48 48" aria-hidden="true" style="--a:#3b54c4"><path d="M20 16c-6-2-12 6-13 16-.5 5 2 8 6 7 5-1 7-4 7-9z" class="f"/><path d="M28 16c6-2 12 6 13 16 .5 5-2 8-6 7-5-1-7-4-7-9z" class="f"/><path d="M24 6v14M24 20l-4 4M24 20l4 4"/></svg><span class="k">Guide</span><span><span class="nm">RSV</span></span><span class="who">75 and older, or 50 to 74 with certain conditions. One dose.</span></a><a href="/patients/vaccines/shingles/"><svg class="gi" viewBox="0 0 48 48" aria-hidden="true" style="--a:#3b54c4"><path d="M27 4L11 27h11l-3 17 18-25H25z" class="f"/></svg><span class="k">Guide</span><span><span class="nm">Shingles</span></span><span class="who">50 and older. Two doses.</span></a><a href="/patients/vaccines/pneumococcal/"><svg class="gi" viewBox="0 0 48 48" aria-hidden="true" style="--a:#3b54c4"><path d="M20 16c-6-2-12 6-13 16-.5 5 2 8 6 7 5-1 7-4 7-9z" class="f"/><path d="M28 16c6-2 12 6 13 16 .5 5-2 8-6 7-5-1-7-4-7-9z" class="f"/><path d="M24 6v14M24 20l-4 4M24 20l4 4"/></svg><span class="k">Guide</span><span><span class="nm">Pneumococcal</span></span><span class="who">50 and older, or younger with certain conditions. Usually one dose.</span></a><a href="/patients/vaccines/covid/"><svg class="gi" viewBox="0 0 48 48" aria-hidden="true" style="--a:#3b54c4"><circle cx="24" cy="24" r="11" class="f"/><path d="M24 13V7M24 41v-6M13 24H7M41 24h-6M16.2 16.2l-4.2-4.2M36 36l-4.2-4.2M16.2 31.8L12 36M36 12l-4.2 4.2"/><circle cx="24" cy="6" r="2" fill="currentColor"/><circle cx="24" cy="42" r="2" fill="currentColor"/><circle cx="6" cy="24" r="2" fill="currentColor"/><circle cx="42" cy="24" r="2" fill="currentColor"/><circle cx="21" cy="22" r="2" fill="#fff"/><circle cx="27" cy="27" r="1.6" fill="#fff"/></svg><span class="k">Guide</span><span><span class="nm">COVID-19</span></span><span class="who">All adults. One dose this season, two if 65 or older.</span></a><a href="/patients/vaccines/tdap/"><svg class="gi" viewBox="0 0 48 48" aria-hidden="true" style="--a:#3b54c4"><path d="M24 5l15 6v11c0 10-6.5 17-15 21C15.5 39 9 32 9 22V11z" class="f"/><path d="M17 24l5 5 9-10"/></svg><span class="k">Guide</span><span><span class="nm">Tdap</span></span><span class="who">Every adult. Every 10 years, and in every pregnancy.</span></a></div>
+</section>
+
+<section class="s" id="where" aria-labelledby="whH">
+<span class="num">03</span>
+<h2 id="whH" data-toc="Where to get them">Where to get each vaccine</h2>
+<p>Some vaccines are not available in our office and should be given at a pharmacy. Any pharmacy works, and you usually do not need a prescription.</p>
+<div class="tablewrap"><table class="vx-where">
+<thead><tr><th scope="col">Vaccine</th><th scope="col">Where</th></tr></thead>
+<tbody>
+<tr><th scope="row">Shingles</th><td><span class="vx-b ph">Pharmacy</span> Always. We do not give it in the office.</td></tr>
+<tr><th scope="row">RSV</th><td><span class="vx-b ph">Pharmacy</span> Always. We do not give it in the office.</td></tr>
+<tr><th scope="row">Tdap or Td</th><td><span class="vx-b ph">Pharmacy</span> if you have Medicare. Medicare pays for it through drug coverage (Part D), which works at the pharmacy.<br><span class="vx-b of">Office or pharmacy</span> for everyone else.</td></tr>
+<tr><th scope="row">Flu, COVID-19, pneumococcal</th><td><span class="vx-b of">Office or pharmacy</span></td></tr>
+<tr><th scope="row">HPV, hepatitis B</th><td><span class="vx-b of">Office or pharmacy</span></td></tr>
+</tbody></table></div>
+<p class="note">Got a vaccine at a pharmacy? Let us know, or bring the record, so we can add it to your chart.</p>
+</section>
+
+<section class="s" id="medicare" aria-labelledby="mdH">
+<span class="num">04</span>
+<h2 id="mdH" data-toc="If you have Medicare">If you have Medicare</h2>
+<p>Medicare splits vaccines between two parts, which is why some go to the pharmacy.</p>
+<div class="vx-parts">
+<div><b>Part B (medical coverage)</b><span>Flu, pneumococcal, COVID-19 and hepatitis B. You pay nothing if the office or pharmacy accepts Medicare.</span></div>
+<div><b>Part D (drug coverage)</b><span>Shingles, RSV, Tdap and other recommended vaccines. You pay nothing if you have Part D, or a Medicare Advantage plan that includes drug coverage. Without drug coverage you may have to pay for these yourself.</span></div>
+</div>
+<p><a href="https://www.medicare.gov/coverage" target="_blank" rel="noopener">Medicare: what's covered ↗</a> · <a href="https://www.medicare.gov/coverage/flu-shots" target="_blank" rel="noopener">Flu ↗</a> · <a href="https://www.medicare.gov/coverage/shingles-vaccines" target="_blank" rel="noopener">Shingles ↗</a> · <a href="https://www.medicare.gov/coverage/respiratory-syncytial-virus-rsv-shot" target="_blank" rel="noopener">RSV ↗</a> · <a href="https://www.medicare.gov/coverage/tdap-shots" target="_blank" rel="noopener">Tdap ↗</a> · <a href="https://www.medicare.gov/coverage/prescription-drugs-outpatient" target="_blank" rel="noopener">Pneumococcal, COVID-19 and hepatitis B ↗</a></p>
+<p class="note">Not on Medicare? Most insurance plans cover recommended vaccines at no cost. If you are not sure, call the number on your insurance card.</p>
+</section>
+
 <div class="disclaim"><p>Educational information only, not medical advice for you. Your clinician or pharmacist can tell you exactly what you need based on your health and vaccine history.</p>
 <p>Federal vaccine guidance has changed several times since 2025. This page follows current CDC recommendations and notes where other medical organizations add to them. Last reviewed November 2026.</p>
 <p>In an emergency, call <a href="tel:911">911</a>. For a mental health crisis, call or text <a href="tel:988">988</a>.</p></div>
@@ -165,5 +285,148 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 <footer><div class="wrap"><span>© 2026 Gennady Gelman · Personal site, not affiliated with any employer.</span><a href="mailto:me@gennadygelman.com">me@gennadygelman.com</a></div></footer>
 <script>(function(){var r=document.documentElement,b=document.getElementById('theme');function l(){b.setAttribute('aria-label',r.dataset.theme==='dark'?'Switch to light mode':'Switch to dark mode')}l();b.addEventListener('click',function(){r.dataset.theme=r.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('gg-theme',r.dataset.theme)}catch(e){}l()})})();</script>
 <script>window.addEventListener('load',function(){if(!location.hash)window.scrollTo(0,0)});</script>
+<script>(function(){
+var KEY='gg-vax-v1';
+var CONDS=[
+ ['heart','Heart disease (high blood pressure alone does not count)'],
+ ['lung','Lung disease, including COPD or asthma'],
+ ['dm','Diabetes'],
+ ['dmplus','Diabetes with complications, or treated with insulin or an SGLT2 medicine (Jardiance, Farxiga)'],
+ ['ckd','Chronic kidney disease'],
+ ['dialysis','Kidney failure or dialysis'],
+ ['liver','Chronic liver disease'],
+ ['blood','Sickle cell disease, another chronic blood disorder, or no spleen'],
+ ['immune','Weakened immune system (from illness, such as HIV, or from treatment)'],
+ ['neuro','A nerve or muscle condition that makes it hard to clear your airway'],
+ ['bmi40','Severe obesity (BMI 40 or higher)'],
+ ['nursing','Living in a nursing home, or frailty'],
+ ['smoke','Smoke cigarettes'],
+ ['alcohol','Alcohol use disorder'],
+ ['csf','Cochlear implant or spinal fluid leak']
+];
+var RSV_RISK=['heart','lung','dmplus','dialysis','liver','blood','immune','neuro','bmi40','nursing'];
+var PNEUMO_RISK=['heart','lung','dm','dmplus','ckd','dialysis','liver','blood','immune','smoke','alcohol','csf'];
+var $=function(id){return document.getElementById(id)};
+var st={age:'',med:'',preg:'',conds:{},done:{}};
+try{var saved=JSON.parse(localStorage.getItem(KEY)||'null');if(saved)st=Object.assign(st,saved)}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}}
+var esc=function(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
+
+$('vxConds').innerHTML=CONDS.map(function(c){return '<label class="vx-opt vx-c"><input type="checkbox" value="'+c[0]+'"> '+esc(c[1])+'</label>'}).join('');
+// restore inputs
+$('vxAge').value=st.age;
+document.querySelectorAll('input[name="vxMed"]').forEach(function(x){x.checked=x.value===st.med});
+document.querySelectorAll('input[name="vxPreg"]').forEach(function(x){x.checked=x.value===st.preg});
+document.querySelectorAll('#vxConds input').forEach(function(x){x.checked=!!st.conds[x.value]});
+
+$('vxForm').addEventListener('input',function(){
+  st.age=$('vxAge').value;
+  var m=document.querySelector('input[name="vxMed"]:checked'); st.med=m?m.value:'';
+  var p=document.querySelector('input[name="vxPreg"]:checked'); st.preg=p?p.value:'';
+  st.conds={}; document.querySelectorAll('#vxConds input:checked').forEach(function(x){st.conds[x.value]=true});
+  save(); render();
+});
+
+function any(list){return list.some(function(k){return st.conds[k]})}
+var PH='<span class="vx-b ph">Pharmacy</span>', OF='<span class="vx-b of">Office or pharmacy</span>';
+function plan(){
+  var a=parseInt(st.age,10), med=st.med==='yes', preg=st.preg==='yes'&&!(a>=56), imm=!!st.conds.immune, out=[];
+  // flu
+  out.push({id:'flu',n:'Flu',lvl:'rec',why:'Everyone, every year.',dose:'One dose each fall.',where:OF,u:'/flu/',
+    mc:med?['Part B','https://www.medicare.gov/coverage/flu-shots']:null,
+    opts:[['done','Got it this season']]});
+  // covid
+  var c={id:'covid',n:'COVID-19',lvl:'rec',u:'/patients/vaccines/covid/',where:OF,mc:med?['Part B','https://www.medicare.gov/coverage/prescription-drugs-outpatient']:null};
+  if(a>=65&&!preg){c.why='Adults 65 and older.';c.dose='Two doses this season, about six months apart (at least two months).';c.opts=[['d1','Got dose 1'],['done','Got both doses']];c.next={d1:'Dose 2 is due about six months after dose 1 (at least two months).'}}
+  else{c.why=preg?'Recommended in pregnancy.':'All adults.';c.dose='One dose this season.';c.opts=[['done','Got this season’s dose']]}
+  if(imm)c.extra='With a weakened immune system you may need extra doses. Ask us.';
+  out.push(c);
+  // tdap
+  var t={id:'tdap',n:'Tdap',lvl:'rec',u:'/patients/vaccines/tdap/',where:med?PH:OF,mc:med?['Part D','https://www.medicare.gov/coverage/tdap-shots']:null};
+  if(preg){t.why='One Tdap in every pregnancy.';t.dose='Ideally early in weeks 27 to 36. Your antibodies protect the baby.';t.opts=[['done','Got it this pregnancy']]}
+  else{t.why='Every adult.';t.dose='One Tdap as an adult, then Td or Tdap every 10 years.';t.opts=[['done','Had Tdap as an adult and a booster in the last 10 years']]}
+  out.push(t);
+  // shingles
+  if(a>=50||(a>=19&&imm)){out.push({id:'shingles',n:'Shingles',lvl:'rec',u:'/patients/vaccines/shingles/',where:PH,
+    mc:med?['Part D','https://www.medicare.gov/coverage/shingles-vaccines']:null,
+    why:a>=50?'All adults 50 and older, even if you already had shingles.':'Adults 19 and older with a weakened immune system.',
+    dose:'Two doses (Shingrix).',extra:preg?'Wait until after the pregnancy.':'',
+    opts:[['d1','Got dose 1'],['done','Got both doses']],
+    next:{d1:'Dose 2 is due 2 to 6 months after dose 1'+(imm?' (1 to 2 months if your immune system is weakened).':'.')}})}
+  // rsv
+  var rsvRisk=any(RSV_RISK);
+  if(a>=75||(a>=50&&rsvRisk)){out.push({id:'rsv',n:'RSV',lvl:'rec',u:'/patients/vaccines/rsv/',where:PH,
+    mc:med?['Part D','https://www.medicare.gov/coverage/respiratory-syncytial-virus-rsv-shot']:null,
+    why:a>=75?'Everyone 75 and older.':'Adults 50 to 74 with a condition that raises the risk of severe RSV.',
+    dose:'One dose. Not a yearly shot.',opts:[['done','Got it']]})}
+  else if(preg){out.push({id:'rsv',n:'RSV',lvl:'ask',u:'/patients/vaccines/rsv/',where:PH,
+    why:'Pregnant at 32 to 36 weeks, September through January.',
+    dose:'One dose (Abrysvo). Or your baby gets an antibody shot after birth instead. Most babies need one or the other, not both. Ask your obstetric team.',opts:[['done','Got it this pregnancy']]})}
+  // pneumococcal
+  if(a>=50||(a>=19&&any(PNEUMO_RISK))){out.push({id:'pneumo',n:'Pneumococcal',lvl:'rec',u:'/patients/vaccines/pneumococcal/',where:OF,
+    mc:med?['Part B','https://www.medicare.gov/coverage/prescription-drugs-outpatient']:null,
+    why:a>=50?'All adults 50 and older.':'Adults 19 to 49 with a condition that raises the risk.',
+    dose:'Usually one dose. Already had one years ago? Bring your record and we will sort it out together.',opts:[['done','Got it']]})}
+  // hpv
+  if(a>=19&&a<=26){out.push({id:'hpv',n:'HPV',lvl:'rec',u:'/patients/screening/#risk-hpv',where:OF,
+    why:'Catch-up vaccination through age 26.',dose:'Three doses if you start at 15 or older (two if you started before 15).',
+    extra:preg?'Wait until after the pregnancy.':'',
+    opts:[['d1','Got 1 dose'],['d2','Got 2 doses'],['done','Finished the series']],
+    next:{d1:'Dose 2 is due 1 to 2 months after dose 1.',d2:'The last dose is due 6 months after dose 1.'}})}
+  else if(a>=27&&a<=45){out.push({id:'hpv',n:'HPV',lvl:'ask',u:'/patients/screening/#risk-hpv',where:OF,
+    why:'Ages 27 to 45: ask us whether it makes sense for you.',dose:'Three doses if you decide to get it.',
+    opts:[['d1','Got 1 dose'],['d2','Got 2 doses'],['done','Finished the series']],
+    next:{d1:'Dose 2 is due 1 to 2 months after dose 1.',d2:'The last dose is due 6 months after dose 1.'}})}
+  // hep b
+  if(a>=19&&a<=59){out.push({id:'hepb',n:'Hepatitis B',lvl:'rec',u:'/patients/screening/#risk-hepb',where:OF,
+    mc:med?['Part B','https://www.medicare.gov/coverage/prescription-drugs-outpatient']:null,
+    why:'All adults 19 to 59 who have not been vaccinated.',dose:'Two or three doses, depending on the brand.',
+    opts:[['d1','Started the series'],['done','Finished the series']],next:{d1:'Finish the series. The timing depends on the brand; ask us or your pharmacist.'}})}
+  else if(a>=60){out.push({id:'hepb',n:'Hepatitis B',lvl:'ask',u:'/patients/screening/#risk-hepb',where:OF,
+    mc:med?['Part B','https://www.medicare.gov/coverage/prescription-drugs-outpatient']:null,
+    why:'60 and older: recommended if you have a risk factor for hepatitis B, and available to anyone who wants protection. Ask us.',
+    dose:'Two or three doses, depending on the brand.',
+    opts:[['d1','Started the series'],['done','Finished the series']],next:{d1:'Finish the series. The timing depends on the brand; ask us or your pharmacist.'}})}
+  return out;
+}
+
+function card(v){
+  var s=st.done[v.id]||'', isDone=s==='done';
+  var btns='<div class="vx-st" role="group" aria-label="'+esc(v.n)+': what you have had"><button type="button" data-v="'+v.id+'" data-s=""'+(s===''?' aria-pressed="true"':' aria-pressed="false"')+'>Not yet</button>'+
+    v.opts.map(function(o){return '<button type="button" data-v="'+v.id+'" data-s="'+o[0]+'" aria-pressed="'+(s===o[0])+'">'+esc(o[1])+'</button>'}).join('')+'</div>';
+  var next=(!isDone&&s&&v.next&&v.next[s])?'<p class="vx-next"><b>Next:</b> '+esc(v.next[s])+'</p>':'';
+  var mc=v.mc?'<a class="vx-mc" href="'+v.mc[1]+'" target="_blank" rel="noopener">Medicare '+v.mc[0]+' covers it ↗</a>':'';
+  return '<div class="vx-card '+(isDone?'done':s?'part':v.lvl)+'"><div class="vx-top"><a class="vx-n" href="'+v.u+'">'+esc(v.n)+'</a>'+
+    (isDone?'<span class="vx-b ok">Done</span>':s?'<span class="vx-b ip">In progress</span>':v.lvl==='ask'?'<span class="vx-b ask">Ask us</span>':'')+v.where+'</div>'+
+    (isDone?'':'<p class="vx-why">'+esc(v.why)+' '+esc(v.dose)+'</p>'+(v.extra?'<p class="vx-why"><b>'+esc(v.extra)+'</b></p>':'')+next+mc)+btns+'</div>';
+}
+
+function render(){
+  var a=parseInt(st.age,10), o=$('vxOut');
+  var old=a>=56; $('vxPregQ').hidden=old; if(old&&st.preg==='yes'){st.preg='';save()}
+  if(!st.age){o.innerHTML='<p class="vx-hint">Enter your age to see your list.</p>';return}
+  if(isNaN(a)||a<18||a>110){o.innerHTML='<p class="vx-hint">This tool is for adults 18 and older. For children and teens, ask their pediatric clinician.</p>';return}
+  var list=plan(), todo=[], done=[];
+  list.forEach(function(v){(st.done[v.id]==='done'?done:todo).push(v)});
+  var nTodo=todo.filter(function(v){return v.lvl==='rec'}).length, nAsk=todo.length-nTodo;
+  var head='<div class="vx-sum"><span><b>'+nTodo+'</b> to get</span>'+(nAsk?'<span><b>'+nAsk+'</b> to ask about</span>':'')+'<span><b>'+done.length+'</b> done</span>'+
+    '<span class="vx-acts"><button type="button" id="vxPrint">Print my list</button><button type="button" id="vxClear">Start over</button></span></div>';
+  o.innerHTML=head+(todo.length?todo.map(card).join(''):'<p class="vx-hint">You are up to date on everything listed here.</p>')+
+    (done.length?'<h3 class="vx-h3">Done</h3>'+done.map(card).join(''):'')+
+    '<p class="vx-foot">This list covers the main adult vaccines. It does not cover travel vaccines, or vaccines such as MMR, chickenpox, hepatitis A and meningitis that some adults need. Bring your vaccine record to your next visit and we will check it together.</p>';
+  $('vxPrint').addEventListener('click',function(){window.print()});
+  $('vxClear').addEventListener('click',function(){st={age:'',med:'',preg:'',conds:{},done:{}};save();$('vxForm').reset();render();$('vxAge').focus()});
+}
+$('vxOut').addEventListener('click',function(e){
+  var b=e.target.closest('button[data-v]'); if(!b) return;
+  var id=b.getAttribute('data-v'), s=b.getAttribute('data-s');
+  if(s)st.done[id]=s; else delete st.done[id];
+  save(); render();
+  var again=document.querySelector('#vxOut button[data-v="'+id+'"][data-s="'+s+'"]'); if(again) again.focus({preventScroll:false});
+});
+render();
+})();</script>
+
+<script src="/js/toc.js?v=3" defer></script>
 </body>
 </html>
