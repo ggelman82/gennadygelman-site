@@ -197,6 +197,10 @@ section.s{scroll-margin-top:80px}
 .vx-h3{font:600 12px/1.2 "Geist Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);margin:20px 2px 10px}
 .kd-opt{font-style:normal;font-weight:400;color:var(--faint)}
 .kd-start{background:var(--tint);border-radius:12px;padding:12px 14px;font-size:15px;margin:4px 0 12px!important}
+.kd-dates{display:flex;flex-wrap:wrap;gap:8px 14px;margin-top:10px}
+.kd-dates label{display:flex;align-items:center;gap:6px;font-size:13.5px;color:var(--soft)}
+.kd-dates input{font:500 14px Geist,system-ui,sans-serif;padding:5px 8px;border-radius:8px;border:1px solid var(--line);background:var(--paper);color:var(--ink)}
+.kd-bad{margin:8px 0 0!important;font-size:14px;color:var(--stop,#c0583b)}
 .kd-ct{margin-left:auto;font-size:13px;color:var(--faint)}
 .kd-sched tbody th{white-space:nowrap}
 .vx-foot{font-size:14px;color:var(--soft);margin:14px 2px 0!important}
@@ -237,7 +241,7 @@ section.s{scroll-margin-top:80px}
 <section class="s" id="checklist" aria-labelledby="ckH">
 <span class="num">02</span>
 <h2 id="ckH" data-toc="Your child's checklist">What does my child need next?</h2>
-<p>Enter your child's date of birth, then mark how many doses of each vaccine they have had. Your child's vaccine record is in MyChart, or ask us for a copy. Your answers stay on this device. Nothing is sent anywhere.</p>
+<p>Enter your child's date of birth, then mark how many doses of each vaccine they have had and when. The checklist works out when the next dose is due, including catch-up doses. Your child's vaccine record is in MyChart, or ask us for a copy. Your answers stay on this device. Nothing is sent anywhere.</p>
 <div class="vx">
 <form class="vx-form" id="kdForm" autocomplete="off" onsubmit="return false">
 <div class="vx-row">
@@ -269,87 +273,192 @@ section.s{scroll-margin-top:80px}
 <script>window.addEventListener('load',function(){if(!location.hash)window.scrollTo(0,0)});</script>
 
 <script>(function(){
-// Dose timing follows the clinician pediatric vaccine tool (/tools/immunizations/): [start month, end month, label].
-var V=[
- {id:'hepb',n:'Hepatitis B',d:[[0,1,'Birth'],[1,2,'1 to 2 months'],[6,18,'6 to 18 months']]},
- {id:'rv',n:'Rotavirus',d:[[2,3,'2 months'],[4,5,'4 months'],[6,8,'6 months']],note:'Two or three doses, depending on the brand. Not given after 8 months of age.',maxAge:8},
- {id:'dtap',n:'DTaP',d:[[2,3,'2 months'],[4,5,'4 months'],[6,7,'6 months'],[15,19,'15 to 18 months'],[48,84,'4 to 6 years']],note:'Protects against diphtheria, tetanus and whooping cough.'},
- {id:'hib',n:'Hib',d:[[2,3,'2 months'],[4,5,'4 months'],[6,7,'6 months'],[12,16,'12 to 15 months']],note:'Three or four doses, depending on the brand.',maxAge:60},
- {id:'pcv',n:'Pneumococcal',d:[[2,3,'2 months'],[4,5,'4 months'],[6,7,'6 months'],[12,16,'12 to 15 months']],maxAge:60},
- {id:'ipv',n:'Polio',d:[[2,3,'2 months'],[4,5,'4 months'],[6,19,'6 to 18 months'],[48,84,'4 to 6 years']]},
- {id:'mmr',n:'MMR',d:[[12,16,'12 to 15 months'],[48,84,'4 to 6 years']],note:'Protects against measles, mumps and rubella.'},
- {id:'var',n:'Chickenpox',d:[[12,16,'12 to 15 months'],[48,84,'4 to 6 years']]},
- {id:'hepa',n:'Hepatitis A',d:[[12,24,'12 to 23 months'],[18,30,'6 months after dose 1']]},
- {id:'tdap',n:'Tdap',d:[[132,156,'11 to 12 years']],note:'A booster for tetanus, diphtheria and whooping cough.'},
- {id:'hpv',n:'HPV',d:[[108,144,'9 to 12 years'],[114,156,'6 to 12 months after dose 1']],note:'Two doses if started before 15. Three doses if started at 15 or older.'},
- {id:'men',n:'Meningococcal ACWY',d:[[132,156,'11 to 12 years'],[192,204,'16 years']]}
-];
-var KEY='gg-kidvax-v1',$=function(i){return document.getElementById(i)};
+/* Childhood vaccine checklist for parents.
+   Routine timing follows the clinician pediatric tool (/tools/immunizations/).
+   When doses are dated, the next dose uses CDC catch-up minimum ages and intervals
+   (with the CDC 4-day grace period). Healthy children only; anything unusual says "ask us". */
+var KEY='gg-kidvax-v2',$=function(i){return document.getElementById(i)},DAY=864e5,GRACE=4;
 var esc=function(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
-var st={dob:'',name:'',got:{},flu:''};
+var V=[
+ {id:'hepb',n:'Hepatitis B',k:3,r:['birth','1 to 2 months','6 to 18 months']},
+ {id:'rv',n:'Rotavirus',k:3,r:['2 months','4 months','6 months'],note:'Some brands need only two doses. Not given after 8 months of age.'},
+ {id:'dtap',n:'DTaP',k:5,r:['2 months','4 months','6 months','15 to 18 months','4 to 6 years'],note:'Protects against diphtheria, tetanus and whooping cough.'},
+ {id:'hib',n:'Hib',k:4,r:['2 months','4 months','6 months','12 to 15 months'],note:'The number of doses depends on the brand and the age at each dose.'},
+ {id:'pcv',n:'Pneumococcal',k:4,r:['2 months','4 months','6 months','12 to 15 months']},
+ {id:'ipv',n:'Polio',k:4,r:['2 months','4 months','6 to 18 months','4 to 6 years']},
+ {id:'mmr',n:'MMR',k:2,r:['12 to 15 months','4 to 6 years'],note:'Protects against measles, mumps and rubella.'},
+ {id:'var',n:'Chickenpox',k:2,r:['12 to 15 months','4 to 6 years']},
+ {id:'hepa',n:'Hepatitis A',k:2,r:['12 to 23 months','6 months after dose 1']},
+ {id:'tdap',n:'Tdap',k:1,r:['11 to 12 years'],note:'A booster for tetanus, diphtheria and whooping cough.'},
+ {id:'hpv',n:'HPV',k:2,r:['9 to 12 years','6 to 12 months after dose 1'],note:'Two doses if started before 15. Three if started at 15 or older.'},
+ {id:'men',n:'Meningococcal ACWY',k:2,r:['11 to 12 years','16 years']}
+];
+var st={dob:'',name:'',got:{},dates:{},flu:''};
 try{var sv=JSON.parse(localStorage.getItem(KEY)||'null');if(sv)st=Object.assign(st,sv)}catch(e){}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}}
 
-function ageMonths(dob,now){var m=(now.getFullYear()-dob.getFullYear())*12+now.getMonth()-dob.getMonth();if(now.getDate()<dob.getDate())m--;return m}
-function addM(d,n){var x=new Date(d.getTime());var day=x.getDate();x.setDate(1);x.setMonth(x.getMonth()+n);var last=new Date(x.getFullYear(),x.getMonth()+1,0).getDate();x.setDate(Math.min(day,last));return x}
-var fmt=function(d){return d.toLocaleDateString('en-US',{month:'long',year:'numeric'})};
+var pd=function(s){if(!s)return null;var p=s.split('-');var d=new Date(+p[0],+p[1]-1,+p[2]);return isNaN(d)?null:d};
+var iso=function(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+var addD=function(d,n){var x=new Date(d.getTime());x.setDate(x.getDate()+n);return x};
+var addM=function(d,n){var x=new Date(d.getTime()),day=x.getDate();x.setDate(1);x.setMonth(x.getMonth()+n);x.setDate(Math.min(day,new Date(x.getFullYear(),x.getMonth()+1,0).getDate()));return x};
+var dd=function(a,b){return Math.round((b-a)/DAY)};
+var mo=function(dob,d){var m=(d.getFullYear()-dob.getFullYear())*12+d.getMonth()-dob.getMonth();if(d.getDate()<dob.getDate())m--;return m};
+var max=function(){return new Date(Math.max.apply(null,[].slice.call(arguments).filter(Boolean).map(Number)))};
+var fmt=function(d){return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})};
 function ageText(m){return m<24?m+' month'+(m===1?'':'s'):Math.floor(m/12)+' years'+(m%12?', '+m%12+' month'+(m%12===1?'':'s'):'')}
+
+// Minimum age for the first dose, and minimum interval before each later dose (days), simplified CDC catch-up.
+function minRule(id,i,dates,dob){
+  var prev=dates[i-1],a=function(m){return addM(dob,m)};
+  switch(id){
+  case'hepb':return i===0?dob:i===1?addD(prev,28):max(addD(prev,56),addD(dates[0],112),addD(dob,168));
+  case'rv':return i===0?addD(dob,42):addD(prev,28);
+  case'dtap':return i===0?addD(dob,42):i<3?addD(prev,28):addM(prev,6);
+  case'ipv':return i===0?addD(dob,42):i<3?addD(prev,28):max(addM(prev,6),a(48));
+  case'hib':case'pcv':return i===0?addD(dob,42):addD(prev,28);
+  case'mmr':return i===0?a(12):addD(prev,28);
+  case'var':return i===0?a(12):addD(prev,mo(dob,prev)>=156?28:84);
+  case'hepa':return i===0?a(12):addM(prev,6);
+  case'tdap':return a(84);
+  case'hpv':return i===0?a(108):i===1?addD(prev,mo(dob,dates[0])<180?150:28):max(addD(prev,84),addM(dates[0],5));
+  case'men':return i===0?a(24):addD(prev,56);
+  }
+}
+function checkDates(v,dob,today){
+  var raw=(st.dates[v.id]||[]).slice(0,st.got[v.id]||0),ds=raw.map(pd),valid=[],bad=[];
+  if(ds.some(function(d){return !d}))return{missing:true};
+  ds.sort(function(a,b){return a-b});
+  ds.forEach(function(d){
+    var i=valid.length,why='';
+    if(d<dob)why='is before the date of birth';else if(d>today)why='is in the future';
+    else if(d<addD(minRule(v.id,i,valid,dob),-GRACE))why=i===0?'was given before the minimum age':'was given too soon after the dose before it';
+    else if(v.id==='rv'&&(i===0?dd(dob,d)>104:mo(dob,d)>=8))why='was given after the age limit for this vaccine';
+    if(why)bad.push(fmt(d)+' '+why);else valid.push(d);
+  });
+  return{valid:valid,bad:bad};
+}
+// Next dose: {done:msg} | {na:true} | {ask:msg} | {date:Date, final:bool}
+function next(v,dob,today,valid){
+  var id=v.id,k=valid.length,last=valid[k-1],am=function(d){return mo(dob,d)},a=function(m){return addM(dob,m)},age=am(today);
+  var routine=function(m){return a(m)};
+  switch(id){
+  case'hepb':if(k>=3)return{done:1};return{date:k===0?dob:k===1?max(routine(1),addD(last,28)):max(routine(6),minRule(id,2,valid,dob))};
+  case'rv':if(k>=3)return{done:1};if(age>=8)return{na:1};if(k===0&&dd(dob,today)>104)return{na:1};
+    var r=max(routine([2,4,6][k]),k?addD(last,28):addD(dob,42));return r>=a(8)?{na:1}:{date:r};
+  case'dtap':if(k>=5||(k===4&&am(last)>=48))return{done:1};
+    if(age>=84)return{ask:'At age 7 and older, missed doses are made up with Tdap or Td. Ask us for a catch-up plan.'};
+    return{date:k===0?max(routine(2),addD(dob,42)):k<3?max(routine([2,4,6][k]),addD(last,28)):k===3?max(routine(15),addM(last,6)):max(routine(48),addM(last,6))};
+  case'ipv':if(k>=4||(k===3&&am(last)>=48&&dd(valid[1],last)>=180-GRACE))return{done:1};
+    if(age>=216)return{ask:'At 18 and older, ask us whether more polio doses are needed.'};
+    if(k===0)return{date:max(routine(2),addD(dob,42))};
+    if(k===1)return{date:max(routine(4),addD(last,28))};
+    if(k===2)return age>=48?{date:max(addM(last,6),a(48)),final:1}:{date:max(routine(6),addD(last,28))};
+    return{date:max(routine(48),addM(last,6))};
+  case'hib':if(age>=60)return{na:1};
+    if(valid.some(function(d){return am(d)>=15})||(k>=2&&valid.slice(1).some(function(d){return am(d)>=12})))return{done:1};
+    if(k===0)return{date:max(routine(2),addD(dob,42))};
+    var c=max(routine([2,4,6,12][Math.min(k,3)]),addD(last,28));
+    if(k>=3||am(valid[0])>=12||c>=a(12))return{date:max(a(12),addD(last,56)),final:1};
+    return{date:c};
+  case'pcv':if(age>=60)return{na:1};
+    var ge12=valid.filter(function(d){return am(d)>=12}).length,lt12=k-ge12;
+    if(valid.some(function(d){return am(d)>=24})||ge12>=2||(lt12>=1&&ge12>=1&&k>=3)||k>=4)return{done:1};
+    if(k===0)return{date:max(routine(2),addD(dob,42))};
+    if(am(valid[0])>=12||age>=12||k>=3)return{date:max(addD(last,56),a(12)),final:1};
+    var p=max(routine([2,4,6][k]),addD(last,28));
+    return p>=a(12)||(k===2&&am(last)>=7)?{date:max(addD(last,56),a(12)),final:1}:{date:p};
+  case'mmr':case'var':if(k>=2)return{done:1};
+    return{date:k===0?routine(12):max(routine(48),minRule(id,1,valid,dob))};
+  case'hepa':if(k>=2)return{done:1};return{date:k===0?routine(12):addM(last,6)};
+  case'tdap':if(k>=1)return{done:1};return{date:routine(132)};
+  case'hpv':var n=k&&am(valid[0])<180?2:(k===0&&age<180?2:3);
+    if(k>=n)return{done:1};
+    if(k===0)return{date:routine(108)};
+    if(n===2)return{date:addM(last,6)};
+    return{date:k===1?max(addM(last,1),addD(last,28)):max(addM(valid[0],6),addD(last,84))};
+  case'men':if(k>=2||(k===1&&am(last)>=192))return{done:1};
+    return{date:k===0?routine(132):max(routine(192),addD(last,56))};
+  }
+}
 
 $('kdDob').value=st.dob;$('kdName').value=st.name;
 $('kdForm').addEventListener('input',function(){st.dob=$('kdDob').value;st.name=$('kdName').value;save();render()});
 
-function item(v,age,dob){
-  var n=v.d.length,c=st.got[v.id]||0,r={v:v,c:c,n:n};
-  if(c>=n){r.s='done';r.msg='All '+(n>1?n+' doses':'done')+'.';return r}
-  if(v.maxAge&&age>=v.maxAge){r.s='na';r.msg=v.id==='rv'?'Not given after 8 months of age, so no more doses are needed.':'Not needed for healthy children 5 and older.';return r}
-  var d=v.d[c],when=d[2]==='Birth'?'birth':d[2];
-  if(c===0&&age<d[0]&&d[0]-age>18&&v.id!=='hepb'){r.s='later';r.order=d[0];r.msg='Starts at '+d[2]+'.';return r}
-  if(age<d[0]){r.s='soon';r.order=d[0];r.msg=(n>1?'Dose '+(c+1)+' ':'It ')+'is due at '+when+(d[2].indexOf('after')<0?', around '+fmt(addM(dob,d[0])):'')+'.';return r}
-  if(age<=d[1]){r.s='due';r.order=-1;r.msg=(n>1?'Dose '+(c+1)+' ':'It ')+'is due now ('+when+').';return r}
-  r.s='behind';r.order=-2;r.msg=(n>1?'Dose '+(c+1)+' was':'It was')+' due at '+when+'. Ask us about a catch-up plan. You never need to start over.';return r
+var minAge={hpv:108,tdap:132,men:132};
+function build(v,dob,today,age){
+  var c=st.got[v.id]||0,r={v:v,c:c};
+  if(c>=v.k){r.s='done';return r}
+  var chk=c?checkDates(v,dob,today):{valid:[],bad:[]};
+  if(chk.missing){r.s='nodates';r.order=-0.5;return r}
+  r.bad=chk.bad;
+  var nx=next(v,dob,today,chk.valid);
+  if(nx.done){r.s='done';r.early=c<v.k;return r}
+  if(nx.na){r.s='na';return r}
+  if(nx.ask){r.s='ask';r.msg=nx.ask;r.order=-1;return r}
+  r.date=nx.date;r.final=nx.final;r.dose=chk.valid.length+1;
+  r.s=nx.date<=today?'due':dd(today,nx.date)<=365?'soon':'later';
+  // Behind = past the end of the routine age window for this dose (from the clinician tool).
+  var END={hepb:[1,2,18],rv:[3,5,8],dtap:[3,5,7,19,84],hib:[3,5,7,16],pcv:[3,5,7,16],ipv:[3,5,19,84],mmr:[16,84],var:[16,84],hepa:[24],tdap:[156],hpv:[156],men:[156,204]};
+  var e=(END[v.id]||[])[chk.valid.length];
+  r.behind=nx.date<=today&&e!=null&&today>addM(dob,e);
+  r.order=r.s==='due'?-2:+nx.date;
+  return r;
 }
 function card(r){
-  var v=r.v,cls={done:'done',na:'done',due:'rec',behind:'part',soon:'ask',later:'ask'}[r.s];
-  var tag={done:'<span class="vx-b ok">Done</span>',na:'<span class="vx-b ok">Not needed</span>',due:'<span class="vx-b of">Due now</span>',behind:'<span class="vx-b ip">Catch up</span>',soon:'<span class="vx-b">Coming up</span>',later:'<span class="vx-b">Later</span>'}[r.s];
-  var opts=r.n===1?[[0,'Not yet'],[1,'Got it']]:[[0,'None yet']].concat(v.d.map(function(_,i){return[i+1,i+1===r.n?'Got all '+r.n:'Got '+(i+1)]}));
-  var btns='<div class="vx-st" role="group" aria-label="'+esc(v.n)+': doses your child has had">'+opts.map(function(o){return '<button type="button" data-v="'+v.id+'" data-c="'+o[0]+'" aria-pressed="'+(r.c===o[0])+'">'+esc(o[1])+'</button>'}).join('')+'</div>';
-  return '<div class="vx-card '+cls+'"><div class="vx-top"><span class="vx-n">'+esc(v.n)+'</span>'+tag+'<span class="kd-ct">'+(r.n>1?r.c+' of '+r.n+' doses':'')+'</span></div>'+
-    '<p class="vx-why">'+esc(r.msg)+(v.note&&r.s!=='done'&&r.s!=='na'?' '+esc(v.note):'')+'</p>'+btns+'</div>';
+  var v=r.v,c=r.c,cls={done:'done',due:'rec',soon:'ask',ask:'part',nodates:'part',later:'ask'}[r.s];
+  var tag={done:'<span class="vx-b ok">Done</span>',due:'<span class="vx-b of">Due now</span>',soon:'<span class="vx-b">'+(r.date?fmt(r.date):'')+'</span>',ask:'<span class="vx-b ip">Ask us</span>',nodates:'<span class="vx-b ip">Add dates</span>'}[r.s]||'';
+  var opts=v.k===1?[[0,'Not yet'],[1,'Got it']]:[[0,'None yet']].concat(Array.apply(null,{length:v.k}).map(function(_,i){return[i+1,i+1===v.k?'Got all '+v.k:'Got '+(i+1)]}));
+  var btns='<div class="vx-st" role="group" aria-label="'+esc(v.n)+': doses your child has had">'+opts.map(function(o){return '<button type="button" data-v="'+v.id+'" data-c="'+o[0]+'" aria-pressed="'+(c===o[0])+'">'+esc(o[1])+'</button>'}).join('')+'</div>';
+  var msg='';
+  if(r.s==='done')msg=r.early?'No more doses needed, based on the dates and ages entered.':'Series complete.';
+  else if(r.s==='nodates')msg='Add the date of each dose so we can work out when the next one is due.';
+  else if(r.s==='ask')msg=r.msg;
+  else{var dn=v.k>1?'Dose '+r.dose+(r.final?' (the last one)':''):'It';
+    msg=r.s==='due'?dn+' is due now'+(r.behind?'. Your child is behind on this one. It can be given now':'')+'.':dn+' is due '+fmt(r.date)+(r.dose===1||!c?' ('+v.r[0]+')':'')+'.';}
+  var dates='';
+  if(c&&c<v.k){var ds=st.dates[v.id]||[];dates='<div class="kd-dates">'+Array.apply(null,{length:c}).map(function(_,i){return '<label>Dose '+(i+1)+' <input type="date" data-d="'+v.id+'" data-i="'+i+'" value="'+esc(ds[i]||'')+'"></label>'}).join('')+'</div>'}
+  var bad=r.bad&&r.bad.length?'<p class="kd-bad">'+r.bad.map(function(b){return 'The dose on '+esc(b)+', so it may not count.'}).join(' ')+' Ask us.</p>':'';
+  return '<div class="vx-card '+cls+'"><div class="vx-top"><span class="vx-n">'+esc(v.n)+'</span>'+tag+'<span class="kd-ct">'+(v.k>1?c+' of '+v.k+' doses':'')+'</span></div>'+
+    '<p class="vx-why">'+esc(msg)+(v.note&&r.s!=='done'?' '+esc(v.note):'')+'</p>'+bad+btns+dates+'</div>';
 }
 function render(){
   var o=$('kdOut');
   if(!st.dob){o.innerHTML='<p class="vx-hint">Enter your child’s date of birth to see their checklist.</p>';return}
-  var p=st.dob.split('-'),dob=new Date(+p[0],+p[1]-1,+p[2]),now=new Date();now.setHours(0,0,0,0);
-  if(isNaN(dob)||dob>now){o.innerHTML='<p class="vx-hint">Check the date of birth.</p>';return}
-  var age=ageMonths(dob,now);
+  var dob=pd(st.dob),today=new Date();today.setHours(0,0,0,0);
+  if(!dob||dob>today){o.innerHTML='<p class="vx-hint">Check the date of birth.</p>';return}
+  var age=mo(dob,today);
   if(age>=19*12){o.innerHTML='<p class="vx-hint">This checklist is for children and teens. For adults, use the <a href="/patients/vaccines/#chooser">adult vaccine checklist</a>.</p>';return}
-  // Hide what does not apply at this age: series that aged out (rotavirus after 8 months,
-  // Hib and pneumococcal at 5 and older), HPV before 9, Tdap and meningococcal before 11.
-  var minAge={hpv:108,tdap:132,men:132};
-  var items=V.filter(function(v){return !(minAge[v.id]&&age<minAge[v.id])}).map(function(v){return item(v,age,dob)}).filter(function(r){return r.s!=='na'});
-  var g=function(s){return items.filter(function(r){return s.indexOf(r.s)>=0})};
-  var now1=g(['behind','due']).sort(function(a,b){return a.order-b.order}),soon=g(['soon']).sort(function(a,b){return a.order-b.order}),later=g(['later']).sort(function(a,b){return a.order-b.order}),done=g(['done','na']);
-  var fluTxt=age<6?'Flu vaccine starts at 6 months.':'Every year, each fall.'+(age<108?' If this is your child’s first flu season, they need two doses, four weeks apart.':'');
+  var rs=V.filter(function(v){return !(minAge[v.id]&&age<minAge[v.id]-12)}).map(function(v){return build(v,dob,today,age)}).filter(function(r){return r.s!=='na'});
+  var g=function(s){return rs.filter(function(r){return s.indexOf(r.s)>=0}).sort(function(a,b){return(a.order||0)-(b.order||0)})};
+  var now1=g(['due','ask','nodates']),soon=g(['soon']),later=g(['later']),done=g(['done']);
+  var fluTxt=age<6?'':'Every year, each fall.'+(age<108?' If this is your child’s first flu season, they need two doses, four weeks apart.':'');
   var flu=age<6?'':'<div class="vx-card '+(st.flu==='done'?'done':'rec')+'"><div class="vx-top"><span class="vx-n">Flu</span>'+(st.flu==='done'?'<span class="vx-b ok">Done this season</span>':'<span class="vx-b of">Every fall</span>')+'</div><p class="vx-why">'+esc(fluTxt)+'</p><div class="vx-st" role="group" aria-label="Flu"><button type="button" data-flu="" aria-pressed="'+(st.flu!=='done')+'">Not yet</button><button type="button" data-flu="done" aria-pressed="'+(st.flu==='done')+'">Got it this season</button></div></div>';
-  var who=st.name?esc(st.name):'Your child';
-  o.innerHTML='<div class="vx-sum"><span>'+who+' is <b>'+esc(ageText(age))+'</b></span><span><b>'+now1.length+'</b> due now</span><span><b>'+soon.length+'</b> coming up</span><span><b>'+done.length+'</b> done</span><span class="vx-acts"><button type="button" id="kdPrint">Print</button><button type="button" id="kdClear">Start over</button></span></div>'+
-    (age>=2&&!Object.keys(st.got).length?'<p class="kd-start"><b>Start here:</b> mark the doses your child has already had. Until you do, everything looks overdue.</p>':'')+
+  var who=st.name?esc(st.name):'Your child',noneMarked=!Object.keys(st.got).length;
+  o.innerHTML='<div class="vx-sum"><span>'+who+' is <b>'+esc(ageText(age))+'</b></span><span><b>'+now1.length+'</b> due now</span><span><b>'+soon.length+'</b> in the next year</span><span><b>'+done.length+'</b> done</span><span class="vx-acts"><button type="button" id="kdPrint">Print</button><button type="button" id="kdClear">Start over</button></span></div>'+
+    (age>=2&&noneMarked?'<p class="kd-start"><b>Start here:</b> mark the doses your child has already had, and add their dates. Until you do, everything looks due.</p>':'')+
     (now1.length?'<h3 class="vx-h3">Due now</h3>'+now1.map(card).join(''):'<p class="vx-hint" style="margin-bottom:10px!important">Nothing is due right now.</p>')+flu+
-    (soon.length?'<h3 class="vx-h3">Coming up</h3>'+soon.map(card).join(''):'')+
-    (later.length?'<h3 class="vx-h3">Later</h3>'+later.map(card).join(''):'')+
+    (soon.length?'<h3 class="vx-h3">Due in the next year</h3>'+soon.map(card).join(''):'')+
     (done.length?'<h3 class="vx-h3">Done</h3>'+done.map(card).join(''):'')+
-    '<p class="vx-foot">This checklist counts doses only. It does not check the dates between doses, the brand used, or health conditions that change the schedule. Bring your child’s record to their next visit and we will check it together.</p>';
+    (later.length?'<p class="vx-foot"><b>Not due in the next year:</b> '+later.map(function(r){return esc(r.v.n)+' ('+fmt(r.date)+')'}).join(', ')+'.</p>':'')+
+    '<p class="vx-foot">Dates are worked out from the CDC catch-up rules for healthy children: the youngest age and shortest gap allowed between doses. Some vaccines, like Hib, rotavirus and pneumococcal, depend on the brand, which this checklist cannot know. Bring your child’s record to their next visit and we will confirm the plan.</p>';
   $('kdPrint').onclick=function(){window.print()};
-  $('kdClear').onclick=function(){st={dob:'',name:'',got:{},flu:''};save();$('kdForm').reset();render();$('kdDob').focus()};
+  $('kdClear').onclick=function(){st={dob:'',name:'',got:{},dates:{},flu:''};save();$('kdForm').reset();render();$('kdDob').focus()};
 }
 $('kdOut').addEventListener('click',function(e){
   var b=e.target.closest('button[data-v],button[data-flu]');if(!b)return;
-  if(b.hasAttribute('data-flu')){st.flu=b.getAttribute('data-flu')}
+  if(b.hasAttribute('data-flu'))st.flu=b.getAttribute('data-flu');
   else{var id=b.getAttribute('data-v'),c=+b.getAttribute('data-c');if(c)st.got[id]=c;else delete st.got[id]}
   save();render();
+  var f=document.querySelector('#kdOut button[data-v="'+b.getAttribute('data-v')+'"][data-c="'+b.getAttribute('data-c')+'"]');if(f)f.focus();
+});
+$('kdOut').addEventListener('change',function(e){
+  var t=e.target;if(!t.matches('input[data-d]'))return;
+  var id=t.getAttribute('data-d'),i=+t.getAttribute('data-i');(st.dates[id]=st.dates[id]||[])[i]=t.value;save();render();
+  var f=document.querySelector('#kdOut input[data-d="'+id+'"][data-i="'+i+'"]');if(f)f.focus();
 });
 render();
 })();</script>
+
 
 <script src="/js/toc.js?v=3" defer></script>
 </body>
