@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cancer screening - Gennady Gelman</title>
-<meta name="description" content="Which cancer screenings I recommend, which I don't, and what to know about multi-cancer blood tests.">
+<meta name="description" content="Which cancer screenings I recommend, which I don't, a family cancer history questionnaire, and what to know about multi-cancer blood tests.">
 <script>try{if('scrollRestoration' in history)history.scrollRestoration='manual'}catch(e){}</script><script>(function(){var t=null;try{t=localStorage.getItem('gg-theme')}catch(e){}if(!t)t=(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light';document.documentElement.dataset.theme=t})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
@@ -91,6 +91,38 @@ footer{background:var(--bar);color:rgba(255,255,255,.85);font-size:13px}
 footer .wrap{max-width:1080px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;padding-top:24px;padding-bottom:24px}
 footer a{color:inherit;text-decoration:none}
 @media print{header.top,.vnav,footer,.theme{display:none}body{background:#fff;color:#000}}
+.fh{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:clamp(18px,3vw,26px);max-width:760px}
+.fh-k{font-family:Newsreader,Georgia,serif;font-size:25px;line-height:1.15;margin:0 0 8px!important}
+.fh-i,.fh-def{font-size:15.5px;color:var(--soft)}
+.fh-def b{color:var(--ink)}
+.fh-hint{font-size:14px;color:var(--faint);margin:-4px 0 10px!important}
+.fh-rows{display:grid;gap:6px}
+.fh-row{display:grid;grid-template-columns:1fr auto;gap:8px 14px;align-items:center;padding:10px 12px;border-radius:12px;background:var(--paper);border:1px solid var(--line-2)}
+.fh-row.miss,.fh-q.miss{border-color:var(--stop)}
+.fh-row .lbl{font-size:15.5px;font-weight:500}
+.fh-tg{display:flex;gap:6px;flex-wrap:wrap}
+.fh-tg label{position:relative;cursor:pointer}
+.fh-tg input,.fh-opt input{position:absolute;opacity:0;width:1px;height:1px}
+.fh-tg span{display:block;font-size:14px;padding:5px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--soft);white-space:nowrap}
+.fh-tg input:checked+span{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.fh-tg input:focus-visible+span,.fh-opt:focus-within{outline:3px solid var(--accent);outline-offset:2px}
+@media (max-width:620px){.fh-row{grid-template-columns:1fr}}
+.fh-q{border:1px solid var(--line-2);border-radius:14px;margin:18px 0 0;padding:14px 16px;background:var(--paper)}
+.fh-q legend{font-weight:500;font-size:15.5px;padding:0 4px;max-width:62ch}
+.fh-q legend span{display:block;font-weight:400;font-size:14px;color:var(--soft);margin-top:2px}
+.fh-opt{position:relative;display:inline-flex;align-items:center;gap:8px;margin:8px 8px 0 0;padding:7px 14px;border-radius:12px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-size:14.5px;line-height:1.35}
+.fh-opt:has(input:checked){background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.fh-act{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0 0}
+.fh-btn{font:600 15px Geist,system-ui,sans-serif;padding:10px 18px;border-radius:999px;border:1px solid var(--ink);background:var(--ink);color:var(--paper);cursor:pointer}
+.fh-btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.fh-miss{color:var(--stop);font-size:14.5px;margin:12px 0 0!important}
+.fh-res{margin-top:18px;border-radius:16px;padding:18px 20px}
+.fh-res.pos{background:var(--warn-tint);border-left:4px solid var(--warn)}
+.fh-res.neg{background:var(--good-tint);border-left:4px solid var(--good)}
+.fh-res h4{margin:0 0 6px;font-size:18px}
+.fh-res p{margin:0 0 10px!important}
+.fh-res ul{margin:0 0 12px;padding-left:20px;font-size:15px}
+@media print{.fh-act,.fh-hint{display:none}}
 </style>
 </head>
 <body>
@@ -179,9 +211,25 @@ footer a{color:inherit;text-decoration:none}
 <span class="num">03</span>
 <h2 id="h2s">Does cancer run in your family?</h2>
 <p>Some cancers run in families because of inherited gene changes, like BRCA or Lynch syndrome. Knowing that can change when and how you get screened, and it can matter for your relatives too.</p>
-<div class="callout">
-<p><b>Family and personal cancer history questionnaire: coming soon</b></p>
-<p>A short questionnaire about your own and your family's cancer history is coming to this page. Until then, if you or close relatives have had cancer, bring it up at your next visit and we'll talk about whether seeing a genetic counselor makes sense.</p>
+<div class="fh" id="fhq">
+<p class="fh-k">Family and personal cancer history questionnaire</p>
+<p class="fh-i">If you answer yes to at least one of these questions, you may be eligible for genetic testing. Nothing you enter is saved or sent.</p>
+<p class="fh-def"><b>A close blood relative</b> is a child, grandchild, sibling, half-sibling, niece, nephew, parent, aunt, uncle, first cousin, grandparent, great-aunt, great-uncle or great-grandparent.</p>
+<h3 class="sub">Has this happened to you or a close blood relative?</h3>
+<p class="fh-hint">Check "Me", "A relative" or both. Check "No" if neither.</p>
+<div class="fh-rows" id="fhRows"></div>
+<fieldset class="fh-q" id="fhThree"><legend>Do you have three or more blood relatives on the same side of the family (including yourself) who have had these cancers, at any age? <span>Select all that apply.</span></legend>
+<label class="fh-opt"><input type="checkbox" name="three" value="bp"> Breast and/or prostate cancer</label>
+<label class="fh-opt"><input type="checkbox" name="three" value="lynch"> Colon, uterine, stomach, ovarian, pancreatic, bladder, brain, biliary tract and/or small intestine cancer</label>
+<label class="fh-opt"><input type="checkbox" name="three" value="none"> None of the above</label>
+</fieldset>
+<fieldset class="fh-q" id="fhAJ"><legend>Do you have Ashkenazi Jewish ancestry from one or more grandparents? <span>Some gene changes are more common in this group, and it can help with insurance coverage for genetic testing.</span></legend>
+<label class="fh-opt"><input type="radio" name="aj" value="yes"> Yes</label>
+<label class="fh-opt"><input type="radio" name="aj" value="no"> No</label>
+</fieldset>
+<div class="fh-act"><button class="fh-btn" id="fhGo" type="button">See my result</button><button class="fh-btn ghost" id="fhReset" type="button">Start over</button></div>
+<p class="fh-miss" id="fhMiss" role="alert" hidden></p>
+<div class="fh-res" id="fhRes" hidden tabindex="-1"></div>
 </div>
 </section>
 
@@ -249,6 +297,31 @@ footer a{color:inherit;text-decoration:none}
 </div>
 </main>
 <footer><div class="wrap"><span>© 2026 Gennady Gelman · Personal site, not affiliated with any employer.</span><a href="mailto:me@gennadygelman.com">me@gennadygelman.com</a></div></footer>
+<script>(function(){
+var ROWS=['Known genetic mutation in a cancer-related gene','Breast cancer at or before age 50','Breast cancer in someone assigned male at birth','Ovarian cancer','Prostate cancer that has spread to other organs','Pancreatic cancer','Uterine cancer younger than age 50','Colon cancer younger than age 50','Twenty or more colon polyps over a lifetime'];
+var box=document.getElementById('fhRows'),$=function(i){return document.getElementById(i)};
+box.innerHTML=ROWS.map(function(r,i){return '<div class="fh-row" role="group" aria-labelledby="fl'+i+'"><span class="lbl" id="fl'+i+'">'+r+'</span><span class="fh-tg">'+[['me','Me'],['rel','A relative'],['no','No']].map(function(o){return '<label><input type="checkbox" name="r'+i+'" value="'+o[0]+'"><span>'+o[1]+'</span></label>'}).join('')+'</span></div>'}).join('');
+function excl(name,noVal){document.querySelectorAll('input[name="'+name+'"]').forEach(function(x){x.addEventListener('change',function(){if(!x.checked)return;document.querySelectorAll('input[name="'+name+'"]').forEach(function(y){if(y!==x&&((x.value===noVal)!==(y.value===noVal)))y.checked=false})})})}
+ROWS.forEach(function(_,i){excl('r'+i,'no')});excl('three','none');
+function vals(n){return Array.prototype.map.call(document.querySelectorAll('input[name="'+n+'"]:checked'),function(x){return x.value})}
+document.querySelectorAll('#fhq input').forEach(function(x){x.addEventListener('change',function(){var g=x.closest('.fh-row,.fh-q');if(g)g.classList.remove('miss')})});
+$('fhGo').addEventListener('click',function(){
+  var miss=0,hits=[];
+  ROWS.forEach(function(r,i){var v=vals('r'+i),row=box.children[i];row.classList.toggle('miss',!v.length);if(!v.length)miss++;var who=[];if(v.indexOf('me')>-1)who.push('me');if(v.indexOf('rel')>-1)who.push('a blood relative');if(who.length)hits.push(r+' ('+who.join(' and ')+')')});
+  var t=vals('three');$('fhThree').classList.toggle('miss',!t.length);if(!t.length)miss++;
+  if(t.indexOf('bp')>-1)hits.push('Three or more relatives on one side with breast and/or prostate cancer');
+  if(t.indexOf('lynch')>-1)hits.push('Three or more relatives on one side with colon, uterine, stomach, ovarian, pancreatic, bladder, brain, biliary tract and/or small intestine cancer');
+  var aj=vals('aj');$('fhAJ').classList.toggle('miss',!aj.length);if(!aj.length)miss++;
+  var m=$('fhMiss'),res=$('fhRes');
+  if(miss){m.textContent='Please answer every question. '+miss+(miss===1?' is':' are')+' still blank (outlined in red).';m.hidden=false;res.hidden=true;return}
+  m.hidden=true;
+  var ajNote=aj[0]==='yes'?'<p>You also have Ashkenazi Jewish ancestry. Mention that too: it can help with insurance coverage for testing.</p>':'';
+  if(hits.length){res.className='fh-res pos';res.innerHTML='<h4>You may be eligible for genetic testing</h4><p>You answered yes to:</p><ul>'+hits.map(function(h){return '<li>'+h+'</li>'}).join('')+'</ul>'+ajNote+'<p>Bring this up at your next visit, or send us a MyChart message, and we’ll talk about a referral to a genetic counselor. Print this page to bring your answers with you.</p>'}
+  else{res.className='fh-res neg';res.innerHTML='<h4>No signs of an inherited cancer risk from these questions</h4>'+(aj[0]==='yes'?'<p>You do have Ashkenazi Jewish ancestry, which makes some gene changes more common. If you’re not sure what that means for you, ask us at your next visit.</p>':'')+'<p>Follow the regular screening schedule above. If you learn about a new cancer in your family, take this again or let us know.</p>'}
+  res.hidden=false;res.focus();
+});
+$('fhReset').addEventListener('click',function(){document.querySelectorAll('#fhq input').forEach(function(x){x.checked=false});document.querySelectorAll('#fhq .miss').forEach(function(x){x.classList.remove('miss')});$('fhRes').hidden=true;$('fhMiss').hidden=true});
+})();</script>
 <script>(function(){var r=document.documentElement,b=document.getElementById('theme');function l(){b.setAttribute('aria-label',r.dataset.theme==='dark'?'Switch to light mode':'Switch to dark mode')}l();b.addEventListener('click',function(){r.dataset.theme=r.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('gg-theme',r.dataset.theme)}catch(e){}l()})})();</script>
 </body>
 </html>
