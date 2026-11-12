@@ -193,6 +193,7 @@ section.s{scroll-margin-top:80px}
 .vx-why b{color:var(--ink);font-weight:500}
 .vx-next{margin:8px 0 0!important;font-size:15px}
 .vx-mc{display:inline-block;margin-top:6px;font-size:13.5px}
+.vx-gd{font-weight:600;margin-right:16px}
 .vx-h3{font:600 12px/1.2 "Geist Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);margin:20px 2px 10px}
 .vx-foot{font-size:14px;color:var(--soft);margin:14px 2px 0!important}
 .vx-where{border-collapse:collapse;width:100%;max-width:64ch;font-size:15px}
@@ -396,7 +397,10 @@ function card(v){
   var btns='<div class="vx-st" role="group" aria-label="'+esc(v.n)+': what you have had"><button type="button" data-v="'+v.id+'" data-s=""'+(s===''?' aria-pressed="true"':' aria-pressed="false"')+'>Not yet</button>'+
     v.opts.map(function(o){return '<button type="button" data-v="'+v.id+'" data-s="'+o[0]+'" aria-pressed="'+(s===o[0])+'">'+esc(o[1])+'</button>'}).join('')+'</div>';
   var next=(!isDone&&s&&v.next&&v.next[s])?'<p class="vx-next"><b>Next:</b> '+esc(v.next[s])+'</p>':'';
-  var mc=v.mc?'<a class="vx-mc" href="'+v.mc[1]+'" target="_blank" rel="noopener">Medicare '+v.mc[0]+' covers it ↗</a>':'';
+  var guide=v.u.indexOf('/patients/vaccines/')===0||v.u==='/flu/';
+  var ln=/^(Flu|Shingles|Pneumococcal|Hepatitis B)$/.test(v.n)?v.n.charAt(0).toLowerCase()+v.n.slice(1):v.n;
+  var gl='<a class="vx-mc vx-gd" href="'+v.u+'">'+(guide?'Read my '+esc(ln)+' guide':'More about the '+esc(ln)+' vaccine')+' →</a>';
+  var mc=gl+(v.mc?'<a class="vx-mc" href="'+v.mc[1]+'" target="_blank" rel="noopener">Medicare '+v.mc[0]+' covers it ↗</a>':'');
   return '<div class="vx-card '+(isDone?'done':s?'part':v.lvl)+'"><div class="vx-top"><a class="vx-n" href="'+v.u+'">'+esc(v.n)+'</a>'+
     (isDone?'<span class="vx-b ok">Done</span>':s?'<span class="vx-b ip">In progress</span>':v.lvl==='ask'?'<span class="vx-b ask">Ask us</span>':'')+v.where+'</div>'+
     (isDone?'':'<p class="vx-why">'+esc(v.why)+' '+esc(v.dose)+'</p>'+(v.extra?'<p class="vx-why"><b>'+esc(v.extra)+'</b></p>':'')+next+mc)+btns+'</div>';
