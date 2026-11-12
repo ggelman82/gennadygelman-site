@@ -180,6 +180,10 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 .bmi-j .me{stroke:#c0583b;stroke-width:1.5;stroke-dasharray:4 3}
 .bmi-j .mel{fill:#c0583b;font-weight:600}
 .bmi-jt{font-size:14.5px;margin:6px 0 0}
+.bmi-goal{margin:12px 0 0;padding:12px 14px;border-radius:12px;background:var(--paper);border:1px solid var(--line);font-size:14.5px}
+.bmi-goal ul{margin:6px 0 0;padding:0;list-style:none;display:grid;gap:4px}
+.bmi-goal li b{font-size:16px}
+.bmi-goal li span{color:var(--soft)}
 .bmi-j .cp{fill:none;stroke:var(--faint);stroke-width:2;stroke-opacity:.55;stroke-dasharray:5 4}
 .bmi-leg{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--soft);margin:2px 0 0}
 .bmi-leg span{display:inline-block;width:22px;height:0;border-top:2.5px solid var(--ink)}
@@ -290,6 +294,8 @@ function calc(){
   var ticks=[18.5,ow,ob].concat(asian?[]:[35,40]).map(function(x){return '<span style="left:'+sc(x)+'">'+x+'</span>'}).join('');
   var w=u==='us'?kg/0.45359237:kg,unit=u==='us'?'lb':'kg',r=function(x){return Math.round(x)};
   var tx='';
+  var goals=[ob,ow].filter(function(g){return bmi>g}).map(function(g){var gw=g*m*m*(u==='us'?1/0.45359237:1);return '<li>BMI '+g+': <b>'+r(gw)+' '+unit+'</b> <span>(lose '+r(w-gw)+' '+unit+')</span></li>'});
+  if(goals.length)tx+='<div class="bmi-goal"><b>Goal weights for your height</b><ul>'+goals.join('')+'</ul></div>';
   if(bmi>=ow)tx+='<p><b>Even a little helps.</b> Losing 5% of your weight ('+r(w*0.05)+' '+unit+') to 10% ('+r(w*0.10)+' '+unit+') can lower blood pressure, blood sugar and cholesterol.</p>';
   if(bmi>=27)tx+='<p><b>Medicines</b> for weight loss are approved for a BMI of 30 or higher, or 27 or higher with a weight-related condition such as high blood pressure, type 2 diabetes or high cholesterol.</p>';
   if(asian&&bmi>=27.5)tx+='<p><b>Surgery</b> may be an option for people of Asian descent with a BMI of 27.5 or higher.</p>';
