@@ -4,7 +4,8 @@
 //   node scripts/build-patient-pages.mjs
 //
 // Edit topics, links and descriptions in index.html (PSECTIONS), then re-run this.
-// The vaccines topic is skipped: /patients/vaccines/ is a hand-built page.
+// The vaccines and screening topics are skipped: /patients/vaccines/ and
+// /patients/screening/ are hand-built pages.
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -25,11 +26,11 @@ const data = new Function(
 )();
 const { PSECTIONS, ICONS, ACCENT } = data;
 
-const SHORT = { visit: 'Plan your visit', vaccines: 'Vaccines', sick: 'Feeling sick', weight: 'Weight loss', books: 'Books', ai: 'AI tools', phone: 'Apps' };
+const SHORT = { visit: 'Plan your visit', vaccines: 'Vaccines', screening: 'Cancer screening', sick: 'Feeling sick', weight: 'Weight loss', books: 'Books', ai: 'AI tools', phone: 'Apps' };
 // Shared two-color card icons (also used by the Python-built pages).
 const GLYPHS = JSON.parse(readFileSync(join(ROOT, 'scripts', 'glyphs.json'), 'utf8'));
 const gi = (name, acc) => name && GLYPHS[name] ? `<svg class="gi" viewBox="0 0 48 48" aria-hidden="true" style="--a:${acc}">${GLYPHS[name]}</svg>` : '';
-const SKIP = new Set(['vaccines']);
+const SKIP = new Set(['vaccines', 'screening']);
 
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const strip = s => String(s).replace(/<[^>]+>/g, '');

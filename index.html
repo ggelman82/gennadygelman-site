@@ -454,6 +454,14 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       {n:'Tdap', ic:'shield', d:'Every adult. Every 10 years, and in every pregnancy.', u:B+'/patients/vaccines/tdap/', k:'tdap tetanus diphtheria whooping cough pertussis booster pregnancy wound'},
       {n:'Where to get vaccinated', ic:'pin', d:'Find vaccines near you.', u:'https://www.hhs.gov/vaccines/get-vaccinated/where/index.html', k:'vaccine shot where pharmacy near me'}
     ]},
+    {id:'screening', p:'/patients/screening/', t:'#e2ede6', n:'Cancer screening', isNew:true, i:'Which cancer screenings I recommend, which I don\u2019t, and what to know about multi-cancer blood tests.', items:[
+      {n:'Colon and rectum', ic:'checklist', d:'Ages 45 to 75. Colonoscopy, or a home stool test.', u:B+'/patients/screening/#colon', k:'colon colorectal cancer screening colonoscopy cologuard fit stool test'},
+      {n:'Breast', ic:'checklist', d:'Women 40 to 74. Mammogram every 2 years.', u:B+'/patients/screening/#breast', k:'breast cancer screening mammogram mammography'},
+      {n:'Cervical', ic:'checklist', d:'Ages 21 to 65. Pap test, HPV test, or both.', u:B+'/patients/screening/#cervical', k:'cervical cancer screening pap smear hpv test'},
+      {n:'Lung', ic:'lungs', d:'Ages 50 to 80 with a heavy smoking history. Low-dose CT every year.', u:B+'/patients/screening/#lung', k:'lung cancer screening low dose ct smoking pack years'},
+      {n:'Prostate', ic:'checklist', d:'Men 55 to 69, as a personal decision. PSA blood test.', u:B+'/patients/screening/#prostate', k:'prostate cancer screening psa'},
+      {n:'Multi-cancer blood tests', ic:'flask', d:'Galleri, Cancerguard and similar tests: where they stand.', u:B+'/patients/screening/#blood-tests', k:'galleri cancerguard multi-cancer blood test liquid biopsy mced'}
+    ]},
     {id:'sick', p:'/patients/sick/', t:'#f6e9e4', n:'Feeling sick', i:'What to do, what helps, and when to get help.', items:[
       {f:true, tint:'var(--blue)', n:'Influenza guide', ic:'thermometer', d:'Prevent it, understand it, know what actually helps.', u:B+'/flu/', k:'flu influenza fever cough cold sick season'},
       {n:'Build your flu comfort plan', ic:'bed', d:'Sleep, fluids, saline, and treating discomfort safely.', u:B+'/flu/#flu-plan', k:'flu comfort plan home care fluids'},
@@ -513,6 +521,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   const ICONS = {
     visit:`<rect x="10" y="9" width="28" height="33" rx="4" class="f"/><rect x="18" y="5" width="12" height="7" rx="2" fill="#fff"/><path d="M16 22l3 3 5-6M16 32l3 3 5-6M28 23h6M28 33h6"/>`,
     vaccines:`<g transform="rotate(-45 24 24)"><rect x="12" y="18" width="21" height="12" rx="2" class="f"/><path d="M33 24h6M39 17v14M3 24h9M17 18v5M22 18v5M27 18v5"/></g>`,
+    screening:`<path d="M24 6l14 5v11c0 9-6 15-14 20-8-5-14-11-14-20V11z" class="f"/><circle cx="22" cy="22" r="6" fill="#fff"/><path d="M26.5 26.5L32 32"/>`,
     sick:`<path d="M20 9a4 4 0 0 1 8 0v20a8 8 0 1 1-8 0z" fill="#fff"/><circle cx="24" cy="35" r="4.5" class="f"/><path d="M24 31V17M29 14h3M29 19h3M29 24h3"/>`,
     weight:`<rect x="8" y="9" width="32" height="31" rx="7" class="f"/><path d="M15 23a9 9 0 0 1 18 0M24 23l4-6"/><circle cx="24" cy="23" r="1.2" fill="currentColor"/>`,
     books:`<path d="M24 15c-5-4-11-4-16-2v24c5-2 11-2 16 2z" class="f"/><path d="M24 15c5-4 11-4 16-2v24c-5-2-11-2-16 2zM24 15v24"/>`,
@@ -534,7 +543,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     words:`<path d="M8 10h32a3 3 0 0 1 3 3v17a3 3 0 0 1-3 3H22l-8 7v-7H8a3 3 0 0 1-3-3V13a3 3 0 0 1 3-3z" class="f"/><path d="M13 18h22M13 23h16M13 28h10"/>`,
     kilo:`<rect x="7" y="10" width="34" height="31" rx="4" class="f"/><path d="M7 18h34M16 6v8M32 6v8M17 26l3-2v12M27 24v12M27 31l6-7M29 29l4 7"/>`
   });
-  const ACCENT = {words:'#8a5a1c', kilo:'#5b3fa0',cv:'#c0583b', lab:'#3e6f8f', raf:'#3b54c4', imm:'#2f6b48', ad:'#5b3fa0', dm:'#b0457a', share:'#0e1734', lib:'#8a5a1c', pbooks:'#4f7d32',visit:'#2f6b48', vaccines:'#3b54c4', sick:'#c0583b', weight:'#4f7d32', books:'#8a5a1c', ai:'#5b3fa0', phone:'#3e6f8f'};
+  const ACCENT = {words:'#8a5a1c', kilo:'#5b3fa0',cv:'#c0583b', lab:'#3e6f8f', raf:'#3b54c4', imm:'#2f6b48', ad:'#5b3fa0', dm:'#b0457a', share:'#0e1734', lib:'#8a5a1c', pbooks:'#4f7d32',visit:'#2f6b48', vaccines:'#3b54c4', screening:'#2f6b48', sick:'#c0583b', weight:'#4f7d32', books:'#8a5a1c', ai:'#5b3fa0', phone:'#3e6f8f'};
   const icon = id => `<svg class="ic" viewBox="0 0 48 48" aria-hidden="true" style="--a:${ACCENT[id]}">${ICONS[id]||''}</svg>`;
 
   function renderPatientSections(){
@@ -669,6 +678,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     {n:'COVID-19 vaccine', u:SB+'/patients/vaccines/covid/'},
     {n:'Tdap vaccine', u:SB+'/patients/vaccines/tdap/'},
     {n:'Flu comfort plan', u:SB+'/flu/#flu-plan'},
+    {n:'Cancer screening', u:SB+'/patients/screening/'},
     {n:'Weight loss guide', u:SB+'/patients/weight/'},
     {n:'AI tools I recommend', u:SB+'/patients/ai/'},
     {n:'Plants Are Your Friends', u:'https://plants-chat-663367173026.us-east1.run.app/'},
