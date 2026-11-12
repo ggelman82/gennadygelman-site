@@ -290,6 +290,10 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 .bmi-j .me{stroke:#c0583b;stroke-width:1.5;stroke-dasharray:4 3}
 .bmi-j .mel{fill:#c0583b;font-weight:600}
 .bmi-jt{font-size:14.5px;margin:6px 0 0}
+.bmi-j .cp{fill:none;stroke:var(--faint);stroke-width:2;stroke-opacity:.55;stroke-dasharray:5 4}
+.bmi-leg{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--soft);margin:2px 0 0}
+.bmi-leg span{display:inline-block;width:22px;height:0;border-top:2.5px solid var(--ink)}
+.bmi-leg .k2{border-top:2px dashed var(--faint);margin-left:10px}
 @media (max-width:640px){.bmi-j svg{font-size:19px}}
 .bmi-more{margin-top:10px;font-size:14.5px;color:var(--soft)}
 .bmi-more summary{cursor:pointer;color:var(--ink);font-weight:500;padding:6px 0}
@@ -325,7 +329,7 @@ const BMI_HTML = `<section class="bmi" id="bmi" aria-labelledby="bmiH">
 <p>BMI is weight compared with height. It is a quick screening number, not a diagnosis. It cannot tell muscle from fat, so it can overestimate in very muscular people and underestimate in older adults who have lost muscle. It does not apply in pregnancy. For children and teens, BMI is compared with others of the same age and sex instead; ask us.</p>
 <p>Where you carry weight matters too. A waist over 40 inches in men, or over 35 inches in women, raises the risk of diabetes and heart disease even at the same BMI.</p>
 <p>For people of Asian descent, health risks start at a lower BMI, so the check box above switches to Asian cut-offs: overweight from 23 and obesity from 27.5.</p>
-<p>The risk curve comes from the Global BMI Mortality Collaboration (<a href="https://pubmed.ncbi.nlm.nih.gov/27423262/">Lancet, 2016</a>): almost 4 million adults on four continents who never smoked and had no major illness at the start, followed for about 14 years. Each point compares the risk of dying from any cause during that time with people at a BMI of 22.5 to 25. The curve is the study\u2019s average for men and women together; the study reported that the rise was steeper in men and in younger people. It shows what happened to groups of people, not a prediction for you.</p>
+<p>The risk curve comes from the Global BMI Mortality Collaboration (<a href="https://pubmed.ncbi.nlm.nih.gov/27423262/">Lancet, 2016</a>): almost 4 million adults on four continents who never smoked and had no major illness at the start, followed for about 14 years. Each point compares the risk of dying from any cause during that time with people at a BMI of 22.5 to 25. The study published results for men and women separately only for a BMI of 30 to 35 (men 1.70, women 1.37) and for the overall rise above 25 (51% vs 30% per 5 points). When you choose man or woman, the curve above a BMI of 25 is our estimate, scaled to match those results; below 25 it is the same for both. The rise was also steeper in younger people. It shows what happened to groups of people, not a prediction for you.</p>
 </details>
 </section>`;
 const BMI_JS = `<script>(function(){
@@ -336,29 +340,41 @@ $('bmiForm').addEventListener('input',calc);
 var GB=[[15,18.5,1.51],[18.5,20,1.13],[20,22.5,1.00],[22.5,25,1.00],[25,27.5,1.07],[27.5,30,1.20],[30,35,1.45],[35,40,1.94],[40,60,2.76]];
 var X0=15,X1=45,W=560,H=230,L=44,R=12,T=14,B=34,Y0=0.8,Y1=3;
 var px=function(x){return L+(Math.min(Math.max(x,X0),X1)-X0)/(X1-X0)*(W-L-R)},py=function(y){return T+(Y1-y)/(Y1-Y0)*(H-T-B)};
-function chart(bmi,cut){
-  var pts=GB.map(function(g){return [g[0]===40?42.5:(g[0]+g[1])/2,g[2]]});
-  var path=pts.map(function(p,i){return (i?'L':'M')+px(p[0]).toFixed(1)+' '+py(p[1]).toFixed(1)}).join(' ');
+// Sex-specific curves: the study published by-sex HRs only for BMI 30-<35 (men 1.70, women 1.37; pooled 1.45).
+// Above BMI 25 the pooled curve is scaled (HR^k) so it passes through those values; below 25 it is unchanged.
+var SEXK={m:Math.log(1.70)/Math.log(1.45),f:Math.log(1.37)/Math.log(1.45)};
+function hrFor(g,sex){if(!sex||g[0]<25)return g[2];if(g[0]===30)return sex==='m'?1.70:1.37;return Math.pow(g[2],SEXK[sex])}
+function chart(bmi,cut,sex){
+  var mk=function(f){return GB.map(function(g){return [g[0]===40?42.5:(g[0]+g[1])/2,f(g)]})};
+  var pts=mk(function(g){return hrFor(g,sex)}),pool=mk(function(g){return g[2]});
+  Y1=Math.max(3,Math.ceil(Math.max.apply(null,pts.map(function(p){return p[1]}))*2)/2);
+  var line=function(a){return a.map(function(p,i){return (i?'L':'M')+px(p[0]).toFixed(1)+' '+py(Math.min(p[1],Y1)).toFixed(1)}).join(' ')};
   var band=GB.filter(function(g){return bmi>=g[0]&&bmi<g[1]})[0];
-  var grid=[1,1.5,2,2.5,3].map(function(y){return '<line x1="'+L+'" x2="'+(W-R)+'" y1="'+py(y)+'" y2="'+py(y)+'" class="g"/><text x="'+(L-8)+'" y="'+(py(y)+4)+'" text-anchor="end">'+(y===1?'1':y+'×')+'</text>'}).join('');
+  var ys=[];for(var yy=1;yy<=Y1+0.01;yy+=(Y1>3?1:0.5))ys.push(yy);
+  var grid=ys.map(function(y){return '<line x1="'+L+'" x2="'+(W-R)+'" y1="'+py(y)+'" y2="'+py(y)+'" class="g"/><text x="'+(L-8)+'" y="'+(py(y)+4)+'" text-anchor="end">'+(y===1?'1':y+'×')+'</text>'}).join('');
   var xt=[15,20,25,30,35,40,45].map(function(x){return '<text x="'+px(x)+'" y="'+(H-B+18)+'" text-anchor="middle">'+x+(x===45?'+':'')+'</text>'}).join('');
   var zone='<rect x="'+px(cut[0])+'" y="'+T+'" width="'+(px(cut[1])-px(cut[0]))+'" height="'+(H-T-B)+'" class="z"/>';
-  var dots=pts.map(function(p){return '<circle cx="'+px(p[0])+'" cy="'+py(p[1])+'" r="3.5" class="d"/>'}).join('');
+  var dots=pts.map(function(p){return '<circle cx="'+px(p[0])+'" cy="'+py(Math.min(p[1],Y1))+'" r="3.5" class="d"/>'}).join('');
   var cx=Math.min(Math.max(bmi,pts[0][0]),pts[pts.length-1][0]),cy=pts[0][1];
   for(var i=1;i<pts.length;i++){if(cx<=pts[i][0]){var t=(cx-pts[i-1][0])/(pts[i][0]-pts[i-1][0]);cy=pts[i-1][1]+t*(pts[i][1]-pts[i-1][1]);break}}
-  dots+='<circle cx="'+px(cx)+'" cy="'+py(cy)+'" r="6.5" class="on"/>';
+  dots+='<circle cx="'+px(cx)+'" cy="'+py(Math.min(cy,Y1))+'" r="6.5" class="on"/>';
   var mx=px(cx);
   var me='<line x1="'+mx+'" x2="'+mx+'" y1="'+T+'" y2="'+(H-B)+'" class="me"/><text x="'+Math.min(Math.max(mx,L+30),W-R-30)+'" y="'+(T+12)+'" text-anchor="middle" class="mel">You</text>';
-  return '<figure class="bmi-j"><figcaption>Risk of dying over about 14 years, compared with a BMI of 22.5 to 25</figcaption><svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="J-shaped curve: risk is lowest at a BMI of 20 to 25 and rises below and above it.'+(band?' Your BMI range had '+band[2].toFixed(2)+' times the risk.':'')+'">'+zone+grid+'<line x1="'+L+'" x2="'+(W-R)+'" y1="'+py(1)+'" y2="'+py(1)+'" class="ref"/><path d="'+path+'" class="c"/>'+dots+me+xt+'<text x="'+((L+W-R)/2)+'" y="'+(H-2)+'" text-anchor="middle">BMI</text></svg></figure>'+
-   (band?'<p class="bmi-jt">'+(band[2]<=1.0001?'People with a BMI in your range ('+band[0]+' to '+band[1]+') had the <b>lowest risk</b> in the study.':'People with a BMI of '+band[0]+' to '+(band[1]===60?'60':band[1])+' had <b>'+band[2].toFixed(2)+' times the risk</b> of dying over the study period, compared with a BMI of 22.5 to 25.')+'</p>':'');
+  var who=sex==='m'?'Men':sex==='f'?'Women':'People';
+  var txt='';
+  if(band){var hr=hrFor(band,sex),est=sex&&band[0]>=25&&band[0]!==30,rng=band[0]+' to '+(band[1]===60?'60':band[1]);
+    txt=hr<=1.0001?who+' with a BMI in your range ('+rng+') had the <b>lowest risk</b> in the study.':
+      who+' with a BMI of '+rng+' had '+(est?'an estimated ':'')+'<b>'+hr.toFixed(2)+' times the risk</b> of dying over the study period, compared with '+(sex?(sex==='m'?'men':'women')+' with a':'a')+' BMI of 22.5 to 25.'}
+  var leg=sex?'<p class="bmi-leg"><span class="k1"></span>'+(sex==='m'?'Men':'Women')+' <span class="k2"></span>Men and women together</p>':'';
+  return '<figure class="bmi-j"><figcaption>Risk of dying over about 14 years, compared with a BMI of 22.5 to 25</figcaption><svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="J-shaped curve: risk is lowest at a BMI of 20 to 25 and rises below and above it.">'+zone+grid+'<line x1="'+L+'" x2="'+(W-R)+'" y1="'+py(1)+'" y2="'+py(1)+'" class="ref"/>'+(sex?'<path d="'+line(pool)+'" class="cp"/>':'')+'<path d="'+line(pts)+'" class="c"/>'+dots+me+xt+'<text x="'+((L+W-R)/2)+'" y="'+(H-2)+'" text-anchor="middle">BMI</text></svg>'+leg+'</figure>'+
+   (txt?'<p class="bmi-jt">'+txt+'</p>':'');
 }
 function sexNote(bmi,sex){
-  if(!sex)return '<p class="bmi-hint">Choose man or woman above to see how the risk differs by sex.</p>';
+  if(!sex)return '<p class="bmi-hint">Choose man or woman above to see the curve for your sex.</p>';
   var m=sex==='m',t='';
-  if(bmi>=25)t+='In '+(m?'men':'women')+', risk rose '+(m?'faster':'more slowly')+' with BMI: about '+(m?'51%':'30%')+' higher for every 5 BMI points above 25 ('+(m?'30% in women':'51% in men')+').';
-  if(bmi>=30&&bmi<35)t+=' Among '+(m?'men':'women')+' aged 35 to 69 with a BMI of 30 to 35, the chance of dying before 70 was about '+(m?'29.5%':'14.6%')+', compared with '+(m?'19%':'11%')+' at a healthy BMI.';
-  if(bmi<25)t+='At most BMIs, men had a higher risk of dying than women.';
-  return '<p class="bmi-jt">'+t+'</p>';
+  if(bmi>=30&&bmi<35)t='Among '+(m?'men':'women')+' aged 35 to 69 with a BMI of 30 to 35, the chance of dying before 70 was about '+(m?'29.5%':'14.6%')+', compared with '+(m?'19%':'11%')+' at a healthy BMI.';
+  else if(bmi>=25)t='Risk rose '+(m?'faster in men':'more slowly in women')+': about '+(m?'51%':'30%')+' higher for every 5 BMI points above 25 ('+(m?'30% in women':'51% in men')+').';
+  return t?'<p class="bmi-jt">'+t+'</p>':'';
 }
 function n(id){var v=parseFloat($(id).value);return isNaN(v)?null:v}
 function calc(){
@@ -385,7 +401,7 @@ function calc(){
    '<div class="bmi-bar" aria-hidden="true" style="background:'+grad+'"><i style="left:'+pos+'%"></i></div><div class="bmi-scale" aria-hidden="true">'+ticks+'</div>'+tx+
    (bmi>=ow?'<p class="bmi-hint">The resources below can help. Bring your number to your next visit and we can talk about what fits you.</p>':'');
   var sx=document.querySelector('input[name="bmiSex"]:checked');
-  $('bmiJ').innerHTML=chart(bmi,[20,25])+sexNote(bmi,sx?sx.value:'');
+  $('bmiJ').innerHTML=chart(bmi,[20,25],sx?sx.value:'')+sexNote(bmi,sx?sx.value:'');
 }
 })();</script>`;
 const page = sec => {
