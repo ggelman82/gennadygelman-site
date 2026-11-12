@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Memory and brain health - Gennady Gelman</title>
+<meta name="description" content="Normal aging or something more, how we check memory, 14 ways to lower dementia risk, new treatments, and help for caregivers.">
+<script>try{if('scrollRestoration' in history)history.scrollRestoration='manual'}catch(e){}</script><script>(function(){var t=null;try{t=localStorage.getItem('gg-theme')}catch(e){}if(!t)t=(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light';document.documentElement.dataset.theme=t})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0e1734;--soft:#5a6383;--faint:#8a91a8;--paper:#f7f8fb;--surface:#fff;--line:rgba(14,23,52,.12);--line-2:rgba(14,23,52,.07);
+--accent:#3b54c4;--tint:#e7ecf6;--bar:#0e1734;--good:#2f6b48;--good-tint:#e2ede6;--warn:#8a5a1c;--warn-tint:#f3eee5;--stop:#c0583b;--stop-tint:#f6e9e4;color-scheme:light}
+:root[data-theme="dark"]{--ink:#e7eaf3;--soft:#a6aec6;--faint:#7f88a5;--paper:#0a0f1e;--surface:#131a2e;--line:rgba(231,234,243,.14);--line-2:rgba(231,234,243,.08);
+--accent:#93a6ff;--tint:#1b2340;--bar:#060a15;--good:#8fd0a8;--good-tint:#18291f;--warn:#e0b070;--warn-tint:#2e2618;--stop:#ff8a6b;--stop-tint:#2e1c18;color-scheme:dark}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Geist,system-ui,sans-serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+.wrap{max-width:900px;margin:0 auto;padding:0 clamp(16px,4vw,32px)}
+header.top{position:sticky;top:0;z-index:20;background:var(--bar);color:#fff}
+.top .wrap{max-width:1080px;display:flex;align-items:center;gap:18px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;font-weight:600;font-size:15px;white-space:nowrap}
+.mark{width:30px;height:30px;border-radius:50%;border:1.5px solid rgba(255,255,255,.75);display:grid;place-items:center;font-size:11px}
+.top nav{margin-left:auto;display:flex;gap:18px;align-items:center}
+.top nav a{color:#fff;text-decoration:none;font-size:14px;opacity:.85}.top nav a:hover{opacity:1;text-decoration:underline;text-underline-offset:4px}
+.theme{all:unset;cursor:pointer;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(255,255,255,.35)}
+.theme svg{width:18px;height:18px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round}.theme .moon{display:none}
+:root[data-theme="dark"] .theme .moon{display:block}:root[data-theme="dark"] .theme .sun{display:none}
+@media (max-width:440px){.bn{display:none}}
+.vnav{border-bottom:1px solid var(--line-2);background:var(--paper)}
+.vnav ul{list-style:none;margin:0 auto;padding:12px clamp(16px,4vw,32px);max-width:1080px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+.vnav ul::-webkit-scrollbar{display:none}
+.vnav a{display:block;white-space:nowrap;text-decoration:none;font-size:14px;padding:6px 13px;border-radius:999px;border:1px solid var(--line);color:var(--soft);background:var(--surface)}
+.vnav a:hover{color:var(--ink)}.vnav a[aria-current="page"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.hero{padding:clamp(34px,6vw,60px) 0 10px}
+.eyebrow{font-family:"Geist Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:0 0 12px}
+h1{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:clamp(46px,8vw,78px);line-height:1;letter-spacing:-.025em;margin:0}
+.lede{color:var(--soft);font-size:clamp(17px,2vw,19.5px);max-width:58ch;margin:18px 0 0}
+.glance{margin:30px 0 8px;display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line);border-radius:18px;background:var(--surface);overflow:hidden}
+@media (max-width:680px){.glance{grid-template-columns:1fr}}
+.glance div{padding:18px 20px;border-right:1px solid var(--line-2)}
+.glance div:last-child{border-right:0}
+@media (max-width:680px){.glance div{border-right:0;border-bottom:1px solid var(--line-2)}.glance div:last-child{border-bottom:0}}
+.glance .big{display:block;font-family:Newsreader,Georgia,serif;font-size:clamp(34px,5vw,44px);line-height:1;letter-spacing:-.02em;color:var(--accent)}
+.glance span:last-child{display:block;margin-top:8px;font-size:14.5px;color:var(--soft);line-height:1.45}
+.srcline{font-size:12.5px;color:var(--faint);margin:6px 2px 0}
+section.s{padding:clamp(30px,5vw,46px) 0;border-bottom:1px solid var(--line)}
+.num{font-family:"Geist Mono",monospace;font-size:12px;color:var(--faint)}
+section.s h2{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:clamp(28px,4vw,38px);line-height:1.1;letter-spacing:-.01em;margin:6px 0 14px}
+section.s p{margin:0 0 14px;max-width:64ch}
+h3.sub{font:600 12px/1.2 "Geist Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);margin:22px 0 10px}
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:18px 0 6px}
+@media (max-width:640px){.cards{grid-template-columns:1fr}}
+.card,section.s{scroll-margin-top:80px}
+.card{display:flex;flex-direction:column;gap:8px;padding:18px 20px;border-radius:18px;background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--good)}
+.card .nm{font-family:Newsreader,Georgia,serif;font-size:27px;line-height:1.05}
+.card dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:15px}
+.card dt{font:500 11px/1.9 "Geist Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+.card dd{margin:0}
+.card .stats{display:flex;gap:16px;flex-wrap:wrap;margin-top:4px;padding-top:10px;border-top:1px dashed var(--line);font-size:13.5px;color:var(--soft)}
+.card .stats b{color:var(--ink);font-weight:600}
+.card .go{margin-top:auto;font-size:14px;color:var(--faint)}
+.note{background:var(--surface);border:1px dashed var(--line);border-radius:14px;padding:14px 16px;font-size:15px;color:var(--soft);max-width:64ch}
+.note b{color:var(--ink)}
+.callout{border-radius:18px;padding:20px 22px;background:var(--tint);max-width:64ch}
+.callout p:last-child{margin-bottom:0}
+.no{list-style:none;padding:0;margin:0 0 6px;display:grid;gap:8px;max-width:64ch}
+.no li{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--stop);border-radius:12px;padding:12px 16px;font-size:15.5px}
+.no.i li{border-left-color:var(--warn)}
+.no b{display:block;font-size:16px}
+.no span{color:var(--soft)}
+.jpp{display:inline-block;margin-left:2px;font-size:14px;font-weight:500;white-space:nowrap}
+.prev{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0 0}
+@media (max-width:640px){.prev{grid-template-columns:1fr}}
+.prev>div{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:14px;padding:16px 18px}
+.prev>div.sugg{border-style:dashed;border-left-style:solid;border-left-color:var(--faint)}
+.prev b{display:block;font-size:16.5px;margin-bottom:4px;line-height:1.3}
+.prev>div>span{color:var(--soft);font-size:15px}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+@media (max-width:640px){.facts{grid-template-columns:1fr}}
+.facts div{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px 18px}
+.facts b{display:block;font-size:16px;margin-bottom:4px}
+.facts span{color:var(--soft);font-size:15px}
+.sources{padding:30px 0 10px}
+.sources h2{font-family:"Geist Mono",monospace;font-weight:500;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:0 0 10px}
+.sources ul{margin:0;padding-left:20px;font-size:14.5px;color:var(--soft)}
+.sources li{padding:3px 0}
+.disclaim{border-top:1px solid var(--line);margin-top:20px;padding:22px 0 50px;font-size:14px;color:var(--soft)}
+.disclaim p{margin:0 0 6px}
+footer{background:var(--bar);color:rgba(255,255,255,.85);font-size:13px}
+footer .wrap{max-width:1080px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;padding-top:24px;padding-bottom:24px}
+footer a{color:inherit;text-decoration:none}
+@media print{header.top,.vnav,footer,.theme{display:none}body{background:#fff;color:#000}}
+.fh{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:clamp(18px,3vw,26px);max-width:760px}
+.fh-k{font-family:Newsreader,Georgia,serif;font-size:25px;line-height:1.15;margin:0 0 8px!important}
+.fh-i,.fh-def{font-size:15.5px;color:var(--soft)}
+.fh-def b{color:var(--ink)}
+.fh-hint{font-size:14px;color:var(--faint);margin:-4px 0 10px!important}
+.fh-rows{display:grid;gap:6px}
+.fh-row{display:grid;grid-template-columns:1fr auto;gap:8px 14px;align-items:center;padding:10px 12px;border-radius:12px;background:var(--paper);border:1px solid var(--line-2)}
+.fh-row.miss,.fh-q.miss{border-color:var(--stop)}
+.fh-row .lbl{font-size:15.5px;font-weight:500}
+.fh-tg{display:flex;gap:6px;flex-wrap:wrap}
+.fh-tg label{position:relative;cursor:pointer}
+.fh-tg input,.fh-opt input{position:absolute;opacity:0;width:1px;height:1px}
+.fh-tg span{display:block;font-size:14px;padding:5px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--soft);white-space:nowrap}
+.fh-tg input:checked+span{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.fh-tg input:focus-visible+span,.fh-opt:focus-within{outline:3px solid var(--accent);outline-offset:2px}
+@media (max-width:620px){.fh-row{grid-template-columns:1fr}}
+.fh-q{border:1px solid var(--line-2);border-radius:14px;margin:18px 0 0;padding:14px 16px;background:var(--paper)}
+.fh-q legend{font-weight:500;font-size:15.5px;padding:0 4px;max-width:62ch}
+.fh-q legend span{display:block;font-weight:400;font-size:14px;color:var(--soft);margin-top:2px}
+.fh-opt{position:relative;display:inline-flex;align-items:center;gap:8px;margin:8px 8px 0 0;padding:7px 14px;border-radius:12px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-size:14.5px;line-height:1.35}
+.fh-opt:has(input:checked){background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.fh-act{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0 0}
+.fh-btn{font:600 15px Geist,system-ui,sans-serif;padding:10px 18px;border-radius:999px;border:1px solid var(--ink);background:var(--ink);color:var(--paper);cursor:pointer}
+.fh-btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.fh-miss{color:var(--stop);font-size:14.5px;margin:12px 0 0!important}
+.fh-res{margin-top:18px;border-radius:16px;padding:18px 20px}
+.fh-res.pos{background:var(--warn-tint);border-left:4px solid var(--warn)}
+.fh-res.neg{background:var(--good-tint);border-left:4px solid var(--good)}
+.fh-res h4{margin:0 0 6px;font-size:18px}
+.fh-res p{margin:0 0 10px!important}
+.fh-res ul{margin:0 0 12px;padding-left:20px;font-size:15px}
+@media print{.fh-act,.fh-hint{display:none}}
+.prev>div{scroll-margin-top:80px}
+.pi{display:block;width:38px;height:38px;margin:0 0 8px;color:var(--ink);fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.pi .f,.ri .f{fill:var(--a);fill-opacity:.45}
+:root[data-theme="dark"] .pi .f,:root[data-theme="dark"] .ri .f{fill-opacity:.8}
+.risks{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:8px 0 2px}
+.risks .rl{font:500 11px/1 "Geist Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);font-style:normal;margin-right:2px}
+.rk{display:inline-flex;align-items:center;gap:5px;padding:3px 10px 3px 5px;border-radius:999px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:13px;font-weight:500;text-decoration:none;line-height:1.4}
+.rk:hover{border-color:var(--ink)}
+.ri{width:20px;height:20px;flex:none;color:var(--ink);fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.note .risks{margin-top:10px}
+div.note{margin:0 0 14px}
+.tablewrap{overflow-x:auto;margin:16px 0 18px;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
+table.ag{width:100%;border-collapse:collapse;font-size:15px}
+table.ag th{text-align:left;font:600 12px/1.3 "Geist Mono",monospace;letter-spacing:.08em;text-transform:uppercase;padding:12px 16px;border-bottom:1px solid var(--line)}
+table.ag th:first-child{color:var(--good)}table.ag th:last-child{color:var(--warn)}
+table.ag td{padding:11px 16px;border-bottom:1px solid var(--line-2);vertical-align:top;width:50%}
+table.ag tr:last-child td{border-bottom:0}
+table.ag td:first-child{color:var(--soft)}
+@media (max-width:560px){table.ag thead{display:none}table.ag tr{display:block;border-bottom:1px solid var(--line)}table.ag tr:last-child{border-bottom:0}table.ag td{display:block;width:auto;border:0;padding:8px 16px}table.ag td:first-child{padding-top:12px}table.ag td:first-child:before{content:"Normal: ";font-weight:600;color:var(--good)}table.ag td:last-child{padding-bottom:12px}table.ag td:last-child:before{content:"Bring it up: ";font-weight:600;color:var(--warn)}}
+.bt{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:clamp(18px,3vw,26px);margin:18px 0 6px}
+.bt-k{font-family:Newsreader,Georgia,serif;font-size:25px;line-height:1.15;margin:0 0 6px!important}
+.bt-i{font-size:15.5px;color:var(--soft)}
+.bt-who{border:0;padding:0;margin:0 0 12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.bt-who legend{font-size:14.5px;color:var(--soft);padding:0;margin:0 0 8px;float:left;width:100%}
+.bt-chip,.cg-chip{position:relative;display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:var(--paper);cursor:pointer;font-size:14.5px;color:var(--ink)}
+.bt-chip input{position:absolute;opacity:0;width:1px;height:1px}
+.bt-chip:has(input:checked){background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.bt-chip:focus-within,.cg-chip:focus-visible,.bt-row:focus-within{outline:3px solid var(--accent);outline-offset:2px}
+.bt-list{display:grid;gap:6px}
+.bt-row{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;border-radius:12px;background:var(--paper);border:1px solid var(--line-2);cursor:pointer;font-size:15.5px;line-height:1.45}
+.bt-row input{margin:3px 0 0;width:18px;height:18px;flex:none;accent-color:var(--ink)}
+.bt-row:has(input:checked){border-color:var(--ink)}
+.bt-row .pc{margin-left:auto;font:500 12px/1.9 "Geist Mono",monospace;color:var(--faint);white-space:nowrap;padding-left:8px}
+.bt-row small{display:block;color:var(--faint);font-size:13px;margin-top:1px}
+.bt-res{margin-top:16px}
+.bt-res:empty{display:none}
+.bt-box{border-radius:16px;padding:16px 20px}
+.bt-box.ok{background:var(--good-tint);border-left:4px solid var(--good)}
+.bt-box.mid{background:var(--warn-tint);border-left:4px solid var(--warn)}
+.bt-box.hi{background:var(--stop-tint);border-left:4px solid var(--stop)}
+.bt-box h4{margin:0 0 6px;font-size:18px}
+.bt-box p{margin:0 0 8px!important}.bt-box p:last-child{margin-bottom:0!important}
+.bt-box ul{margin:6px 0 4px;padding-left:20px;font-size:15px}
+.bt-box li{padding:3px 0}
+.rk-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+@media (max-width:680px){.rk-grid{grid-template-columns:1fr}}
+.rk-life{font:500 11px/1 "Geist Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);grid-column:1/-1;margin:10px 2px 2px}
+.rk-life:first-child{margin-top:0}
+.acts{display:grid;gap:8px;margin:10px 0 4px}
+.act{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-size:15px}
+.act b{display:block}
+.act span{color:var(--soft)}
+.cg-chips{display:flex;flex-wrap:wrap;gap:8px}
+.cg-chip{font:inherit;font-size:14.5px}
+.cg-chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.cg-out{display:grid;gap:10px;margin-top:16px}
+.cg-out:empty{display:none}
+.cg-h{font:600 12px/1.2 "Geist Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);margin:8px 0 0}
+.cg-r{background:var(--paper);border:1px solid var(--line-2);border-left:4px solid var(--accent);border-radius:12px;padding:12px 16px;font-size:15px}
+.cg-r b{display:block;font-size:16px}
+.cg-r span{color:var(--soft)}
+.cg-r .ln{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:6px;font-size:14.5px;font-weight:500}
+.cg-r.ma{border-left-color:var(--good)}
+.steps{margin:14px 0 16px;padding-left:22px;max-width:64ch}
+.steps li{padding:5px 0}
+.urgent{background:var(--stop-tint);border-left:4px solid var(--stop);border-radius:14px;padding:14px 18px;font-size:15px;max-width:64ch;margin:14px 0 0}
+@media print{.cg-chips{display:none}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="brand" href="/"><span class="mark">GG</span><span class="bn">Gennady Gelman, MD</span></a>
+<nav><a href="/">Home</a><a href="/#patient">For patients</a><a href="/#about">About</a></nav>
+<button class="theme" id="theme" type="button" aria-label="Switch to dark mode"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></button>
+</div></header>
+<nav class="vnav" aria-label="Patient topics"><ul><li><a href="/patients/visit/">Plan your visit</a></li><li><a href="/patients/vaccines/">Vaccines</a></li><li><a href="/patients/screening/">Cancer screening</a></li><li><a href="/patients/memory/" aria-current="page">Memory</a></li><li><a href="/patients/sick/">Feeling sick</a></li><li><a href="/patients/weight/">Weight loss</a></li><li><a href="/patients/books/">Books</a></li><li><a href="/patients/ai/">AI tools</a></li><li><a href="/patients/apps/">Apps</a></li></ul></nav>
+
+
+<main class="wrap">
+<div class="hero">
+<p class="eyebrow">For my patients</p>
+<h1>Memory and brain health</h1>
+<p class="lede">Some forgetfulness is a normal part of getting older. Some is not, and finding it early matters. Here is how to tell the difference, how we check memory, what you can do to lower your risk, and where families can find help.</p>
+</div>
+
+<div class="glance">
+<div><span class="big">7.4 million</span><span>Americans 65 and older living with Alzheimer's disease in 2026, about 1 in 9</span></div>
+<div><span class="big">45%</span><span>of dementia worldwide may be prevented or delayed by tackling 14 risk factors</span></div>
+<div><span class="big">13 million</span><span>Americans caring, unpaid, for someone with dementia</span></div>
+</div>
+<p class="srcline">Alzheimer's Association, 2026 Facts and Figures; Lancet Commission on dementia, 2024</p>
+
+<section class="s" id="signs" aria-labelledby="sgH">
+<span class="num">01</span>
+<h2 id="sgH" data-toc="Normal aging or more?">Normal aging, or something more?</h2>
+<p>Everyone forgets things. What matters is a change from how you used to be, and whether it gets in the way of daily life. Family members often notice before the person does.</p>
+<div class="tablewrap"><table class="ag">
+<thead><tr><th scope="col">Usually normal aging</th><th scope="col">Worth bringing up with us</th></tr></thead>
+<tbody>
+<tr><td>Forgetting a name, then remembering it later</td><td>Forgetting recent conversations or events, asking the same question again and again</td></tr>
+<tr><td>Sometimes searching for the right word</td><td>Often losing words, or losing track of a conversation</td></tr>
+<tr><td>Misplacing keys and retracing your steps to find them</td><td>Putting things in odd places, or thinking someone took them</td></tr>
+<tr><td>Missing a bill payment once</td><td>Trouble keeping up with bills, a recipe or a plan you used to handle easily</td></tr>
+<tr><td>Forgetting the date, then working it out</td><td>Losing track of the season or year, or getting lost in a familiar place</td></tr>
+<tr><td>Needing help with a new phone or app</td><td>Trouble with familiar tasks, like driving a known route or using the microwave</td></tr>
+<tr><td>Making a bad decision now and then</td><td>New poor judgment with money, or falling for scams</td></tr>
+<tr><td>Feeling tired of busy social plans</td><td>Pulling away from hobbies and people, or new changes in mood or personality</td></tr>
+</tbody></table></div>
+
+<p class="urgent"><b>Sudden confusion is different.</b> Confusion that comes on over hours or days, or comes with weakness, trouble speaking or a drooping face, needs care right away. Call <a href="tel:911">911</a> for stroke signs. Infections and medicine side effects can also cause sudden confusion, especially in older adults.</p>
+<div class="bt" id="signTool">
+<p class="bt-k">Quick self-check</p>
+<p class="bt-i">Check anything that is new in the past year or two, for you or for someone you care about. Nothing you check is saved or sent.</p>
+<fieldset class="bt-who"><legend>Who are you checking for?</legend>
+<label class="bt-chip"><input type="radio" name="sgWho" value="me" checked> Myself</label>
+<label class="bt-chip"><input type="radio" name="sgWho" value="them"> Someone I care about</label>
+</fieldset>
+<div class="bt-list" id="sgList"></div>
+<div class="bt-res" id="sgRes" aria-live="polite"></div>
+</div>
+</section>
+
+<section class="s" id="check" aria-labelledby="ckH">
+<span class="num">02</span>
+<h2 id="ckH" data-toc="How we check memory">How we check memory</h2>
+<p>Memory checks are part of your Medicare Annual Wellness Visit, and we can do one any time you or your family are worried. We use a short tablet check from Linus Health, a Boston company.</p>
+<div class="facts">
+<div><b>What you do</b><span>You hear three words and repeat them. You draw a clock on an iPad with a digital pen, then copy one from a picture. Then you try to recall the three words. A short set of questions about your health and habits follows.</span></div>
+<div><b>How long it takes</b><span>The memory part takes about 3 minutes. With the questions, the whole check takes under 10 minutes, often while you wait for your visit.</span></div>
+<div><b>Why a digital clock</b><span>The tablet records not just the finished drawing but how you drew it: pauses, order and speed. That can pick up small changes that a paper test misses.</span></div>
+<div><b>What it is not</b><span>It is not a diagnosis. A result that is not normal means we look more closely. A normal result does not rule everything out, so tell us if you keep noticing changes.</span></div>
+</div>
+</section>
+
+<section class="s" id="next" aria-labelledby="nxH">
+<span class="num">03</span>
+<h2 id="nxH" data-toc="If the check is not normal">If the check is not normal</h2>
+<p>Many things besides dementia can affect memory, and some are very treatable. We start by looking for those.</p>
+<ul class="steps">
+<li><b>Look for treatable causes.</b> We review your medicines (some sleep, allergy and bladder pills affect memory) and check blood tests such as thyroid and vitamin B12. We ask about depression, sleep, hearing, vision and alcohol.</li>
+<li><b>Do a longer memory test.</b> A longer test, such as the MoCA, looks at memory, attention, language and planning in more detail.</li>
+<li><b>Consider a brain scan or blood test.</b> An MRI or CT can look for strokes and other causes. For people 55 and older with memory symptoms, newer FDA-cleared blood tests (pTau217) can show whether Alzheimer's changes are likely. These blood tests are not for people without symptoms.</li>
+<li><b>See a specialist if needed.</b> A neurologist or memory clinic can confirm the diagnosis and talk about treatment.</li>
+</ul>
+<p class="note"><b>Why find it early?</b> Early diagnosis lets you treat what can be treated, plan legal and money matters while you can make your own choices, and, for Alzheimer's, consider newer medicines that only help in the early stages.</p>
+</section>
+
+<section class="s" id="risk" aria-labelledby="rkH">
+<span class="num">04</span>
+<h2 id="rkH" data-toc="Lower your risk">Lower your risk</h2>
+<p>In 2024 an international group of experts, the Lancet Commission on dementia, named 14 things that raise the risk of dementia and can be changed. Together, they may account for nearly half of all dementia. It is never too early or too late to start.</p>
+<div class="bt" id="riskTool">
+<p class="bt-k">Your risk checklist</p>
+<p class="bt-i">Check any that apply to you. You will see what to do about each one. The percentage is how much of dementia worldwide each factor accounts for. Nothing you check is saved or sent.</p>
+<div class="rk-grid" id="rkList"></div>
+<div class="bt-res" id="rkRes" aria-live="polite"></div>
+</div>
+</section>
+
+<section class="s" id="treat" aria-labelledby="trH">
+<span class="num">05</span>
+<h2 id="trH" data-toc="Treatments">Treatments</h2>
+<div class="facts">
+<div><b>Medicines for symptoms</b><span>Donepezil, rivastigmine, galantamine and memantine can help memory and daily function a little for a while in some people. They do not change the course of the disease.</span></div>
+<div><b>Newer Alzheimer's medicines</b><span>Lecanemab (Leqembi) and donanemab (Kisunla) remove amyloid, a protein that builds up in the brain in Alzheimer's. In studies they slowed decline by roughly a quarter to a third. They are only for early Alzheimer's with confirmed amyloid.</span></div>
+<div><b>The trade-offs</b><span>They can cause brain swelling or small bleeds, so you need regular MRI scans, and the risk is higher with a gene called APOE4. Leqembi can now be given as a weekly shot at home instead of infusions. Medicare covers both for people who qualify.</span></div>
+<div><b>Living well with dementia</b><span>Exercise, social connection, treating hearing loss, good sleep, and support for caregivers all improve daily life, whatever the cause.</span></div>
+</div>
+</section>
+
+<section class="s" id="care" aria-labelledby="cgH">
+<span class="num">06</span>
+<h2 id="cgH" data-toc="Help for caregivers">Help for caregivers</h2>
+<p>Caring for someone with dementia is hard, and you do not have to do it alone. Pick what you need help with.</p>
+<div class="bt" id="careTool">
+<div class="cg-chips" role="group" aria-label="What do you need help with?" id="cgChips"></div>
+<div class="cg-out" id="cgOut" aria-live="polite"></div>
+</div>
+<p class="note" style="margin-top:14px">Tell us how you are doing, too. Caregivers have higher rates of depression, poor sleep and health problems of their own. Taking care of yourself is part of taking care of them.</p>
+</section>
+
+<section class="sources" aria-labelledby="srcH">
+<h2 id="srcH" data-toc-skip>Sources</h2>
+<ul>
+<li><a href="https://www.alz.org/facts">Alzheimer's Association: 2026 Alzheimer's Disease Facts and Figures</a></li>
+<li><a href="https://doi.org/10.1016/S0140-6736(24)01296-0">Livingston G, et al. Dementia prevention, intervention, and care: 2024 report of the Lancet standing Commission</a></li>
+<li><a href="https://www.annfammed.org/content/23/3/191">Feasibility of a digital cognitive assessment (Linus Health Core Cognitive Evaluation) in primary care, Annals of Family Medicine 2025</a></li>
+<li><a href="https://formative.jmir.org/2025/1/e66695">Digital assessment of cognitive health in outpatient primary care (UMass Chan), JMIR Formative Research 2025</a></li>
+<li><a href="https://www.alz.org/alzheimers-dementia/treatments/lecanemab-leqembi">Alzheimer's Association: lecanemab (Leqembi)</a></li>
+<li><a href="https://www.cms.gov/files/document/guide-model-overview-fs.pdf">CMS: GUIDE dementia care model overview</a></li>
+</ul>
+</section>
+
+<div class="disclaim">
+<p>Educational information from Gennady Gelman, MD, not medical advice for you. Your own clinician can tell you what fits your health and history. Last reviewed November 2026.</p>
+<p>In an emergency, call <a href="tel:911">911</a>. For a mental health crisis, call or text <a href="tel:988">988</a>.</p>
+</div>
+</main>
+<footer><div class="wrap"><span>© 2026 Gennady Gelman · Personal site, not affiliated with any employer.</span><a href="mailto:me@gennadygelman.com">me@gennadygelman.com</a></div></footer>
+<script>(function(){
+var $=function(i){return document.getElementById(i)};
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+
+/* 1. Warning-sign self-check */
+var SIGNS=[
+ ['recent','Forgetting recent conversations or events, or asking the same question again and again',1],
+ ['plan','New trouble planning, following a recipe or keeping track of bills',0],
+ ['task','Trouble with familiar tasks at home, at work or while driving',0],
+ ['time','Losing track of the date, season or year',0],
+ ['lost','Getting lost in a familiar place',1],
+ ['see','New trouble judging distance, reading or telling colors apart (not explained by eyesight)',0],
+ ['words','Losing words, or stopping in the middle of a conversation',0],
+ ['place','Putting things in odd places and not being able to retrace steps',0],
+ ['judge','Poor judgment with money, scams or personal care',1],
+ ['away','Pulling away from work, hobbies or friends',0],
+ ['mood','Changes in mood or personality: more confused, suspicious, anxious or easily upset',0],
+ ['others','Friends or family have said they are worried',0]
+];
+$('sgList').innerHTML=SIGNS.map(function(s){return '<label class="bt-row"><input type="checkbox" value="'+s[0]+'"><span>'+esc(s[1])+'</span></label>'}).join('');
+function sg(){
+  var who=(document.querySelector('input[name="sgWho"]:checked')||{}).value||'me',them=who==='them';
+  var on=SIGNS.filter(function(s){var x=document.querySelector('#sgList input[value="'+s[0]+'"]');return x&&x.checked});
+  var n=on.length,red=on.some(function(s){return s[2]}),r=$('sgRes');
+  if(!n){r.innerHTML='';return}
+  var cls,h,p;
+  if(n>=3||red){cls='mid';h=them?'Bring them in for a memory check':'Make an appointment for a memory check';
+    p=them?'What you checked is worth looking into. Help them book a visit, and come along if they are willing. What you have noticed is one of the most useful parts of the evaluation.':'What you checked is worth looking into. Book a visit just for this, rather than adding it to the end of another visit, and bring someone who knows you well if you can.'}
+  else{cls='ok';h='Mention it at your next visit';
+    p=them?'One or two changes are often normal, but they are worth mentioning. Encourage them to bring it up at their next visit, or their Medicare Annual Wellness Visit.':'One or two changes are often normal, but they are worth mentioning. Bring it up at your next visit, or your Medicare Annual Wellness Visit.'}
+  r.innerHTML='<div class="bt-box '+cls+'"><h4>'+h+'</h4><p>'+p+'</p><p>Many causes of memory trouble are treatable, like low thyroid, low vitamin B12, depression, poor sleep, hearing loss and medicine side effects. Finding out is better than worrying.</p></div>';
+}
+document.querySelectorAll('#signTool input').forEach(function(x){x.addEventListener('change',sg)});
+
+/* 2. Lancet 2024 risk factors */
+var RISK=[
+ ['Early life'],
+ ['edu','I left school early, or did not finish high school',5,'Keep learning','It is never too late. Take a class, learn a language or an instrument, or pick up a new skill. Learning new things builds reserve at any age.'],
+ ['Midlife and beyond'],
+ ['hear','I have trouble hearing, or have hearing aids I do not wear',7,'Get your hearing checked','Ask us for a hearing test. Hearing aids, including over-the-counter ones for mild to moderate loss, are linked to lower dementia risk. Wear them every day.'],
+ ['ldl','My LDL ("bad") cholesterol is high, or I do not know it',7,'Know and treat your LDL','We check it with a simple blood test. Diet, exercise and, when needed, a statin bring it down. High LDL was added as a dementia risk factor in 2024.'],
+ ['dep','I often feel down, or have depression',3,'Treat depression','Talk with us. Therapy, medicine and exercise all help, and treating depression may lower dementia risk. In a crisis, call or text 988.'],
+ ['tbi','I have had a head injury or concussion, or I skip helmets and seat belts',3,'Protect your head','Wear a helmet for biking, skiing and similar sports, and a seat belt in the car. Make your home safer from falls.'],
+ ['act','I get less than 150 minutes of exercise a week',2,'Move more','Aim for 150 minutes a week of brisk walking or similar activity. Any amount is better than none.'],
+ ['dm','I have diabetes or prediabetes',2,'Keep your blood sugar in range','Regular checkups, diet, activity and medicines when needed. Ask us what your target is.'],
+ ['smk','I smoke',2,'Stop smoking','Quitting at any age lowers the risk. Call 1-800-QUIT-NOW for free help, and ask us about medicines that make it easier.'],
+ ['bp','My blood pressure is high, or I do not know it',2,'Control your blood pressure','From midlife on, aim for a top number of 130 or lower. A home blood pressure cuff helps us get it right.'],
+ ['ob','My BMI is 30 or higher',1,'Work toward a healthier weight','Even modest weight loss helps. See my <a href="/patients/weight/">weight loss guide</a>.'],
+ ['alc','I have more than about 12 drinks a week',1,'Drink less','Keep it to fewer than about 12 standard drinks a week, and less is better.'],
+ ['Later life'],
+ ['iso','I spend most days alone, or rarely see friends and family',5,'Stay connected','Regular time with other people matters. Try a class, a volunteer role, a faith group, a senior center or a standing call with family.'],
+ ['air','I live near heavy traffic or am often around smoke',3,'Lower your exposure','Keep windows closed on bad air days, use an air purifier if you can, and avoid wood smoke indoors.'],
+ ['vis','My vision is poor, or I have cataracts that are not treated',2,'Get your eyes checked','See an eye doctor regularly. Treating cataracts and wearing the right glasses are linked to lower risk.']
+];
+$('rkList').innerHTML=RISK.map(function(r){
+  if(r.length===1)return '<p class="rk-life">'+r[0]+'</p>';
+  return '<label class="bt-row"><input type="checkbox" value="'+r[0]+'"><span>'+esc(r[1])+'</span><span class="pc" title="Share of dementia worldwide">'+r[2]+'%</span></label>'}).join('');
+function rk(){
+  var on=RISK.filter(function(r){var x=r.length>1&&document.querySelector('#rkList input[value="'+r[0]+'"]');return x&&x.checked}),res=$('rkRes');
+  if(!on.length){res.innerHTML='<div class="bt-box ok"><h4>Nothing checked yet</h4><p>If none of these apply to you, great: keep it up. Check any that do to see what helps.</p></div>';return}
+  on.sort(function(a,b){return b[2]-a[2]});
+  res.innerHTML='<div class="bt-box mid"><h4>'+on.length+' thing'+(on.length===1?'':'s')+' to work on</h4><p>Start with the one that feels easiest. Each step helps your heart and the rest of your body too.</p><div class="acts">'+on.map(function(r){return '<div class="act"><b>'+r[3]+'</b><span>'+r[4]+'</span></div>'}).join('')+'</div><p>We can work on these together at your next visit.</p></div>';
+}
+document.querySelectorAll('#rkList input').forEach(function(x){x.addEventListener('change',rk)});
+rk();
+
+/* 3. Caregiver resource finder */
+var R={
+ alz:{n:'Alzheimer’s Association 24/7 Helpline',d:'Free, any time of day or night, in many languages. Trained counselors help with a crisis, a hard decision or just a bad day.',l:[['Call 800-272-3900','tel:18002723900'],['alz.org','https://www.alz.org/help-support']]},
+ mo:{ma:1,n:'MassOptions',d:'Free Massachusetts service that connects older adults, people with disabilities and caregivers to local help, including your local Aging Services Access Point.',l:[['Call 844-422-6277','tel:18444226277'],['massoptions.org','https://www.massoptions.org/']]},
+ fcsp:{ma:1,n:'Massachusetts Family Caregiver Support Program',d:'A free caregiver specialist helps you make a care plan, find services, get training and take breaks. For caregivers of anyone 60 or older, or anyone with dementia.',l:[['Program page','https://www.mass.gov/family-caregiver-support-program']]},
+ elc:{n:'Eldercare Locator',d:'Outside Massachusetts, this federal service finds your local Area Agency on Aging for meals, rides, home help and respite.',l:[['Call 800-677-1116','tel:18006771116'],['eldercare.acl.gov','https://eldercare.acl.gov/']]},
+ crf:{n:'Community Resource Finder',d:'Search by town for support groups, adult day programs, home care, housing and legal help. From the Alzheimer’s Association and AARP.',l:[['Search near you','https://www.alz.org/crf']]},
+ grp:{n:'Support groups',d:'In-person and online groups for caregivers and for people living with dementia, led by trained facilitators.',l:[['Find a group','https://www.alz.org/help-support/community/support-groups'],['ALZConnected online community','https://www.alzconnected.org/']]},
+ guide:{n:'GUIDE dementia care program (Medicare)',d:'A Medicare program that gives people with dementia and their caregivers a care navigator, caregiver training and, for those who qualify, help paying for respite. For people with Original Medicare, not Medicare Advantage. Ask us whether a program near you takes part.',l:[['Medicare overview','https://www.cms.gov/priorities/innovation/innovation-models/guide']]},
+ resp:{n:'Adult day programs and in-home respite',d:'Adult day health programs give the person with dementia a safe, social day and give you a break. Some are covered by MassHealth or long-term care insurance.',l:[]},
+ law:{n:'Elder law attorneys',d:'Plan early, while the person can still take part: health care proxy, durable power of attorney, will, and paying for long-term care.',l:[['National Academy of Elder Law Attorneys','https://www.naela.org/']]},
+ plan:{n:'Legal and money planning guides',d:'Plain-language checklists for the papers to gather and the decisions to make.',l:[['Alzheimer’s Association: legal planning','https://www.alz.org/help-support/caregiving/financial-legal-planning'],['NIA: legal and financial planning','https://www.nia.nih.gov/health/legal-and-financial-planning-people-dementia']]},
+ drive:{n:'Driving and dementia',d:'How to tell when driving is no longer safe, and how to have the conversation. We can also order a formal driving evaluation.',l:[['Alzheimer’s Association: driving','https://www.alz.org/help-support/caregiving/safety/dementia-driving']]},
+ wand:{n:'Wandering and getting lost',d:'Six in ten people with dementia wander at some point. Simple changes at home, a medical ID bracelet (such as MedicAlert) and a recent photo make a big difference.',l:[['NIA: wandering','https://www.nia.nih.gov/health/wandering-and-alzheimers-disease']]},
+ home:{n:'Home safety',d:'Locking up medicines and tools, preventing falls, stove safety and more, room by room.',l:[['NIA: home safety tips','https://www.nia.nih.gov/health/safety/alzheimers-caregiving-home-safety-tips']]},
+ learn:{n:'Learn about dementia and caregiving',d:'Trusted, free information from the federal government on symptoms, caregiving and research.',l:[['alzheimers.gov','https://www.alzheimers.gov/'],['NIA information center: 800-438-4380','tel:18004384380']]},
+ trial:{n:'Research studies',d:'Many studies need people with and without memory problems. Joining is a way to help, and sometimes to get early access to new treatments.',l:[['Alzheimer’s Association TrialMatch','https://www.alz.org/trialmatch'],['NIA clinical trials finder','https://www.alzheimers.gov/clinical-trials']]}
+};
+var NEEDS=[
+ ['now','Someone to talk to now',['alz']],
+ ['local','Local services',['mo','fcsp','elc','crf']],
+ ['break','A break for me',['fcsp','resp','guide','mo']],
+ ['groups','Support groups',['grp','alz']],
+ ['legal','Legal and money planning',['law','plan']],
+ ['drive','Driving',['drive']],
+ ['safe','Safety and wandering',['wand','home']],
+ ['medicare','Medicare help',['guide']],
+ ['learn','Learning and research',['learn','trial']]
+];
+var picked={now:1};
+$('cgChips').innerHTML=NEEDS.map(function(n){return '<button type="button" class="cg-chip" data-k="'+n[0]+'" aria-pressed="'+(picked[n[0]]?'true':'false')+'">'+n[1]+'</button>'}).join('');
+function cg(){
+  var seen={},html='';
+  NEEDS.forEach(function(n){if(!picked[n[0]])return;
+    var items=n[2].filter(function(k){if(seen[k])return false;seen[k]=1;return true});
+    if(!items.length)return;
+    html+='<p class="cg-h">'+n[1]+'</p>'+items.map(function(k){var r=R[k];return '<div class="cg-r'+(r.ma?' ma':'')+'"><b>'+r.n+(r.ma?' <small style="font-weight:500;color:var(--good)">· Massachusetts</small>':'')+'</b><span>'+r.d+'</span>'+(r.l.length?'<span class="ln">'+r.l.map(function(l){return '<a href="'+l[1]+'"'+(l[1].indexOf('http')===0?' target="_blank" rel="noopener"':'')+'>'+l[0]+'</a>'}).join('')+'</span>':'')+'</div>'}).join('')});
+  $('cgOut').innerHTML=html||'<p class="bt-i" style="margin:0">Pick one or more above.</p>';
+}
+document.querySelectorAll('.cg-chip').forEach(function(b){b.addEventListener('click',function(){var k=b.dataset.k;if(picked[k])delete picked[k];else picked[k]=1;b.setAttribute('aria-pressed',picked[k]?'true':'false');cg()})});
+cg();
+})();</script>
+
+<script>(function(){var r=document.documentElement,b=document.getElementById('theme');function l(){b.setAttribute('aria-label',r.dataset.theme==='dark'?'Switch to light mode':'Switch to dark mode')}l();b.addEventListener('click',function(){r.dataset.theme=r.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('gg-theme',r.dataset.theme)}catch(e){}l()})})();</script>
+<script src="/js/toc.js?v=3" defer></script>
+</body>
+</html>
