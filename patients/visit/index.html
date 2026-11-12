@@ -158,7 +158,25 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 .bmi-bar i{position:absolute;top:-4px;width:4px;height:18px;margin-left:-2px;border-radius:2px;background:var(--ink)}
 .bmi-scale{position:relative;height:16px;font:500 11px "Geist Mono",monospace;color:var(--faint)}
 .bmi-scale span{position:absolute;transform:translateX(-50%)}
-.bmi-scale span:nth-child(1){left:11.7%}.bmi-scale span:nth-child(2){left:33.3%}.bmi-scale span:nth-child(3){left:50%}.bmi-scale span:nth-child(4){left:66.7%}.bmi-scale span:nth-child(5){left:83.3%}
+.bmi-asian{display:flex;align-items:center;gap:8px;margin-top:16px;font-size:14.5px;cursor:pointer}
+.bmi-asian input{width:18px;height:18px;accent-color:#0e1734}
+.bmi-asian span{color:var(--faint)}
+.bmi-c i{font-style:normal;font-weight:400;color:var(--faint);font-size:13px}
+.bmi-jw{grid-column:1/-1}
+.bmi-jw:empty{display:none}
+.bmi-j{margin:4px 0 0}
+.bmi-j figcaption{font-size:14px;font-weight:500;margin:0 0 6px}
+.bmi-j svg{width:100%;height:auto;display:block;font:500 11px "Geist Mono",monospace;fill:var(--faint)}
+.bmi-j .g{stroke:var(--line);stroke-width:1}
+.bmi-j .ref{stroke:var(--soft);stroke-width:1;stroke-dasharray:3 3}
+.bmi-j .z{fill:#8fc9a4;fill-opacity:.16}
+.bmi-j .c{fill:none;stroke:var(--ink);stroke-width:2.5;stroke-linejoin:round}
+.bmi-j .d{fill:var(--ink)}
+.bmi-j .on{fill:#c0583b;stroke:var(--surface);stroke-width:2}
+.bmi-j .me{stroke:#c0583b;stroke-width:1.5;stroke-dasharray:4 3}
+.bmi-j .mel{fill:#c0583b;font-weight:600}
+.bmi-jt{font-size:14.5px;margin:6px 0 0}
+@media (max-width:640px){.bmi-j svg{font-size:19px}}
 .bmi-more{margin-top:10px;font-size:14.5px;color:var(--soft)}
 .bmi-more summary{cursor:pointer;color:var(--ink);font-weight:500;padding:6px 0}
 .bmi-more p{margin:6px 0 10px;max-width:70ch}

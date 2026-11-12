@@ -268,7 +268,25 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 .bmi-bar i{position:absolute;top:-4px;width:4px;height:18px;margin-left:-2px;border-radius:2px;background:var(--ink)}
 .bmi-scale{position:relative;height:16px;font:500 11px "Geist Mono",monospace;color:var(--faint)}
 .bmi-scale span{position:absolute;transform:translateX(-50%)}
-.bmi-scale span:nth-child(1){left:11.7%}.bmi-scale span:nth-child(2){left:33.3%}.bmi-scale span:nth-child(3){left:50%}.bmi-scale span:nth-child(4){left:66.7%}.bmi-scale span:nth-child(5){left:83.3%}
+.bmi-asian{display:flex;align-items:center;gap:8px;margin-top:16px;font-size:14.5px;cursor:pointer}
+.bmi-asian input{width:18px;height:18px;accent-color:#0e1734}
+.bmi-asian span{color:var(--faint)}
+.bmi-c i{font-style:normal;font-weight:400;color:var(--faint);font-size:13px}
+.bmi-jw{grid-column:1/-1}
+.bmi-jw:empty{display:none}
+.bmi-j{margin:4px 0 0}
+.bmi-j figcaption{font-size:14px;font-weight:500;margin:0 0 6px}
+.bmi-j svg{width:100%;height:auto;display:block;font:500 11px "Geist Mono",monospace;fill:var(--faint)}
+.bmi-j .g{stroke:var(--line);stroke-width:1}
+.bmi-j .ref{stroke:var(--soft);stroke-width:1;stroke-dasharray:3 3}
+.bmi-j .z{fill:#8fc9a4;fill-opacity:.16}
+.bmi-j .c{fill:none;stroke:var(--ink);stroke-width:2.5;stroke-linejoin:round}
+.bmi-j .d{fill:var(--ink)}
+.bmi-j .on{fill:#c0583b;stroke:var(--surface);stroke-width:2}
+.bmi-j .me{stroke:#c0583b;stroke-width:1.5;stroke-dasharray:4 3}
+.bmi-j .mel{fill:#c0583b;font-weight:600}
+.bmi-jt{font-size:14.5px;margin:6px 0 0}
+@media (max-width:640px){.bmi-j svg{font-size:19px}}
 .bmi-more{margin-top:10px;font-size:14.5px;color:var(--soft)}
 .bmi-more summary{cursor:pointer;color:var(--ink);font-weight:500;padding:6px 0}
 .bmi-more p{margin:6px 0 10px;max-width:70ch}
@@ -293,38 +311,64 @@ const BMI_HTML = `<section class="bmi" id="bmi" aria-labelledby="bmiH">
 <div class="bmi-units" role="group" aria-label="Units"><button type="button" data-u="us" aria-pressed="true">Feet and pounds</button><button type="button" data-u="metric" aria-pressed="false">Metric</button></div>
 <div class="bmi-row" id="bmiUS"><label>Height<span class="bmi-pair"><input id="bmiFt" type="number" inputmode="numeric" min="3" max="8" placeholder="5"> ft <input id="bmiIn" type="number" inputmode="decimal" min="0" max="11.9" step="0.5" placeholder="7"> in</span></label><label>Weight<span class="bmi-pair"><input id="bmiLb" type="number" inputmode="decimal" min="50" max="900" placeholder="180"> lb</span></label></div>
 <div class="bmi-row" id="bmiMet" hidden><label>Height<span class="bmi-pair"><input id="bmiCm" type="number" inputmode="decimal" min="100" max="250" placeholder="170"> cm</span></label><label>Weight<span class="bmi-pair"><input id="bmiKg" type="number" inputmode="decimal" min="25" max="400" placeholder="82"> kg</span></label></div>
+<label class="bmi-asian"><input type="checkbox" id="bmiAsian"> I am of Asian descent <span>(uses Asian BMI cut-offs)</span></label>
 </form>
 <div class="bmi-out" id="bmiOut" aria-live="polite"><p class="bmi-hint">Enter your height and weight. Nothing is saved or sent.</p></div>
+<div class="bmi-jw" id="bmiJ"></div>
 </div>
 <details class="bmi-more"><summary>What BMI does and does not tell you</summary>
 <p>BMI is weight compared with height. It is a quick screening number, not a diagnosis. It cannot tell muscle from fat, so it can overestimate in very muscular people and underestimate in older adults who have lost muscle. It does not apply in pregnancy. For children and teens, BMI is compared with others of the same age and sex instead; ask us.</p>
 <p>Where you carry weight matters too. A waist over 40 inches in men, or over 35 inches in women, raises the risk of diabetes and heart disease even at the same BMI.</p>
-<p>For people of Asian descent, health risks start at a lower BMI: overweight from 23 and obesity from 27.5.</p>
+<p>For people of Asian descent, health risks start at a lower BMI, so the check box above switches to Asian cut-offs: overweight from 23 and obesity from 27.5.</p>
+<p>The risk curve comes from the Global BMI Mortality Collaboration (<a href="https://pubmed.ncbi.nlm.nih.gov/27423262/">Lancet, 2016</a>): almost 4 million adults on four continents who never smoked and had no major illness at the start, followed for about 14 years. Each point compares the risk of dying from any cause during that time with people at a BMI of 22.5 to 25. It shows what happened to groups of people, not a prediction for you.</p>
 </details>
 </section>`;
 const BMI_JS = `<script>(function(){
 var $=function(i){return document.getElementById(i)},u='us';
 document.querySelectorAll('.bmi-units button').forEach(function(b){b.addEventListener('click',function(){u=b.dataset.u;document.querySelectorAll('.bmi-units button').forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});$('bmiUS').hidden=u!=='us';$('bmiMet').hidden=u==='us';calc()})});
 $('bmiForm').addEventListener('input',calc);
+// Global BMI Mortality Collaboration, Lancet 2016: all-cause mortality HR vs BMI 22.5-<25, never-smokers.
+var GB=[[15,18.5,1.51],[18.5,20,1.13],[20,22.5,1.00],[22.5,25,1.00],[25,27.5,1.07],[27.5,30,1.20],[30,35,1.45],[35,40,1.94],[40,60,2.76]];
+var X0=15,X1=45,W=560,H=230,L=44,R=12,T=14,B=34,Y0=0.8,Y1=3;
+var px=function(x){return L+(Math.min(Math.max(x,X0),X1)-X0)/(X1-X0)*(W-L-R)},py=function(y){return T+(Y1-y)/(Y1-Y0)*(H-T-B)};
+function chart(bmi,cut){
+  var pts=GB.map(function(g){return [g[0]===40?42.5:(g[0]+g[1])/2,g[2]]});
+  var path=pts.map(function(p,i){return (i?'L':'M')+px(p[0]).toFixed(1)+' '+py(p[1]).toFixed(1)}).join(' ');
+  var band=GB.filter(function(g){return bmi>=g[0]&&bmi<g[1]})[0];
+  var grid=[1,1.5,2,2.5,3].map(function(y){return '<line x1="'+L+'" x2="'+(W-R)+'" y1="'+py(y)+'" y2="'+py(y)+'" class="g"/><text x="'+(L-8)+'" y="'+(py(y)+4)+'" text-anchor="end">'+(y===1?'1':y+'×')+'</text>'}).join('');
+  var xt=[15,20,25,30,35,40,45].map(function(x){return '<text x="'+px(x)+'" y="'+(H-B+18)+'" text-anchor="middle">'+x+(x===45?'+':'')+'</text>'}).join('');
+  var zone='<rect x="'+px(cut[0])+'" y="'+T+'" width="'+(px(cut[1])-px(cut[0]))+'" height="'+(H-T-B)+'" class="z"/>';
+  var dots=pts.map(function(p,i){var on=band&&GB[i]===band;return '<circle cx="'+px(p[0])+'" cy="'+py(p[1])+'" r="'+(on?6:3.5)+'" class="'+(on?'on':'d')+'"/>'}).join('');
+  var mx=px(bmi);
+  var me='<line x1="'+mx+'" x2="'+mx+'" y1="'+T+'" y2="'+(H-B)+'" class="me"/><text x="'+Math.min(Math.max(mx,L+30),W-R-30)+'" y="'+(T+12)+'" text-anchor="middle" class="mel">You</text>';
+  return '<figure class="bmi-j"><figcaption>Risk of dying over about 14 years, compared with a BMI of 22.5 to 25</figcaption><svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="J-shaped curve: risk is lowest at a BMI of 20 to 25 and rises below and above it.'+(band?' Your BMI range had '+band[2].toFixed(2)+' times the risk.':'')+'">'+zone+grid+'<line x1="'+L+'" x2="'+(W-R)+'" y1="'+py(1)+'" y2="'+py(1)+'" class="ref"/><path d="'+path+'" class="c"/>'+dots+me+xt+'<text x="'+((L+W-R)/2)+'" y="'+(H-2)+'" text-anchor="middle">BMI</text></svg></figure>'+
+   (band?'<p class="bmi-jt">'+(band[2]<=1.0001?'People with a BMI in your range ('+band[0]+' to '+band[1]+') had the <b>lowest risk</b> in the study.':'People with a BMI of '+band[0]+' to '+(band[1]===60?'60':band[1])+' had <b>'+band[2].toFixed(2)+' times the risk</b> of dying over the study period, compared with a BMI of 22.5 to 25.')+'</p>':'');
+}
 function n(id){var v=parseFloat($(id).value);return isNaN(v)?null:v}
 function calc(){
-  var m,kg,o=$('bmiOut');
-  if(u==='us'){var ft=n('bmiFt'),inch=n('bmiIn')||0,lb=n('bmiLb');if(ft==null||lb==null){o.innerHTML='<p class="bmi-hint">Enter your height and weight. Nothing is saved or sent.</p>';return}m=(ft*12+inch)*0.0254;kg=lb*0.45359237}
-  else{var cm=n('bmiCm');kg=n('bmiKg');if(cm==null||kg==null){o.innerHTML='<p class="bmi-hint">Enter your height and weight. Nothing is saved or sent.</p>';return}m=cm/100}
+  var m,kg,o=$('bmiOut'),asian=$('bmiAsian').checked;
+  var empty='<p class="bmi-hint">Enter your height and weight. Nothing is saved or sent.</p>';
+  if(u==='us'){var ft=n('bmiFt'),inch=n('bmiIn')||0,lb=n('bmiLb');if(ft==null||lb==null){o.innerHTML=empty;return}m=(ft*12+inch)*0.0254;kg=lb*0.45359237}
+  else{var cm=n('bmiCm');kg=n('bmiKg');if(cm==null||kg==null){o.innerHTML=empty;return}m=cm/100}
   var b=kg/(m*m);
   if(!isFinite(b)||b<10||b>90||m<1||m>2.5){o.innerHTML='<p class="bmi-hint">Check the numbers. That height and weight do not look right.</p>';return}
-  var bmi=Math.round(b*10)/10,cat,cls;
-  if(bmi<18.5){cat='Underweight';cls='lo'}else if(bmi<25){cat='Healthy weight';cls='ok'}else if(bmi<30){cat='Overweight';cls='mid'}else if(bmi<35){cat='Obesity, class 1';cls='hi'}else if(bmi<40){cat='Obesity, class 2';cls='hi'}else{cat='Obesity, class 3';cls='hi'}
-  var pos=Math.max(0,Math.min(100,(bmi-15)/(45-15)*100));
+  var bmi=Math.round(b*10)/10,ow=asian?23:25,ob=asian?27.5:30,cat,cls;
+  if(bmi<18.5){cat='Underweight';cls='lo'}else if(bmi<ow){cat='Healthy weight';cls='ok'}else if(bmi<ob){cat='Overweight';cls='mid'}
+  else if(asian){cat='Obesity';cls='hi'}else if(bmi<35){cat='Obesity, class 1';cls='hi'}else if(bmi<40){cat='Obesity, class 2';cls='hi'}else{cat='Obesity, class 3';cls='hi'}
+  var sc=function(x){return ((x-15)/(45-15)*100).toFixed(1)+'%'},pos=Math.max(0,Math.min(100,(bmi-15)/(45-15)*100));
+  var grad='linear-gradient(90deg,#93a6ff 0 '+sc(18.5)+',#8fc9a4 '+sc(18.5)+' '+sc(ow)+',#e8c27a '+sc(ow)+' '+sc(ob)+',#f0a07f '+sc(ob)+' 100%)';
+  var ticks=[18.5,ow,ob].concat(asian?[]:[35,40]).map(function(x){return '<span style="left:'+sc(x)+'">'+x+'</span>'}).join('');
   var w=u==='us'?kg/0.45359237:kg,unit=u==='us'?'lb':'kg',r=function(x){return Math.round(x)};
   var tx='';
-  if(bmi>=25)tx+='<p><b>Even a little helps.</b> Losing 5% of your weight ('+r(w*0.05)+' '+unit+') to 10% ('+r(w*0.10)+' '+unit+') can lower blood pressure, blood sugar and cholesterol.</p>';
+  if(bmi>=ow)tx+='<p><b>Even a little helps.</b> Losing 5% of your weight ('+r(w*0.05)+' '+unit+') to 10% ('+r(w*0.10)+' '+unit+') can lower blood pressure, blood sugar and cholesterol.</p>';
   if(bmi>=27)tx+='<p><b>Medicines</b> for weight loss are approved for a BMI of 30 or higher, or 27 or higher with a weight-related condition such as high blood pressure, type 2 diabetes or high cholesterol.</p>';
-  if(bmi>=30)tx+='<p><b>Surgery</b> may be an option with a BMI of 35 or higher, or 30 or higher with type 2 diabetes or other metabolic disease.</p>';
+  if(asian&&bmi>=27.5)tx+='<p><b>Surgery</b> may be an option for people of Asian descent with a BMI of 27.5 or higher.</p>';
+  else if(!asian&&bmi>=30)tx+='<p><b>Surgery</b> may be an option with a BMI of 35 or higher, or 30 or higher with type 2 diabetes or other metabolic disease.</p>';
   if(bmi<18.5)tx+='<p>A low BMI can have many causes. If you have lost weight without trying, tell us.</p>';
-  o.innerHTML='<div class="bmi-res '+cls+'"><span class="bmi-n">'+bmi.toFixed(1)+'</span><span class="bmi-c">'+cat+'</span></div>'+
-   '<div class="bmi-bar" aria-hidden="true"><i style="left:'+pos+'%"></i></div><div class="bmi-scale" aria-hidden="true"><span>18.5</span><span>25</span><span>30</span><span>35</span><span>40</span></div>'+tx+
-   (bmi>=25?'<p class="bmi-hint">The resources below can help. Bring your number to your next visit and we can talk about what fits you.</p>':'');
+  o.innerHTML='<div class="bmi-res '+cls+'"><span class="bmi-n">'+bmi.toFixed(1)+'</span><span class="bmi-c">'+cat+(asian?' <i>(Asian cut-offs)</i>':'')+'</span></div>'+
+   '<div class="bmi-bar" aria-hidden="true" style="background:'+grad+'"><i style="left:'+pos+'%"></i></div><div class="bmi-scale" aria-hidden="true">'+ticks+'</div>'+tx+
+   (bmi>=ow?'<p class="bmi-hint">The resources below can help. Bring your number to your next visit and we can talk about what fits you.</p>':'');
+  $('bmiJ').innerHTML=chart(bmi,[20,25]);
 }
 })();</script>`;
 const page = sec => {
