@@ -243,7 +243,37 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
   body[data-print="agenda"] *{visibility:hidden}
   body[data-print="agenda"] .agenda,body[data-print="agenda"] .agenda *{visibility:visible}
   body[data-print="agenda"] .agenda{position:absolute;left:0;top:0;width:100%;border:0}
-}`;
+}
+.bmi{margin:6px 0 26px}
+.bmi h2.cg{margin-top:0}
+.bmi-box{display:grid;grid-template-columns:1fr 1fr;gap:18px;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:clamp(16px,3vw,22px)}
+@media (max-width:720px){.bmi-box{grid-template-columns:1fr}}
+.bmi-units{display:flex;gap:6px;margin-bottom:14px}
+.bmi-units button{font:500 13.5px Geist,system-ui,sans-serif;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.bmi-units button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.bmi-row{display:flex;flex-wrap:wrap;gap:14px 22px}
+.bmi-row[hidden]{display:none}
+.bmi-row label{display:flex;flex-direction:column;gap:6px;font-weight:500;font-size:14.5px}
+.bmi-pair{display:flex;align-items:center;gap:6px;font-weight:400;color:var(--soft)}
+.bmi-pair input{width:76px;font:500 17px Geist,system-ui,sans-serif;padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--paper);color:var(--ink)}
+.bmi-pair input:focus,.bmi-units button:focus-visible{outline:3px solid var(--accent,#3b54c4);outline-offset:1px}
+.bmi-hint{color:var(--soft);font-size:14.5px;margin:0}
+.bmi-out p{font-size:14.5px;margin:10px 0 0}
+.bmi-res{display:flex;align-items:baseline;gap:12px}
+.bmi-n{font-family:Newsreader,Georgia,serif;font-size:48px;line-height:1}
+.bmi-c{font-weight:600;font-size:16px}
+.bmi-res.ok .bmi-c{color:#2f6b48}.bmi-res.mid .bmi-c{color:#8a5a1c}.bmi-res.hi .bmi-c{color:#c0583b}.bmi-res.lo .bmi-c{color:#3b54c4}
+:root[data-theme="dark"] .bmi-res.ok .bmi-c{color:#8fd0a8}:root[data-theme="dark"] .bmi-res.mid .bmi-c{color:#e0b070}:root[data-theme="dark"] .bmi-res.hi .bmi-c{color:#ff8a6b}:root[data-theme="dark"] .bmi-res.lo .bmi-c{color:#93a6ff}
+.bmi-bar{position:relative;height:10px;border-radius:99px;margin:14px 0 4px;background:linear-gradient(90deg,#93a6ff 0 11.7%,#8fc9a4 11.7% 33.3%,#e8c27a 33.3% 50%,#f0a07f 50% 100%)}
+.bmi-bar i{position:absolute;top:-4px;width:4px;height:18px;margin-left:-2px;border-radius:2px;background:var(--ink)}
+.bmi-scale{position:relative;height:16px;font:500 11px "Geist Mono",monospace;color:var(--faint)}
+.bmi-scale span{position:absolute;transform:translateX(-50%)}
+.bmi-scale span:nth-child(1){left:11.7%}.bmi-scale span:nth-child(2){left:33.3%}.bmi-scale span:nth-child(3){left:50%}.bmi-scale span:nth-child(4){left:66.7%}.bmi-scale span:nth-child(5){left:83.3%}
+.bmi-more{margin-top:10px;font-size:14.5px;color:var(--soft)}
+.bmi-more summary{cursor:pointer;color:var(--ink);font-weight:500;padding:6px 0}
+.bmi-more p{margin:6px 0 10px;max-width:70ch}
+@media print{.bmi-units{display:none}}
+`;
 
 const HEADER = `<header class="top"><div class="wrap">
 <a class="brand" href="/"><span class="mark">GG</span><span class="bn">Gennady Gelman, MD</span></a>
@@ -256,6 +286,47 @@ const FOOTER = `<footer><div class="wrap"><span>© 2026 Gennady Gelman · Person
 
 const vnav = cur => `<nav class="vnav" aria-label="Patient topics"><ul>${PSECTIONS.filter(s => s.p).map(s => `<li><a href="${s.p}"${s.id === cur ? ' aria-current="page"' : ''}>${esc(SHORT[s.id] || s.n)}</a></li>`).join('')}</ul></nav>`;
 
+const BMI_HTML = `<section class="bmi" id="bmi" aria-labelledby="bmiH">
+<h2 id="bmiH" class="cg" data-toc="BMI calculator">Check your BMI</h2>
+<div class="bmi-box">
+<form class="bmi-form" id="bmiForm" autocomplete="off" onsubmit="return false">
+<div class="bmi-units" role="group" aria-label="Units"><button type="button" data-u="us" aria-pressed="true">Feet and pounds</button><button type="button" data-u="metric" aria-pressed="false">Metric</button></div>
+<div class="bmi-row" id="bmiUS"><label>Height<span class="bmi-pair"><input id="bmiFt" type="number" inputmode="numeric" min="3" max="8" placeholder="5"> ft <input id="bmiIn" type="number" inputmode="decimal" min="0" max="11.9" step="0.5" placeholder="7"> in</span></label><label>Weight<span class="bmi-pair"><input id="bmiLb" type="number" inputmode="decimal" min="50" max="900" placeholder="180"> lb</span></label></div>
+<div class="bmi-row" id="bmiMet" hidden><label>Height<span class="bmi-pair"><input id="bmiCm" type="number" inputmode="decimal" min="100" max="250" placeholder="170"> cm</span></label><label>Weight<span class="bmi-pair"><input id="bmiKg" type="number" inputmode="decimal" min="25" max="400" placeholder="82"> kg</span></label></div>
+</form>
+<div class="bmi-out" id="bmiOut" aria-live="polite"><p class="bmi-hint">Enter your height and weight. Nothing is saved or sent.</p></div>
+</div>
+<details class="bmi-more"><summary>What BMI does and does not tell you</summary>
+<p>BMI is weight compared with height. It is a quick screening number, not a diagnosis. It cannot tell muscle from fat, so it can overestimate in very muscular people and underestimate in older adults who have lost muscle. It does not apply in pregnancy. For children and teens, BMI is compared with others of the same age and sex instead; ask us.</p>
+<p>Where you carry weight matters too. A waist over 40 inches in men, or over 35 inches in women, raises the risk of diabetes and heart disease even at the same BMI.</p>
+<p>For people of Asian descent, health risks start at a lower BMI: overweight from 23 and obesity from 27.5.</p>
+</details>
+</section>`;
+const BMI_JS = `<script>(function(){
+var $=function(i){return document.getElementById(i)},u='us';
+document.querySelectorAll('.bmi-units button').forEach(function(b){b.addEventListener('click',function(){u=b.dataset.u;document.querySelectorAll('.bmi-units button').forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});$('bmiUS').hidden=u!=='us';$('bmiMet').hidden=u==='us';calc()})});
+$('bmiForm').addEventListener('input',calc);
+function n(id){var v=parseFloat($(id).value);return isNaN(v)?null:v}
+function calc(){
+  var m,kg,o=$('bmiOut');
+  if(u==='us'){var ft=n('bmiFt'),inch=n('bmiIn')||0,lb=n('bmiLb');if(ft==null||lb==null){o.innerHTML='<p class="bmi-hint">Enter your height and weight. Nothing is saved or sent.</p>';return}m=(ft*12+inch)*0.0254;kg=lb*0.45359237}
+  else{var cm=n('bmiCm');kg=n('bmiKg');if(cm==null||kg==null){o.innerHTML='<p class="bmi-hint">Enter your height and weight. Nothing is saved or sent.</p>';return}m=cm/100}
+  var b=kg/(m*m);
+  if(!isFinite(b)||b<10||b>90||m<1||m>2.5){o.innerHTML='<p class="bmi-hint">Check the numbers. That height and weight do not look right.</p>';return}
+  var bmi=Math.round(b*10)/10,cat,cls;
+  if(bmi<18.5){cat='Underweight';cls='lo'}else if(bmi<25){cat='Healthy weight';cls='ok'}else if(bmi<30){cat='Overweight';cls='mid'}else if(bmi<35){cat='Obesity, class 1';cls='hi'}else if(bmi<40){cat='Obesity, class 2';cls='hi'}else{cat='Obesity, class 3';cls='hi'}
+  var pos=Math.max(0,Math.min(100,(bmi-15)/(45-15)*100));
+  var w=u==='us'?kg/0.45359237:kg,unit=u==='us'?'lb':'kg',r=function(x){return Math.round(x)};
+  var tx='';
+  if(bmi>=25)tx+='<p><b>Even a little helps.</b> Losing 5% of your weight ('+r(w*0.05)+' '+unit+') to 10% ('+r(w*0.10)+' '+unit+') can lower blood pressure, blood sugar and cholesterol.</p>';
+  if(bmi>=27)tx+='<p><b>Medicines</b> for weight loss are approved for a BMI of 30 or higher, or 27 or higher with a weight-related condition such as high blood pressure, type 2 diabetes or high cholesterol.</p>';
+  if(bmi>=30)tx+='<p><b>Surgery</b> may be an option with a BMI of 35 or higher, or 30 or higher with type 2 diabetes or other metabolic disease.</p>';
+  if(bmi<18.5)tx+='<p>A low BMI can have many causes. If you have lost weight without trying, tell us.</p>';
+  o.innerHTML='<div class="bmi-res '+cls+'"><span class="bmi-n">'+bmi.toFixed(1)+'</span><span class="bmi-c">'+cat+'</span></div>'+
+   '<div class="bmi-bar" aria-hidden="true"><i style="left:'+pos+'%"></i></div><div class="bmi-scale" aria-hidden="true"><span>18.5</span><span>25</span><span>30</span><span>35</span><span>40</span></div>'+tx+
+   (bmi>=25?'<p class="bmi-hint">The resources below can help. Bring your number to your next visit and we can talk about what fits you.</p>':'');
+}
+})();</script>`;
 const page = sec => {
   const url = SITE + sec.p, desc = esc(strip(sec.i));
   CUR_ACC = ACCENT[sec.id] || "#3b54c4";
@@ -282,6 +353,7 @@ ${HEADER}
 ${vnav(sec.id)}
 <main class="wrap">
 <div class="hero">${icon(sec.id)}<p class="eyebrow">For my patients</p><h1>${esc(sec.n)}</h1><p class="lede">${sec.i}</p><div class="tools"><button class="pbtn" id="printPage" type="button">Print this page</button></div></div>
+${sec.id === 'weight' ? BMI_HTML : ''}
 ${body}
 <div class="disclaim"><p>Educational information from Gennady Gelman, MD. Not medical advice for you; your own clinician can tell you what fits your health.</p>
 <p>In an emergency, call <a href="tel:911">911</a>. For a mental health crisis, call or text <a href="tel:988">988</a>.</p>
@@ -289,6 +361,7 @@ ${body}
 </main>
 ${FOOTER}
 ${sec.items.some(i => i.plan) ? PREP_JS : ''}
+${sec.id === 'weight' ? BMI_JS : ''}
 ${sec.items.filter(i => i.g).length >= 4 ? '<script src="/js/toc.js?v=3" defer></script>' : ''}
 </body>
 </html>

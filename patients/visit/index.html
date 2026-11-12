@@ -134,6 +134,36 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
   body[data-print="agenda"] .agenda,body[data-print="agenda"] .agenda *{visibility:visible}
   body[data-print="agenda"] .agenda{position:absolute;left:0;top:0;width:100%;border:0}
 }
+.bmi{margin:6px 0 26px}
+.bmi h2.cg{margin-top:0}
+.bmi-box{display:grid;grid-template-columns:1fr 1fr;gap:18px;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:clamp(16px,3vw,22px)}
+@media (max-width:720px){.bmi-box{grid-template-columns:1fr}}
+.bmi-units{display:flex;gap:6px;margin-bottom:14px}
+.bmi-units button{font:500 13.5px Geist,system-ui,sans-serif;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.bmi-units button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.bmi-row{display:flex;flex-wrap:wrap;gap:14px 22px}
+.bmi-row[hidden]{display:none}
+.bmi-row label{display:flex;flex-direction:column;gap:6px;font-weight:500;font-size:14.5px}
+.bmi-pair{display:flex;align-items:center;gap:6px;font-weight:400;color:var(--soft)}
+.bmi-pair input{width:76px;font:500 17px Geist,system-ui,sans-serif;padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--paper);color:var(--ink)}
+.bmi-pair input:focus,.bmi-units button:focus-visible{outline:3px solid var(--accent,#3b54c4);outline-offset:1px}
+.bmi-hint{color:var(--soft);font-size:14.5px;margin:0}
+.bmi-out p{font-size:14.5px;margin:10px 0 0}
+.bmi-res{display:flex;align-items:baseline;gap:12px}
+.bmi-n{font-family:Newsreader,Georgia,serif;font-size:48px;line-height:1}
+.bmi-c{font-weight:600;font-size:16px}
+.bmi-res.ok .bmi-c{color:#2f6b48}.bmi-res.mid .bmi-c{color:#8a5a1c}.bmi-res.hi .bmi-c{color:#c0583b}.bmi-res.lo .bmi-c{color:#3b54c4}
+:root[data-theme="dark"] .bmi-res.ok .bmi-c{color:#8fd0a8}:root[data-theme="dark"] .bmi-res.mid .bmi-c{color:#e0b070}:root[data-theme="dark"] .bmi-res.hi .bmi-c{color:#ff8a6b}:root[data-theme="dark"] .bmi-res.lo .bmi-c{color:#93a6ff}
+.bmi-bar{position:relative;height:10px;border-radius:99px;margin:14px 0 4px;background:linear-gradient(90deg,#93a6ff 0 11.7%,#8fc9a4 11.7% 33.3%,#e8c27a 33.3% 50%,#f0a07f 50% 100%)}
+.bmi-bar i{position:absolute;top:-4px;width:4px;height:18px;margin-left:-2px;border-radius:2px;background:var(--ink)}
+.bmi-scale{position:relative;height:16px;font:500 11px "Geist Mono",monospace;color:var(--faint)}
+.bmi-scale span{position:absolute;transform:translateX(-50%)}
+.bmi-scale span:nth-child(1){left:11.7%}.bmi-scale span:nth-child(2){left:33.3%}.bmi-scale span:nth-child(3){left:50%}.bmi-scale span:nth-child(4){left:66.7%}.bmi-scale span:nth-child(5){left:83.3%}
+.bmi-more{margin-top:10px;font-size:14.5px;color:var(--soft)}
+.bmi-more summary{cursor:pointer;color:var(--ink);font-weight:500;padding:6px 0}
+.bmi-more p{margin:6px 0 10px;max-width:70ch}
+@media print{.bmi-units{display:none}}
+
 </style>
 </head>
 <body>
@@ -145,6 +175,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 <nav class="vnav" aria-label="Patient topics"><ul><li><a href="/patients/visit/" aria-current="page">Plan your visit</a></li><li><a href="/patients/vaccines/">Vaccines</a></li><li><a href="/patients/screening/">Cancer screening</a></li><li><a href="/patients/sick/">Feeling sick</a></li><li><a href="/patients/weight/">Weight loss</a></li><li><a href="/patients/books/">Books</a></li><li><a href="/patients/ai/">AI tools</a></li><li><a href="/patients/apps/">Apps</a></li></ul></nav>
 <main class="wrap">
 <div class="hero"><svg class="ic" viewBox="0 0 48 48" aria-hidden="true" style="--a:#2f6b48"><rect x="10" y="9" width="28" height="33" rx="4" class="f"/><rect x="18" y="5" width="12" height="7" rx="2" fill="#fff"/><path d="M16 22l3 3 5-6M16 32l3 3 5-6M28 23h6M28 33h6"/></svg><p class="eyebrow">For my patients</p><h1>Plan Your Visit</h1><p class="lede">Get more out of the time you have with your clinician.</p><div class="tools"><button class="pbtn" id="printPage" type="button">Print this page</button></div></div>
+
 <div class="cards"><section class="prep" id="prep" aria-labelledby="prepH">
     <div class="prep-form">
       <p class="k">Before your visit</p>
@@ -218,6 +249,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
   $('#agClear').addEventListener('click',function(){F.forEach(function(f){f.value=''});render();F[0].focus()});
   render();
 })();</script>
+
 
 </body>
 </html>

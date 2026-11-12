@@ -134,6 +134,36 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
   body[data-print="agenda"] .agenda,body[data-print="agenda"] .agenda *{visibility:visible}
   body[data-print="agenda"] .agenda{position:absolute;left:0;top:0;width:100%;border:0}
 }
+.bmi{margin:6px 0 26px}
+.bmi h2.cg{margin-top:0}
+.bmi-box{display:grid;grid-template-columns:1fr 1fr;gap:18px;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:clamp(16px,3vw,22px)}
+@media (max-width:720px){.bmi-box{grid-template-columns:1fr}}
+.bmi-units{display:flex;gap:6px;margin-bottom:14px}
+.bmi-units button{font:500 13.5px Geist,system-ui,sans-serif;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.bmi-units button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.bmi-row{display:flex;flex-wrap:wrap;gap:14px 22px}
+.bmi-row[hidden]{display:none}
+.bmi-row label{display:flex;flex-direction:column;gap:6px;font-weight:500;font-size:14.5px}
+.bmi-pair{display:flex;align-items:center;gap:6px;font-weight:400;color:var(--soft)}
+.bmi-pair input{width:76px;font:500 17px Geist,system-ui,sans-serif;padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--paper);color:var(--ink)}
+.bmi-pair input:focus,.bmi-units button:focus-visible{outline:3px solid var(--accent,#3b54c4);outline-offset:1px}
+.bmi-hint{color:var(--soft);font-size:14.5px;margin:0}
+.bmi-out p{font-size:14.5px;margin:10px 0 0}
+.bmi-res{display:flex;align-items:baseline;gap:12px}
+.bmi-n{font-family:Newsreader,Georgia,serif;font-size:48px;line-height:1}
+.bmi-c{font-weight:600;font-size:16px}
+.bmi-res.ok .bmi-c{color:#2f6b48}.bmi-res.mid .bmi-c{color:#8a5a1c}.bmi-res.hi .bmi-c{color:#c0583b}.bmi-res.lo .bmi-c{color:#3b54c4}
+:root[data-theme="dark"] .bmi-res.ok .bmi-c{color:#8fd0a8}:root[data-theme="dark"] .bmi-res.mid .bmi-c{color:#e0b070}:root[data-theme="dark"] .bmi-res.hi .bmi-c{color:#ff8a6b}:root[data-theme="dark"] .bmi-res.lo .bmi-c{color:#93a6ff}
+.bmi-bar{position:relative;height:10px;border-radius:99px;margin:14px 0 4px;background:linear-gradient(90deg,#93a6ff 0 11.7%,#8fc9a4 11.7% 33.3%,#e8c27a 33.3% 50%,#f0a07f 50% 100%)}
+.bmi-bar i{position:absolute;top:-4px;width:4px;height:18px;margin-left:-2px;border-radius:2px;background:var(--ink)}
+.bmi-scale{position:relative;height:16px;font:500 11px "Geist Mono",monospace;color:var(--faint)}
+.bmi-scale span{position:absolute;transform:translateX(-50%)}
+.bmi-scale span:nth-child(1){left:11.7%}.bmi-scale span:nth-child(2){left:33.3%}.bmi-scale span:nth-child(3){left:50%}.bmi-scale span:nth-child(4){left:66.7%}.bmi-scale span:nth-child(5){left:83.3%}
+.bmi-more{margin-top:10px;font-size:14.5px;color:var(--soft)}
+.bmi-more summary{cursor:pointer;color:var(--ink);font-weight:500;padding:6px 0}
+.bmi-more p{margin:6px 0 10px;max-width:70ch}
+@media print{.bmi-units{display:none}}
+
 </style>
 </head>
 <body>
@@ -145,6 +175,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 <nav class="vnav" aria-label="Patient topics"><ul><li><a href="/patients/visit/">Plan your visit</a></li><li><a href="/patients/vaccines/">Vaccines</a></li><li><a href="/patients/screening/">Cancer screening</a></li><li><a href="/patients/sick/">Feeling sick</a></li><li><a href="/patients/weight/">Weight loss</a></li><li><a href="/patients/books/">Books</a></li><li><a href="/patients/ai/" aria-current="page">AI tools</a></li><li><a href="/patients/apps/">Apps</a></li></ul></nav>
 <main class="wrap">
 <div class="hero"><svg class="ic" viewBox="0 0 48 48" aria-hidden="true" style="--a:#5b3fa0"><path d="M8 11h26a4 4 0 0 1 4 4v14a4 4 0 0 1-4 4H20l-8 7v-7H8a4 4 0 0 1-4-4V15a4 4 0 0 1 4-4z" class="f"/><path d="M38 4l1.6 3.4L43 9l-3.4 1.6L38 14l-1.6-3.4L33 9l3.4-1.6z" fill="currentColor" stroke="none"/><path d="M12 20h16M12 25h10"/></svg><p class="eyebrow">For my patients</p><h1>AI tools I recommend</h1><p class="lede">Chatbots I built for my patients. Use them to think through habits, food, and questions before your visit. They do not know your medical history and do not replace your care team.</p><div class="tools"><button class="pbtn" id="printPage" type="button">Print this page</button></div></div>
+
 <div class="cards"><a class="pc" href="https://alex-663367173026.us-east1.run.app/" target="_blank" rel="noopener" data-url="alex-663367173026.us-east1.run.app"><svg class="gi" viewBox="0 0 48 48" aria-hidden="true" style="--a:#5b3fa0"><path d="M8 11h26a4 4 0 0 1 4 4v14a4 4 0 0 1-4 4H20l-8 7v-7H8a4 4 0 0 1-4-4V15a4 4 0 0 1 4-4z" class="f"/><path d="M38 4l1.6 3.4L43 9l-3.4 1.6L38 14l-1.6-3.4L33 9l3.4-1.6z" fill="currentColor" stroke="none"/><path d="M12 20h16M12 25h10"/></svg><span class="top"><span class="nm">Alex the Health Guide</span><span class="x">↗</span></span><span class="ds">An AI guide for realistic talk about food, exercise, and habits.</span></a><a class="pc" href="https://plants-chat-663367173026.us-east1.run.app/" target="_blank" rel="noopener" data-url="plants-chat-663367173026.us-east1.run.app"><svg class="gi" viewBox="0 0 48 48" aria-hidden="true" style="--a:#5b3fa0"><path d="M10 38C8 22 18 9 40 8c1 20-10 32-27 31z" class="f"/><path d="M10 38c8-10 15-17 24-24M19 30h-6M25 23v-7"/></svg><span class="top"><span class="nm">Plants Are Your Friends</span><span class="x">↗</span></span><span class="ds">Ask a chatbot about eating more whole plant foods.</span></a><p class="cnote"><b>AI can sound confident and still be wrong.</b> Use these tools for ideas and preparation, not diagnosis or medication changes. Do not enter your name, birth date, or other identifying details.</p><p class="cnote">For anything urgent, call your care team. In an emergency, call <a href="tel:911">911</a>.</p></div>
 <div class="disclaim"><p>Educational information from Gennady Gelman, MD. Not medical advice for you; your own clinician can tell you what fits your health.</p>
 <p>In an emergency, call <a href="tel:911">911</a>. For a mental health crisis, call or text <a href="tel:988">988</a>.</p>
@@ -153,6 +184,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 <footer><div class="wrap"><span>© 2026 Gennady Gelman · Personal site, not affiliated with any employer.</span><a href="mailto:me@gennadygelman.com">me@gennadygelman.com</a></div></footer>
 <script>(function(){var r=document.documentElement,b=document.getElementById('theme');function l(){b.setAttribute('aria-label',r.dataset.theme==='dark'?'Switch to light mode':'Switch to dark mode')}l();b.addEventListener('click',function(){r.dataset.theme=r.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('gg-theme',r.dataset.theme)}catch(e){}l()})})();
 (function(){var p=document.getElementById('printPage');if(p)p.addEventListener('click',function(){delete document.body.dataset.print;window.print()})})();</script>
+
 
 
 </body>
