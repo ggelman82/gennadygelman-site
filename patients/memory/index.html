@@ -251,7 +251,7 @@ table.ag td:first-child{color:var(--soft)}
 <section class="s" id="check" aria-labelledby="ckH">
 <span class="num">02</span>
 <h2 id="ckH" data-toc="How we check memory">How we check memory</h2>
-<p>Memory checks are part of your Medicare Annual Wellness Visit, and we can do one any time you or your family are worried. Many offices use a paper test. We use a short tablet check from Linus Health: you remember a few words and draw a clock with a digital pen.</p>
+<p>A memory check is a standard part of your Medicare Annual Wellness Visit or yearly physical starting at age 65. From age 50, we do one sooner if you, your family or we have concerns. Many offices use a paper test. We use a short tablet check from Linus Health: you remember a few words and draw a clock with a digital pen.</p>
 <p>The tablet records not just the finished drawing but how you drew it: pauses, the order of your strokes, and speed. That can pick up small changes a paper test misses. It takes a few minutes, and it is not a diagnosis. A result that is not normal means we look more closely.</p>
 </section>
 
@@ -381,7 +381,7 @@ function sg(){
   if(n>=3||red){cls='mid';h=them?'Bring them in for a memory check':'Make an appointment for a memory check';
     p=them?'What you checked is worth looking into. Help them book a visit, and come along if they are willing. What you have noticed is one of the most useful parts of the evaluation.':'What you checked is worth looking into. Book a visit just for this, rather than adding it to the end of another visit, and bring someone who knows you well if you can.'}
   else{cls='ok';h='Mention it at your next visit';
-    p=them?'One or two changes are often normal, but they are worth mentioning. Encourage them to bring it up at their next visit, or their Medicare Annual Wellness Visit.':'One or two changes are often normal, but they are worth mentioning. Bring it up at your next visit, or your Medicare Annual Wellness Visit.'}
+    p=them?'One or two changes are often normal, but they are worth mentioning. Encourage them to bring it up at their next visit. If they are 65 or older, memory checks are part of their yearly wellness visit or physical.':'One or two changes are often normal, but they are worth mentioning. Bring it up at your next visit. If you are 65 or older, we check memory at your yearly wellness visit or physical.'}
   r.innerHTML='<div class="bt-box '+cls+'"><h4>'+h+'</h4><p>'+p+'</p><p>Many causes of memory trouble are treatable, like low thyroid, low vitamin B12, depression, poor sleep, hearing loss and medicine side effects. Finding out is better than worrying.</p></div>';
 }
 document.querySelectorAll('#signTool input').forEach(function(x){x.addEventListener('change',sg)});
