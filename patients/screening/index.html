@@ -162,7 +162,7 @@ div.note{margin:0 0 14px}
 
 <section class="s" aria-labelledby="h0s">
 <span class="num">01</span>
-<h2 id="h0s">An ounce of prevention is worth a pound of screening</h2>
+<h2 id="h0s" data-toc="Prevention">An ounce of prevention is worth a pound of screening</h2>
 <p>Screening finds cancer early. Prevention stops it from starting. About 4 in 10 cancer cases and nearly half of cancer deaths in US adults are linked to things we can change.</p>
 
 <div class="prev">
@@ -179,7 +179,7 @@ div.note{margin:0 0 14px}
 
 <section class="s" aria-labelledby="h1s">
 <span class="num">02</span>
-<h2 id="h1s">Cancer screening: my recommendations</h2>
+<h2 id="h1s" data-toc="My recommendations">Cancer screening: my recommendations</h2>
 <p>These recommendations are for adults without symptoms and at average risk. They follow the US Preventive Services Task Force's current recommendations.</p>
 <p class="note" style="margin-bottom:6px"><b>A note on the task force.</b> The task force has issued almost no new recommendations since early 2025 while the federal government reorganizes it, so planned updates, including cervical and prostate screening, are on hold. The recommendations below are still the current ones. I'll update this page when that changes.</p>
 
@@ -226,7 +226,7 @@ div.note{margin:0 0 14px}
 
 <section class="s" id="family-history" aria-labelledby="h2s">
 <span class="num">03</span>
-<h2 id="h2s">Does cancer run in your family?</h2>
+<h2 id="h2s" data-toc="Family history">Does cancer run in your family?</h2>
 <p>Some cancers run in families because of inherited gene changes, like BRCA or Lynch syndrome. Knowing that can change when and how you get screened, and it can matter for your relatives too.</p>
 <div class="fh" id="fhq">
 <p class="fh-k">Family and personal cancer history questionnaire</p>
@@ -252,7 +252,7 @@ div.note{margin:0 0 14px}
 
 <section class="s" aria-labelledby="h3s">
 <span class="num">04</span>
-<h2 id="h3s">Screenings I don't routinely do</h2>
+<h2 id="h3s" data-toc="Screenings I don’t do">Screenings I don't routinely do</h2>
 <p>More testing isn't always better. A screening test can cause harm: false alarms, extra scans, biopsies and sometimes surgery for something that never would have hurt you. For the tests below, the evidence doesn't show that the benefit is worth those risks for people without symptoms.</p>
 
 <h3 class="sub">Recommended against</h3>
@@ -275,7 +275,7 @@ div.note{margin:0 0 14px}
 
 <section class="s" id="blood-tests" aria-labelledby="h4s">
 <span class="num">05</span>
-<h2 id="h4s">Multi-cancer blood tests</h2>
+<h2 id="h4s" data-toc="Multi-cancer blood tests">Multi-cancer blood tests</h2>
 <p>You may have seen ads for blood tests like Galleri or Cancerguard that look for signs of dozens of cancers from a single blood draw. They are a real scientific advance, and many patients ask me about them. Here's where they stand.</p>
 
 <div class="facts">
@@ -289,7 +289,7 @@ div.note{margin:0 0 14px}
 </section>
 
 <section class="sources" aria-labelledby="srcH">
-<h2 id="srcH">Sources</h2>
+<h2 id="srcH" data-toc="Sources">Sources</h2>
 <ul>
 <li><a href="https://www.cancer.org/research/cancer-facts-statistics/all-cancer-facts-figures/2026-cancer-facts-figures.html">American Cancer Society: Cancer Facts &amp; Figures 2026</a></li>
 <li><a href="https://pressroom.cancer.org/releases?item=1341">American Cancer Society: 40% of cancer cases linked to modifiable risk factors (2024)</a></li>
@@ -342,5 +342,6 @@ $('fhGo').addEventListener('click',function(){
 $('fhReset').addEventListener('click',function(){document.querySelectorAll('#fhq input').forEach(function(x){x.checked=false});document.querySelectorAll('#fhq .miss').forEach(function(x){x.classList.remove('miss')});$('fhRes').hidden=true;$('fhMiss').hidden=true});
 })();</script>
 <script>(function(){var r=document.documentElement,b=document.getElementById('theme');function l(){b.setAttribute('aria-label',r.dataset.theme==='dark'?'Switch to light mode':'Switch to dark mode')}l();b.addEventListener('click',function(){r.dataset.theme=r.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('gg-theme',r.dataset.theme)}catch(e){}l()})})();</script>
+<script src="/js/toc.js" defer></script>
 </body>
 </html>

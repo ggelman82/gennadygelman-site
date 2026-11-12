@@ -289,6 +289,7 @@ ${body}
 </main>
 ${FOOTER}
 ${sec.items.some(i => i.plan) ? PREP_JS : ''}
+${sec.items.filter(i => i.g).length >= 4 ? '<script src="/js/toc.js" defer></script>' : ''}
 </body>
 </html>
 `;
