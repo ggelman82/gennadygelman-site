@@ -323,7 +323,10 @@ function render(){
   if(isNaN(dob)||dob>now){o.innerHTML='<p class="vx-hint">Check the date of birth.</p>';return}
   var age=ageMonths(dob,now);
   if(age>=19*12){o.innerHTML='<p class="vx-hint">This checklist is for children and teens. For adults, use the <a href="/patients/vaccines/#chooser">adult vaccine checklist</a>.</p>';return}
-  var items=V.map(function(v){return item(v,age,dob)});
+  // Hide what does not apply at this age: series that aged out (rotavirus after 8 months,
+  // Hib and pneumococcal at 5 and older), HPV before 9, Tdap and meningococcal before 11.
+  var minAge={hpv:108,tdap:132,men:132};
+  var items=V.filter(function(v){return !(minAge[v.id]&&age<minAge[v.id])}).map(function(v){return item(v,age,dob)}).filter(function(r){return r.s!=='na'});
   var g=function(s){return items.filter(function(r){return s.indexOf(r.s)>=0})};
   var now1=g(['behind','due']).sort(function(a,b){return a.order-b.order}),soon=g(['soon']).sort(function(a,b){return a.order-b.order}),later=g(['later']).sort(function(a,b){return a.order-b.order}),done=g(['done','na']);
   var fluTxt=age<6?'Flu vaccine starts at 6 months.':'Every year, each fall.'+(age<108?' If this is your child’s first flu season, they need two doses, four weeks apart.':'');
@@ -334,7 +337,7 @@ function render(){
     (now1.length?'<h3 class="vx-h3">Due now</h3>'+now1.map(card).join(''):'<p class="vx-hint" style="margin-bottom:10px!important">Nothing is due right now.</p>')+flu+
     (soon.length?'<h3 class="vx-h3">Coming up</h3>'+soon.map(card).join(''):'')+
     (later.length?'<h3 class="vx-h3">Later</h3>'+later.map(card).join(''):'')+
-    (done.length?'<h3 class="vx-h3">Done or no longer needed</h3>'+done.map(card).join(''):'')+
+    (done.length?'<h3 class="vx-h3">Done</h3>'+done.map(card).join(''):'')+
     '<p class="vx-foot">This checklist counts doses only. It does not check the dates between doses, the brand used, or health conditions that change the schedule. Bring your child’s record to their next visit and we will check it together.</p>';
   $('kdPrint').onclick=function(){window.print()};
   $('kdClear').onclick=function(){st={dob:'',name:'',got:{},flu:''};save();$('kdForm').reset();render();$('kdDob').focus()};
