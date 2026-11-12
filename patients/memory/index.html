@@ -193,6 +193,34 @@ table.ag td:first-child{color:var(--soft)}
 @media print{.cg-chips{display:none}}
 .facts span b{display:inline;font-size:inherit;margin:0;color:var(--ink)}table.gx th{color:var(--soft)!important}table.gx td{width:auto}table.gx td:first-child{color:var(--ink);font-weight:500;white-space:nowrap}
 @media (max-width:560px){table.gx td:before{content:none!important}table.gx td:nth-child(2){color:var(--soft);padding-top:0;padding-bottom:0}table.gx td:first-child{white-space:normal}}
+
+.vs{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:clamp(20px,3.5vw,32px);margin-top:18px;box-shadow:0 1px 0 var(--line),0 18px 40px -28px rgba(20,24,60,.35)}
+.vs-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;border-bottom:2px solid var(--ink);padding-bottom:12px;margin-bottom:14px;flex-wrap:wrap}
+.vs-k{font-family:Newsreader,Georgia,serif;font-size:28px;line-height:1.1;margin:0!important}
+.vs-d,.vs-from{font:500 12px/1.4 "Geist Mono",monospace;color:var(--faint);margin:4px 0 0!important}
+.vs-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:6px}
+@media (max-width:600px){.vs-row{grid-template-columns:1fr}}
+.vs-row label{font-size:13px;color:var(--soft);display:grid;gap:4px}
+.vs input[type=text],.vs textarea{font:inherit;font-size:15.5px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:9px 12px;width:100%;box-sizing:border-box}
+.vs textarea{resize:vertical;min-height:90px}
+.vs-h{font:600 12px/1.2 "Geist Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);margin:18px 0 8px!important}
+.vs-ul{margin:0;padding-left:20px;font-size:15.5px}.vs-ul li{padding:3px 0}
+.vs-ul small{color:var(--soft);display:block;font-size:13.5px}
+.vs-empty{font-size:15px;color:var(--faint);margin:0!important;padding:12px 14px;border:1px dashed var(--line);border-radius:12px}
+.vs-empty a{font-weight:500}
+.vs-q{display:grid;gap:6px}
+.vs-bring{margin:0;padding-left:20px;font-size:15px;color:var(--soft)}
+.vs-act{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:18px}
+.vs-btn{font:inherit;font-size:15px;font-weight:500;padding:11px 20px;border-radius:999px;border:1px solid var(--ink);background:var(--ink);color:var(--paper);cursor:pointer}
+.vs-btn.ghost{background:transparent;color:var(--ink)}
+.vs-ok{font-size:14px;color:var(--good)}
+.vs-fab{position:fixed;right:18px;bottom:18px;z-index:60;display:flex;align-items:center;gap:10px;padding:12px 18px 12px 14px;border-radius:999px;background:var(--ink);color:var(--paper)!important;text-decoration:none!important;font-size:15px;font-weight:500;box-shadow:0 10px 30px -8px rgba(0,0,0,.45);transform:translateY(120px);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.vs-fab.on{transform:none}
+.vs-fab .c{min-width:24px;height:24px;border-radius:999px;background:var(--paper);color:var(--ink);font:600 13px/24px "Geist Mono",monospace;text-align:center;padding:0 6px}
+.vs-fab.bump .c{animation:vsb .4s}
+@keyframes vsb{40%{transform:scale(1.35)}}
+@media (prefers-reduced-motion:reduce){.vs-fab{transition:none}.vs-fab.bump .c{animation:none}}
+@media print{body.vs-print *{visibility:hidden}body.vs-print #vsSheet,body.vs-print #vsSheet *{visibility:visible}body.vs-print #vsSheet{position:absolute;left:0;top:0;width:100%;border:0;box-shadow:none;padding:0}body.vs-print .vs-act,body.vs-print .vs-fab,body.vs-print .toc-stick,body.vs-print .toc-bar{display:none!important}.vs-q .bt-row{border:0;padding:2px 0;background:none}body.vs-print .vs-q .bt-row:not(:has(input:checked)){display:none}body.vs-print .vs input,body.vs-print .vs textarea{border:0;border-bottom:1px solid #999;border-radius:0;background:none}body.vs-print .vs-empty{display:none}body.vs-print .vs ::placeholder{color:transparent}}
 </style>
 </head>
 <body>
@@ -344,6 +372,24 @@ table.ag td:first-child{color:var(--soft)}
 <p class="note" style="margin-top:14px">Tell us how you are doing, too. Caregivers have higher rates of depression, poor sleep and health problems of their own. Taking care of yourself is part of taking care of them.</p>
 </section>
 
+<section class="s" id="visit" aria-labelledby="vsH">
+<span class="num">08</span>
+<h2 id="vsH" data-toc="Bring this to your visit">Bring this to your visit</h2>
+<p>Everything you checked on this page comes together here as one sheet. Print it, save it as a PDF, or copy it into a portal message to us. Nothing is saved or sent unless you do that yourself.</p>
+<div class="vs" id="vsSheet">
+<div class="vs-top"><div><p class="vs-k">Memory visit sheet</p><p class="vs-d" id="vsDate"></p></div><p class="vs-from">gennadygelman.com/patients/memory</p></div>
+<div class="vs-row"><label>Name <input type="text" id="vsName" autocomplete="off"></label><label>Filled out by <input type="text" id="vsBy" autocomplete="off" placeholder="Self, or name and relationship"></label></div>
+<div id="vsBody"></div>
+<p class="vs-h">Questions I want to ask</p>
+<div class="vs-q" id="vsQ"></div>
+<p class="vs-h">Bring with you</p>
+<ul class="vs-bring"><li>All your medicines and supplements, or a photo of each bottle</li><li>Someone who knows you well, if you can</li><li>Hearing aids and glasses</li></ul>
+<p class="vs-h">My notes</p>
+<textarea id="vsNotes" rows="4" placeholder="When did you first notice changes? Examples help: missed bills, repeated questions, getting lost."></textarea>
+<div class="vs-act"><button type="button" class="vs-btn" id="vsPrint">Print or save as PDF</button><button type="button" class="vs-btn ghost" id="vsCopy">Copy for a portal message</button><span class="vs-ok" id="vsOk" aria-live="polite"></span></div>
+</div>
+</section>
+
 <section class="sources" aria-labelledby="srcH">
 <h2 id="srcH" data-toc-skip>Sources</h2>
 <ul>
@@ -421,7 +467,7 @@ var RISK=[
 ];
 $('rkList').innerHTML=RISK.map(function(r){
   if(r.length===1)return '<p class="rk-life">'+r[0]+'</p>';
-  return '<label class="bt-row"><input type="checkbox" value="'+r[0]+'"><span>'+esc(r[1])+'</span><span class="pc" title="Share of dementia worldwide">'+r[2]+'%</span></label>'}).join('');
+  return '<label class="bt-row"><input type="checkbox" value="'+r[0]+'" data-a="'+r[3]+'"><span>'+esc(r[1])+'</span><span class="pc" title="Share of dementia worldwide">'+r[2]+'%</span></label>'}).join('');
 function rk(){
   var on=RISK.filter(function(r){var x=r.length>1&&document.querySelector('#rkList input[value="'+r[0]+'"]');return x&&x.checked}),res=$('rkRes');
   if(!on.length){res.innerHTML='<div class="bt-box ok"><h4>Nothing checked yet</h4><p>If none of these apply to you, great: keep it up. Check any that do to see what helps.</p></div>';return}
@@ -476,5 +522,55 @@ cg();
 
 <script>(function(){var r=document.documentElement,b=document.getElementById('theme');function l(){b.setAttribute('aria-label',r.dataset.theme==='dark'?'Switch to light mode':'Switch to dark mode')}l();b.addEventListener('click',function(){r.dataset.theme=r.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('gg-theme',r.dataset.theme)}catch(e){}l()})})();</script>
 <script src="/js/toc.js?v=3" defer></script>
+<a class="vs-fab" id="vsFab" href="#visit" aria-hidden="true" tabindex="-1"><span class="c" id="vsCount">0</span>My visit sheet</a>
+<script>(function(){
+var $=function(i){return document.getElementById(i)},fab=$('vsFab'),last=0,cgTouched=false;
+var Q=['Could a medicine I take be affecting my memory?','Should I have blood tests for thyroid and vitamin B12?','Could my hearing, sleep or mood be playing a part?','Should I have the pTau217 blood test?','Do I need a longer memory test or a specialist?','Am I a candidate for the newer Alzheimer\u2019s medicines?','Am I up to date on the shingles vaccine?','Is it still safe for me to drive?','What should my family and I plan for now?'];
+$('vsQ').innerHTML=Q.map(function(q,i){return '<label class="bt-row"><input type="checkbox" value="'+i+'"><span>'+q+'</span></label>'}).join('');
+$('vsDate').textContent=new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+function txt(el){return (el.textContent||'').replace(/\s+/g,' ').trim()}
+function data(){
+  var who=(document.querySelector('input[name="sgWho"]:checked')||{}).value==='them';
+  var signs=[].map.call(document.querySelectorAll('#sgList input:checked'),function(x){return txt(x.parentNode)});
+  var risks=[].map.call(document.querySelectorAll('#rkList input:checked'),function(x){return txt(x.parentNode.querySelector('span'))});
+  var acts=[].map.call(document.querySelectorAll('#rkList input:checked'),function(x){return x.dataset.a||''});
+  var help=[].map.call(document.querySelectorAll('#cgOut .cg-r'),function(r){var b=r.querySelector('b').cloneNode(true);[].forEach.call(b.querySelectorAll('small'),function(x){x.remove()});var ph=[].filter.call(r.querySelectorAll('.ln a'),function(a){return a.getAttribute('href').indexOf('tel:')===0}).map(txt);return {n:txt(b),p:ph.join(', ').replace(/^Call /,'')}});
+  var qs=[].map.call(document.querySelectorAll('#vsQ input:checked'),function(x){return Q[+x.value]});
+  return {who:who,signs:signs,risks:risks,acts:acts,help:help,qs:qs};
+}
+function li(a){return '<ul class="vs-ul">'+a.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul>'}
+function render(){
+  var d=data(),h='';
+  h+='<p class="vs-h">Changes noticed'+(d.who?' (by a family member or friend)':'')+'</p>'+(d.signs.length?li(d.signs):'<p class="vs-empty">None checked. <a href="#signs">Do the quick self-check</a></p>');
+  h+='<p class="vs-h">Risk factors to work on</p>'+(d.risks.length?li(d.risks.map(function(r,i){return r+(d.acts[i]?'<small>Next step: '+d.acts[i]+'</small>':'')})):'<p class="vs-empty">None checked. <a href="#risk">Go through the risk checklist</a></p>');
+  if(cgTouched&&d.help.length)h+='<p class="vs-h">Caregiver resources I picked</p>'+li(d.help.map(function(x){return x.n+(x.p?' <small>'+x.p+'</small>':'')}));
+  $('vsBody').innerHTML=h;
+  var n=d.signs.length+d.risks.length+d.qs.length;
+  $('vsCount').textContent=n;
+  var vis=n>0&&!near();
+  fab.classList.toggle('on',vis);fab.setAttribute('aria-hidden',vis?'false':'true');fab.tabIndex=vis?0:-1;
+  if(n>last){fab.classList.remove('bump');void fab.offsetWidth;fab.classList.add('bump')}last=n;
+}
+function near(){var r=$('visit').getBoundingClientRect();return r.top<innerHeight*0.9&&r.bottom>0}
+document.addEventListener('change',function(e){if(e.target.closest('#signTool,#riskTool,#vsQ'))setTimeout(render,0)});
+document.addEventListener('click',function(e){if(e.target.closest('.cg-chip')){cgTouched=true;setTimeout(render,0)}});
+addEventListener('scroll',function(){var n=+$('vsCount').textContent,v=n>0&&!near();fab.classList.toggle('on',v)},{passive:true});
+$('vsPrint').onclick=function(){document.body.classList.add('vs-print');print();setTimeout(function(){document.body.classList.remove('vs-print')},500)};
+addEventListener('afterprint',function(){document.body.classList.remove('vs-print')});
+$('vsCopy').onclick=function(){
+  var d=data(),L=['Memory visit sheet ('+$('vsDate').textContent+')'];
+  if($('vsName').value)L.push('Name: '+$('vsName').value);
+  if($('vsBy').value)L.push('Filled out by: '+$('vsBy').value);
+  if(d.signs.length){L.push('','Changes noticed'+(d.who?' (by family/friend)':'')+':');d.signs.forEach(function(x){L.push('- '+x)})}
+  if(d.risks.length){L.push('','Risk factors:');d.risks.forEach(function(x,i){L.push('- '+x+(d.acts[i]?' (next step: '+d.acts[i].toLowerCase()+')':''))})}
+  if(d.qs.length){L.push('','Questions:');d.qs.forEach(function(x){L.push('- '+x)})}
+  if($('vsNotes').value.trim())L.push('','Notes: '+$('vsNotes').value.trim());
+  var t=L.join('\n');
+  function ok(){$('vsOk').textContent='Copied. Paste it into a message to us.';setTimeout(function(){$('vsOk').textContent=''},4000)}
+  if(navigator.clipboard)navigator.clipboard.writeText(t).then(ok,function(){fallback(t);ok()});else{fallback(t);ok()}
+};
+function fallback(t){var a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy')}catch(e){}a.remove()}
+render();
+})();</script>
 </body>
 </html>
