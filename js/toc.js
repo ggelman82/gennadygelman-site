@@ -65,7 +65,15 @@
       '.toc-side .top{display:inline-block;margin:14px 0 0 14px;font-size:13px;color:var(--faint);text-decoration:none}' +
       '.toc-side .top:hover{color:var(--ink)}' +
     '}' +
-    '@media print{.toc-side,.toc-bar{display:none!important}html.toc-on main{margin:0 auto!important}}';
+    '.toc-stick{display:none}' +
+    '@media (min-width:1100px){' +
+      '.toc-stick{display:flex;align-items:baseline;gap:14px;position:fixed;top:64px;z-index:14;box-sizing:border-box;padding:12px 0 11px;background:var(--paper);border-bottom:1px solid var(--line);opacity:0;transform:translateY(-6px);pointer-events:none;transition:opacity .18s,transform .18s}' +
+      '.toc-stick.show{opacity:1;transform:none;pointer-events:auto}' +
+      '.toc-stick .n{font:500 12px/1 "Geist Mono",monospace;color:var(--faint);flex:none}' +
+      '.toc-stick .n:empty{display:none}' +
+      '.toc-stick .t{font-family:Newsreader,Georgia,serif;font-size:23px;line-height:1.15;letter-spacing:-.01em;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}' +
+    '}' +
+    '@media print{.toc-side,.toc-bar,.toc-stick{display:none!important}html.toc-on main{margin:0 auto!important}}';
   var st = document.createElement('style');
   st.textContent = css;
   document.head.appendChild(st);
@@ -99,12 +107,42 @@
 
   items.forEach(function (it) { it.el.style.scrollMarginTop = '144px'; });
 
+  // Wide screens: keep the current section's heading pinned under the site
+  // header from the moment its own heading scrolls away until the section ends.
+  var stick = document.createElement('div');
+  stick.className = 'toc-stick';
+  stick.setAttribute('aria-hidden', 'true');
+  stick.innerHTML = '<span class="n"></span><span class="t"></span>';
+  document.body.appendChild(stick);
+  var sN = stick.querySelector('.n'), sT = stick.querySelector('.t'), shown = -2;
+  items.forEach(function (it) {
+    var box = it.h.closest('section') || it.h.parentElement;
+    var num = box && box.querySelector('.num');
+    it.num = num && box.contains(it.h) ? num.textContent.trim() : '';
+    it.box = box;
+  });
+  items.forEach(function (it) {
+    it.ownBox = !!it.box && it.box !== main && !items.some(function (o) { return o !== it && it.box.contains(o.h); });
+  });
+  function pin(idx) {
+    var mr = main.getBoundingClientRect(), cs = getComputedStyle(main);
+    stick.style.left = (mr.left + parseFloat(cs.paddingLeft)) + 'px';
+    stick.style.width = (mr.width - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight)) + 'px';
+    var it = items[idx], line = 64 + 50;
+    var end = it.ownBox ? it.box.getBoundingClientRect().bottom : Infinity;
+    if (items[idx + 1]) end = Math.min(end, items[idx + 1].h.getBoundingClientRect().top);
+    var on = it.h.getBoundingClientRect().bottom < line && end > line + 20;
+    if (on && shown !== idx) { sN.textContent = it.num; sT.textContent = it.h.textContent.trim(); shown = idx; }
+    stick.classList.toggle('show', on);
+  }
+
   var links = Array.prototype.slice.call(document.querySelectorAll('.toc a[href^="#"]'));
   var active = -1;
   function update() {
     var line = window.innerHeight * 0.3, idx = 0;
     for (var i = 0; i < items.length; i++) if (items[i].el.getBoundingClientRect().top - line <= 0) idx = i;
     if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) idx = items.length - 1;
+    pin(idx);
     if (idx === active) return;
     active = idx;
     links.forEach(function (a) {
