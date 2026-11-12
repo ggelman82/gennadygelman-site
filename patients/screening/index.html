@@ -342,6 +342,6 @@ $('fhGo').addEventListener('click',function(){
 $('fhReset').addEventListener('click',function(){document.querySelectorAll('#fhq input').forEach(function(x){x.checked=false});document.querySelectorAll('#fhq .miss').forEach(function(x){x.classList.remove('miss')});$('fhRes').hidden=true;$('fhMiss').hidden=true});
 })();</script>
 <script>(function(){var r=document.documentElement,b=document.getElementById('theme');function l(){b.setAttribute('aria-label',r.dataset.theme==='dark'?'Switch to light mode':'Switch to dark mode')}l();b.addEventListener('click',function(){r.dataset.theme=r.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('gg-theme',r.dataset.theme)}catch(e){}l()})})();</script>
-<script src="/js/toc.js" defer></script>
+<script src="/js/toc.js?v=3" defer></script>
 </body>
 </html>

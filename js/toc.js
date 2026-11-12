@@ -1,5 +1,8 @@
 /* "On this page" guide for long pages on gennadygelman.com.
  *
+ * Cache: pages load this as /js/toc.js?v=N. After editing, bump N in every
+ * page (and in scripts/build-patient-pages.mjs) so browsers fetch the new copy.
+ *
  * Add <script src="/js/toc.js" defer></script> to a page. The script reads the
  * page's <h2> headings inside <main>, and builds:
  *   - wide screens: a sidebar to the left of the content that highlights the

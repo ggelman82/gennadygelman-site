@@ -154,6 +154,6 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 <script>(function(){var r=document.documentElement,b=document.getElementById('theme');function l(){b.setAttribute('aria-label',r.dataset.theme==='dark'?'Switch to light mode':'Switch to dark mode')}l();b.addEventListener('click',function(){r.dataset.theme=r.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('gg-theme',r.dataset.theme)}catch(e){}l()})})();
 (function(){var p=document.getElementById('printPage');if(p)p.addEventListener('click',function(){delete document.body.dataset.print;window.print()})})();</script>
 
-<script src="/js/toc.js" defer></script>
+<script src="/js/toc.js?v=3" defer></script>
 </body>
 </html>
