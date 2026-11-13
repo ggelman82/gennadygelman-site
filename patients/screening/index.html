@@ -146,6 +146,14 @@ footer a{color:inherit;text-decoration:none}
 .ri{width:20px;height:20px;flex:none;color:var(--ink);fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
 .note .risks{margin-top:10px}
 div.note{margin:0 0 14px}
+.remember{padding:8px 0 0}
+.remember h2{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:clamp(28px,4vw,38px);margin:0 0 18px}
+.rgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;counter-reset:r}
+.rgrid div{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px 18px;counter-increment:r}
+.rgrid div::before{content:counter(r,decimal-leading-zero);font-family:"Geist Mono",monospace;font-size:12px;color:var(--faint);display:block;margin-bottom:6px}
+.rgrid b{display:block;font-size:16.5px;line-height:1.35}
+.rgrid span{color:var(--soft);font-size:15px}
+@media (max-width:620px){.rgrid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -171,6 +179,7 @@ div.note{margin:0 0 14px}
 </div>
 <p class="srcline">American Cancer Society, Cancer Facts &amp; Figures 2026</p>
 
+<section class="remember" aria-labelledby="rem"><h2 id="rem" data-toc="Key points">Key points</h2><div class="rgrid"><div><b>Prevention comes first.</b><span>Don't smoke, drink less, get the HPV vaccine, keep a healthy weight.</span></div><div><b>I recommend five screenings.</b><span>Colon, breast, cervical, lung for some people who smoke or used to, and prostate as a personal decision.</span></div><div><b>Family history changes the plan.</b><span>Take the questionnaire on this page.</span></div><div><b>More testing isn't always better.</b><span>Some screenings I don't routinely do, and multi-cancer blood tests aren't ready for prime time.</span></div><div><b>Symptoms? Don't wait for a screening.</b><span>Tell us about bleeding, a lump or a cough that won't go away.</span></div></div></section>
 <section class="s" aria-labelledby="h0s">
 <span class="num">01</span>
 <h2 id="h0s" data-toc="Prevention">An ounce of prevention is worth a pound of screening</h2>
