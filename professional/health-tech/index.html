@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Health tech devices - Gennady Gelman</title>
+<meta name="description" content="Wearables, CGMs, cuffless blood pressure, vagus nerve stimulators, red light and sleep headbands: FDA status, evidence and what I tell patients.">
+<script>try{if('scrollRestoration' in history)history.scrollRestoration='manual'}catch(e){}</script><script>(function(){var t=null;try{t=localStorage.getItem('gg-theme')}catch(e){}if(!t)t=(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light';document.documentElement.dataset.theme=t})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+
+:root{--ink:#0e1734;--soft:#5a6383;--faint:#8a91a8;--paper:#f7f8fb;--surface:#fff;--line:rgba(14,23,52,.12);--line-2:rgba(14,23,52,.07);
+--accent:#3b54c4;--tint:#e7ecf6;--bar:#0e1734;--good:#2f6b48;color-scheme:light}
+:root[data-theme="dark"]{--ink:#e7eaf3;--soft:#a6aec6;--faint:#7f88a5;--paper:#0a0f1e;--surface:#131a2e;--line:rgba(231,234,243,.14);--line-2:rgba(231,234,243,.08);
+--accent:#93a6ff;--tint:#1b2340;--bar:#060a15;--good:#8fd0a8;color-scheme:dark}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Geist,system-ui,sans-serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+.wrap{max-width:860px;margin:0 auto;padding:0 clamp(16px,4vw,32px)}
+header.top{position:sticky;top:0;z-index:20;background:var(--bar);color:#fff}
+.top .wrap{max-width:1080px;display:flex;align-items:center;gap:18px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;font-weight:600;font-size:15px;white-space:nowrap}
+.mark{width:30px;height:30px;border-radius:50%;border:1.5px solid rgba(255,255,255,.75);display:grid;place-items:center;font-size:11px}
+.top nav{margin-left:auto;display:flex;gap:18px;align-items:center}
+.top nav a{color:#fff;text-decoration:none;font-size:14px;opacity:.85}.top nav a:hover{opacity:1;text-decoration:underline;text-underline-offset:4px}
+.theme{all:unset;cursor:pointer;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(255,255,255,.35)}
+.theme svg{width:18px;height:18px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round}.theme .moon{display:none}
+:root[data-theme="dark"] .theme .moon{display:block}:root[data-theme="dark"] .theme .sun{display:none}
+@media (max-width:440px){.bn{display:none}}
+.vnav{border-bottom:1px solid var(--line-2);background:var(--paper)}
+.vnav ul{list-style:none;margin:0 auto;padding:12px clamp(16px,4vw,32px);max-width:1080px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+.vnav ul::-webkit-scrollbar{display:none}
+.vnav a{display:block;white-space:nowrap;text-decoration:none;font-size:14px;padding:6px 13px;border-radius:999px;border:1px solid var(--line);color:var(--soft);background:var(--surface)}
+.vnav a:hover{color:var(--ink)}.vnav a[aria-current="page"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.hero{padding:clamp(34px,6vw,60px) 0 10px}
+.eyebrow{font-family:"Geist Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:0 0 12px}
+h1{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:clamp(46px,8vw,80px);line-height:1;letter-spacing:-.025em;margin:0}
+.sub{font-family:Newsreader,Georgia,serif;font-style:italic;font-size:clamp(22px,3vw,28px);color:var(--accent);margin:6px 0 0}
+.lede{color:var(--soft);font-size:clamp(17px,2vw,19px);max-width:56ch;margin:16px 0 0}
+.crumb{display:inline-block;margin-top:22px;font-size:14px;text-decoration:none;color:var(--soft)}
+:root{--warn:#8a5a1c;--warn-tint:#f3eee5;--stop:#c0583b;--stop-tint:#f6e9e4;--good-tint:#e2ede6}
+:root[data-theme="dark"]{--warn:#e0b070;--warn-tint:#2e2618;--stop:#ff8a6b;--stop-tint:#2e1c18;--good-tint:#18291f}
+.wrap{max-width:1080px}
+.key{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:28px 0 8px}
+@media (max-width:760px){.key{grid-template-columns:1fr 1fr}}
+.key div{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;font-size:14px;color:var(--soft)}
+.key b{display:block;color:var(--ink);font-size:14.5px;margin:6px 0 2px}
+.bar{position:sticky;top:64px;z-index:5;background:var(--paper);padding:14px 0 12px;margin-top:18px;border-bottom:1px solid var(--line-2);display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center}
+.chips{display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin:0;padding:0}
+.chips button{font:inherit;font-size:13.5px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--soft);cursor:pointer}
+.chips button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.chips button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.bar label{font-size:13.5px;color:var(--soft);display:flex;gap:6px;align-items:center;cursor:pointer}
+.count{margin-left:auto;font:500 12px "Geist Mono",monospace;color:var(--faint)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px;margin:18px 0 10px}
+.dv{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px 20px;scroll-margin-top:140px}
+.dv[hidden]{display:none}
+.dv-top{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
+.dv-cat{font:500 11px/1 "Geist Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.dv-st{font:600 11px/1.2 Geist,sans-serif;padding:5px 9px;border-radius:999px}
+.dv-st.rx{background:var(--tint);color:var(--accent)}
+.dv-st.cl{background:var(--good-tint);color:var(--good)}
+.dv-st.wl{background:var(--line-2);color:var(--soft)}
+.dv-st.wn{background:var(--stop-tint);color:var(--stop)}
+.dv h3{font-family:Newsreader,Georgia,serif;font-weight:500;font-size:25px;line-height:1.15;margin:12px 0 2px}
+.dv-mk{margin:0;font-size:13.5px;color:var(--faint)}
+.dv-what{font-size:15px;color:var(--soft);margin:10px 0}
+.dv-ev{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--faint);margin:0 0 10px}
+.dots{display:inline-flex;gap:3px}.dots i{width:16px;height:6px;border-radius:3px;background:var(--line)}.dots i.on{background:var(--accent)}
+.dv-ev b{color:var(--ink);font-weight:600}
+.dv-take{font-size:15px;margin:0 0 12px;padding:12px 14px;border-radius:12px;background:var(--paper);border:1px solid var(--line-2)}
+.dv-take b{display:block;font:600 11px/1 "Geist Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.dv-ft{margin-top:auto;display:flex;justify-content:space-between;gap:10px;font-size:13.5px;color:var(--faint);align-items:center}
+.dv-ft a{font-weight:500;text-decoration:none;white-space:nowrap}
+.ask{margin:36px 0 10px;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px 24px}
+.ask h2{font-family:Newsreader,Georgia,serif;font-weight:500;font-size:30px;margin:0 0 10px}
+.ask ol{margin:0;padding-left:22px;color:var(--soft)}.ask li{padding:4px 0}.ask li b{color:var(--ink)}
+.foot{font-size:13.5px;color:var(--faint);margin:24px 0 40px}
+footer{border-top:1px solid var(--line);padding:22px 0;font-size:13px;color:var(--faint)}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}footer a{color:var(--soft)}
+@media print{header.top,.bar{display:none}.dv{break-inside:avoid}}
+
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="brand" href="/"><span class="mark">GG</span><span class="bn">Gennady Gelman, MD</span></a>
+<nav><a href="/">Home</a><a href="/professional/">Library</a><a href="/#about">About</a></nav>
+<button class="theme" id="theme" type="button" aria-label="Switch to dark mode"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></button>
+</div></header>
+<main class="wrap">
+<a class="crumb" href="/professional/">← Professional resources</a>
+<div class="hero"><p class="eyebrow">For clinicians</p><h1>Health tech devices</h1><p class="lede">Patients bring these in and ask if they work. For each one: what the FDA has actually said, how good the evidence is, and what I tell patients.</p></div>
+<div class="key">
+<div><span class="dv-st rx">FDA-approved or cleared, Rx</span><b>Prescription device</b>Reviewed for a specific medical use.</div>
+<div><span class="dv-st cl">FDA-cleared</span><b>Cleared for a specific use</b>Usually 510(k): similar to an existing device. Cleared for what's on the label, not everything marketed.</div>
+<div><span class="dv-st wl">General wellness</span><b>Not reviewed</b>Can claim stress, sleep or fitness benefits, not to treat a disease.</div>
+<div><span class="dv-st wn">FDA warning</span><b>Regulator objected</b>FDA says a feature needs clearance it doesn't have.</div>
+</div>
+<div class="bar" role="group" aria-label="Filters">
+<ul class="chips" id="cats"><li><button type="button" data-c="all" aria-pressed="true">All</button></li><li><button type="button" data-c="track" aria-pressed="false">Trackers and wearables</button></li><li><button type="button" data-c="glucose" aria-pressed="false">Glucose</button></li><li><button type="button" data-c="bp" aria-pressed="false">Blood pressure</button></li><li><button type="button" data-c="neuro" aria-pressed="false">Neuromodulation</button></li><li><button type="button" data-c="light" aria-pressed="false">Light</button></li><li><button type="button" data-c="sleep" aria-pressed="false">Sleep</button></li></ul>
+<label><input type="checkbox" id="fdaOnly"> FDA-reviewed only</label>
+<span class="count" id="count"></span>
+</div>
+<div class="grid" id="grid">
+<article class="dv" data-cat="track" data-st="cl" id="apple">
+<div class="dv-top"><span class="dv-cat">Trackers and wearables</span><span class="dv-st cl">Some features FDA-cleared</span></div>
+<h3>Apple Watch</h3><p class="dv-mk">Apple</p>
+<p class="dv-what">A smartwatch. A few features are FDA-cleared medical functions: the ECG app and irregular rhythm alerts for atrial fibrillation, sleep apnea notifications, and since September 2025 hypertension notifications, which look at 30 days of optical sensor data. Everything else (sleep stages, VO2 max, HRV) is wellness.</p>
+<div class="dv-ev"><span>Evidence</span><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i></span><b>Moderate</b></div>
+<p class="dv-take"><b>What I tell patients</b>The AFib and sleep apnea features are worth acting on: get an ECG or a sleep study. A hypertension notification means check with a validated cuff; no notification does not rule hypertension out.</p>
+<div class="dv-ft"><span>$250–$800</span><a href="https://www.apple.com/healthcare/apple-watch/" target="_blank" rel="noopener">Learn more ↗</a></div>
+</article>
+<article class="dv" data-cat="track" data-st="wl" id="oura">
+<div class="dv-top"><span class="dv-cat">Trackers and wearables</span><span class="dv-st wl">General wellness</span></div>
+<h3>Oura and other smart rings</h3><p class="dv-mk">Oura, Samsung, Ultrahuman</p>
+<p class="dv-what">Rings track sleep timing, resting heart rate, HRV, skin temperature and activity. Sleep staging is an estimate and differs from a sleep study.</p>
+<div class="dv-ev"><span>Evidence</span><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i></span><b>Limited</b></div>
+<p class="dv-take"><b>What I tell patients</b>Good for trends and habits, especially sleep timing and how alcohol or late meals affect resting heart rate. Not diagnostic. If a patient is worried by a &quot;readiness&quot; score, the trend matters more than any one night.</p>
+<div class="dv-ft"><span>$300–$500, plus subscription</span><a href="https://ouraring.com/" target="_blank" rel="noopener">Learn more ↗</a></div>
+</article>
+<article class="dv" data-cat="track" data-st="wn" id="whoop">
+<div class="dv-top"><span class="dv-cat">Trackers and wearables</span><span class="dv-st wn">Wellness; FDA warning letter</span></div>
+<h3>Whoop</h3><p class="dv-mk">Whoop</p>
+<p class="dv-what">A screenless band built around strain, recovery and sleep. In July 2025 the FDA sent Whoop a warning letter saying its Blood Pressure Insights feature is an uncleared medical device; Whoop disputes this.</p>
+<div class="dv-ev"><span>Evidence</span><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i></span><b>Limited</b></div>
+<p class="dv-take"><b>What I tell patients</b>Fine as a fitness and sleep coach. Tell patients not to use its blood pressure numbers for decisions; use a validated cuff.</p>
+<div class="dv-ft"><span>Subscription, about $200–$360 a year</span><a href="https://www.whoop.com/" target="_blank" rel="noopener">Learn more ↗</a></div>
+</article>
+<article class="dv" data-cat="glucose" data-st="cl" id="cgm">
+<div class="dv-top"><span class="dv-cat">Glucose</span><span class="dv-st cl">FDA-cleared, over the counter</span></div>
+<h3>Over-the-counter CGMs</h3><p class="dv-mk">Dexcom Stelo, Abbott Lingo and Libre Rio</p>
+<p class="dv-what">Stelo (March 2024) was the first CGM cleared for sale without a prescription, followed by Abbott’s Lingo and Libre Rio. For adults 18+ not using insulin and without problematic hypoglycemia; no low-glucose alarms.</p>
+<div class="dv-ev"><span>Evidence</span><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i></span><b>Moderate</b></div>
+<p class="dv-take"><b>What I tell patients</b>A great teaching tool for prediabetes and type 2 diabetes not on insulin: a two-week experiment shows what meals, walks and sleep do. For people without diabetes there are no outcome trials, and normal post-meal rises can cause needless worry.</p>
+<div class="dv-ft"><span>About $50–$100 per 2-week sensor</span><a href="https://www.stelo.com/" target="_blank" rel="noopener">Learn more ↗</a></div>
+</article>
+<article class="dv" data-cat="bp" data-st="cl" id="cuff">
+<div class="dv-top"><span class="dv-cat">Blood pressure</span><span class="dv-st cl">FDA-cleared</span></div>
+<h3>Validated home BP cuff</h3><p class="dv-mk">Many brands; check validatebp.org</p>
+<p class="dv-what">An upper-arm automatic cuff. Home monitoring is the best-studied way to diagnose and control hypertension.</p>
+<div class="dv-ev"><span>Evidence</span><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><b>Strong</b></div>
+<p class="dv-take"><b>What I tell patients</b>Still the standard. Point patients to a device listed on validatebp.org, the right cuff size, and a week of twice-daily readings before a visit.</p>
+<div class="dv-ft"><span>$40–$100</span><a href="https://www.validatebp.org/" target="_blank" rel="noopener">Learn more ↗</a></div>
+</article>
+<article class="dv" data-cat="bp" data-st="cl" id="hilo">
+<div class="dv-top"><span class="dv-cat">Blood pressure</span><span class="dv-st cl">FDA-cleared, over the counter</span></div>
+<h3>Hilo (Aktiia) cuffless BP band</h3><p class="dv-mk">Aktiia</p>
+<p class="dv-what">A wrist band that estimates blood pressure from optical pulse-wave analysis while you are at rest. Cleared in July 2025 as the first over-the-counter cuffless BP monitor; it needs regular calibration with a cuff (included). US launch planned for 2026.</p>
+<div class="dv-ev"><span>Evidence</span><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i></span><b>Limited</b></div>
+<p class="dv-take"><b>What I tell patients</b>Promising for frequent readings and nighttime patterns. Until more independent data exist, confirm any decision-changing number with a validated cuff.</p>
+<div class="dv-ft"><span>About $250–$300</span><a href="https://www.hilo.com/" target="_blank" rel="noopener">Learn more ↗</a></div>
+</article>
+<article class="dv" data-cat="track" data-st="cl" id="hear">
+<div class="dv-top"><span class="dv-cat">Trackers and wearables</span><span class="dv-st cl">FDA-authorized OTC hearing aid</span></div>
+<h3>AirPods Pro hearing aid feature</h3><p class="dv-mk">Apple</p>
+<p class="dv-what">Software that turns AirPods Pro into an over-the-counter hearing aid for mild to moderate hearing loss, after an in-app hearing test.</p>
+<div class="dv-ev"><span>Evidence</span><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i></span><b>Moderate</b></div>
+<p class="dv-take"><b>What I tell patients</b>A low-barrier first step for patients who won’t get hearing aids. Hearing loss is the largest modifiable dementia risk factor, so this matters.</p>
+<div class="dv-ft"><span>$249 (the earbuds)</span><a href="https://www.apple.com/airpods-pro/hearing-health/" target="_blank" rel="noopener">Learn more ↗</a></div>
+</article>
+<article class="dv" data-cat="neuro" data-st="rx" id="gamma">
+<div class="dv-top"><span class="dv-cat">Neuromodulation</span><span class="dv-st rx">FDA-cleared, prescription</span></div>
+<h3>gammaCore</h3><p class="dv-mk">electroCore</p>
+<p class="dv-what">A handheld non-invasive vagus nerve stimulator held on the neck. It has 6 FDA-cleared headache indications, including acute and preventive treatment of migraine (age 12+) and of cluster headache.</p>
+<div class="dv-ev"><span>Evidence</span><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i></span><b>Moderate</b></div>
+<p class="dv-take"><b>What I tell patients</b>A real option for migraine or cluster headache when drugs fail or aren’t tolerated. Prescription and expensive; check coverage.</p>
+<div class="dv-ft"><span>Prescription; high cash cost</span><a href="https://www.gammacore.com/" target="_blank" rel="noopener">Learn more ↗</a></div>
+</article>
+<article class="dv" data-cat="neuro" data-st="wl" id="vns">
+<div class="dv-top"><span class="dv-cat">Neuromodulation</span><span class="dv-st wl">General wellness</span></div>
+<h3>Consumer vagus nerve stimulators</h3><p class="dv-mk">Pulsetto, Truvaga, Nurosym</p>
+<p class="dv-what">Ear-clip or neck devices that deliver mild electrical stimulation, marketed for stress, sleep and “vagal tone.” None is FDA-cleared for a disease. Most published evidence is for other devices or small trials of ear stimulation, not these products.</p>
+<div class="dv-ev"><span>Evidence</span><span class="dots" aria-hidden="true"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></span><b>Very limited</b></div>
+<p class="dv-take"><b>What I tell patients</b>Low risk for most people, but expect little beyond relaxation. Avoid with pacemakers, defibrillators or other implanted devices. Slow breathing does much of the same for free.</p>
+<div class="dv-ft"><span>$250–$800</span><a href="https://en.wikipedia.org/wiki/Non-invasive_vagus_nerve_stimulation_devices" target="_blank" rel="noopener">Learn more ↗</a></div>
+</article>
+<article class="dv" data-cat="neuro" data-st="wl" id="vib">
+<div class="dv-top"><span class="dv-cat">Neuromodulation</span><span class="dv-st wl">General wellness</span></div>
+<h3>Vibration “nervous system” wearables</h3><p class="dv-mk">Apollo Neuro, Sensate</p>
+<p class="dv-what">Wrist, ankle or chest devices that vibrate to promote calm. They do not stimulate the vagus nerve electrically, despite the marketing.</p>
+<div class="dv-ev"><span>Evidence</span><span class="dots" aria-hidden="true"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></span><b>Very limited</b></div>
+<p class="dv-take"><b>What I tell patients</b>Harmless. If a patient finds it calming, fine; it is not a treatment for anxiety or insomnia.</p>
+<div class="dv-ft"><span>$300–$400</span><a href="https://en.wikipedia.org/wiki/Non-invasive_vagus_nerve_stimulation_devices" target="_blank" rel="noopener">Learn more ↗</a></div>
+</article>
+<article class="dv" data-cat="neuro" data-st="cl" id="mig">
+<div class="dv-top"><span class="dv-cat">Neuromodulation</span><span class="dv-st cl">FDA-cleared</span></div>
+<h3>Migraine neuromodulation devices</h3><p class="dv-mk">Cefaly, Nerivio, Relivion, SAVI Dual, gammaCore</p>
+<p class="dv-what">Cefaly (forehead trigeminal stimulation) is over the counter for acute and preventive migraine in adults. Nerivio (upper-arm remote electrical neuromodulation) is prescription and cleared down to age 8. Others use occipital/trigeminal or magnetic stimulation.</p>
+<div class="dv-ev"><span>Evidence</span><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i></span><b>Moderate</b></div>
+<p class="dv-take"><b>What I tell patients</b>Worth offering to patients with frequent migraine, medication overuse, pregnancy, or side effects from drugs. Response varies; a one-month trial is reasonable.</p>
+<div class="dv-ft"><span>About $100–$500, varies by device</span><a href="https://americanmigrainefoundation.org/resource-library/neuromodulation-devices/" target="_blank" rel="noopener">Learn more ↗</a></div>
+</article>
+<article class="dv" data-cat="neuro" data-st="rx" id="flow">
+<div class="dv-top"><span class="dv-cat">Neuromodulation</span><span class="dv-st rx">FDA-approved (PMA), prescription</span></div>
+<h3>Flow FL-100 (home tDCS)</h3><p class="dv-mk">Flow Neuroscience</p>
+<p class="dv-what">A headset that delivers transcranial direct current stimulation to the prefrontal cortex at home, guided by an app. Approved in December 2025 for adults with moderate to severe major depression who are not treatment-refractory, alone or with medication. US launch 2026.</p>
+<div class="dv-ev"><span>Evidence</span><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i></span><b>Moderate</b></div>
+<p class="dv-take"><b>What I tell patients</b>A new non-drug option for patients who don’t want, or don’t tolerate, antidepressants. Prescription, with remote supervision; coverage unclear.</p>
+<div class="dv-ft"><span>Target about $500–$800</span><a href="https://www.flowneuroscience.com/" target="_blank" rel="noopener">Learn more ↗</a></div>
+</article>
+<article class="dv" data-cat="light" data-st="cl" id="red">
+<div class="dv-top"><span class="dv-cat">Light</span><span class="dv-st cl">Some devices FDA-cleared</span></div>
+<h3>Red light therapy (photobiomodulation)</h3><p class="dv-mk">Masks, panels, caps and wands; many brands</p>
+<p class="dv-what">Red (~630–660 nm) and near-infrared (~830–850 nm) light. Specific devices are FDA-cleared for specific uses, such as hair growth in androgenetic alopecia or wrinkles, not for “red light” in general. Evidence is moderate for hair loss and some skin aging; weak for energy, thyroid, testosterone, fat loss or longevity.</p>
+<div class="dv-ev"><span>Evidence</span><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i></span><b>Limited</b></div>
+<p class="dv-take"><b>What I tell patients</b>Low risk with an FDA-cleared device used as directed. Protect the eyes. Steer patients away from expensive full-body panels sold for wellness claims.</p>
+<div class="dv-ft"><span>$100–$500 for masks; panels often more</span><a href="https://jddonline.com/articles/red-light-therapy-in-cosmetic-dermatology-marketing-claims-backed-evidence-S1545961626P9844X/" target="_blank" rel="noopener">Learn more ↗</a></div>
+</article>
+<article class="dv" data-cat="sleep" data-st="wl" id="elemind">
+<div class="dv-top"><span class="dv-cat">Sleep</span><span class="dv-st wl">General wellness</span></div>
+<h3>Elemind</h3><p class="dv-mk">Elemind Technologies</p>
+<p class="dv-what">A headband that reads EEG and plays bone-conducted sound timed to the alpha rhythm to help you fall asleep, from MIT-trained neuroscientists. Sold as a wellness device, not FDA-cleared. In the company’s trial, 76% fell asleep faster, by about 48% on average.</p>
+<div class="dv-ev"><span>Evidence</span><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i></span><b>Limited</b></div>
+<p class="dv-take"><b>What I tell patients</b>Interesting and low risk, but the studies are small and company-run. For insomnia, CBT-I comes first; this could be an add-on for sleep-onset trouble.</p>
+<div class="dv-ft"><span>$349, plus optional membership</span><a href="https://elemindtech.com/" target="_blank" rel="noopener">Learn more ↗</a></div>
+</article>
+</div>
+<section class="ask" aria-labelledby="askH">
+<h2 id="askH">Five questions for any new device</h2>
+<ol>
+<li><b>What exactly is FDA-cleared?</b> Often one feature or one use, not the whole product or its ads.</li>
+<li><b>Who ran the studies?</b> Small, company-run trials without a sham arm are a starting point, not proof.</li>
+<li><b>What would change?</b> If no result would change what we do, the data may just add worry.</li>
+<li><b>What does it cost over a year?</b> Subscriptions, sensors and gel pads add up.</li>
+<li><b>Is there a free version?</b> Slow breathing, a sleep schedule, a walk after meals and a $50 cuff do a lot.</li>
+</ol>
+</section>
+<p class="foot">Prices are approximate and change often. FDA status checked November 2026. Nothing here is an endorsement or has a financial tie.</p>
+</main>
+<footer><div class="wrap"><span>© 2026 Gennady Gelman · Personal site, not affiliated with any employer.</span><a href="mailto:me@gennadygelman.com">me@gennadygelman.com</a></div></footer>
+<script>(function(){var r=document.documentElement,b=document.getElementById('theme');function l(){b.setAttribute('aria-label',r.dataset.theme==='dark'?'Switch to light mode':'Switch to dark mode')}l();b.addEventListener('click',function(){r.dataset.theme=r.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('gg-theme',r.dataset.theme)}catch(e){}l()})})();</script>
+<script>(function(){
+var cat='all',fda=document.getElementById('fdaOnly'),cards=[].slice.call(document.querySelectorAll('.dv')),bs=document.querySelectorAll('#cats button');
+function apply(){var n=0;cards.forEach(function(c){var ok=(cat==='all'||c.dataset.cat===cat)&&(!fda.checked||c.dataset.st==='rx'||c.dataset.st==='cl');c.hidden=!ok;if(ok)n++});document.getElementById('count').textContent=n+' device'+(n===1?'':'s')}
+bs.forEach(function(b){b.addEventListener('click',function(){cat=b.dataset.c;bs.forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});apply()})});
+fda.addEventListener('change',apply);apply();
+})();</script>
+</body>
+</html>
