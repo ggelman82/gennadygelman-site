@@ -50,7 +50,7 @@ body,button,input,select,textarea,label{font-family:Geist,system-ui,-apple-syste
 pre,code,textarea.mono{font-family:'Geist Mono',ui-monospace,monospace}
 h1{font-family:Newsreader,Georgia,serif!important;font-weight:400!important;letter-spacing:-.01em}
 body{background:#f7f8fb}</style></head>
-<body><div id="gg-hd" role="banner"><div class="in"><a class="br" href="/"><span class="mk">GG</span><span class="bn">Gennady Gelman, MD</span></a><nav aria-label="Site"><a href="/">Home</a><a href="/tools/">Tools</a><a href="/#about">About</a></nav></div></div><div id="gg-nt"><p><b>For licensed clinicians and trainees.</b> Not intended for patient self-use.</p></div><main class="wrap">
+<body><div id="gg-hd" role="banner"><div class="in"><a class="br" href="/"><span class="mk">GG</span><span class="bn">Gennady Gelman, MD</span></a><nav aria-label="Site"><a href="/">Home</a><a href="/#clinician">Tools</a><a href="/#about">About</a></nav></div></div><div id="gg-nt"><p><b>For licensed clinicians and trainees.</b> Not intended for patient self-use.</p></div><main class="wrap">
 <header><div class="mark">V</div><div><h1>Pediatric Vaccine Guidance</h1><p>Routine CDC schedule review for healthy children • Works entirely offline</p></div></header>
 <div class="notice"><strong>Version 1 scope:</strong> routine schedule screening only. Complex catch-up schedules, risk-based recommendations, contraindications, COVID-19, RSV products, and travel vaccines require separate clinical review.</div>
 <div class="grid">
@@ -93,4 +93,5 @@ function buildParent(d,a){const due=d.rows.filter(r=>["due","late"].includes(r.s
 $("copySmartPhrase").onclick=async()=>{const text=$("immunizationSmartPhrase").textContent;try{await navigator.clipboard.writeText(text)}catch{const area=document.createElement("textarea");area.value=text;area.style.position="fixed";area.style.opacity="0";document.body.appendChild(area);area.select();document.execCommand("copy");area.remove()}$("copyStatus").textContent="Copied";setTimeout(()=>$("copyStatus").textContent="",1800)};
 $("analyze").onclick=analyze;$("clear").onclick=()=>location.reload();
 })();
-</script><div id="gg-ft" role="contentinfo"><div class="in"><span>© 2026 Gennady Gelman · Personal site, not affiliated with any employer.</span><a href="mailto:me@gennadygelman.com">me@gennadygelman.com</a></div></div></body></html>
+</script><div id="gg-ft" role="contentinfo"><div class="in"><span>© 2026 Gennady Gelman · Personal site, not affiliated with any employer.</span><a href="mailto:me@gennadygelman.com">me@gennadygelman.com</a></div></div><script src="/js/search.js?v=1" defer></script>
+</body></html>

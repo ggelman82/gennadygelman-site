@@ -26,7 +26,7 @@ const data = new Function(
 )();
 const { PSECTIONS, ICONS, ACCENT } = data;
 
-const SHORT = { visit: 'Plan your visit', vaccines: 'Vaccines', screening: 'Cancer screening', memory: 'Memory', cholesterol: 'Cholesterol', devices: 'Health tech', sick: 'Feeling sick', weight: 'Weight loss', books: 'Books', ai: 'AI tools', phone: 'Apps' };
+const SHORT = { visit: 'Plan your visit', vaccines: 'Vaccines', screening: 'Cancer screening', memory: 'Memory', cholesterol: 'Cholesterol', devices: 'Health tech', sick: 'Flu', weight: 'Weight loss', books: 'Books', ai: 'AI tools', phone: 'Apps' };
 // Shared two-color card icons (also used by the Python-built pages).
 const GLYPHS = JSON.parse(readFileSync(join(ROOT, 'scripts', 'glyphs.json'), 'utf8'));
 const gi = (name, acc) => name && GLYPHS[name] ? `<svg class="gi" viewBox="0 0 48 48" aria-hidden="true" style="--a:${acc}">${GLYPHS[name]}</svg>` : '';
@@ -466,6 +466,7 @@ ${body}
 </main>
 ${FOOTER}
 <script src="/js/visit.js?v=2"></script>
+<script src="/js/search.js?v=1" defer></script>
 ${sec.items.some(i => i.plan) ? PREP_JS : ''}
 ${sec.id === 'weight' ? BMI_JS : ''}
 ${sec.items.filter(i => i.g).length >= 4 ? '<script src="/js/toc.js?v=4" defer></script>' : ''}

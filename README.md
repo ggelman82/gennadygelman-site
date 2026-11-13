@@ -26,5 +26,10 @@ After adding or removing a page, run:
     node scripts/readable-text.mjs
     node scripts/add-link-previews.mjs
     node scripts/build-sitemap.mjs
+    node scripts/build-search-index.mjs
 
-The first raises small text on the patient pages to a 16px floor (12px for the small uppercase labels); the second adds link-preview tags to any page missing them; the third rewrites `sitemap.xml` and `robots.txt`. Run `readable-text.mjs` again after `build-patient-pages.mjs`, which regenerates pages at the old sizes.
+The first raises small text on the patient pages to a 16px floor (12px for the small uppercase labels); the second adds link-preview tags to any page missing them; the third rewrites `sitemap.xml` and `robots.txt`; the fourth rebuilds `search-index.json`, which powers the search box on every page (`js/search.js`). A new hand-built page also needs `<script src="/js/search.js?v=1" defer></script>` before `</body>`. Run `readable-text.mjs` again after `build-patient-pages.mjs`, which regenerates pages at the old sizes.
+
+## Clinician hub
+
+The clinician tiles live in the home page's clinician view (`/#clinician`). `/tools/` redirects there. `/professional/` is a separate library page with its own content.

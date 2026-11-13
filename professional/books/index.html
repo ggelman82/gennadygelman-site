@@ -167,5 +167,6 @@ a.card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(15,23,42,.08)
 <script>(function(){var r=document.documentElement,b=document.getElementById('theme');function l(){b.setAttribute('aria-label',r.dataset.theme==='dark'?'Switch to light mode':'Switch to dark mode')}l();b.addEventListener('click',function(){r.dataset.theme=r.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('gg-theme',r.dataset.theme)}catch(e){}l()})})();</script>
 <script>(function(){const bs=document.querySelectorAll('.chips button');bs.forEach(b=>b.addEventListener('click',()=>{bs.forEach(x=>x.setAttribute('aria-pressed',String(x===b)));const c=b.dataset.c;document.querySelectorAll('section[data-cat]').forEach(s=>s.hidden=!(c==='all'||s.dataset.cat===c))}))})();</script>
 <script src="/js/toc.js?v=4" defer></script>
+<script src="/js/search.js?v=1" defer></script>
 </body>
 </html>

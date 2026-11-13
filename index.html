@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Home - Gennady Gelman</title>
+<title>Gennady Gelman, MD · Family medicine</title>
 <link rel="canonical" href="https://gennadygelman.com/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Gennady Gelman, MD">
@@ -83,7 +83,7 @@
   @media (max-width:640px){.kbtn .mag{display:inline}.kbtn .lbl,.kbtn kbd,.viewing .pre{display:none}.kbtn{padding:7px 11px}}
 
   /* ---------- GATE ---------- */
-  #gate{flex:1;display:flex;flex-direction:column;justify-content:center;padding-top:clamp(28px,6vh,64px);padding-bottom:clamp(28px,6vh,64px)}
+  #gate{flex:1;display:flex;flex-direction:column;justify-content:flex-start;padding-top:clamp(36px,9vh,110px);padding-bottom:clamp(28px,6vh,64px)}
   .eyebrow{font-family:"Geist Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:0 0 14px}
   #gate h1{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:clamp(40px,7vw,76px);line-height:1;letter-spacing:-.025em;margin:0 0 28px}
   #gate h1 em{color:var(--accent)}
@@ -169,6 +169,10 @@
 
   /* ---------- patient topic tiles ---------- */
   .tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:30px}
+  .tgroups{margin-top:26px}
+  .tgroup{margin:0 0 26px}
+  .tgroup .tiles{margin-top:10px}
+  .tg-h{font:500 12px/1.2 "Geist Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin:0}
   @media (max-width:900px){.tiles{grid-template-columns:repeat(2,1fr)}}
   .tile{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;gap:26px;min-height:150px;padding:18px 18px 16px;border-radius:18px;background:var(--t,#fff);border:1.5px solid transparent;transition:transform .16s ease,box-shadow .16s ease,border-color .16s}
   .tile:hover{transform:translateY(-3px);border-color:rgba(14,23,52,.3);box-shadow:0 14px 30px -20px rgba(14,23,52,.55)}
@@ -345,7 +349,7 @@
 
   <!-- Patient view: resources broken into topic sections -->
   <div id="psecs" hidden>
-    <div class="tiles" id="tiles" role="list"></div>
+    <div class="tgroups" id="tiles"></div>
     <p class="safety">In an emergency, call <a href="tel:911">911</a>. For a mental health crisis, call or text <a href="tel:988">988</a>.</p>
   </div>
 
@@ -444,7 +448,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     {n:'Kiloday', d:'A rational alternative to birthdays: thousand-day milestones in base ten.', u:B+'/kiloday/', a:[C,K]}
   ];
   const TNAME = {patient:'Patient resources', clinician:'Clinician tools', curious:'Words, ideas, and experiments'};
-  const setTitle = n => { document.title = (n || 'Home') + ' - Gennady Gelman' };
+  const setTitle = n => { document.title = n ? n + ' - Gennady Gelman' : 'Gennady Gelman, MD · Family medicine' };
   const VIEWS = {
     patient:{label:'Patient', h:'Resources for my <em>patients.</em>', l:'Pick a topic.', note:'', ph:'Start here', ids:['prep','flu','weight','plants','apps','books','alex'], placeholder:'Search: flu, weight, apps, books…'},
     clinician:{label:'Clinician', h:'Decision support, <em>built for Epic.</em>', l:'Paste from the chart, get an answer. Pick a tool.', note:'<b>For licensed clinicians and trainees.</b> These tools support clinical judgment; they do not replace it. Verify outputs before acting.', ph:'Tools', ids:['cv','lab','raf','imm','ad','dm','lib','prof'], placeholder:'Search: statin, RAF, vaccines, labs, guidelines…'},
@@ -500,7 +504,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       {n:'Glucose sensors without a prescription', ic:'tech', d:'Dexcom Stelo and Abbott Lingo for adults not on insulin.', u:B+'/patients/devices/#glucose', k:'cgm stelo lingo glucose sensor prediabetes'},
       {n:'Hearing, migraine, mood and more', ic:'tech', d:'Over-the-counter hearing aids, migraine devices, prescription mental health apps.', u:B+'/patients/devices/#hear', k:'hearing aids airpods tinnitus migraine cefaly nerivio depression app anxiety natural cycles quell'}
     ]},
-    {id:'sick', p:'/patients/sick/', t:'#f6e9e4', n:'Feeling sick', i:'What to do, what helps, and when to get help.', items:[
+    {id:'sick', p:'/patients/sick/', t:'#f6e9e4', n:'Flu', i:'Prevent it, treat it at home, and know when to get help.', items:[
       {f:true, tint:'var(--blue)', n:'Influenza guide', ic:'thermometer', d:'Prevent it, understand it, know what actually helps.', u:B+'/flu/', k:'flu influenza fever cough cold sick season'},
       {n:'Build your flu comfort plan', ic:'bed', d:'Sleep, fluids, saline, and treating discomfort safely.', u:B+'/flu/#flu-plan', k:'flu comfort plan home care fluids'},
       {n:'Warning signs to watch for', ic:'warning', d:'When flu symptoms mean you need urgent care.', u:'https://www.cdc.gov/flu/signs-symptoms/index.html', k:'warning signs emergency urgent breathing'},
@@ -589,7 +593,12 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   const icon = id => `<svg class="ic" viewBox="0 0 48 48" aria-hidden="true" style="--a:${ACCENT[id]}">${ICONS[id]||''}</svg>`;
 
   function renderPatientSections(){
-    $('#tiles').innerHTML = PSECTIONS.map((sec,i)=>`<a class="tile" role="listitem" style="--t:${sec.t};--a:${ACCENT[sec.id]}" href="${sec.p}"><span class="tile-top">${icon(sec.id)}<span class="num">${String(i+1).padStart(2,'0')}</span></span><span class="nm">${esc(sec.n)}</span></a>`).join('');
+    const GROUPS = [['Prepare',['visit']], ['Prevent',['vaccines','screening']], ['Conditions',['cholesterol','memory','weight','sick']], ['My picks',['books','phone','ai','devices']]];
+    const used = new Set(GROUPS.flatMap(g=>g[1])); const rest = PSECTIONS.filter(s=>!used.has(s.id)).map(s=>s.id);
+    if(rest.length) GROUPS.push(['More', rest]);
+    let n = 0;
+    const tile = sec => `<a class="tile" role="listitem" style="--t:${sec.t};--a:${ACCENT[sec.id]}" href="${sec.p}"><span class="tile-top">${icon(sec.id)}<span class="num">${String(++n).padStart(2,'0')}</span></span><span class="nm">${esc(sec.n)}</span></a>`;
+    $('#tiles').innerHTML = GROUPS.map(([name,ids],gi)=>`<section class="tgroup" aria-labelledby="tg${gi}"><h2 class="tg-h" id="tg${gi}">${name}</h2><div class="tiles" role="list">${ids.map(id=>PSECTIONS.find(s=>s.id===id)).filter(Boolean).map(tile).join('')}</div></section>`).join('');
   }
   function closeSection(){ setTitle(TNAME[who]); document.querySelector('.cc').hidden=false; }
   const byId = Object.fromEntries(ITEMS.map(i=>[i.id,i]));
@@ -607,7 +616,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     $('#homeLink').hidden = !w;
     who = w; store.set(w);
     try{ history.replaceState(null,'', w ? '#'+w : location.pathname) }catch(e){}
-    setTitle(w ? TNAME[w] : 'Home');
+    setTitle(w ? TNAME[w] : '');
     if(!w){ gate.hidden=false; view.hidden=true; nav.hidden=true; window.scrollTo(0,0); gate.querySelector('.door').focus({preventScroll:true}); return }
     const v = VIEWS[w];
     $('#vh').innerHTML = v.h; $('#vl').textContent = v.l;
