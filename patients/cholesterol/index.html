@@ -630,10 +630,10 @@ function render(){
     rows.push(row(c2,hdl>=60?'Good':hdl>=40?'OK':'Low','HDL, the "good" cholesterol',hdl,'mg/dL',bar(hdl,[[40,'b'],[60,'m'],[100,'g']],100,[40,60]),t2));
   }
   if(tc!=null&&hdl!=null&&hdl>0){
-    var r=tc/hdl,c3=r<=3.5?'g':r<5?'m':'b';
-    var t3=r<=3.5?'Good. For every '+(Math.round(r*10)/10)+' going out, one comes back.':r<5?'In the middle. About '+(Math.round(r*10)/10)+' trucks go out for every one that comes back. I like to see 3.5 or less.':'Concerning. About '+(Math.round(r*10)/10)+' trucks go out for every one that comes back, so cholesterol is left behind in the arteries.';
+    var r=tc/hdl,c3=r<=3?'g':r<5?'m':'b';
+    var t3=r<=3?'Good. For every '+(Math.round(r*10)/10)+' going out, one comes back.':r<5?'In the middle. About '+(Math.round(r*10)/10)+' trucks go out for every one that comes back. I like to see 3 or less.':'Concerning. About '+(Math.round(r*10)/10)+' trucks go out for every one that comes back, so cholesterol is left behind in the arteries.';
     if(r>=5)talk.push('Cholesterol ratio '+(Math.round(r*10)/10));
-    rows.push(row(c3,r<=3.5?'Good':r<5?'Middle':'High','Total-to-HDL ratio',r,': 1',bar(r,[[3.5,'g'],[5,'m'],[8,'b']],8,[3.5,5]),t3,true));
+    rows.push(row(c3,r<=3?'Good':r<5?'Middle':'High','Total-to-HDL ratio',r,': 1',bar(r,[[3,'g'],[5,'m'],[8,'b']],8,[3,5]),t3,true));
   }
   if(tg!=null){
     var c4=tg<150?'g':tg<500?'m':'b';
