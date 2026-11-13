@@ -377,6 +377,14 @@ figure.dg svg{width:100%;height:auto;display:block;font-family:Geist,system-ui,s
 .why{margin:40px 0 0;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px 24px}
 .why h2{font-family:Newsreader,Georgia,serif;font-weight:500;font-size:28px;margin:0 0 8px}
 .why ul{margin:0;padding-left:20px;color:var(--soft)}.why li{padding:4px 0}.why b{color:var(--ink)}
+.remember{padding:8px 0 0}
+.remember h2{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:clamp(28px,4vw,38px);margin:0 0 18px}
+.rgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;counter-reset:r}
+.rgrid div{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px 18px;counter-increment:r}
+.rgrid div::before{content:counter(r,decimal-leading-zero);font-family:"Geist Mono",monospace;font-size:12px;color:var(--faint);display:block;margin-bottom:6px}
+.rgrid b{display:block;font-size:16.5px;line-height:1.35}
+.rgrid span{color:var(--soft);font-size:15px}
+@media (max-width:620px){.rgrid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -400,6 +408,7 @@ figure.dg svg{width:100%;height:auto;display:block;font-family:Geist,system-ui,s
 <div><span class="dv-st ft">Some features FDA-cleared</span><b>Partly medical</b>Only certain features were reviewed. The rest are estimates.</div>
 <div><span class="dv-st wl">Not FDA-reviewed</span><b>General wellness</b>Sold for stress, sleep or fitness. Not reviewed to treat anything.</div>
 </div>
+<section class="remember" aria-labelledby="rem"><h2 id="rem" data-toc="Key points">Key points</h2><div class="rgrid"><div><b>Check the label first.</b><span>It tells you whether the FDA reviewed the device, and for what.</span></div><div><b>An alert is a reason to call us, not a diagnosis.</b><span>No alert does not mean all clear.</span></div><div><b>The one I recommend most is a validated upper-arm blood pressure cuff.</b></div><div><b>Sleep, stress and readiness scores are estimates.</b><span>Watch the trend, not one night.</span></div></div></section>
 <div class="srch"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input type="search" id="dq" placeholder="Search: snoring, blood pressure, Oura, hot flashes…" aria-label="Search devices and apps" autocomplete="off"><button type="button" id="dqx" aria-label="Clear search" hidden>×</button></div>
 <p class="none" id="none" hidden>Nothing matches. Try a symptom like <a href="#" data-q="snoring">snoring</a>, <a href="#" data-q="palpitations">palpitations</a> or <a href="#" data-q="migraine">migraine</a>, or ask us.</p>
 <div class="fbar" role="group" aria-label="Show"><span>Show:</span><button type="button" data-f="all" aria-pressed="true">All</button><button type="button" data-f="otc" aria-pressed="false">Over the counter</button><button type="button" data-f="rx" aria-pressed="false">Prescription</button><button type="button" data-f="feat" aria-pressed="false">Partly cleared</button><button type="button" data-f="well" aria-pressed="false">Not FDA-reviewed</button><span class="fcount" id="fcount"></span></div>
