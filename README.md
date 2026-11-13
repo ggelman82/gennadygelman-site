@@ -23,7 +23,8 @@ Card icons come from `scripts/glyphs.json` (48×48 two-color SVG glyphs: strokes
 
 After adding or removing a page, run:
 
+    node scripts/readable-text.mjs
     node scripts/add-link-previews.mjs
     node scripts/build-sitemap.mjs
 
-The first adds link-preview tags to any page missing them; the second rewrites `sitemap.xml` and `robots.txt`.
+The first raises small text on the patient pages to readable sizes (16px floor for reading text); the second adds link-preview tags to any page missing them; the third rewrites `sitemap.xml` and `robots.txt`. Run `readable-text.mjs` again after `build-patient-pages.mjs`, which regenerates pages at the old sizes.

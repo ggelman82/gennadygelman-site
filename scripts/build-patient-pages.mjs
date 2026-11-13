@@ -465,7 +465,7 @@ ${body}
 <p>${esc(url.replace('https://', ''))}</p></div>
 </main>
 ${FOOTER}
-<script src="/js/visit.js?v=1"></script>
+<script src="/js/visit.js?v=2"></script>
 ${sec.items.some(i => i.plan) ? PREP_JS : ''}
 ${sec.id === 'weight' ? BMI_JS : ''}
 ${sec.items.filter(i => i.g).length >= 4 ? '<script src="/js/toc.js?v=4" defer></script>' : ''}

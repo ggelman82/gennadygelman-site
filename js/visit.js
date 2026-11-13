@@ -3,7 +3,7 @@
    Mark-up hooks:
      <button class="vv-add" data-vid="unique-id" data-vt="What to talk about" data-vd="optional detail">  (any page)
      <div data-vv-hub></div>  (full plan, used on /patients/visit/)
-   Pages load it with <script src="/js/visit.js?v=1"></script>. Bump v= after edits (GitHub Pages caches 10 min). */
+   Pages load it with <script src="/js/visit.js?v=2"></script>. Bump v= after edits (GitHub Pages caches 10 min). */
 (function () {
   var KEY = 'gg-visit-v1', MAXSTAR = 2, subs = [];
   var st = load();
@@ -46,7 +46,7 @@
 
   /* ---------- styles ---------- */
   var css = '' +
-  '.vv-add{font:inherit;font-size:13.5px;font-weight:500;display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;border:1px dashed var(--faint,#888);background:transparent;color:var(--ink,#111);cursor:pointer;line-height:1.2;align-self:flex-start;white-space:nowrap}' +
+  '.vv-add{font:inherit;font-size:15px;font-weight:500;display:inline-flex;align-items:center;gap:8px;min-height:44px;box-sizing:border-box;padding:8px 16px;border-radius:999px;border:1px dashed var(--faint,#888);background:transparent;color:var(--ink,#111);cursor:pointer;line-height:1.2;align-self:flex-start;white-space:nowrap}' +
   '.vv-add:hover{border-style:solid}' +
   '.vv-add .vv-i{display:inline-grid;place-items:center;width:16px;height:16px;border-radius:50%;background:var(--ink,#111);color:var(--paper,#fff);font-size:12px;line-height:1}' +
   '.vv-add[aria-pressed="true"]{border-style:solid;border-color:var(--good,#2f6b48);color:var(--good,#2f6b48);background:var(--good-tint,rgba(47,107,72,.08))}' +
@@ -64,16 +64,16 @@
   '.vv-dh h2{font-family:Newsreader,Georgia,serif;font-weight:500;font-size:26px;margin:0}' +
   '.vv-close{font:inherit;font-size:26px;line-height:1;border:0;background:none;color:var(--soft,#555);cursor:pointer;padding:4px 8px}' +
   '.vv-db{overflow:auto;padding:16px 22px 28px;flex:1}' +
-  '.vv-plan{font-size:15px}' +
+  '.vv-plan{font-size:16px}' +
   '.vv-plan .vv-k{font:600 11.5px/1.2 "Geist Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--soft,#555);margin:18px 0 8px}' +
   '.vv-plan .vv-k:first-child{margin-top:0}' +
-  '.vv-help{color:var(--soft,#555);font-size:14px;margin:0 0 10px}' +
+  '.vv-help{color:var(--soft,#555);font-size:16px;margin:0 0 10px}' +
   '.vv-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}' +
   '.vv-list li{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:start;padding:10px 12px;border-radius:12px;background:var(--surface,#f6f6f8);border:1px solid var(--line,#ddd)}' +
   '.vv-list li.s{border-color:var(--warn,#a86b00);background:var(--warn-tint,#fff6e5)}' +
   '.vv-list b{display:block;font-weight:600}' +
-  '.vv-list .vv-d{display:block;color:var(--soft,#555);font-size:13.5px}' +
-  '.vv-list .vv-f{display:block;color:var(--faint,#888);font-size:12.5px;margin-top:2px}' +
+  '.vv-list .vv-d{display:block;color:var(--soft,#555);font-size:14.5px}' +
+  '.vv-list .vv-f{display:block;color:var(--faint,#888);font-size:14.5px;margin-top:2px}' +
   '.vv-list .vv-f a{color:inherit}' +
   '.vv-st,.vv-x{font:inherit;border:0;background:none;cursor:pointer;padding:2px 4px;border-radius:6px;line-height:1}' +
   '.vv-st{font-size:21px;color:var(--faint,#999)}' +
@@ -81,17 +81,17 @@
   '.vv-x{font-size:20px;color:var(--faint,#999)}' +
   '.vv-x:hover{color:var(--stop,#b3261e)}' +
   '.vv-empty{color:var(--soft,#555);padding:14px;border:1px dashed var(--line,#ccc);border-radius:12px;margin:0}' +
-  '.vv-msg{font-size:13.5px;color:var(--warn,#a86b00);min-height:1.2em;margin:6px 0 0}' +
+  '.vv-msg{font-size:14.5px;color:var(--warn,#a86b00);min-height:1.2em;margin:6px 0 0}' +
   '.vv-when{display:grid;grid-template-columns:1fr 1fr;gap:10px}' +
-  '.vv-when label{display:grid;gap:4px;font-size:13px;color:var(--soft,#555)}' +
-  '.vv-when input,.vv-when select{font:inherit;font-size:15px;color:var(--ink,#111);background:var(--surface,#fff);border:1px solid var(--line,#ccc);border-radius:10px;padding:8px 10px;width:100%;box-sizing:border-box;color-scheme:light dark}' +
+  '.vv-when label{display:grid;gap:4px;font-size:14.5px;color:var(--soft,#555)}' +
+  '.vv-when input,.vv-when select{font:inherit;font-size:16px;color:var(--ink,#111);background:var(--surface,#fff);border:1px solid var(--line,#ccc);border-radius:10px;padding:8px 10px;width:100%;box-sizing:border-box;color-scheme:light dark}' +
   '.vv-acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}' +
-  '.vv-btn{font:inherit;font-size:14.5px;font-weight:500;padding:10px 16px;border-radius:999px;border:1px solid var(--ink,#111);background:var(--ink,#111);color:var(--paper,#fff);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}' +
+  '.vv-btn{font:inherit;font-size:16px;font-weight:500;padding:10px 16px;border-radius:999px;border:1px solid var(--ink,#111);background:var(--ink,#111);color:var(--paper,#fff);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}' +
   '.vv-btn.g{background:transparent;color:var(--ink,#111)}' +
   '.vv-btn[disabled]{opacity:.45;cursor:not-allowed}' +
-  '.vv-lnk{font-size:14px;color:var(--faint,#888);background:none;border:0;font:inherit;cursor:pointer;text-decoration:underline;padding:0;margin-top:14px}' +
-  '.vv-priv{font-size:12.5px;color:var(--faint,#888);margin:14px 0 0}' +
-  '.vv-toast{position:fixed;left:50%;bottom:84px;transform:translate(-50%,20px);z-index:90;background:var(--ink,#111);color:var(--paper,#fff);padding:9px 16px;border-radius:999px;font-size:14px;opacity:0;pointer-events:none;transition:all .25s}' +
+  '.vv-lnk{font-size:16px;color:var(--faint,#888);background:none;border:0;font:inherit;cursor:pointer;text-decoration:underline;padding:0;margin-top:14px}' +
+  '.vv-priv{font-size:14.5px;color:var(--faint,#888);margin:14px 0 0}' +
+  '.vv-toast{position:fixed;left:50%;bottom:84px;transform:translate(-50%,20px);z-index:90;background:var(--ink,#111);color:var(--paper,#fff);padding:9px 16px;border-radius:999px;font-size:16px;opacity:0;pointer-events:none;transition:all .25s}' +
   '.vv-toast.on{opacity:1;transform:translate(-50%,0)}' +
   '@media (prefers-reduced-motion:reduce){.vv-pill,.vv-drawer,.vv-scrim,.vv-toast{transition:none}.vv-pill.bump .c{animation:none}}' +
   '@media print{.vv-add,.vv-pill,.vv-drawer,.vv-scrim,.vv-toast{display:none!important}}';
