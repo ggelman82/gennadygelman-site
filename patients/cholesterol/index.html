@@ -269,6 +269,15 @@ figure.dg svg{width:100%;height:auto;display:block;font-family:Geist,system-ui,s
 .hd-v{float:right;margin:0 0 6px 10px;font:600 11px/1 "Geist Mono",monospace;letter-spacing:.08em;text-transform:uppercase;padding:6px 10px;border-radius:999px;background:var(--line-2,#eee);color:var(--soft)}
 .hd-r.hd-ok .hd-v{background:var(--good-tint);color:var(--good)}.hd-r.hd-mid .hd-v{background:var(--warn-tint);color:var(--warn)}.hd-r.hd-no .hd-v{background:var(--stop-tint);color:var(--stop)}
 @media (max-width:560px){.hd-v{float:none;display:inline-block;margin:0 0 8px}}
+
+.rd{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-top:14px}
+.rd a{display:flex;flex-direction:column;gap:4px;padding:16px 18px;border-radius:16px;background:var(--surface);border:1px solid var(--line);text-decoration:none;color:var(--ink);transition:border-color .15s,transform .15s}
+.rd a:hover{border-color:var(--accent);transform:translateY(-2px)}
+.rd .t{font:600 11px/1 "Geist Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.rd .t.bk{color:var(--accent)}
+.rd b{font-size:17px;line-height:1.3}
+.rd span.d{color:var(--soft);font-size:14.5px}
+.rd .src{margin-top:auto;padding-top:6px;font-size:13px;color:var(--faint)}
 </style>
 </head>
 <body>
@@ -428,6 +437,13 @@ figure.dg svg{width:100%;height:auto;display:block;font-family:Geist,system-ui,s
 <div class="hd-r hd-mid"><span class="hd-v">Depends on you</span><b>Daily aspirin</b><p><b>If you have had a heart attack, stroke, stent or bypass</b> (secondary prevention), aspirin is usually right for you. <b>If you haven't</b> (primary prevention), most people should <i>not</i> take it: the bleeding risk, from the stomach or the brain after a fall, usually outweighs the benefit. With diabetes between 40 and 75, it may make sense if your heart risk is high and bleeding risk is low. Don't start or stop it without talking with us.</p></div>
 </div>
 <p style="margin-top:14px"><button type="button" class="vv-add" data-vid="chol-supp" data-vt="Supplements I take or am considering" data-vl="Ask about supplements"></button> <button type="button" class="vv-add" data-vid="chol-aspirin" data-vt="Should I take aspirin?" data-vl="Ask about aspirin"></button></p>
+</section>
+
+<section class="s" id="read" aria-labelledby="rdH">
+<span class="num">09</span>
+<h2 id="rdH" data-toc="Books and articles">Books and articles</h2>
+<p>If you want to go deeper, these are the ones I trust.</p>
+<div class="rd"><a href="/patients/books/how-not-to-die/"><span class="t bk">Book I recommend</span><b>How Not to Die</b><span class="d">Michael Greger, MD. The case for eating more whole plant foods, and his Daily Dozen checklist. My summary.</span><span class="src">Gennady Gelman, MD</span></a><a href="https://www.heart.org/en/health-topics/cholesterol/about-cholesterol/what-your-cholesterol-levels-mean" target="_blank" rel="noopener"><span class="t">Article</span><b>What your cholesterol levels mean</b><span class="d">What each number on your lipid panel means.</span><span class="src">American Heart Association ↗</span></a><a href="https://www.heart.org/-/media/Files/Health-Topics/Cholesterol/Questions-To-Ask-HCP.pdf" target="_blank" rel="noopener"><span class="t">Worksheet</span><b>Questions to ask about your cholesterol</b><span class="d">A fill-in sheet with spaces for your LDL, Lp(a), ApoB and calcium score. Bring it to your visit.</span><span class="src">American Heart Association (PDF) ↗</span></a><a href="https://www.cdc.gov/heart-disease-family-history/about/about-lipoprotein-a.html" target="_blank" rel="noopener"><span class="t">Article</span><b>About lipoprotein(a)</b><span class="d">What Lp(a) is, why it runs in families and what a high level means.</span><span class="src">CDC ↗</span></a><a href="https://medlineplus.gov/ency/patientinstructions/000314.htm" target="_blank" rel="noopener"><span class="t">Article</span><b>Statins</b><span class="d">Who should take them, how they work and what to watch for.</span><span class="src">MedlinePlus, National Library of Medicine ↗</span></a></div>
 </section>
 
 <section class="sources" aria-labelledby="srcH">

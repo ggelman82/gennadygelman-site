@@ -221,6 +221,15 @@ table.ag td:first-child{color:var(--soft)}
 @keyframes vsb{40%{transform:scale(1.35)}}
 @media (prefers-reduced-motion:reduce){.vs-fab{transition:none}.vs-fab.bump .c{animation:none}}
 @media print{body.vs-print *{visibility:hidden}body.vs-print #vsSheet,body.vs-print #vsSheet *{visibility:visible}body.vs-print #vsSheet{position:absolute;left:0;top:0;width:100%;border:0;box-shadow:none;padding:0}body.vs-print .vs-act,body.vs-print .vs-fab,body.vs-print .toc-stick,body.vs-print .toc-bar{display:none!important}.vs-q .bt-row{border:0;padding:2px 0;background:none}body.vs-print .vs-q .bt-row:not(:has(input:checked)){display:none}body.vs-print .vs input,body.vs-print .vs textarea{border:0;border-bottom:1px solid #999;border-radius:0;background:none}body.vs-print .vs-empty{display:none}body.vs-print .vs ::placeholder{color:transparent}}
+
+.rd{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-top:14px}
+.rd a{display:flex;flex-direction:column;gap:4px;padding:16px 18px;border-radius:16px;background:var(--surface);border:1px solid var(--line);text-decoration:none;color:var(--ink);transition:border-color .15s,transform .15s}
+.rd a:hover{border-color:var(--accent);transform:translateY(-2px)}
+.rd .t{font:600 11px/1 "Geist Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.rd .t.bk{color:var(--accent)}
+.rd b{font-size:17px;line-height:1.3}
+.rd span.d{color:var(--soft);font-size:14.5px}
+.rd .src{margin-top:auto;padding-top:6px;font-size:13px;color:var(--faint)}
 </style>
 </head>
 <body>
@@ -374,8 +383,15 @@ table.ag td:first-child{color:var(--soft)}
 <p class="note" style="margin-top:14px">Tell us how you are doing, too. Caregivers have higher rates of depression, poor sleep and health problems of their own. Taking care of yourself is part of taking care of them.</p>
 </section>
 
-<section class="s" id="visit" aria-labelledby="vsH">
+<section class="s" id="read" aria-labelledby="rdH">
 <span class="num">08</span>
+<h2 id="rdH" data-toc="Books and articles">Books and articles</h2>
+<p>If you want to go deeper, these are the ones I trust.</p>
+<div class="rd"><a href="/patients/books/why-we-sleep/"><span class="t bk">Book I recommend</span><b>Why We Sleep</b><span class="d">Matthew Walker. How sleep supports memory and brain health. My summary.</span><span class="src">Gennady Gelman, MD</span></a><a href="https://www.nia.nih.gov/health/brain-health/cognitive-health-and-older-adults" target="_blank" rel="noopener"><span class="t">Article</span><b>Cognitive health and older adults</b><span class="d">Practical steps to care for your brain as you age.</span><span class="src">National Institute on Aging ↗</span></a><a href="https://www.alz.org/alzheimers-dementia/10_signs" target="_blank" rel="noopener"><span class="t">Article</span><b>10 early signs of Alzheimer’s</b><span class="d">The warning signs, each compared with typical age-related changes.</span><span class="src">Alzheimer’s Association ↗</span></a><a href="https://jamanetwork.com/journals/jama/fullarticle/2761646" target="_blank" rel="noopener"><span class="t">Article</span><b>Screening for cognitive impairment</b><span class="d">What memory screening tests are, and their benefits and limits.</span><span class="src">JAMA Patient Page ↗</span></a><a href="https://www.alzheimers.gov/" target="_blank" rel="noopener"><span class="t">Website</span><b>alzheimers.gov</b><span class="d">The federal government’s hub on Alzheimer’s and related dementias, for patients and families.</span><span class="src">US Department of Health and Human Services ↗</span></a></div>
+</section>
+
+<section class="s" id="visit" aria-labelledby="vsH">
+<span class="num">09</span>
 <h2 id="vsH" data-toc="Bring this to your visit">Bring this to your visit</h2>
 <p>Everything you checked on this page comes together here as one sheet. Print it, save it as a PDF, or copy it into a portal message to us. Nothing is saved or sent unless you do that yourself.</p>
 <div class="vs" id="vsSheet">
