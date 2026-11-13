@@ -42,7 +42,13 @@ header.top{position:sticky;top:0;z-index:20;background:var(--bar);color:#fff}
 .eyebrow{font-family:"Geist Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:0;align-self:end}
 h1{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:clamp(38px,6vw,62px);line-height:1.02;letter-spacing:-.02em;margin:4px 0 0;align-self:start}
 .lede{grid-column:1/-1;color:var(--soft);font-size:clamp(17px,2vw,19px);max-width:60ch;margin:16px 0 0}
-.tools{grid-column:1/-1;display:flex;gap:10px;margin-top:16px}
+.tools{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:16px}
+.myvisit{grid-column:1/-1;display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(18px,3vw,36px);border-radius:22px;border:1px solid var(--line);background:var(--surface);padding:clamp(20px,3.5vw,34px);margin:4px 0 10px;scroll-margin-top:80px}
+@media (max-width:860px){.myvisit{grid-template-columns:1fr}}
+.myvisit .k{font-family:"Geist Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin:0 0 6px}
+.myvisit h2{font-family:Newsreader,Georgia,serif;font-weight:500;font-size:clamp(28px,3.4vw,36px);line-height:1.05;margin:0 0 10px}
+.myvisit .sub{color:var(--soft);font-size:15.5px;margin:0 0 12px}
+.mv-how{margin:0;padding-left:20px;color:var(--soft);font-size:15px}.mv-how li{padding:3px 0}
 .pbtn{all:unset;cursor:pointer;font-size:14px;color:var(--accent);display:inline-flex;gap:6px;align-items:center}
 .pbtn:hover{text-decoration:underline;text-underline-offset:4px}
 .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;align-content:start}
@@ -202,9 +208,9 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 <nav><a href="/">Home</a><a href="/#patient">For patients</a><a href="/#about">About</a></nav>
 <button class="theme" id="theme" type="button" aria-label="Switch to dark mode"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></button>
 </div></header>
-<nav class="vnav" aria-label="Patient topics"><ul><li><a href="/patients/visit/">Plan your visit</a></li><li><a href="/patients/vaccines/">Vaccines</a></li><li><a href="/patients/screening/">Cancer screening</a></li><li><a href="/patients/memory/">Memory</a></li><li><a href="/patients/sick/">Feeling sick</a></li><li><a href="/patients/weight/" aria-current="page">Weight loss</a></li><li><a href="/patients/books/">Books</a></li><li><a href="/patients/ai/">AI tools</a></li><li><a href="/patients/apps/">Apps</a></li></ul></nav>
+<nav class="vnav" aria-label="Patient topics"><ul><li><a href="/patients/visit/">Plan your visit</a></li><li><a href="/patients/vaccines/">Vaccines</a></li><li><a href="/patients/screening/">Cancer screening</a></li><li><a href="/patients/cholesterol/">Cholesterol</a></li><li><a href="/patients/memory/">Memory</a></li><li><a href="/patients/sick/">Feeling sick</a></li><li><a href="/patients/weight/" aria-current="page">Weight loss</a></li><li><a href="/patients/books/">Books</a></li><li><a href="/patients/ai/">AI tools</a></li><li><a href="/patients/apps/">Apps</a></li></ul></nav>
 <main class="wrap">
-<div class="hero"><svg class="ic" viewBox="0 0 48 48" aria-hidden="true" style="--a:#4f7d32"><rect x="8" y="9" width="32" height="31" rx="7" class="f"/><path d="M15 23a9 9 0 0 1 18 0M24 23l4-6"/><circle cx="24" cy="23" r="1.2" fill="currentColor"/></svg><p class="eyebrow">For my patients</p><h1>Weight loss guide</h1><p class="lede">More than one useful next step. Lasting progress can include food, activity, sleep, support, medication, or surgery. Start with the question you have today.</p><div class="tools"><button class="pbtn" id="printPage" type="button">Print this page</button></div></div>
+<div class="hero"><svg class="ic" viewBox="0 0 48 48" aria-hidden="true" style="--a:#4f7d32"><rect x="8" y="9" width="32" height="31" rx="7" class="f"/><path d="M15 23a9 9 0 0 1 18 0M24 23l4-6"/><circle cx="24" cy="23" r="1.2" fill="currentColor"/></svg><p class="eyebrow">For my patients</p><h1>Weight loss guide</h1><p class="lede">More than one useful next step. Lasting progress can include food, activity, sleep, support, medication, or surgery. Start with the question you have today.</p><div class="tools"><button class="pbtn" id="printPage" type="button">Print this page</button><button type="button" class="vv-add" data-vid="weight-options" data-vt="Weight loss options" data-vl="Add weight to my visit"></button></div></div>
 <section class="bmi" id="bmi" aria-labelledby="bmiH">
 <h2 id="bmiH" class="cg" data-toc="BMI calculator">Check your BMI</h2>
 <div class="bmi-box">
@@ -233,6 +239,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 <footer><div class="wrap"><span>© 2026 Gennady Gelman · Personal site, not affiliated with any employer.</span><a href="mailto:me@gennadygelman.com">me@gennadygelman.com</a></div></footer>
 <script>(function(){var r=document.documentElement,b=document.getElementById('theme');function l(){b.setAttribute('aria-label',r.dataset.theme==='dark'?'Switch to light mode':'Switch to dark mode')}l();b.addEventListener('click',function(){r.dataset.theme=r.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('gg-theme',r.dataset.theme)}catch(e){}l()})})();
 (function(){var p=document.getElementById('printPage');if(p)p.addEventListener('click',function(){delete document.body.dataset.print;window.print()})})();</script>
+<script src="/js/visit.js?v=1"></script>
 
 <script>(function(){
 var $=function(i){return document.getElementById(i)},u='us';
@@ -303,7 +310,8 @@ function calc(){
   if(bmi<18.5)tx+='<p>A low BMI can have many causes. If you have lost weight without trying, tell us.</p>';
   o.innerHTML='<div class="bmi-res '+cls+'"><span class="bmi-n">'+bmi.toFixed(1)+'</span><span class="bmi-c">'+cat+(asian?' <i>(Asian cut-offs)</i>':'')+'</span></div>'+
    '<div class="bmi-bar" aria-hidden="true" style="background:'+grad+'"><i style="left:'+pos+'%"></i></div><div class="bmi-scale" aria-hidden="true">'+ticks+'</div>'+tx+
-   (bmi>=ow?'<p class="bmi-hint">The resources below can help. Bring your number to your next visit and we can talk about what fits you.</p>':'');
+   (bmi>=ow?'<p class="bmi-hint">The resources below can help. Bring your number to your next visit and we can talk about what fits you.</p>':'')+
+   '<p style="margin:10px 0 0"><button type="button" class="vv-add" data-vid="bmi" data-vt="My weight and BMI" data-vd="BMI '+bmi.toFixed(1)+', '+cat.toLowerCase()+'" data-vl="Add my BMI to my visit"></button></p>';
   var sx=document.querySelector('input[name="bmiSex"]:checked');
   $('bmiJ').innerHTML=chart(bmi,[20,25],sx?sx.value:'')+sexNote(bmi,sx?sx.value:'');
 }

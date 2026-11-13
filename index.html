@@ -465,6 +465,13 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       {n:'Prostate', ic:'checklist', d:'Men 55 to 69, as a personal decision. PSA blood test.', u:B+'/patients/screening/#prostate', k:'prostate cancer screening psa'},
       {n:'Multi-cancer blood tests', ic:'flask', d:'Galleri, Cancerguard and similar tests: where they stand.', u:B+'/patients/screening/#blood-tests', k:'galleri cancerguard multi-cancer blood test liquid biopsy mced'}
     ]},
+    {id:'cholesterol', p:'/patients/cholesterol/', t:'#f6e6e2', n:'Cholesterol', isNew:true, i:'Your LDL goal, what the numbers mean, how plaque forms, and what really works: food, statins, newer medicines and supplements.', items:[
+      {f:true, tint:'#f6e6e2', n:'Find your LDL goal', ic:'checklist', d:'Under 100, 70 or 55: see which goal fits you and how far you are.', u:B+'/patients/cholesterol/#goal', k:'cholesterol ldl goal target hyperlipidemia lipid panel'},
+      {n:'LDL, HDL and plaque', ic:'leaf', d:'The delivery trucks, the ratio, and how plaque narrows or blocks an artery.', u:B+'/patients/cholesterol/#ldl-hdl', k:'ldl hdl good bad cholesterol ratio plaque atherosclerosis triglycerides'},
+      {n:'Lp(a), ApoB and other tests', ic:'flask', d:'PREVENT risk score, Lp(a), direct LDL, ApoB, hs-CRP and calcium scores.', u:B+'/patients/cholesterol/#tests', k:'lpa lp(a) lipoprotein a apob crp calcium score prevent calculator direct ldl'},
+      {n:'Statins and newer medicines', ic:'pill', d:'What statins do, side effects honestly, ezetimibe, PCSK9 drugs and gene editing.', u:B+'/patients/cholesterol/#meds', k:'statin side effects muscle aches atorvastatin rosuvastatin ezetimibe pcsk9 repatha enlicitide verve'},
+      {n:'Red yeast rice, fish oil and aspirin', ic:'checklist', d:'Supplements and aspirin: what works and what I recommend against.', u:B+'/patients/cholesterol/#heard', k:'red yeast rice fish oil omega-3 niacin garlic aspirin supplements'}
+    ]},
     {id:'memory', p:'/patients/memory/', t:'#ece8f6', n:'Memory and brain health', isNew:true, i:'Normal aging or something more, how we check memory, how to lower your risk of dementia, and help for caregivers.', items:[
       {f:true, tint:'#ece8f6', n:'Normal aging or something more?', ic:'checklist', d:'A side-by-side guide and a quick self-check.', u:B+'/patients/memory/#signs', k:'memory loss forgetful forgetting dementia alzheimers warning signs normal aging confusion'},
       {n:'How we check memory', ic:'clock', d:'A quick tablet check from Linus Health, yearly from age 65, or from 50 if there are concerns.', u:B+'/patients/memory/#check', k:'memory test cognitive screening linus clock drawing annual wellness visit moca'},
@@ -538,6 +545,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     weight:`<rect x="8" y="9" width="32" height="31" rx="7" class="f"/><path d="M15 23a9 9 0 0 1 18 0M24 23l4-6"/><circle cx="24" cy="23" r="1.2" fill="currentColor"/>`,
     books:`<path d="M24 15c-5-4-11-4-16-2v24c5-2 11-2 16 2z" class="f"/><path d="M24 15c5-4 11-4 16-2v24c-5-2-11-2-16 2zM24 15v24"/>`,
     ai:`<path d="M8 11h26a4 4 0 0 1 4 4v14a4 4 0 0 1-4 4H20l-8 7v-7H8a4 4 0 0 1-4-4V15a4 4 0 0 1 4-4z" class="f"/><path d="M38 4l1.6 3.4L43 9l-3.4 1.6L38 14l-1.6-3.4L33 9l3.4-1.6z" fill="currentColor" stroke="none"/><path d="M12 20h16M12 25h10"/>`,
+    cholesterol:`<path d="M24 40s-15-9-15-20a8 8 0 0 1 15-4 8 8 0 0 1 15 4c0 11-15 20-15 20z" class="f"/><path d="M24 40s-15-9-15-20a8 8 0 0 1 15-4 8 8 0 0 1 15 4c0 11-15 20-15 20zM12 25h7l3-6 4 11 3-5h7"/>`,
     memory:`<path d="M24 9c-3-3-9-3-11 1-4 0-6 4-4 7-3 2-3 7 0 9-1 4 2 7 6 7 1 3 5 5 9 3z" class="f"/><path d="M24 9c3-3 9-3 11 1 4 0 6 4 4 7 3 2 3 7 0 9 1 4-2 7-6 7-1 3-5 5-9 3zM24 9v27"/>`,
     phone:`<rect x="14" y="5" width="20" height="38" rx="4" class="f"/><path d="M21 37h6"/><path d="M24 14l1.8 4.2 4.2 1.8-4.2 1.8L24 26l-1.8-4.2-4.2-1.8 4.2-1.8z" fill="currentColor" stroke="none"/>`
   };
@@ -556,7 +564,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     words:`<path d="M8 10h32a3 3 0 0 1 3 3v17a3 3 0 0 1-3 3H22l-8 7v-7H8a3 3 0 0 1-3-3V13a3 3 0 0 1 3-3z" class="f"/><path d="M13 18h22M13 23h16M13 28h10"/>`,
     kilo:`<rect x="7" y="10" width="34" height="31" rx="4" class="f"/><path d="M7 18h34M16 6v8M32 6v8M17 26l3-2v12M27 24v12M27 31l6-7M29 29l4 7"/>`
   });
-  const ACCENT = {words:'#8a5a1c', kilo:'#5b3fa0',cv:'#c0583b', lab:'#3e6f8f', raf:'#3b54c4', imm:'#2f6b48', ad:'#5b3fa0', dm:'#b0457a', share:'#0e1734', lib:'#8a5a1c', pbooks:'#4f7d32',visit:'#2f6b48', vaccines:'#3b54c4', screening:'#2f6b48', memory:'#5b3fa0', sick:'#c0583b', weight:'#4f7d32', books:'#8a5a1c', ai:'#5b3fa0', phone:'#3e6f8f'};
+  const ACCENT = {words:'#8a5a1c', kilo:'#5b3fa0',cv:'#c0583b', lab:'#3e6f8f', raf:'#3b54c4', imm:'#2f6b48', ad:'#5b3fa0', dm:'#b0457a', share:'#0e1734', lib:'#8a5a1c', pbooks:'#4f7d32',visit:'#2f6b48', vaccines:'#3b54c4', screening:'#2f6b48', memory:'#5b3fa0', cholesterol:'#b3473a', sick:'#c0583b', weight:'#4f7d32', books:'#8a5a1c', ai:'#5b3fa0', phone:'#3e6f8f'};
   const icon = id => `<svg class="ic" viewBox="0 0 48 48" aria-hidden="true" style="--a:${ACCENT[id]}">${ICONS[id]||''}</svg>`;
 
   function renderPatientSections(){
@@ -695,6 +703,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     {n:'Flu comfort plan', u:SB+'/flu/#flu-plan'},
     {n:'Cancer screening', u:SB+'/patients/screening/'},
     {n:'Memory and brain health', u:SB+'/patients/memory/'},
+    {n:'Cholesterol', u:SB+'/patients/cholesterol/'},
     {n:'Weight loss guide', u:SB+'/patients/weight/'},
     {n:'AI tools I recommend', u:SB+'/patients/ai/'},
     {n:'Plants Are Your Friends', u:'https://plants-chat-663367173026.us-east1.run.app/'},

@@ -26,11 +26,11 @@ const data = new Function(
 )();
 const { PSECTIONS, ICONS, ACCENT } = data;
 
-const SHORT = { visit: 'Plan your visit', vaccines: 'Vaccines', screening: 'Cancer screening', memory: 'Memory', sick: 'Feeling sick', weight: 'Weight loss', books: 'Books', ai: 'AI tools', phone: 'Apps' };
+const SHORT = { visit: 'Plan your visit', vaccines: 'Vaccines', screening: 'Cancer screening', memory: 'Memory', cholesterol: 'Cholesterol', sick: 'Feeling sick', weight: 'Weight loss', books: 'Books', ai: 'AI tools', phone: 'Apps' };
 // Shared two-color card icons (also used by the Python-built pages).
 const GLYPHS = JSON.parse(readFileSync(join(ROOT, 'scripts', 'glyphs.json'), 'utf8'));
 const gi = (name, acc) => name && GLYPHS[name] ? `<svg class="gi" viewBox="0 0 48 48" aria-hidden="true" style="--a:${acc}">${GLYPHS[name]}</svg>` : '';
-const SKIP = new Set(['vaccines', 'screening', 'memory']);
+const SKIP = new Set(['vaccines', 'screening', 'memory', 'cholesterol']);
 
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const strip = s => String(s).replace(/<[^>]+>/g, '');
@@ -84,6 +84,15 @@ const PREP = `<section class="prep" id="prep" aria-labelledby="prepH">
       </div>
       <p class="tip">Tip: paste it into a MyChart message a day or two before your appointment, or show it to whoever rooms you.</p>
     </div>
+  </section>
+  <section class="myvisit" id="myvisit" aria-labelledby="mvH">
+    <div class="mv-l">
+      <p class="k">From around the site</p>
+      <h2 id="mvH">My visit list</h2>
+      <p class="sub">On any of my pages, tap <b>+ Add to my visit</b> next to a vaccine, a screening test, your BMI, a memory check or a cholesterol question. It all collects here and in the agenda above.</p>
+      <ol class="mv-how"><li>Add things as you read.</li><li>Star your top one or two.</li><li>Enter your appointment time and add it to your calendar. The event carries your list and reminds you the day before.</li></ol>
+    </div>
+    <div class="mv-r" data-vv-hub></div>
   </section>`;
 const PREP_JS = `<script>(function(){
   var $=function(s){return document.querySelector(s)};
@@ -92,25 +101,30 @@ const PREP_JS = `<script>(function(){
   var lines=function(s){return s.split(/\\n+/).map(function(x){return x.trim()}).filter(Boolean)};
   var F=['f1','f2','f3','f4','f5'].map(function(id){return $('#'+id)});
   function vals(){return F.map(function(f){return f.value.trim()})}
+  var V=window.GGVisit;
+  window.GGVisitExtra=function(){var v=vals(),c=v.slice(0,3).filter(Boolean);return c.length?c.map(function(x,i){return (i+1)+'. '+x}).join('\\n'):''};
   function agendaText(){
     var v=vals(),concerns=v.slice(0,3).filter(Boolean),m=v[3],ch=v[4],t='My visit agenda\\n';
     if(concerns.length) t+='\\nWhat I want to talk about (most important first):\\n'+concerns.map(function(x,i){return (i+1)+'. '+x}).join('\\n')+'\\n';
     if(m) t+='\\nMedicine questions:\\n'+lines(m).map(function(x){return '- '+x}).join('\\n')+'\\n';
     if(ch) t+='\\nChanges since my last visit:\\n'+lines(ch).map(function(x){return '- '+x}).join('\\n')+'\\n';
+    if(V&&V.list().length) t+='\\nAlso on my list (★ = top priority):\\n'+V.text()+'\\n';
     return t.trim();
   }
   function render(){
     var v=vals(),concerns=v.slice(0,3).filter(Boolean),m=v[3],ch=v[4];
     $('#agWhen').textContent='Prepared '+new Date().toLocaleDateString(undefined,{month:'long',day:'numeric',year:'numeric'});
-    var empty=!concerns.length&&!m&&!ch,h='';
+    var L=V?V.list():[],empty=!concerns.length&&!m&&!ch&&!L.length,h='';
     h+='<div class="blk"><p class="lbl">What I want to talk about</p>'+(concerns.length?'<ol>'+concerns.map(function(x,i){return '<li'+(i===0?' class="top"':'')+'>'+esc(x)+'</li>'}).join('')+'</ol>':'<p class="ph">Your top concern appears here as you type.</p>')+'</div>';
     if(m) h+='<div class="blk"><p class="lbl">Medicine questions</p><ol>'+lines(m).map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ol></div>';
     if(ch) h+='<div class="blk"><p class="lbl">Changes since my last visit</p><ol>'+lines(ch).map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ol></div>';
+    if(L.length) h+='<div class="blk"><p class="lbl">Also on my list</p><ol>'+L.map(function(x){return '<li'+(x.star?' class="top"':'')+'>'+(x.star?'★ ':'')+esc(x.t)+(x.d?' <span style="color:var(--faint)">('+esc(x.d)+')</span>':'')+'</li>'}).join('')+'</ol></div>';
     if(concerns.length>2||(concerns.length&&(m||ch))) h+='<p class="tip" style="margin:6px 0 0">If time runs short, start with #1.</p>';
     $('#agBody').innerHTML=h;
     $('#agCopy').disabled=$('#agPrint').disabled=empty;
   }
   F.forEach(function(f){f.addEventListener('input',render)});
+  if(V) V.on(render);
   $('#agCopy').addEventListener('click',function(){var b=$('#agCopy');
     var done=function(){b.textContent='Copied ✓'},fail=function(){b.textContent='Select the agenda text to copy'};
     try{navigator.clipboard.writeText(agendaText()).then(done,fail)}catch(e){fail()}
@@ -152,7 +166,13 @@ header.top{position:sticky;top:0;z-index:20;background:var(--bar);color:#fff}
 .eyebrow{font-family:"Geist Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:0;align-self:end}
 h1{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:clamp(38px,6vw,62px);line-height:1.02;letter-spacing:-.02em;margin:4px 0 0;align-self:start}
 .lede{grid-column:1/-1;color:var(--soft);font-size:clamp(17px,2vw,19px);max-width:60ch;margin:16px 0 0}
-.tools{grid-column:1/-1;display:flex;gap:10px;margin-top:16px}
+.tools{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:16px}
+.myvisit{grid-column:1/-1;display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(18px,3vw,36px);border-radius:22px;border:1px solid var(--line);background:var(--surface);padding:clamp(20px,3.5vw,34px);margin:4px 0 10px;scroll-margin-top:80px}
+@media (max-width:860px){.myvisit{grid-template-columns:1fr}}
+.myvisit .k{font-family:"Geist Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin:0 0 6px}
+.myvisit h2{font-family:Newsreader,Georgia,serif;font-weight:500;font-size:clamp(28px,3.4vw,36px);line-height:1.05;margin:0 0 10px}
+.myvisit .sub{color:var(--soft);font-size:15.5px;margin:0 0 12px}
+.mv-how{margin:0;padding-left:20px;color:var(--soft);font-size:15px}.mv-how li{padding:3px 0}
 .pbtn{all:unset;cursor:pointer;font-size:14px;color:var(--accent);display:inline-flex;gap:6px;align-items:center}
 .pbtn:hover{text-decoration:underline;text-underline-offset:4px}
 .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;align-content:start}
@@ -405,7 +425,8 @@ function calc(){
   if(bmi<18.5)tx+='<p>A low BMI can have many causes. If you have lost weight without trying, tell us.</p>';
   o.innerHTML='<div class="bmi-res '+cls+'"><span class="bmi-n">'+bmi.toFixed(1)+'</span><span class="bmi-c">'+cat+(asian?' <i>(Asian cut-offs)</i>':'')+'</span></div>'+
    '<div class="bmi-bar" aria-hidden="true" style="background:'+grad+'"><i style="left:'+pos+'%"></i></div><div class="bmi-scale" aria-hidden="true">'+ticks+'</div>'+tx+
-   (bmi>=ow?'<p class="bmi-hint">The resources below can help. Bring your number to your next visit and we can talk about what fits you.</p>':'');
+   (bmi>=ow?'<p class="bmi-hint">The resources below can help. Bring your number to your next visit and we can talk about what fits you.</p>':'')+
+   '<p style="margin:10px 0 0"><button type="button" class="vv-add" data-vid="bmi" data-vt="My weight and BMI" data-vd="BMI '+bmi.toFixed(1)+', '+cat.toLowerCase()+'" data-vl="Add my BMI to my visit"></button></p>';
   var sx=document.querySelector('input[name="bmiSex"]:checked');
   $('bmiJ').innerHTML=chart(bmi,[20,25],sx?sx.value:'')+sexNote(bmi,sx?sx.value:'');
 }
@@ -435,7 +456,7 @@ const page = sec => {
 ${HEADER}
 ${vnav(sec.id)}
 <main class="wrap">
-<div class="hero">${icon(sec.id)}<p class="eyebrow">For my patients</p><h1>${esc(sec.n)}</h1><p class="lede">${sec.i}</p><div class="tools"><button class="pbtn" id="printPage" type="button">Print this page</button></div></div>
+<div class="hero">${icon(sec.id)}<p class="eyebrow">For my patients</p><h1>${esc(sec.n)}</h1><p class="lede">${sec.i}</p><div class="tools"><button class="pbtn" id="printPage" type="button">Print this page</button>${sec.id === 'weight' ? '<button type="button" class="vv-add" data-vid="weight-options" data-vt="Weight loss options" data-vl="Add weight to my visit"></button>' : ''}</div></div>
 ${sec.id === 'weight' ? BMI_HTML : ''}
 ${body}
 <div class="disclaim"><p>Educational information from Gennady Gelman, MD. Not medical advice for you; your own clinician can tell you what fits your health.</p>
@@ -443,6 +464,7 @@ ${body}
 <p>${esc(url.replace('https://', ''))}</p></div>
 </main>
 ${FOOTER}
+<script src="/js/visit.js?v=1"></script>
 ${sec.items.some(i => i.plan) ? PREP_JS : ''}
 ${sec.id === 'weight' ? BMI_JS : ''}
 ${sec.items.filter(i => i.g).length >= 4 ? '<script src="/js/toc.js?v=3" defer></script>' : ''}
