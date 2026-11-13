@@ -278,6 +278,53 @@ figure.dg svg{width:100%;height:auto;display:block;font-family:Geist,system-ui,s
 .rd b{font-size:17px;line-height:1.3}
 .rd span.d{color:var(--soft);font-size:14.5px}
 .rd .src{margin-top:auto;padding-top:6px;font-size:13px;color:var(--faint)}
+.lr{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:18px;margin-top:16px;align-items:start}
+@media (max-width:900px){.lr{grid-template-columns:1fr}}
+.lr-in{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px}
+.lr-pl{display:block;font-weight:600;margin:0 0 8px;font-size:15.5px}
+.lr textarea{width:100%;box-sizing:border-box;font:13.5px/1.55 "Geist Mono",monospace;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px;resize:vertical;min-height:120px}
+.lr textarea:focus,.lr input:focus{outline:3px solid var(--accent);outline-offset:1px}
+.lr-or{display:flex;align-items:center;gap:10px;color:var(--faint);font-size:13px;margin:14px 0 10px!important}
+.lr-or:before,.lr-or:after{content:"";flex:1;height:1px;background:var(--line)}
+.lr-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px}
+.lr-f{display:grid;gap:3px}
+.lr-f label{font-size:12.5px;color:var(--soft)}
+.lr-f .w{display:flex;align-items:center;gap:6px}
+.lr-f input{font:inherit;font-size:15.5px;width:100%;min-width:0;padding:7px 10px;border:1px solid var(--line);border-radius:9px;background:var(--paper);color:var(--ink)}
+.lr-f .u{font-size:12px;color:var(--faint);white-space:nowrap}
+.lr-f select{font:inherit;font-size:12px;border:1px solid var(--line);border-radius:7px;background:var(--paper);color:var(--soft);padding:4px}
+.lr-f.got input{border-color:var(--good);background:var(--good-tint)}
+.lr-acts{display:flex;gap:10px;align-items:center;margin-top:14px}
+.lr-clr{font:inherit;font-size:14px;background:none;border:0;color:var(--faint);text-decoration:underline;cursor:pointer}
+.lr-priv{font-size:12.5px;color:var(--faint);margin:12px 0 0!important}
+.lr-priv span{color:var(--good)}
+.lr-out{display:grid;gap:10px}
+.lr-empty{border:1px dashed var(--line);border-radius:18px;padding:28px 24px;color:var(--soft);text-align:center}
+.lr-empty b{display:block;font-family:Newsreader,Georgia,serif;font-weight:500;font-size:24px;color:var(--ink);margin-bottom:6px}
+.lr-sum{background:var(--ink);color:var(--paper);border-radius:18px;padding:18px 22px}
+.lr-sum .k{font:600 11px/1 "Geist Mono",monospace;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin:0 0 8px}
+.lr-sum p{margin:0;font-size:16px;line-height:1.5}
+.lr-sum ul{margin:8px 0 0;padding-left:20px;font-size:15px}
+.lr-sum li{padding:2px 0}
+.lr-r{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--faint);border-radius:14px;padding:14px 18px}
+.lr-r.g{border-left-color:var(--good)}.lr-r.m{border-left-color:var(--warn)}.lr-r.b{border-left-color:var(--stop)}
+.lr-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.lr-h b{font-size:16px}
+.lr-v{margin-left:auto;font-family:Newsreader,Georgia,serif;font-size:26px;line-height:1}
+.lr-v small{font:500 12px "Geist Mono",monospace;color:var(--faint);margin-left:4px}
+.lr-tag{font:600 10.5px/1 "Geist Mono",monospace;letter-spacing:.08em;text-transform:uppercase;padding:5px 8px;border-radius:999px;background:var(--line);color:var(--soft)}
+.lr-r.g .lr-tag{background:var(--good-tint);color:var(--good)}.lr-r.m .lr-tag{background:var(--warn-tint);color:var(--warn)}.lr-r.b .lr-tag{background:var(--stop-tint);color:var(--stop)}
+.lr-bar{position:relative;display:flex;height:8px;border-radius:999px;overflow:hidden;margin:12px 0 4px}
+.lr-bar span{height:100%}
+.lr-pin{position:relative;height:0}
+.lr-pin i{position:absolute;top:-17px;width:4px;height:18px;border-radius:2px;background:var(--ink);box-shadow:0 0 0 2px var(--surface);transform:translateX(-50%)}
+.lr-sc{position:relative;height:14px;font:500 10.5px/1 "Geist Mono",monospace;color:var(--faint)}
+.lr-sc em{position:absolute;font-style:normal;transform:translateX(-50%)}
+.lr-r p{margin:6px 0 0!important;color:var(--soft);font-size:14.5px;max-width:none}
+.lr-r p b{color:var(--ink)}
+.lr-calc{font:500 10.5px/1 "Geist Mono",monospace;color:var(--accent);letter-spacing:.06em;text-transform:uppercase}
+.lr-foot{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:4px}
+@media print{.lr-in{display:none}.lr{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -324,8 +371,25 @@ figure.dg svg{width:100%;height:auto;display:block;font-family:Geist,system-ui,s
 <p class="note">These are my goals for my patients. They match the 2026 national cholesterol guideline (under 100, under 70 and under 55 by risk), and I apply the lower goals a little more often. Other things, like a high Lp(a) or a coronary calcium score, can lower your goal further. We set yours together.</p>
 </section>
 
-<section class="s" id="what" aria-labelledby="whH">
+<section class="s" id="labs" aria-labelledby="lbH">
 <span class="num">02</span>
+<h2 id="lbH" data-toc="Read your results">Read your lab results</h2>
+<p>Got your numbers in MyChart? Copy the results and paste them below, or type them in. I'll explain each one the way I would in the room.</p>
+<div class="lr" id="labTool">
+<div class="lr-in">
+<label class="lr-pl" for="lrPaste">Paste your lipid panel</label>
+<textarea id="lrPaste" rows="5" placeholder="Cholesterol, Total   212 mg/dL&#10;Triglycerides   168 mg/dL&#10;HDL Cholesterol   44 mg/dL&#10;LDL Cholesterol (calc)   134 mg/dL&#10;Lipoprotein (a)   142 nmol/L"></textarea>
+<p class="lr-or"><span>or type them in</span></p>
+<div class="lr-grid" id="lrGrid"></div>
+<div class="lr-acts"><button type="button" class="vs-btn ghost" id="lrEx">Try an example</button><button type="button" class="lr-clr" id="lrClr">Clear</button></div>
+<p class="lr-priv"><span aria-hidden="true">●</span> Read only by your browser. Nothing you paste or type is saved or sent.</p>
+</div>
+<div class="lr-out" id="lrOut" aria-live="polite"></div>
+</div>
+</section>
+
+<section class="s" id="what" aria-labelledby="whH">
+<span class="num">03</span>
 <h2 id="whH" data-toc="What cholesterol is">What cholesterol is, and why you need it</h2>
 <p>Cholesterol is not the enemy. Every cell in your body needs it. It is part of every cell wall, and your body uses it to make hormones such as estrogen, testosterone and cortisol, along with vitamin D and the bile that digests fat.</p>
 <p>Most of your cholesterol is made by your own liver. That is why eating cholesterol (like eggs) matters less than people think. What raises your blood cholesterol most is saturated fat: cheese, red meat, butter and other high-fat animal products.</p>
@@ -344,7 +408,7 @@ figure.dg svg{width:100%;height:auto;display:block;font-family:Geist,system-ui,s
 </section>
 
 <section class="s" id="ldl-hdl" aria-labelledby="lhH">
-<span class="num">03</span>
+<span class="num">04</span>
 <h2 id="lhH" data-toc="LDL and HDL">LDL and HDL: the delivery trucks</h2>
 <p>Cholesterol doesn't float in your blood on its own. It rides in carriers called lipoproteins. When we say LDL and HDL, we really mean those carriers.</p>
 <figure class="dg">
@@ -365,7 +429,7 @@ figure.dg svg{width:100%;height:auto;display:block;font-family:Geist,system-ui,s
 </section>
 
 <section class="s" id="plaque" aria-labelledby="plH">
-<span class="num">04</span>
+<span class="num">05</span>
 <h2 id="plH" data-toc="How plaque forms">How plaque forms</h2>
 <p>Plaque is a buildup of cholesterol and inflammation inside the artery wall. Over years it does two things: it <b>narrows</b> the artery, and it can <b>crack</b>, so a clot forms on top and <b>blocks</b> it. Either way, tissue downstream doesn't get enough oxygen. In the heart, that is a heart attack. In the brain, a stroke.</p>
 <figure class="dg">
@@ -385,7 +449,7 @@ figure.dg svg{width:100%;height:auto;display:block;font-family:Geist,system-ui,s
 </section>
 
 <section class="s" id="tests" aria-labelledby="tsH">
-<span class="num">05</span>
+<span class="num">06</span>
 <h2 id="tsH" data-toc="Tests I use">The tests I use</h2>
 <div class="facts">
 <div><b>PREVENT risk score</b><span>The newest calculator, recommended in the 2026 guideline. It estimates your chance of a heart attack, stroke or heart failure over the next 10 and 30 years, using your numbers, blood pressure, kidney function, blood sugar and smoking.</span></div>
@@ -399,7 +463,7 @@ figure.dg svg{width:100%;height:auto;display:block;font-family:Geist,system-ui,s
 </section>
 
 <section class="s" id="food" aria-labelledby="fdH">
-<span class="num">06</span>
+<span class="num">07</span>
 <h2 id="fdH" data-toc="Food and exercise">Food and exercise</h2>
 <p>I'd rather every patient improve cholesterol with diet and exercise. Good food mostly lowers LDL. Exercise mostly raises HDL and lowers triglycerides.</p>
 <div class="prev">
@@ -413,7 +477,7 @@ figure.dg svg{width:100%;height:auto;display:block;font-family:Geist,system-ui,s
 </section>
 
 <section class="s" id="meds" aria-labelledby="mdH">
-<span class="num">07</span>
+<span class="num">08</span>
 <h2 id="mdH" data-toc="Medicines">Medicines</h2>
 <p>After years of risk factors, diet and exercise alone often can't get LDL to goal. That is where medicine comes in. Lowering LDL with medicine prevents heart attacks and strokes, not just better numbers on paper.</p>
 <div class="facts">
@@ -427,7 +491,7 @@ figure.dg svg{width:100%;height:auto;display:block;font-family:Geist,system-ui,s
 </section>
 
 <section class="s" id="heard" aria-labelledby="hdH">
-<span class="num">08</span>
+<span class="num">09</span>
 <h2 id="hdH" data-toc="Things you may have heard">Things you may have heard</h2>
 <div class="hd">
 <div class="hd-r hd-ok"><span class="hd-v">Better than nothing</span><b>Red yeast rice</b><p>It contains a natural statin, the same molecule as lovastatin, in smaller and less predictable amounts. A statin is better proven and you know exactly what dose you're getting. But if you don't want a statin, I'll support you taking red yeast rice rather than nothing. Pick a brand tested by USP or NSF, since some products contain a kidney toxin called citrinin, and don't take it with a statin.</p></div>
@@ -440,7 +504,7 @@ figure.dg svg{width:100%;height:auto;display:block;font-family:Geist,system-ui,s
 </section>
 
 <section class="s" id="read" aria-labelledby="rdH">
-<span class="num">09</span>
+<span class="num">10</span>
 <h2 id="rdH" data-toc="Books and articles">Books and articles</h2>
 <p>If you want to go deeper, these are the ones I trust.</p>
 <div class="rd"><a href="/patients/books/how-not-to-die/"><span class="t bk">Book I recommend</span><b>How Not to Die</b><span class="d">Michael Greger, MD. The case for eating more whole plant foods, and his Daily Dozen checklist. My summary.</span><span class="src">Gennady Gelman, MD</span></a><a href="https://www.heart.org/en/health-topics/cholesterol/about-cholesterol/what-your-cholesterol-levels-mean" target="_blank" rel="noopener"><span class="t">Article</span><b>What your cholesterol levels mean</b><span class="d">What each number on your lipid panel means.</span><span class="src">American Heart Association ↗</span></a><a href="https://www.cdc.gov/heart-disease-family-history/about/about-lipoprotein-a.html" target="_blank" rel="noopener"><span class="t">Article</span><b>About lipoprotein(a)</b><span class="d">What Lp(a) is, why it runs in families and what a high level means.</span><span class="src">CDC ↗</span></a><a href="https://medlineplus.gov/ency/patientinstructions/000314.htm" target="_blank" rel="noopener"><span class="t">Article</span><b>Statins</b><span class="d">Who should take them, how they work and what to watch for.</span><span class="src">MedlinePlus, National Library of Medicine ↗</span></a></div>
@@ -490,6 +554,134 @@ document.querySelectorAll('#glList input').forEach(function(x){x.addEventListene
 $('glLdl').addEventListener('input',go);
 go();
 })();</script>
+<script>(function(){
+var $=function(i){return document.getElementById(i)};
+var F=[
+ {k:'tc',n:'Total cholesterol',u:'mg/dL',re:/(?:total\s*cholesterol|cholesterol[,\s]*total|^\s*cholesterol\b(?!.*(?:hdl|ldl|ratio|non)))/i},
+ {k:'ldl',n:'LDL',u:'mg/dL',re:/\bldl\b(?!.*(?:hdl|ratio|particle))|low[\s-]*density/i},
+ {k:'hdl',n:'HDL',u:'mg/dL',re:/\bhdl\b|high[\s-]*density/i},
+ {k:'tg',n:'Triglycerides',u:'mg/dL',re:/triglycer/i},
+ {k:'nhdl',n:'Non-HDL',u:'mg/dL',re:/non[\s-]*hdl/i},
+ {k:'lpa',n:'Lp(a)',u:'nmol/L',alt:'mg/dL',re:/lp\s*\(?\s*a\s*\)?|lipoprotein\s*\(?\s*a\b/i},
+ {k:'apob',n:'ApoB',u:'mg/dL',re:/apo\s*-?\s*b\b|apolipoprotein\s*b/i},
+ {k:'crp',n:'hs-CRP',u:'mg/L',re:/c[\s-]*reactive|\bcrp\b/i}
+];
+$('lrGrid').innerHTML=F.map(function(f){return '<div class="lr-f" id="lf-'+f.k+'"><label for="lv-'+f.k+'">'+f.n+'</label><div class="w"><input id="lv-'+f.k+'" type="number" inputmode="decimal" step="any" min="0">'+(f.alt?'<select id="lu-'+f.k+'" aria-label="Lp(a) units"><option>nmol/L</option><option>mg/dL</option></select>':'<span class="u">'+f.u+'</span>')+'</div></div>'}).join('');
+function num(s){var m=String(s).match(/(?:^|[^\d.])(<|>)?\s*(\d+(?:\.\d+)?)/);return m?parseFloat(m[2]):null}
+function parse(t){
+  var got={},ldlDirect=false;
+  t.split(/\r?\n/).forEach(function(line){
+    if(!/\d/.test(line))return;
+    var name=line.replace(/\d+(\.\d+)?.*$/,'')||line;
+    for(var i=0;i<F.length;i++){var f=F[i];
+      if(f.k==='tc'&&/hdl|ldl|ratio|non/i.test(name))continue;
+      if(f.k==='hdl'&&/non[\s-]*hdl|ratio/i.test(name))continue;
+      if(f.k==='ldl'&&/ratio|particle|ldl[\s-]*p\b/i.test(name))continue;
+      if(f.re.test(name)&&got[f.k]==null){var rest=line.slice(name.length)||line;var v=num(rest);
+        if(v!=null){got[f.k]=v;if(f.k==='ldl'&&/direct|measured/i.test(name))ldlDirect=true;
+          if(f.k==='lpa'){got.lpaU=/mg\/dl/i.test(rest)?'mg/dL':'nmol/L'}}
+        break}}
+  });
+  return {v:got,direct:ldlDirect};
+}
+var direct=false;
+$('lrPaste').addEventListener('input',function(){
+  var r=parse(this.value);direct=r.direct;
+  F.forEach(function(f){var el=$('lv-'+f.k),box=$('lf-'+f.k);if(r.v[f.k]!=null){el.value=r.v[f.k];box.classList.add('got')}});
+  if(r.v.lpaU)$('lu-lpa').value=r.v.lpaU;
+  render();
+});
+F.forEach(function(f){$('lv-'+f.k).addEventListener('input',function(){$('lf-'+f.k).classList.remove('got');render()})});
+$('lu-lpa').addEventListener('change',render);
+function val(k){var x=parseFloat($('lv-'+k).value);return isNaN(x)?null:x}
+function goalLDL(){var n=document.querySelectorAll('#glList input:checked').length;return n===0?100:n===1?70:55}
+/* bar: bands [[upTo,cls]], scale max */
+function bar(v,bands,max,ticks){
+  var prev=0,h='<div class="lr-bar" aria-hidden="true">';
+  var col={g:'var(--good)',m:'var(--warn)',b:'var(--stop)'};
+  bands.forEach(function(b){var to=Math.min(b[0],max);h+='<span style="width:'+((to-prev)/max*100)+'%;background:'+col[b[1]]+';opacity:.55"></span>';prev=to});
+  h+='</div><div class="lr-pin"><i style="left:'+Math.min(99,Math.max(1,v/max*100))+'%"></i></div><div class="lr-sc">'+ticks.map(function(t){return '<em style="left:'+(t/max*100)+'%">'+t+'</em>'}).join('')+'</div>';
+  return h;
+}
+function band(v,bands){for(var i=0;i<bands.length;i++)if(v<bands[i][0])return bands[i][1];return bands[bands.length-1][1]}
+function row(cls,tag,name,v,unit,barH,text,calc){
+  return '<div class="lr-r '+cls+'"><div class="lr-h"><b>'+name+'</b>'+(calc?'<span class="lr-calc">calculated</span>':'')+'<span class="lr-tag">'+tag+'</span><span class="lr-v">'+(Math.round(v*10)/10)+'<small>'+unit+'</small></span></div>'+(barH||'')+'<p>'+text+'</p></div>';
+}
+function render(){
+  var tc=val('tc'),ldl=val('ldl'),hdl=val('hdl'),tg=val('tg'),nh=val('nhdl'),lpa=val('lpa'),apob=val('apob'),crp=val('crp'),lu=$('lu-lpa').value;
+  var o=$('lrOut'),G=goalLDL(),rows=[],talk=[];
+  if([tc,ldl,hdl,tg,nh,lpa,apob,crp].every(function(x){return x==null})){
+    o.innerHTML='<div class="lr-empty"><b>Your results will appear here</b>Paste from MyChart or a lab report, or tap <i>Try an example</i>.</div>';return}
+  if(nh==null&&tc!=null&&hdl!=null)nh=tc-hdl;
+  var nhCalc=val('nhdl')==null&&nh!=null;
+  if(ldl!=null){
+    var B=[[100,'g'],[130,'m'],[190,'b'],[1e9,'b']],c=ldl<G?'g':ldl<130?'m':'b';
+    var t=ldl<G?'At or under your goal of '+G+'. This is the number that matters most, and yours is where I want it.':
+      'Your goal is under '+G+', so you are '+Math.round(ldl-G)+' above it, about '+Math.round((ldl-G)/ldl*100)+'% too high. LDL is what builds plaque, so this is the number we work on.';
+    if(ldl>=190)t+=' <b>An LDL of 190 or more often runs in families</b> (familial hypercholesterolemia). It needs treatment no matter what your risk score says, and your relatives should be checked.';
+    if(!direct&&tg!=null&&tg>=200)t+=' Your triglycerides are high, so a calculated LDL can read low. A direct LDL or ApoB gives a truer picture.';
+    if(ldl>=190)talk.unshift('<b>LDL '+Math.round(ldl)+': 190 or more, may run in families</b>');else if(ldl>=G)talk.push('LDL '+Math.round(ldl)+', goal under '+G);
+    rows.push(row(c,ldl<G?'At goal':'Above goal','LDL, the "bad" cholesterol',ldl,'mg/dL',bar(ldl,[[G,'g'],[Math.max(G+30,130),'m'],[260,'b']],260,[G,130,190]),t,!direct));
+  }
+  if(hdl!=null){
+    var c2=hdl>=60?'g':hdl>=40?'m':'b';
+    var t2=hdl>=60?'Nice and high. HDL carries extra cholesterol back to the liver.':hdl>=40?'In the usual range. For women, 50 or more is better. Exercise is the best way to raise it.':'Low. Fewer trucks bringing cholesterol back. Exercise, losing weight, not smoking and cutting sugar raise it. Medicines that only raise HDL don’t prevent heart attacks, so we don’t chase this number with pills.';
+    if(hdl<40)talk.push('Low HDL ('+Math.round(hdl)+')');
+    rows.push(row(c2,hdl>=60?'Good':hdl>=40?'OK':'Low','HDL, the "good" cholesterol',hdl,'mg/dL',bar(hdl,[[40,'b'],[60,'m'],[100,'g']],100,[40,60]),t2));
+  }
+  if(tc!=null&&hdl!=null&&hdl>0){
+    var r=tc/hdl,c3=r<=3.5?'g':r<5?'m':'b';
+    var t3=r<=3.5?'Good. For every '+(Math.round(r*10)/10)+' going out, one comes back.':r<5?'In the middle. About '+(Math.round(r*10)/10)+' trucks go out for every one that comes back. I like to see 3.5 or less.':'Concerning. About '+(Math.round(r*10)/10)+' trucks go out for every one that comes back, so cholesterol is left behind in the arteries.';
+    if(r>=5)talk.push('Cholesterol ratio '+(Math.round(r*10)/10));
+    rows.push(row(c3,r<=3.5?'Good':r<5?'Middle':'High','Total-to-HDL ratio',r,': 1',bar(r,[[3.5,'g'],[5,'m'],[8,'b']],8,[3.5,5]),t3,true));
+  }
+  if(tg!=null){
+    var c4=tg<150?'g':tg<500?'m':'b';
+    var t4=tg<150?'Normal.':tg<200?'A little high. Triglycerides rise with sugar, refined carbs, alcohol and extra weight, and with a meal before the test.':tg<500?'High. Cutting sugar, refined carbs and alcohol, losing weight and exercise all bring it down. Diabetes and some medicines raise it too.':'<b>Very high.</b> At this level triglycerides can inflame the pancreas, which is painful and dangerous. Please make sure we know about this result.';
+    if(tg>=500)talk.unshift('<b>Triglycerides '+Math.round(tg)+': very high, make sure we know</b>');else if(tg>=200)talk.push('Triglycerides '+Math.round(tg));
+    rows.push(row(c4,tg<150?'Normal':tg<200?'Borderline':tg<500?'High':'Very high','Triglycerides',tg,'mg/dL',bar(tg,[[150,'g'],[500,'m'],[700,'b']],700,[150,500]),t4));
+  }
+  if(nh!=null){
+    var NG=G+30,c5=nh<NG?'g':nh<NG+40?'m':'b';
+    var t5='All the cholesterol that can build plaque: total minus HDL. Your goal is about 30 above your LDL goal, so under '+NG+'. '+(nh<NG?'You’re there.':'You’re '+Math.round(nh-NG)+' above it.');
+    rows.push(row(c5,nh<NG?'At goal':'Above goal','Non-HDL cholesterol',nh,'mg/dL',bar(nh,[[NG,'g'],[NG+40,'m'],[300,'b']],300,[NG]),t5,nhCalc));
+  }
+  if(lpa!=null){
+    var hi=lu==='mg/dL'?50:125,vhi=lu==='mg/dL'?100:250,c6=lpa<hi?'g':lpa<vhi?'m':'b';
+    var t6=lpa<hi?'Normal. Lp(a) is mostly genetic and barely changes, so you likely don’t need this test again.':lpa<vhi?'<b>High.</b> This is inherited, and it raises long-term heart attack and stroke risk about 1.4 times. Diet won’t change it, so we push your other numbers lower. Your brothers, sisters and children should get checked once.':'<b>Very high.</b> Long-term risk is about double. Diet won’t change it, so we aim lower on LDL and every other risk factor. Your brothers, sisters and children should get checked once.';
+    if(lu==='mg/dL')t6+=' Labs report Lp(a) in two different units that don’t convert exactly; nmol/L is preferred.';
+    if(lpa>=hi)talk.push('High Lp(a)');
+    rows.push(row(c6,lpa<hi?'Normal':lpa<vhi?'High':'Very high','Lp(a), your inherited risk',lpa,lu,bar(lpa,[[hi,'g'],[vhi,'m'],[vhi*1.6,'b']],vhi*1.6,[hi,vhi]),t6));
+  }
+  if(apob!=null){
+    var AG=G===100?90:G,c7=apob<AG?'g':apob<130?'m':'b';
+    var t7='Counts the actual particles that build plaque. With your LDL goal, I’d want this under '+AG+'. '+(apob<AG?'You’re there.':'You’re above it'+(ldl!=null&&ldl<G?', even though your LDL is at goal. That hidden extra risk is exactly what this test catches.':'.'))+(apob>=130?' A level of 130 or more is a risk enhancer on its own.':'');
+    if(apob>=AG)talk.push('ApoB '+Math.round(apob)+' above '+AG);
+    rows.push(row(c7,apob<AG?'At goal':'Above goal','ApoB',apob,'mg/dL',bar(apob,[[AG,'g'],[130,'m'],[180,'b']],180,[AG,130]),t7));
+  }
+  if(crp!=null){
+    var c8=crp<1?'g':crp<2?'g':crp<=10?'m':'m';
+    var t8=crp>10?'Too high to read as heart risk. This usually means a current infection, injury or flare. We should repeat it when you feel well.':crp<1?'Low. Not much "stickiness."':crp<2?'Average.':'Raised. This is the "stickiness" that makes plaque more likely to grow and crack, and it adds to your risk. Exercise, weight loss, not smoking and statins all lower it.';
+    if(crp>=2)talk.push('hs-CRP '+crp);
+    rows.push(row(c8,crp<1?'Low':crp<2?'Average':crp<=10?'Raised':'Repeat','hs-CRP, the "stickiness"',crp,'mg/L',bar(Math.min(crp,12),[[2,'g'],[10,'m'],[12,'b']],12,[1,2,10]),t8));
+  }
+  var sum='<div class="lr-sum"><p class="k">What I’d say first</p>';
+  sum+=talk.length?'<p>'+(talk.length===1?'One thing':'A few things')+' to talk about. Your LDL goal is under '+G+' (from the checklist above).</p><ul>'+talk.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul>':'<p>Nothing here worries me. Your LDL goal is under '+G+' (from the checklist above). Keep it up, and keep checking.</p>';
+  sum+='</div>';
+  var det=[];if(ldl!=null)det.push('LDL '+Math.round(ldl));if(hdl!=null)det.push('HDL '+Math.round(hdl));if(tg!=null)det.push('TG '+Math.round(tg));if(lpa!=null)det.push('Lp(a) '+lpa+' '+lu);if(apob!=null)det.push('ApoB '+apob);if(crp!=null)det.push('hs-CRP '+crp);
+  var foot='<div class="lr-foot"><button type="button" class="vv-add" data-vid="chol-labs" data-vt="My cholesterol results" data-vd="'+det.join(', ')+'" data-vl="Add my results to my visit"></button><span style="font-size:13px;color:var(--faint)">These are general ranges. Your full picture, including your risk score, decides what we do.</span></div>';
+  o.innerHTML=sum+rows.join('')+foot;
+  if(ldl!=null&&$('glLdl')&&$('glLdl').value!==String(ldl)){$('glLdl').value=ldl;$('glLdl').dispatchEvent(new Event('input'))}
+}
+document.querySelectorAll('#glList input').forEach(function(x){x.addEventListener('change',render)});
+$('lrEx').addEventListener('click',function(){
+  $('lrPaste').value='Cholesterol, Total      212 mg/dL\nTriglycerides           168 mg/dL\nHDL Cholesterol          44 mg/dL\nLDL Cholesterol (Calc)  134 mg/dL\nLipoprotein (a)         142 nmol/L\nhs-CRP                  2.6 mg/L';
+  $('lrPaste').dispatchEvent(new Event('input'));
+});
+$('lrClr').addEventListener('click',function(){$('lrPaste').value='';F.forEach(function(f){$('lv-'+f.k).value='';$('lf-'+f.k).classList.remove('got')});direct=false;render()});
+render();
+})();</script>
+
 <script src="/js/visit.js?v=1"></script>
 </body>
 </html>
