@@ -18,3 +18,12 @@ Old links such as `gennadygelman.com/#p-weight` or `/#visit` (printed QR codes, 
 ## Card icons
 
 Card icons come from `scripts/glyphs.json` (48×48 two-color SVG glyphs: strokes use `currentColor`, shapes with `class="f"` take the card's accent). In `PSECTIONS`, give an item `ic:'<glyph name>'` to show one.
+
+## Link previews and sitemap
+
+After adding or removing a page, run:
+
+    node scripts/add-link-previews.mjs
+    node scripts/build-sitemap.mjs
+
+The first adds link-preview tags to any page missing them; the second rewrites `sitemap.xml` and `robots.txt`.
