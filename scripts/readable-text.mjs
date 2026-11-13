@@ -5,9 +5,7 @@
 //   node scripts/readable-text.mjs
 //
 // Floors (body text on the site is 17px):
-//   reading text 14px to under 16px  -> 16px
-//   secondary text 12px to under 14px -> 14.5px
-//   anything smaller                  -> 13px
+//   all reading and secondary text     -> at least 16px
 //   small uppercase/monospace labels  -> at least 12px
 //   form fields                       -> 16px (smaller makes iPhones zoom in)
 import { readFileSync, writeFileSync, readdirSync, statSync } from 'node:fs';
@@ -39,10 +37,7 @@ function floor(px, sel, body) {
   const label = /uppercase|Mono/.test(body);
   if (/\b(input|textarea|select)\b/.test(sel)) return Math.max(px, 16);
   if (label) return Math.max(px, 12);
-  if (px >= 16) return px;
-  if (px >= 14) return 16;
-  if (px >= 12) return 14.5;
-  return 13;
+  return Math.max(px, 16);
 }
 
 function fixCss(css) {
