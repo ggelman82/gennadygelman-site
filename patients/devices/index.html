@@ -446,7 +446,7 @@ bs.forEach(function(b){b.addEventListener("click",function(){f=b.dataset.f;bs.fo
 q.addEventListener("input",go);x.addEventListener("click",function(){q.value="";go();q.focus()});
 document.querySelectorAll("#none a").forEach(function(a){a.addEventListener("click",function(e){e.preventDefault();q.value=a.dataset.q;f="all";bs.forEach(function(y){y.setAttribute("aria-pressed",String(y.dataset.f==="all"))});go()})});
 var u=new URLSearchParams(location.search).get("q");if(u){q.value=u}go()})();</script>
-<script src="/js/toc.js?v=3" defer></script>
+<script src="/js/toc.js?v=4" defer></script>
 <script src="/js/visit.js?v=1"></script>
 </body>
 </html>
