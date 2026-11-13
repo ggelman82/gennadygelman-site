@@ -445,6 +445,7 @@ const page = sec => {
 <meta name="description" content="${desc}">
 <link rel="canonical" href="${url}">
 <meta property="og:type" content="website"><meta property="og:title" content="${esc(sec.n)}"><meta property="og:description" content="${desc}"><meta property="og:url" content="${url}">
+<meta property="og:site_name" content="Gennady Gelman, MD"><meta property="og:image" content="https://gennadygelman.com/og-image.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Gennady Gelman, MD. Guides, tools and ideas from a family doctor."><meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <script>(function(){var t=null;try{t=localStorage.getItem('gg-theme')}catch(e){}if(!t)t=(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light';document.documentElement.dataset.theme=t})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
