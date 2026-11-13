@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Health tech that works - Gennady Gelman</title>
+<meta name="description" content="FDA-reviewed health devices and apps for heart rhythm, blood pressure, sleep, glucose, hearing, migraine, mood and more: what they do, cost, and whether you need a prescription.">
+<script>try{if('scrollRestoration' in history)history.scrollRestoration='manual'}catch(e){}</script><script>(function(){var t=null;try{t=localStorage.getItem('gg-theme')}catch(e){}if(!t)t=(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light';document.documentElement.dataset.theme=t})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0e1734;--soft:#5a6383;--faint:#8a91a8;--paper:#f7f8fb;--surface:#fff;--line:rgba(14,23,52,.12);--line-2:rgba(14,23,52,.07);
+--accent:#3b54c4;--tint:#e7ecf6;--bar:#0e1734;--good:#2f6b48;--good-tint:#e2ede6;--warn:#8a5a1c;--warn-tint:#f3eee5;--stop:#c0583b;--stop-tint:#f6e9e4;color-scheme:light}
+:root[data-theme="dark"]{--ink:#e7eaf3;--soft:#a6aec6;--faint:#7f88a5;--paper:#0a0f1e;--surface:#131a2e;--line:rgba(231,234,243,.14);--line-2:rgba(231,234,243,.08);
+--accent:#93a6ff;--tint:#1b2340;--bar:#060a15;--good:#8fd0a8;--good-tint:#18291f;--warn:#e0b070;--warn-tint:#2e2618;--stop:#ff8a6b;--stop-tint:#2e1c18;color-scheme:dark}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Geist,system-ui,sans-serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+.wrap{max-width:900px;margin:0 auto;padding:0 clamp(16px,4vw,32px)}
+header.top{position:sticky;top:0;z-index:20;background:var(--bar);color:#fff}
+.top .wrap{max-width:1080px;display:flex;align-items:center;gap:18px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;font-weight:600;font-size:15px;white-space:nowrap}
+.mark{width:30px;height:30px;border-radius:50%;border:1.5px solid rgba(255,255,255,.75);display:grid;place-items:center;font-size:11px}
+.top nav{margin-left:auto;display:flex;gap:18px;align-items:center}
+.top nav a{color:#fff;text-decoration:none;font-size:14px;opacity:.85}.top nav a:hover{opacity:1;text-decoration:underline;text-underline-offset:4px}
+.theme{all:unset;cursor:pointer;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(255,255,255,.35)}
+.theme svg{width:18px;height:18px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round}.theme .moon{display:none}
+:root[data-theme="dark"] .theme .moon{display:block}:root[data-theme="dark"] .theme .sun{display:none}
+@media (max-width:440px){.bn{display:none}}
+.vnav{border-bottom:1px solid var(--line-2);background:var(--paper)}
+.vnav ul{list-style:none;margin:0 auto;padding:12px clamp(16px,4vw,32px);max-width:1080px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+.vnav ul::-webkit-scrollbar{display:none}
+.vnav a{display:block;white-space:nowrap;text-decoration:none;font-size:14px;padding:6px 13px;border-radius:999px;border:1px solid var(--line);color:var(--soft);background:var(--surface)}
+.vnav a:hover{color:var(--ink)}.vnav a[aria-current="page"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.hero{padding:clamp(34px,6vw,60px) 0 10px}
+.eyebrow{font-family:"Geist Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:0 0 12px}
+h1{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:clamp(46px,8vw,78px);line-height:1;letter-spacing:-.025em;margin:0}
+.lede{color:var(--soft);font-size:clamp(17px,2vw,19.5px);max-width:58ch;margin:18px 0 0}
+.glance{margin:30px 0 8px;display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line);border-radius:18px;background:var(--surface);overflow:hidden}
+@media (max-width:680px){.glance{grid-template-columns:1fr}}
+.glance div{padding:18px 20px;border-right:1px solid var(--line-2)}
+.glance div:last-child{border-right:0}
+@media (max-width:680px){.glance div{border-right:0;border-bottom:1px solid var(--line-2)}.glance div:last-child{border-bottom:0}}
+.glance .big{display:block;font-family:Newsreader,Georgia,serif;font-size:clamp(34px,5vw,44px);line-height:1;letter-spacing:-.02em;color:var(--accent)}
+.glance span:last-child{display:block;margin-top:8px;font-size:14.5px;color:var(--soft);line-height:1.45}
+.srcline{font-size:12.5px;color:var(--faint);margin:6px 2px 0}
+section.s{padding:clamp(30px,5vw,46px) 0;border-bottom:1px solid var(--line)}
+.num{font-family:"Geist Mono",monospace;font-size:12px;color:var(--faint)}
+section.s h2{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:clamp(28px,4vw,38px);line-height:1.1;letter-spacing:-.01em;margin:6px 0 14px}
+section.s p{margin:0 0 14px;max-width:64ch}
+h3.sub{font:600 12px/1.2 "Geist Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);margin:22px 0 10px}
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:18px 0 6px}
+@media (max-width:640px){.cards{grid-template-columns:1fr}}
+.card,section.s{scroll-margin-top:80px}
+.card{display:flex;flex-direction:column;gap:8px;padding:18px 20px;border-radius:18px;background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--good)}
+.card .nm{font-family:Newsreader,Georgia,serif;font-size:27px;line-height:1.05}
+.card dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:15px}
+.card dt{font:500 11px/1.9 "Geist Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+.card dd{margin:0}
+.card .stats{display:flex;gap:16px;flex-wrap:wrap;margin-top:4px;padding-top:10px;border-top:1px dashed var(--line);font-size:13.5px;color:var(--soft)}
+.card .stats b{color:var(--ink);font-weight:600}
+.card .go{margin-top:auto;font-size:14px;color:var(--faint)}
+.note{background:var(--surface);border:1px dashed var(--line);border-radius:14px;padding:14px 16px;font-size:15px;color:var(--soft);max-width:64ch}
+.note b{color:var(--ink)}
+.callout{border-radius:18px;padding:20px 22px;background:var(--tint);max-width:64ch}
+.callout p:last-child{margin-bottom:0}
+.no{list-style:none;padding:0;margin:0 0 6px;display:grid;gap:8px;max-width:64ch}
+.no li{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--stop);border-radius:12px;padding:12px 16px;font-size:15.5px}
+.no.i li{border-left-color:var(--warn)}
+.no b{display:block;font-size:16px}
+.no span{color:var(--soft)}
+.jpp{display:inline-block;margin-left:2px;font-size:14px;font-weight:500;white-space:nowrap}
+.prev{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0 0}
+@media (max-width:640px){.prev{grid-template-columns:1fr}}
+.prev>div{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:14px;padding:16px 18px}
+.prev>div.sugg{border-style:dashed;border-left-style:solid;border-left-color:var(--faint)}
+.prev b{display:block;font-size:16.5px;margin-bottom:4px;line-height:1.3}
+.prev>div>span{color:var(--soft);font-size:15px}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+@media (max-width:640px){.facts{grid-template-columns:1fr}}
+.facts div{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px 18px}
+.facts b{display:block;font-size:16px;margin-bottom:4px}
+.facts span{color:var(--soft);font-size:15px}
+.sources{padding:30px 0 10px}
+.sources h2{font-family:"Geist Mono",monospace;font-weight:500;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:0 0 10px}
+.sources ul{margin:0;padding-left:20px;font-size:14.5px;color:var(--soft)}
+.sources li{padding:3px 0}
+.disclaim{border-top:1px solid var(--line);margin-top:20px;padding:22px 0 50px;font-size:14px;color:var(--soft)}
+.disclaim p{margin:0 0 6px}
+footer{background:var(--bar);color:rgba(255,255,255,.85);font-size:13px}
+footer .wrap{max-width:1080px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;padding-top:24px;padding-bottom:24px}
+footer a{color:inherit;text-decoration:none}
+@media print{header.top,.vnav,footer,.theme{display:none}body{background:#fff;color:#000}}
+.fh{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:clamp(18px,3vw,26px);max-width:760px}
+.fh-k{font-family:Newsreader,Georgia,serif;font-size:25px;line-height:1.15;margin:0 0 8px!important}
+.fh-i,.fh-def{font-size:15.5px;color:var(--soft)}
+.fh-def b{color:var(--ink)}
+.fh-hint{font-size:14px;color:var(--faint);margin:-4px 0 10px!important}
+.fh-rows{display:grid;gap:6px}
+.fh-row{display:grid;grid-template-columns:1fr auto;gap:8px 14px;align-items:center;padding:10px 12px;border-radius:12px;background:var(--paper);border:1px solid var(--line-2)}
+.fh-row.miss,.fh-q.miss{border-color:var(--stop)}
+.fh-row .lbl{font-size:15.5px;font-weight:500}
+.fh-tg{display:flex;gap:6px;flex-wrap:wrap}
+.fh-tg label{position:relative;cursor:pointer}
+.fh-tg input,.fh-opt input{position:absolute;opacity:0;width:1px;height:1px}
+.fh-tg span{display:block;font-size:14px;padding:5px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--soft);white-space:nowrap}
+.fh-tg input:checked+span{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.fh-tg input:focus-visible+span,.fh-opt:focus-within{outline:3px solid var(--accent);outline-offset:2px}
+@media (max-width:620px){.fh-row{grid-template-columns:1fr}}
+.fh-q{border:1px solid var(--line-2);border-radius:14px;margin:18px 0 0;padding:14px 16px;background:var(--paper)}
+.fh-q legend{font-weight:500;font-size:15.5px;padding:0 4px;max-width:62ch}
+.fh-q legend span{display:block;font-weight:400;font-size:14px;color:var(--soft);margin-top:2px}
+.fh-opt{position:relative;display:inline-flex;align-items:center;gap:8px;margin:8px 8px 0 0;padding:7px 14px;border-radius:12px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-size:14.5px;line-height:1.35}
+.fh-opt:has(input:checked){background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.fh-act{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0 0}
+.fh-btn{font:600 15px Geist,system-ui,sans-serif;padding:10px 18px;border-radius:999px;border:1px solid var(--ink);background:var(--ink);color:var(--paper);cursor:pointer}
+.fh-btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.fh-miss{color:var(--stop);font-size:14.5px;margin:12px 0 0!important}
+.fh-res{margin-top:18px;border-radius:16px;padding:18px 20px}
+.fh-res.pos{background:var(--warn-tint);border-left:4px solid var(--warn)}
+.fh-res.neg{background:var(--good-tint);border-left:4px solid var(--good)}
+.fh-res h4{margin:0 0 6px;font-size:18px}
+.fh-res p{margin:0 0 10px!important}
+.fh-res ul{margin:0 0 12px;padding-left:20px;font-size:15px}
+@media print{.fh-act,.fh-hint{display:none}}
+.prev>div{scroll-margin-top:80px}
+.pi{display:block;width:38px;height:38px;margin:0 0 8px;color:var(--ink);fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.pi .f,.ri .f{fill:var(--a);fill-opacity:.45}
+:root[data-theme="dark"] .pi .f,:root[data-theme="dark"] .ri .f{fill-opacity:.8}
+.risks{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:8px 0 2px}
+.risks .rl{font:500 11px/1 "Geist Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);font-style:normal;margin-right:2px}
+.rk{display:inline-flex;align-items:center;gap:5px;padding:3px 10px 3px 5px;border-radius:999px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:13px;font-weight:500;text-decoration:none;line-height:1.4}
+.rk:hover{border-color:var(--ink)}
+.ri{width:20px;height:20px;flex:none;color:var(--ink);fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.note .risks{margin-top:10px}
+div.note{margin:0 0 14px}
+.tablewrap{overflow-x:auto;margin:16px 0 18px;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
+table.ag{width:100%;border-collapse:collapse;font-size:15px}
+table.ag th{text-align:left;font:600 12px/1.3 "Geist Mono",monospace;letter-spacing:.08em;text-transform:uppercase;padding:12px 16px;border-bottom:1px solid var(--line)}
+table.ag th:first-child{color:var(--good)}table.ag th:last-child{color:var(--warn)}
+table.ag td{padding:11px 16px;border-bottom:1px solid var(--line-2);vertical-align:top;width:50%}
+table.ag tr:last-child td{border-bottom:0}
+table.ag td:first-child{color:var(--soft)}
+@media (max-width:560px){table.ag thead{display:none}table.ag tr{display:block;border-bottom:1px solid var(--line)}table.ag tr:last-child{border-bottom:0}table.ag td{display:block;width:auto;border:0;padding:8px 16px}table.ag td:first-child{padding-top:12px}table.ag td:first-child:before{content:"Normal: ";font-weight:600;color:var(--good)}table.ag td:last-child{padding-bottom:12px}table.ag td:last-child:before{content:"Bring it up: ";font-weight:600;color:var(--warn)}}
+.bt{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:clamp(18px,3vw,26px);margin:18px 0 6px}
+.bt-k{font-family:Newsreader,Georgia,serif;font-size:25px;line-height:1.15;margin:0 0 6px!important}
+.bt-i{font-size:15.5px;color:var(--soft)}
+.bt-who{border:0;padding:0;margin:0 0 12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.bt-who legend{font-size:14.5px;color:var(--soft);padding:0;margin:0 0 8px;float:left;width:100%}
+.bt-chip,.cg-chip{position:relative;display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:var(--paper);cursor:pointer;font-size:14.5px;color:var(--ink)}
+.bt-chip input{position:absolute;opacity:0;width:1px;height:1px}
+.bt-chip:has(input:checked){background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.bt-chip:focus-within,.cg-chip:focus-visible,.bt-row:focus-within{outline:3px solid var(--accent);outline-offset:2px}
+.bt-list{display:grid;gap:6px}
+.bt-row{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;border-radius:12px;background:var(--paper);border:1px solid var(--line-2);cursor:pointer;font-size:15.5px;line-height:1.45}
+.bt-row input{margin:3px 0 0;width:18px;height:18px;flex:none;accent-color:var(--ink)}
+.bt-row:has(input:checked){border-color:var(--ink)}
+.bt-row .pc{margin-left:auto;font:500 12px/1.9 "Geist Mono",monospace;color:var(--faint);white-space:nowrap;padding-left:8px}
+.bt-row small{display:block;color:var(--faint);font-size:13px;margin-top:1px}
+.bt-res{margin-top:16px}
+.bt-res:empty{display:none}
+.bt-box{border-radius:16px;padding:16px 20px}
+.bt-box.ok{background:var(--good-tint);border-left:4px solid var(--good)}
+.bt-box.mid{background:var(--warn-tint);border-left:4px solid var(--warn)}
+.bt-box.hi{background:var(--stop-tint);border-left:4px solid var(--stop)}
+.bt-box h4{margin:0 0 6px;font-size:18px}
+.bt-box p{margin:0 0 8px!important}.bt-box p:last-child{margin-bottom:0!important}
+.bt-box ul{margin:6px 0 4px;padding-left:20px;font-size:15px}
+.bt-box li{padding:3px 0}
+.rk-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+@media (max-width:680px){.rk-grid{grid-template-columns:1fr}}
+.rk-life{font:500 11px/1 "Geist Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);grid-column:1/-1;margin:10px 2px 2px}
+.rk-life:first-child{margin-top:0}
+.acts{display:grid;gap:8px;margin:10px 0 4px}
+.act{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-size:15px}
+.act b{display:block}
+.act span{color:var(--soft)}
+.cg-chips{display:flex;flex-wrap:wrap;gap:8px}
+.cg-chip{font:inherit;font-size:14.5px}
+.cg-chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.cg-out{display:grid;gap:10px;margin-top:16px}
+.cg-out:empty{display:none}
+.cg-h{font:600 12px/1.2 "Geist Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);margin:8px 0 0}
+.cg-r{background:var(--paper);border:1px solid var(--line-2);border-left:4px solid var(--accent);border-radius:12px;padding:12px 16px;font-size:15px}
+.cg-r b{display:block;font-size:16px}
+.cg-r span{color:var(--soft)}
+.cg-r .ln{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:6px;font-size:14.5px;font-weight:500}
+.cg-r.ma{border-left-color:var(--good)}
+.steps{margin:14px 0 16px;padding-left:22px;max-width:64ch}
+.steps li{padding:5px 0}
+.urgent{background:var(--stop-tint);border-left:4px solid var(--stop);border-radius:14px;padding:14px 18px;font-size:15px;max-width:64ch;margin:14px 0 0}
+@media print{.cg-chips{display:none}}
+.facts span b{display:inline;font-size:inherit;margin:0;color:var(--ink)}table.gx th{color:var(--soft)!important}table.gx td{width:auto}table.gx td:first-child{color:var(--ink);font-weight:500;white-space:nowrap}
+@media (max-width:560px){table.gx td:before{content:none!important}table.gx td:nth-child(2){color:var(--soft);padding-top:0;padding-bottom:0}table.gx td:first-child{white-space:normal}}
+
+.vs{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:clamp(20px,3.5vw,32px);margin-top:18px;box-shadow:0 1px 0 var(--line),0 18px 40px -28px rgba(20,24,60,.35)}
+.vs-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;border-bottom:2px solid var(--ink);padding-bottom:12px;margin-bottom:14px;flex-wrap:wrap}
+.vs-k{font-family:Newsreader,Georgia,serif;font-size:28px;line-height:1.1;margin:0!important}
+.vs-d,.vs-from{font:500 12px/1.4 "Geist Mono",monospace;color:var(--faint);margin:4px 0 0!important}
+.vs-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:6px}
+@media (max-width:600px){.vs-row{grid-template-columns:1fr}}
+.vs-row label{font-size:13px;color:var(--soft);display:grid;gap:4px}
+.vs input[type=text],.vs textarea{font:inherit;font-size:15.5px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:9px 12px;width:100%;box-sizing:border-box}
+.vs textarea{resize:vertical;min-height:90px}
+.vs-h{font:600 12px/1.2 "Geist Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);margin:18px 0 8px!important}
+.vs-ul{margin:0;padding-left:20px;font-size:15.5px}.vs-ul li{padding:3px 0}
+.vs-ul small{color:var(--soft);display:block;font-size:13.5px}
+.vs-empty{font-size:15px;color:var(--faint);margin:0!important;padding:12px 14px;border:1px dashed var(--line);border-radius:12px}
+.vs-empty a{font-weight:500}
+.vs-q{display:grid;gap:6px}
+.vs-bring{margin:0;padding-left:20px;font-size:15px;color:var(--soft)}
+.vs-act{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:18px}
+.vs-btn{font:inherit;font-size:15px;font-weight:500;padding:11px 20px;border-radius:999px;border:1px solid var(--ink);background:var(--ink);color:var(--paper);cursor:pointer}
+.vs-btn.ghost{background:transparent;color:var(--ink)}
+.vs-ok{font-size:14px;color:var(--good)}
+.vs-fab{position:fixed;right:18px;bottom:18px;z-index:60;display:flex;align-items:center;gap:10px;padding:12px 18px 12px 14px;border-radius:999px;background:var(--ink);color:var(--paper)!important;text-decoration:none!important;font-size:15px;font-weight:500;box-shadow:0 10px 30px -8px rgba(0,0,0,.45);transform:translateY(120px);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.vs-fab.on{transform:none}
+.vs-fab .c{min-width:24px;height:24px;border-radius:999px;background:var(--paper);color:var(--ink);font:600 13px/24px "Geist Mono",monospace;text-align:center;padding:0 6px}
+.vs-fab.bump .c{animation:vsb .4s}
+@keyframes vsb{40%{transform:scale(1.35)}}
+@media (prefers-reduced-motion:reduce){.vs-fab{transition:none}.vs-fab.bump .c{animation:none}}
+@media print{body.vs-print *{visibility:hidden}body.vs-print #vsSheet,body.vs-print #vsSheet *{visibility:visible}body.vs-print #vsSheet{position:absolute;left:0;top:0;width:100%;border:0;box-shadow:none;padding:0}body.vs-print .vs-act,body.vs-print .vs-fab,body.vs-print .toc-stick,body.vs-print .toc-bar{display:none!important}.vs-q .bt-row{border:0;padding:2px 0;background:none}body.vs-print .vs-q .bt-row:not(:has(input:checked)){display:none}body.vs-print .vs input,body.vs-print .vs textarea{border:0;border-bottom:1px solid #999;border-radius:0;background:none}body.vs-print .vs-empty{display:none}body.vs-print .vs ::placeholder{color:transparent}}
+.bl{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:18px;padding:clamp(18px,3vw,26px) clamp(20px,3vw,30px);margin:6px 0 10px}
+.bl-k{font:600 12px/1.2 "Geist Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:0 0 10px!important}
+.bl ul{margin:0;padding-left:20px;font-size:16.5px}.bl li{padding:4px 0}
+.gl-ldl{margin-top:14px;display:grid;gap:6px;max-width:320px}
+.gl-ldl label{font-size:14.5px;color:var(--soft)}.gl-ldl label span{color:var(--faint)}
+.gl-in{display:flex;align-items:center;gap:8px}
+.gl-in input{font:inherit;font-size:17px;width:130px;padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:var(--paper);color:var(--ink)}
+.gl-in span{color:var(--soft);font-size:14.5px}
+.gl-big{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:0 0 6px}
+.gl-big .n{font-family:Newsreader,Georgia,serif;font-size:54px;line-height:1}
+.gl-big .u{font-size:15px;color:var(--soft)}
+.gl-bar{position:relative;height:12px;border-radius:999px;background:var(--line);margin:14px 0 26px}
+.gl-bar i{position:absolute;top:0;bottom:0;left:0;border-radius:999px;background:var(--stop)}
+.gl-bar b{position:absolute;top:-6px;width:3px;height:24px;background:var(--good);border-radius:2px}
+.gl-bar em{position:absolute;top:22px;font:500 11.5px/1 "Geist Mono",monospace;font-style:normal;color:var(--soft);transform:translateX(-50%);white-space:nowrap}
+.facts>div.wide{grid-column:1/-1;border-left-color:var(--accent)}
+figure.dg{margin:18px 0;padding:16px;background:var(--surface);border:1px solid var(--line);border-radius:18px}
+figure.dg svg{width:100%;height:auto;display:block;font-family:Geist,system-ui,sans-serif}
+.dg text{font-size:15px;font-weight:600;fill:var(--ink);text-anchor:middle}
+.dg text.s{font-size:12px;font-weight:400;fill:var(--soft)}
+.dg text.dg-c{font-size:16px}
+.dg .mol path,.dg .mol circle{fill:none;stroke:var(--accent);stroke-width:3;stroke-linejoin:round;stroke-linecap:round}
+.dg .mk-l{fill:var(--stop)}.dg .mk-h{fill:var(--good)}.dg text.oh{font-size:12px;fill:var(--accent);text-anchor:start}
+.dg .dg-out path{stroke:var(--faint);stroke-width:2;stroke-dasharray:4 5;fill:none}
+.dg .dg-box rect{fill:var(--paper);stroke:var(--line);stroke-width:1.5}
+.dg .liver path{fill:#c9826b;opacity:.9}
+.dg .liver text{fill:#fff}
+:root[data-theme="dark"] .dg .liver path{fill:#9a5644}
+.dg .body rect{fill:var(--paper);stroke:var(--line);stroke-width:1.5}
+.dg .ldl,.dg .hdl{color:var(--stop)}
+.dg .hdl{color:var(--good)}
+.dg .ldl path,.dg .hdl path{fill:none;stroke:currentColor;stroke-width:3}
+.dg .ldl circle,.dg .hdl circle{fill:currentColor}
+.dg .ldl circle+text,.dg .hdl circle+text{fill:#fff;font-size:10.5px}
+.dg .art>rect:first-child{fill:#e7a99a}
+:root[data-theme="dark"] .dg .art>rect:first-child{fill:#8f5446}
+.dg .art .lu{fill:#b8302a}
+.dg .art .pl{fill:#f2d27a;stroke:#c9a23f;stroke-width:1.5}
+.dg .art .cl{fill:#5e1712}
+.hd{display:grid;gap:10px;margin-top:14px}
+.hd-r{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px 20px 16px 22px;border-left:5px solid var(--faint)}
+.hd-r.hd-ok{border-left-color:var(--good)}.hd-r.hd-mid{border-left-color:var(--warn)}.hd-r.hd-no{border-left-color:var(--stop)}
+.hd-r b{font-size:18px;display:block;margin:0 0 4px}
+.hd-r p{margin:0!important;color:var(--soft);font-size:15.5px;max-width:none}
+.hd-r p b{display:inline;font-size:inherit;color:var(--ink)}
+.hd-v{float:right;margin:0 0 6px 10px;font:600 11px/1 "Geist Mono",monospace;letter-spacing:.08em;text-transform:uppercase;padding:6px 10px;border-radius:999px;background:var(--line-2,#eee);color:var(--soft)}
+.hd-r.hd-ok .hd-v{background:var(--good-tint);color:var(--good)}.hd-r.hd-mid .hd-v{background:var(--warn-tint);color:var(--warn)}.hd-r.hd-no .hd-v{background:var(--stop-tint);color:var(--stop)}
+@media (max-width:560px){.hd-v{float:none;display:inline-block;margin:0 0 8px}}
+
+.rd{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-top:14px}
+.rd a{display:flex;flex-direction:column;gap:4px;padding:16px 18px;border-radius:16px;background:var(--surface);border:1px solid var(--line);text-decoration:none;color:var(--ink);transition:border-color .15s,transform .15s}
+.rd a:hover{border-color:var(--accent);transform:translateY(-2px)}
+.rd .t{font:600 11px/1 "Geist Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.rd .t.bk{color:var(--accent)}
+.rd b{font-size:17px;line-height:1.3}
+.rd span.d{color:var(--soft);font-size:14.5px}
+.rd .src{margin-top:auto;padding-top:6px;font-size:13px;color:var(--faint)}
+.lr{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:18px;margin-top:16px;align-items:start}
+@media (max-width:900px){.lr{grid-template-columns:1fr}}
+.lr-in{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px}
+.lr-pl{display:block;font-weight:600;margin:0 0 8px;font-size:15.5px}
+.lr textarea{width:100%;box-sizing:border-box;font:13.5px/1.55 "Geist Mono",monospace;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px;resize:vertical;min-height:120px}
+.lr textarea:focus,.lr input:focus{outline:3px solid var(--accent);outline-offset:1px}
+.lr-or{display:flex;align-items:center;gap:10px;color:var(--faint);font-size:13px;margin:14px 0 10px!important}
+.lr-or:before,.lr-or:after{content:"";flex:1;height:1px;background:var(--line)}
+.lr-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px}
+.lr-f{display:grid;gap:3px}
+.lr-f label{font-size:12.5px;color:var(--soft)}
+.lr-f .w{display:flex;align-items:center;gap:6px}
+.lr-f input{font:inherit;font-size:15.5px;width:100%;min-width:0;padding:7px 10px;border:1px solid var(--line);border-radius:9px;background:var(--paper);color:var(--ink)}
+.lr-f .u{font-size:12px;color:var(--faint);white-space:nowrap}
+.lr-f select{font:inherit;font-size:12px;border:1px solid var(--line);border-radius:7px;background:var(--paper);color:var(--soft);padding:4px}
+.lr-f.got input{border-color:var(--good);background:var(--good-tint)}
+.lr-acts{display:flex;gap:10px;align-items:center;margin-top:14px}
+.lr-clr{font:inherit;font-size:14px;background:none;border:0;color:var(--faint);text-decoration:underline;cursor:pointer}
+.lr-priv{font-size:12.5px;color:var(--faint);margin:12px 0 0!important}
+.lr-priv span{color:var(--good)}
+.lr-out{display:grid;gap:10px}
+.lr-empty{border:1px dashed var(--line);border-radius:18px;padding:28px 24px;color:var(--soft);text-align:center}
+.lr-empty b{display:block;font-family:Newsreader,Georgia,serif;font-weight:500;font-size:24px;color:var(--ink);margin-bottom:6px}
+.lr-sum{background:var(--ink);color:var(--paper);border-radius:18px;padding:18px 22px}
+.lr-sum .k{font:600 11px/1 "Geist Mono",monospace;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin:0 0 8px}
+.lr-sum p{margin:0;font-size:16px;line-height:1.5}
+.lr-sum ul{margin:8px 0 0;padding-left:20px;font-size:15px}
+.lr-sum li{padding:2px 0}
+.lr-r{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--faint);border-radius:14px;padding:14px 18px}
+.lr-r.g{border-left-color:var(--good)}.lr-r.m{border-left-color:var(--warn)}.lr-r.b{border-left-color:var(--stop)}
+.lr-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.lr-h b{font-size:16px}
+.lr-v{margin-left:auto;font-family:Newsreader,Georgia,serif;font-size:26px;line-height:1}
+.lr-v small{font:500 12px "Geist Mono",monospace;color:var(--faint);margin-left:4px}
+.lr-tag{font:600 10.5px/1 "Geist Mono",monospace;letter-spacing:.08em;text-transform:uppercase;padding:5px 8px;border-radius:999px;background:var(--line);color:var(--soft)}
+.lr-r.g .lr-tag{background:var(--good-tint);color:var(--good)}.lr-r.m .lr-tag{background:var(--warn-tint);color:var(--warn)}.lr-r.b .lr-tag{background:var(--stop-tint);color:var(--stop)}
+.lr-bar{position:relative;display:flex;height:8px;border-radius:999px;overflow:hidden;margin:12px 0 4px}
+.lr-bar span{height:100%}
+.lr-pin{position:relative;height:0}
+.lr-pin i{position:absolute;top:-17px;width:4px;height:18px;border-radius:2px;background:var(--ink);box-shadow:0 0 0 2px var(--surface);transform:translateX(-50%)}
+.lr-sc{position:relative;height:14px;font:500 10.5px/1 "Geist Mono",monospace;color:var(--faint)}
+.lr-sc em{position:absolute;font-style:normal;transform:translateX(-50%)}
+.lr-r p{margin:6px 0 0!important;color:var(--soft);font-size:14.5px;max-width:none}
+.lr-r p b{color:var(--ink)}
+.lr-calc{font:500 10.5px/1 "Geist Mono",monospace;color:var(--accent);letter-spacing:.06em;text-transform:uppercase}
+.lr-foot{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:4px}
+@media print{.lr-in{display:none}.lr{grid-template-columns:1fr}}
+
+.dkey{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:22px 0 4px}
+@media (max-width:760px){.dkey{grid-template-columns:1fr}}
+.dkey div{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;font-size:14.5px;color:var(--soft)}
+.dkey b{display:block;color:var(--ink);margin:6px 0 2px}
+.jump{display:flex;flex-wrap:wrap;gap:6px;margin:18px 0 0;padding:0;list-style:none}
+.jump a{display:block;font-size:13.5px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--soft);text-decoration:none}
+.jump a:hover{color:var(--ink);border-color:var(--ink)}
+.grp{margin:40px 0 0;scroll-margin-top:90px}
+.grp h2{font-family:Newsreader,Georgia,serif;font-weight:500;font-size:clamp(28px,3.4vw,36px);margin:0;line-height:1.1;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.grp-i{color:var(--soft);font-size:15.5px;margin:8px 0 0!important;max-width:70ch}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-top:14px}
+.dv{display:flex;flex-direction:column;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px 20px}
+.dv-st{font:600 11.5px/1.2 Geist,sans-serif;padding:5px 9px;border-radius:999px}
+.dv-st.rx{background:var(--tint);color:var(--accent)}
+.dv-st.cl{background:var(--good-tint);color:var(--good)}
+.dv-st.ft{background:var(--warn-tint);color:var(--warn)}
+.dv h3{font-family:Newsreader,Georgia,serif;font-weight:500;font-size:24px;line-height:1.15;margin:12px 0 0}
+.dv-what{font-size:15px;color:var(--soft);margin:8px 0 10px!important}
+.dv-take{font-size:15px;margin:0 0 12px!important;padding:12px 14px;border-radius:12px;background:var(--paper);border:1px solid var(--line-2);align-self:stretch}
+.dv-take b{display:block;font:600 11px/1 "Geist Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.dv-ft{margin-top:auto;display:flex;justify-content:space-between;gap:10px;font-size:13.5px;color:var(--faint);align-items:center;align-self:stretch;margin-bottom:10px}
+.dv-ft a{font-weight:500;text-decoration:none;white-space:nowrap}
+.why{margin:40px 0 0;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px 24px}
+.why h2{font-family:Newsreader,Georgia,serif;font-weight:500;font-size:28px;margin:0 0 8px}
+.why ul{margin:0;padding-left:20px;color:var(--soft)}.why li{padding:4px 0}.why b{color:var(--ink)}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="brand" href="/"><span class="mark">GG</span><span class="bn">Gennady Gelman, MD</span></a>
+<nav><a href="/">Home</a><a href="/#patient">For patients</a><a href="/#about">About</a></nav>
+<button class="theme" id="theme" type="button" aria-label="Switch to dark mode"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></button>
+</div></header>
+<nav class="vnav" aria-label="Patient topics"><ul><li><a href="/patients/visit/">Plan your visit</a></li><li><a href="/patients/vaccines/">Vaccines</a></li><li><a href="/patients/screening/">Cancer screening</a></li><li><a href="/patients/cholesterol/">Cholesterol</a></li><li><a href="/patients/memory/">Memory</a></li><li><a href="/patients/devices/" aria-current="page">Health tech</a></li><li><a href="/patients/sick/">Feeling sick</a></li><li><a href="/patients/weight/">Weight loss</a></li><li><a href="/patients/books/">Books</a></li><li><a href="/patients/ai/">AI tools</a></li><li><a href="/patients/apps/">Apps</a></li></ul></nav>
+
+
+<main class="wrap">
+<div class="hero">
+<p class="eyebrow">For my patients</p>
+<h1>Health tech that works</h1>
+<p class="lede">Watches, sensors, apps and gadgets promise a lot. These are the ones the FDA has actually reviewed for a medical use, sorted by what you want to do. Some you can buy today; some need a prescription from us.</p>
+</div>
+<div class="dkey">
+<div><span class="dv-st cl">No prescription</span><b>Buy it yourself</b>FDA-cleared and sold over the counter.</div>
+<div><span class="dv-st rx">Needs a prescription</span><b>Ask us</b>FDA-reviewed, but we need to order it.</div>
+<div><span class="dv-st ft">Some features FDA-cleared</span><b>Partly medical</b>Only certain features were reviewed. The rest are estimates.</div>
+</div>
+<ul class="jump"><li><a href="#heart">Check your heart rhythm</a></li><li><a href="#bp">Check your blood pressure</a></li><li><a href="#sleep">Sleep and snoring</a></li><li><a href="#glucose">Check your blood sugar</a></li><li><a href="#hear">Hearing</a></li><li><a href="#migraine">Migraine without more pills</a></li><li><a href="#mood">Mood, anxiety and stress</a></li><li><a href="#women">Women’s health</a></li><li><a href="#more">More</a></li></ul>
+<section class="grp" id="heart"><h2 data-toc="Check your heart rhythm">Check your heart rhythm</h2><p class=grp-i>For palpitations, a racing or skipping heartbeat, or keeping an eye on atrial fibrillation (AFib).</p><div class="grid"><article class="dv" id="d-kardia"><span class="dv-st cl">No prescription</span><h3>KardiaMobile</h3><p class="dv-what">A small pad you hold for 30 seconds. It records an ECG on your phone and tells you if it looks like AFib, a slow rhythm or a fast one.</p><p class="dv-take"><b>What to know</b>Record it while you feel the symptom, then send it to us. A normal reading with ongoing symptoms still needs a visit.</p><div class="dv-ft"><span>About $80–$150</span><a href="https://kardia.com/" target="_blank" rel="noopener">Learn more ↗</a></div><button type="button" class="vv-add" data-vid="dev-kardia" data-vt="Ask about: KardiaMobile" data-vl="Ask about this at my visit"></button></article><article class="dv" id="d-watch"><span class="dv-st ft">Some features FDA-cleared</span><h3>Smartwatches with an ECG app</h3><p class="dv-what">Apple Watch, Samsung Galaxy Watch, Fitbit, Garmin and Withings ScanWatch have FDA-cleared ECG apps and alerts for an irregular rhythm.</p><p class="dv-take"><b>What to know</b>An alert is a reason to call us, not a diagnosis. Sleep stages, “stress” and similar scores are estimates, not medical tests.</p><div class="dv-ft"><span>About $100–$800</span><a href="https://www.apple.com/healthcare/apple-watch/" target="_blank" rel="noopener">Learn more ↗</a></div><button type="button" class="vv-add" data-vid="dev-watch" data-vt="Ask about: Smartwatches with an ECG app" data-vl="Ask about this at my visit"></button></article><article class="dv" id="d-scale"><span class="dv-st ft">Some features FDA-cleared</span><h3>Withings Body Scan</h3><p class="dv-what">A bathroom scale with a handle. Its ECG is FDA-cleared to flag possible AFib while you weigh yourself.</p><p class="dv-take"><b>What to know</b>Useful if you weigh yourself daily anyway. The body composition numbers are estimates.</p><div class="dv-ft"><span>About $400–$600</span><a href="https://www.withings.com/" target="_blank" rel="noopener">Learn more ↗</a></div><button type="button" class="vv-add" data-vid="dev-scale" data-vt="Ask about: Withings Body Scan" data-vl="Ask about this at my visit"></button></article></div></section>
+<section class="grp" id="bp"><h2 data-toc="Check your blood pressure">Check your blood pressure</h2><p class=grp-i>Home readings are the best way to know your real blood pressure.</p><div class="grid"><article class="dv" id="d-cuff"><span class="dv-st cl">No prescription</span><h3>A validated upper-arm cuff</h3><p class="dv-what">Any automatic upper-arm cuff listed on validatebp.org, in the right size for your arm.</p><p class="dv-take"><b>What to know</b>Take two readings in the morning and two at night for a week before your visit and bring them in. This is the one I recommend most.</p><div class="dv-ft"><span>About $40–$100</span><a href="https://www.validatebp.org/" target="_blank" rel="noopener">Learn more ↗</a></div><button type="button" class="vv-add" data-vid="dev-cuff" data-vt="Ask about: A validated upper-arm cuff" data-vl="Ask about this at my visit"></button></article><article class="dv" id="d-hilo"><span class="dv-st cl">No prescription</span><h3>Hilo band</h3><p class="dv-what">A wristband that estimates blood pressure through the day while you sit still. You set it up with a regular cuff, which comes with it.</p><p class="dv-take"><b>What to know</b>Interesting for patterns, including at night. Check any number that would change your treatment with a regular cuff.</p><div class="dv-ft"><span>About $250–$300</span><a href="https://www.hilo.com/" target="_blank" rel="noopener">Learn more ↗</a></div><button type="button" class="vv-add" data-vid="dev-hilo" data-vt="Ask about: Hilo band" data-vl="Ask about this at my visit"></button></article><article class="dv" id="d-bpwatch"><span class="dv-st ft">Some features FDA-cleared</span><h3>Apple Watch hypertension alerts</h3><p class="dv-what">The watch looks at 30 days of data and may tell you that you might have high blood pressure.</p><p class="dv-take"><b>What to know</b>If you get an alert, check with a cuff for a week. No alert does not mean your blood pressure is normal.</p><div class="dv-ft"><span>Built into newer watches</span><a href="https://www.apple.com/apple-watch-series-11/" target="_blank" rel="noopener">Learn more ↗</a></div><button type="button" class="vv-add" data-vid="dev-bpwatch" data-vt="Ask about: Apple Watch hypertension alerts" data-vl="Ask about this at my visit"></button></article></div></section>
+<section class="grp" id="sleep"><h2 data-toc="Sleep and snoring">Sleep and snoring</h2><p class=grp-i>Loud snoring, gasping or very tired days can mean sleep apnea, which is treatable.</p><div class="grid"><article class="dv" id="d-apnea"><span class="dv-st ft">Some features FDA-cleared</span><h3>Sleep apnea alerts on a watch or ring</h3><p class="dv-what">Apple Watch, Samsung Galaxy Watch and the Samsung Galaxy Ring can flag signs of moderate to severe sleep apnea.</p><p class="dv-take"><b>What to know</b>An alert means ask us about a sleep test. No alert does not rule sleep apnea out.</p><div class="dv-ft"><span>Built into some devices</span><a href="https://www.samsung.com/us/" target="_blank" rel="noopener">Learn more ↗</a></div><button type="button" class="vv-add" data-vid="dev-apnea" data-vt="Ask about: Sleep apnea alerts on a watch or ring" data-vl="Ask about this at my visit"></button></article><article class="dv" id="d-hsat"><span class="dv-st rx">Needs a prescription</span><h3>Home sleep tests</h3><p class="dv-what">Wear sensors at home for one or more nights instead of sleeping in a lab. Examples include Wesper, Withings Sleep Rx and Sunrise.</p><p class="dv-take"><b>What to know</b>We order these. Tell us if you snore loudly, stop breathing at night or are always tired.</p><div class="dv-ft"><span>Usually covered by insurance</span><a href="https://sleepeducation.org/sleep-disorders/obstructive-sleep-apnea/" target="_blank" rel="noopener">Learn more ↗</a></div><button type="button" class="vv-add" data-vid="dev-hsat" data-vt="Ask about: Home sleep tests" data-vl="Ask about this at my visit"></button></article><article class="dv" id="d-cbti"><span class="dv-st rx">Needs a prescription</span><h3>Sleep apps that treat insomnia</h3><p class="dv-what">SleepioRx and Somryst teach CBT-I, the best treatment for long-term insomnia, through an app.</p><p class="dv-take"><b>What to know</b>Works better than sleeping pills over time. Ask us for a prescription.</p><div class="dv-ft"><span>Prescription; coverage varies</span><a href="https://www.bighealth.com/" target="_blank" rel="noopener">Learn more ↗</a></div><button type="button" class="vv-add" data-vid="dev-cbti" data-vt="Ask about: Sleep apps that treat insomnia" data-vl="Ask about this at my visit"></button></article></div></section>
+<section class="grp" id="glucose"><h2 data-toc="Check your blood sugar">Check your blood sugar</h2><p class=grp-i>Sensors you wear on your arm for 2 weeks that show your glucose all day.</p><div class="grid"><article class="dv" id="d-cgm"><span class="dv-st cl">No prescription</span><h3>Over-the-counter glucose sensors</h3><p class="dv-what">Dexcom Stelo and Abbott Lingo or Libre Rio, for adults who don’t use insulin. No prescription needed.</p><p class="dv-take"><b>What to know</b>Great for prediabetes or type 2 diabetes: try two weeks and see what meals, walks and sleep do. Rises after meals are normal. Not for people on insulin.</p><div class="dv-ft"><span>About $50–$100 per 2 weeks</span><a href="https://www.stelo.com/" target="_blank" rel="noopener">Learn more ↗</a></div><button type="button" class="vv-add" data-vid="dev-cgm" data-vt="Ask about: Over-the-counter glucose sensors" data-vl="Ask about this at my visit"></button></article></div></section>
+<section class="grp" id="hear"><h2 data-toc="Hearing">Hearing</h2><p class=grp-i>Treating hearing loss is good for your brain as well as your ears.</p><div class="grid"><article class="dv" id="d-otcha"><span class="dv-st cl">No prescription</span><h3>Over-the-counter hearing aids</h3><p class="dv-what">For adults with mild to moderate hearing loss. Includes the hearing aid feature on AirPods Pro, and Nuance Audio glasses with hearing aids built in.</p><p class="dv-take"><b>What to know</b>A good first step. Sudden hearing loss, one-sided loss or ear pain need a visit first.</p><div class="dv-ft"><span>About $200–$1,000</span><a href="https://www.nidcd.nih.gov/health/over-counter-hearing-aids" target="_blank" rel="noopener">Learn more ↗</a></div><button type="button" class="vv-add" data-vid="dev-otcha" data-vt="Ask about: Over-the-counter hearing aids" data-vl="Ask about this at my visit"></button></article><article class="dv" id="d-lenire"><span class="dv-st rx">Needs a prescription</span><h3>Lenire for tinnitus</h3><p class="dv-what">Headphones plus a small device on the tongue that together retrain how the brain handles ringing in the ears.</p><p class="dv-take"><b>What to know</b>For tinnitus that really bothers you. Ask us for a referral to a hearing specialist.</p><div class="dv-ft"><span>Through an audiologist</span><a href="https://www.lenire.com/" target="_blank" rel="noopener">Learn more ↗</a></div><button type="button" class="vv-add" data-vid="dev-lenire" data-vt="Ask about: Lenire for tinnitus" data-vl="Ask about this at my visit"></button></article></div></section>
+<section class="grp" id="migraine"><h2 data-toc="Migraine without more pills">Migraine without more pills</h2><p class=grp-i>Devices that treat or prevent migraine by stimulating nerves.</p><div class="grid"><article class="dv" id="d-mig_otc"><span class="dv-st cl">No prescription</span><h3>Cefaly and Enso</h3><p class="dv-what">Worn on the forehead or head. Cleared to treat a migraine attack and to prevent migraines. No prescription needed.</p><p class="dv-take"><b>What to know</b>Worth a one-month try if pills don’t work, cause side effects, or you’re pregnant.</p><div class="dv-ft"><span>About $100–$500</span><a href="https://www.cefaly.com/" target="_blank" rel="noopener">Learn more ↗</a></div><button type="button" class="vv-add" data-vid="dev-mig_otc" data-vt="Ask about: Cefaly and Enso" data-vl="Ask about this at my visit"></button></article><article class="dv" id="d-mig_rx"><span class="dv-st rx">Needs a prescription</span><h3>Nerivio, gammaCore and Relivion</h3><p class="dv-what">Nerivio is an armband (from age 8). gammaCore is held on the neck and also treats cluster headache. Relivion is a headset.</p><p class="dv-take"><b>What to know</b>Ask us which fits you.</p><div class="dv-ft"><span>Prescription; coverage varies</span><a href="https://americanmigrainefoundation.org/resource-library/neuromodulation-devices/" target="_blank" rel="noopener">Learn more ↗</a></div><button type="button" class="vv-add" data-vid="dev-mig_rx" data-vt="Ask about: Nerivio, gammaCore and Relivion" data-vl="Ask about this at my visit"></button></article></div></section>
+<section class="grp" id="mood"><h2 data-toc="Mood, anxiety and stress">Mood, anxiety and stress</h2><p class=grp-i>Prescription apps and devices that treat depression and anxiety.</p><div class="grid"><article class="dv" id="d-mood_apps"><span class="dv-st rx">Needs a prescription</span><h3>Prescription mental health apps</h3><p class="dv-what">DaylightRx for anxiety, Rejoyn for depression (with medicine), MamaLift Plus for postpartum depression, and NightWare for PTSD nightmares on an Apple Watch.</p><p class="dv-take"><b>What to know</b>Useful while waiting for therapy, or alongside it. Any thoughts of self-harm need care right away: call or text 988.</p><div class="dv-ft"><span>Prescription; coverage varies</span><a href="https://www.bighealth.com/daylightrx" target="_blank" rel="noopener">Learn more ↗</a></div><button type="button" class="vv-add" data-vid="dev-mood_apps" data-vt="Ask about: Prescription mental health apps" data-vl="Ask about this at my visit"></button></article><article class="dv" id="d-flow"><span class="dv-st rx">Needs a prescription</span><h3>Flow brain stimulation headset</h3><p class="dv-what">A headset used at home for depression, guided by an app. The first approved at-home brain stimulation treatment for depression.</p><p class="dv-take"><b>What to know</b>A non-drug option for moderate to severe depression. Ask us whether it fits.</p><div class="dv-ft"><span>About $500–$800</span><a href="https://www.flowneuroscience.com/" target="_blank" rel="noopener">Learn more ↗</a></div><button type="button" class="vv-add" data-vid="dev-flow" data-vt="Ask about: Flow brain stimulation headset" data-vl="Ask about this at my visit"></button></article></div></section>
+<section class="grp" id="women"><h2 data-toc="Women’s health">Women’s health</h2><div class="grid"><article class="dv" id="d-nc"><span class="dv-st cl">No prescription</span><h3>Natural Cycles</h3><p class="dv-what">The first FDA-cleared birth control app. It uses your temperature from a thermometer, Oura Ring, Apple Watch or its wristband.</p><p class="dv-take"><b>What to know</b>Hormone-free, but less effective than an IUD or implant. Best if you will use condoms or skip sex on red days.</p><div class="dv-ft"><span>About $100–$200 a year</span><a href="https://www.naturalcycles.com/" target="_blank" rel="noopener">Learn more ↗</a></div><button type="button" class="vv-add" data-vid="dev-nc" data-vt="Ask about: Natural Cycles" data-vl="Ask about this at my visit"></button></article><article class="dv" id="d-pelvic"><span class="dv-st cl">No prescription</span><h3>Bladder leaks: pelvic floor trainers</h3><p class="dv-what">Devices that guide pelvic floor (Kegel) exercises. Some, like Flyte and PeriCoach, are FDA-cleared for leaking when you cough, sneeze or exercise.</p><p class="dv-take"><b>What to know</b>Pelvic floor physical therapy works too, and is often covered.</p><div class="dv-ft"><span>About $100–$400</span><a href="https://www.voicesforpfd.org/" target="_blank" rel="noopener">Learn more ↗</a></div><button type="button" class="vv-add" data-vid="dev-pelvic" data-vt="Ask about: Bladder leaks: pelvic floor trainers" data-vl="Ask about this at my visit"></button></article></div></section>
+<section class="grp" id="more"><h2 data-toc="More">More</h2><div class="grid"><article class="dv" id="d-quell"><span class="dv-st cl">No prescription</span><h3>Quell for nerve pain</h3><p class="dv-what">A band worn below the knee that uses mild electrical stimulation for chronic pain, including neuropathy.</p><p class="dv-take"><b>What to know</b>Low risk to try. Not for people with a pacemaker or defibrillator.</p><div class="dv-ft"><span>About $300</span><a href="https://www.quellrelief.com/" target="_blank" rel="noopener">Learn more ↗</a></div><button type="button" class="vv-add" data-vid="dev-quell" data-vt="Ask about: Quell for nerve pain" data-vl="Ask about this at my visit"></button></article><article class="dv" id="d-kids"><span class="dv-st rx">Needs a prescription</span><h3>For children: EndeavorRx and Luminopia</h3><p class="dv-what">EndeavorRx is a video game for ADHD (ages 8–17). Luminopia is a virtual reality treatment for lazy eye (amblyopia).</p><p class="dv-take"><b>What to know</b>Add-ons to usual treatment. Ask your child’s doctor or eye doctor.</p><div class="dv-ft"><span>Prescription</span><a href="https://www.endeavorrx.com/" target="_blank" rel="noopener">Learn more ↗</a></div><button type="button" class="vv-add" data-vid="dev-kids" data-vt="Ask about: For children: EndeavorRx and Luminopia" data-vl="Ask about this at my visit"></button></article></div></section>
+<section class="why" id="fda"><h2 data-toc="What FDA-cleared means">What “FDA-cleared” really means</h2><ul>
+<li><b>It applies to one use.</b> A watch can have an FDA-cleared ECG while its sleep and stress scores are not reviewed at all.</li>
+<li><b>“FDA-registered” is not the same.</b> Registration just means the company told the FDA it exists. It says nothing about whether the product works.</li>
+<li><b>“Wellness” products aren’t reviewed.</b> They can claim to help stress, sleep or energy, but not to treat a disease. Many popular gadgets, like most red light panels and vagus nerve stimulators, are in this group.</li>
+<li><b>Bring the data to us.</b> Readings are most useful when we look at them together, especially before you change a medicine.</li>
+</ul></section>
+<div class="disclaim">
+<p>Educational information from Gennady Gelman, MD. No financial ties to any company listed. Prices are approximate and change often. Checked November 2026.</p>
+<p>In an emergency, call <a href="tel:911">911</a>. For a mental health crisis, call or text <a href="tel:988">988</a>.</p>
+</div>
+</main>
+
+<footer><div class="wrap"><span>© 2026 Gennady Gelman · Personal site, not affiliated with any employer.</span><a href="mailto:me@gennadygelman.com">me@gennadygelman.com</a></div></footer>
+<script>(function(){var r=document.documentElement,b=document.getElementById('theme');function l(){b.setAttribute('aria-label',r.dataset.theme==='dark'?'Switch to light mode':'Switch to dark mode')}l();b.addEventListener('click',function(){r.dataset.theme=r.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('gg-theme',r.dataset.theme)}catch(e){}l()})})();</script>
+<script src="/js/toc.js?v=3" defer></script>
+<script src="/js/visit.js?v=1"></script>
+</body>
+</html>

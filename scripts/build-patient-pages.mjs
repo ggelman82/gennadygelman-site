@@ -26,11 +26,11 @@ const data = new Function(
 )();
 const { PSECTIONS, ICONS, ACCENT } = data;
 
-const SHORT = { visit: 'Plan your visit', vaccines: 'Vaccines', screening: 'Cancer screening', memory: 'Memory', cholesterol: 'Cholesterol', sick: 'Feeling sick', weight: 'Weight loss', books: 'Books', ai: 'AI tools', phone: 'Apps' };
+const SHORT = { visit: 'Plan your visit', vaccines: 'Vaccines', screening: 'Cancer screening', memory: 'Memory', cholesterol: 'Cholesterol', devices: 'Health tech', sick: 'Feeling sick', weight: 'Weight loss', books: 'Books', ai: 'AI tools', phone: 'Apps' };
 // Shared two-color card icons (also used by the Python-built pages).
 const GLYPHS = JSON.parse(readFileSync(join(ROOT, 'scripts', 'glyphs.json'), 'utf8'));
 const gi = (name, acc) => name && GLYPHS[name] ? `<svg class="gi" viewBox="0 0 48 48" aria-hidden="true" style="--a:${acc}">${GLYPHS[name]}</svg>` : '';
-const SKIP = new Set(['vaccines', 'screening', 'memory', 'cholesterol']);
+const SKIP = new Set(['vaccines', 'screening', 'memory', 'cholesterol', 'devices']);
 
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const strip = s => String(s).replace(/<[^>]+>/g, '');

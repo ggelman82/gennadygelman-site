@@ -482,6 +482,13 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       {n:'Memory visit sheet', ic:'checklist', d:'Turn your checklists into one page to print or send us before your visit.', u:B+'/patients/memory/#visit', k:'memory visit sheet print prepare appointment questions dementia'},
       {n:'Help for caregivers', ic:'call', d:'Helplines, local services, respite, legal planning and safety.', u:B+'/patients/memory/#care', k:'caregiver dementia support respite helpline massoptions guide driving wandering elder law'}
     ]},
+    {id:'devices', p:'/patients/devices/', t:'#e6eef3', n:'Health tech that works', isNew:true, i:'FDA-reviewed devices and apps for heart rhythm, blood pressure, sleep, glucose, hearing, migraine and mood: what they do, cost, and whether you need a prescription.', items:[
+      {f:true, tint:'#e6eef3', n:'Check your heart rhythm', ic:'tech', d:'KardiaMobile and smartwatches with an FDA-cleared ECG.', u:B+'/patients/devices/#heart', k:'kardia ecg apple watch afib palpitations smartwatch heart rhythm'},
+      {n:'Blood pressure at home', ic:'tech', d:'Validated cuffs, the Hilo band and watch alerts.', u:B+'/patients/devices/#bp', k:'blood pressure cuff monitor hilo cuffless home'},
+      {n:'Sleep apnea and insomnia', ic:'tech', d:'Watch alerts, home sleep tests and CBT-I apps.', u:B+'/patients/devices/#sleep', k:'sleep apnea snoring home sleep test insomnia app sleepio'},
+      {n:'Glucose sensors without a prescription', ic:'tech', d:'Dexcom Stelo and Abbott Lingo for adults not on insulin.', u:B+'/patients/devices/#glucose', k:'cgm stelo lingo glucose sensor prediabetes'},
+      {n:'Hearing, migraine, mood and more', ic:'tech', d:'Over-the-counter hearing aids, migraine devices, prescription mental health apps.', u:B+'/patients/devices/#hear', k:'hearing aids airpods tinnitus migraine cefaly nerivio depression app anxiety natural cycles quell'}
+    ]},
     {id:'sick', p:'/patients/sick/', t:'#f6e9e4', n:'Feeling sick', i:'What to do, what helps, and when to get help.', items:[
       {f:true, tint:'var(--blue)', n:'Influenza guide', ic:'thermometer', d:'Prevent it, understand it, know what actually helps.', u:B+'/flu/', k:'flu influenza fever cough cold sick season'},
       {n:'Build your flu comfort plan', ic:'bed', d:'Sleep, fluids, saline, and treating discomfort safely.', u:B+'/flu/#flu-plan', k:'flu comfort plan home care fluids'},
@@ -547,6 +554,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     books:`<path d="M24 15c-5-4-11-4-16-2v24c5-2 11-2 16 2z" class="f"/><path d="M24 15c5-4 11-4 16-2v24c-5-2-11-2-16 2zM24 15v24"/>`,
     ai:`<path d="M8 11h26a4 4 0 0 1 4 4v14a4 4 0 0 1-4 4H20l-8 7v-7H8a4 4 0 0 1-4-4V15a4 4 0 0 1 4-4z" class="f"/><path d="M38 4l1.6 3.4L43 9l-3.4 1.6L38 14l-1.6-3.4L33 9l3.4-1.6z" fill="currentColor" stroke="none"/><path d="M12 20h16M12 25h10"/>`,
     tech:`<rect x="14" y="13" width="20" height="22" rx="6" class="f"/><rect x="14" y="13" width="20" height="22" rx="6"/><path d="M18 13l1-7h10l1 7M18 35l1 7h10l1-7M18 24h3l2-4 3 8 2-4h3"/>`,
+    devices:`<rect x="14" y="13" width="20" height="22" rx="6" class="f"/><rect x="14" y="13" width="20" height="22" rx="6"/><path d="M18 13l1-7h10l1 7M18 35l1 7h10l1-7M18 24h3l2-4 3 8 2-4h3"/>`,
     cholesterol:`<path d="M24 40s-15-9-15-20a8 8 0 0 1 15-4 8 8 0 0 1 15 4c0 11-15 20-15 20z" class="f"/><path d="M24 40s-15-9-15-20a8 8 0 0 1 15-4 8 8 0 0 1 15 4c0 11-15 20-15 20zM12 25h7l3-6 4 11 3-5h7"/>`,
     memory:`<path d="M24 9c-3-3-9-3-11 1-4 0-6 4-4 7-3 2-3 7 0 9-1 4 2 7 6 7 1 3 5 5 9 3z" class="f"/><path d="M24 9c3-3 9-3 11 1 4 0 6 4 4 7 3 2 3 7 0 9 1 4-2 7-6 7-1 3-5 5-9 3zM24 9v27"/>`,
     phone:`<rect x="14" y="5" width="20" height="38" rx="4" class="f"/><path d="M21 37h6"/><path d="M24 14l1.8 4.2 4.2 1.8-4.2 1.8L24 26l-1.8-4.2-4.2-1.8 4.2-1.8z" fill="currentColor" stroke="none"/>`
@@ -566,7 +574,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     words:`<path d="M8 10h32a3 3 0 0 1 3 3v17a3 3 0 0 1-3 3H22l-8 7v-7H8a3 3 0 0 1-3-3V13a3 3 0 0 1 3-3z" class="f"/><path d="M13 18h22M13 23h16M13 28h10"/>`,
     kilo:`<rect x="7" y="10" width="34" height="31" rx="4" class="f"/><path d="M7 18h34M16 6v8M32 6v8M17 26l3-2v12M27 24v12M27 31l6-7M29 29l4 7"/>`
   });
-  const ACCENT = {words:'#8a5a1c', kilo:'#5b3fa0',cv:'#c0583b', lab:'#3e6f8f', raf:'#3b54c4', imm:'#2f6b48', ad:'#5b3fa0', dm:'#b0457a', share:'#0e1734', lib:'#8a5a1c', pbooks:'#4f7d32',visit:'#2f6b48', vaccines:'#3b54c4', screening:'#2f6b48', memory:'#5b3fa0', cholesterol:'#b3473a', tech:'#3e6f8f', sick:'#c0583b', weight:'#4f7d32', books:'#8a5a1c', ai:'#5b3fa0', phone:'#3e6f8f'};
+  const ACCENT = {words:'#8a5a1c', kilo:'#5b3fa0',cv:'#c0583b', lab:'#3e6f8f', raf:'#3b54c4', imm:'#2f6b48', ad:'#5b3fa0', dm:'#b0457a', share:'#0e1734', lib:'#8a5a1c', pbooks:'#4f7d32',visit:'#2f6b48', vaccines:'#3b54c4', screening:'#2f6b48', memory:'#5b3fa0', cholesterol:'#b3473a', devices:'#3e6f8f', tech:'#3e6f8f', sick:'#c0583b', weight:'#4f7d32', books:'#8a5a1c', ai:'#5b3fa0', phone:'#3e6f8f'};
   const icon = id => `<svg class="ic" viewBox="0 0 48 48" aria-hidden="true" style="--a:${ACCENT[id]}">${ICONS[id]||''}</svg>`;
 
   function renderPatientSections(){
@@ -707,6 +715,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     {n:'Cancer screening', u:SB+'/patients/screening/'},
     {n:'Memory and brain health', u:SB+'/patients/memory/'},
     {n:'Cholesterol', u:SB+'/patients/cholesterol/'},
+    {n:'Health tech that works', u:SB+'/patients/devices/'},
     {n:'Weight loss guide', u:SB+'/patients/weight/'},
     {n:'AI tools I recommend', u:SB+'/patients/ai/'},
     {n:'Plants Are Your Friends', u:'https://plants-chat-663367173026.us-east1.run.app/'},
