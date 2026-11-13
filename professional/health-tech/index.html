@@ -53,6 +53,12 @@ h1{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:clamp(46px,8vw
 .bar label{font-size:13.5px;color:var(--soft);display:flex;gap:6px;align-items:center;cursor:pointer}
 .count{margin-left:auto;font:500 12px "Geist Mono",monospace;color:var(--faint)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px;margin:18px 0 10px}
+.grp{margin:34px 0 0;scroll-margin-top:140px}.grp[hidden]{display:none}
+.grp-h{display:flex;align-items:baseline;gap:10px;border-bottom:1px solid var(--line);padding-bottom:8px}
+.grp-h h2{font-family:Newsreader,Georgia,serif;font-weight:500;font-size:clamp(28px,3.4vw,36px);margin:0;line-height:1.1}
+.grp-n{font:500 12px "Geist Mono",monospace;color:var(--faint)}
+.grp-i{color:var(--soft);font-size:15.5px;margin:8px 0 0;max-width:70ch}
+.grp .grid{margin-top:14px}
 .dv{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px 20px;scroll-margin-top:140px}
 .dv[hidden]{display:none}
 .dv-top{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
@@ -101,61 +107,44 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 <div><span class="dv-st wn">FDA warning</span><b>Regulator objected</b>FDA says a feature needs clearance it doesn't have.</div>
 </div>
 <div class="bar" role="group" aria-label="Filters">
-<ul class="chips" id="cats"><li><button type="button" data-c="all" aria-pressed="true">All</button></li><li><button type="button" data-c="track" aria-pressed="false">Trackers and wearables</button></li><li><button type="button" data-c="glucose" aria-pressed="false">Glucose</button></li><li><button type="button" data-c="bp" aria-pressed="false">Blood pressure</button></li><li><button type="button" data-c="neuro" aria-pressed="false">Neuromodulation</button></li><li><button type="button" data-c="light" aria-pressed="false">Light</button></li><li><button type="button" data-c="sleep" aria-pressed="false">Sleep</button></li><li><button type="button" data-c="clinic" aria-pressed="false">In the office</button></li></ul>
+<ul class="chips" id="cats"><li><button type="button" data-c="all" aria-pressed="true">All</button></li><li><button type="button" data-c="watch" aria-pressed="false">Smartwatches and rings</button></li><li><button type="button" data-c="ecg" aria-pressed="false">Personal ECG</button></li><li><button type="button" data-c="bp" aria-pressed="false">Blood pressure monitors</button></li><li><button type="button" data-c="glucose" aria-pressed="false">Glucose monitors</button></li><li><button type="button" data-c="hear" aria-pressed="false">Hearing</button></li><li><button type="button" data-c="stim" aria-pressed="false">Nerve and brain stimulation</button></li><li><button type="button" data-c="light" aria-pressed="false">Light therapy</button></li><li><button type="button" data-c="sleep" aria-pressed="false">Sleep</button></li><li><button type="button" data-c="clinic" aria-pressed="false">For the office</button></li></ul>
 <label><input type="checkbox" id="fdaOnly"> FDA-reviewed only</label>
 <span class="count" id="count"></span>
 </div>
-<div class="grid" id="grid">
-<article class="dv" data-cat="track" data-st="cl" id="apple">
-<div class="dv-top"><span class="dv-cat">Trackers and wearables</span><span class="dv-st cl">Some features FDA-cleared</span></div>
+<section class="grp" data-cat="watch" id="t-watch"><div class="grp-h"><h2>Smartwatches and rings</h2><span class="grp-n">3</span></div><p class="grp-i">All-day trackers. A few features are FDA-cleared; most are wellness estimates.</p><div class="grid"><article class="dv" data-cat="watch" data-st="cl" id="apple">
+<div class="dv-top"><span class="dv-st cl">Some features FDA-cleared</span></div>
 <h3>Apple Watch</h3><p class="dv-mk">Apple</p>
 <p class="dv-what">A smartwatch. A few features are FDA-cleared medical functions: the ECG app and irregular rhythm alerts for atrial fibrillation, sleep apnea notifications, and since September 2025 hypertension notifications, which look at 30 days of optical sensor data. Everything else (sleep stages, VO2 max, HRV) is wellness.</p>
 <div class="dv-ev"><span>Evidence</span><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i></span><b>Moderate</b></div>
 <p class="dv-take"><b>What I tell patients</b>The AFib and sleep apnea features are worth acting on: get an ECG or a sleep study. A hypertension notification means check with a validated cuff; no notification does not rule hypertension out.</p>
 <div class="dv-ft"><span>$250–$800</span><a href="https://www.apple.com/healthcare/apple-watch/" target="_blank" rel="noopener">Learn more ↗</a></div>
 </article>
-<article class="dv" data-cat="track" data-st="cl" id="kardia">
-<div class="dv-top"><span class="dv-cat">Trackers and wearables</span><span class="dv-st cl">FDA-cleared</span></div>
-<h3>KardiaMobile personal ECG</h3><p class="dv-mk">AliveCor</p>
-<p class="dv-what">A credit-card or pocket-size ECG: rest fingers on the pads for 30 seconds and the app records a single-lead (KardiaMobile, Card) or six-lead (6L) tracing. FDA-cleared AI flags atrial fibrillation, bradycardia, tachycardia and, on newer versions, other common rhythms. The tracing can be emailed or shared with us.</p>
-<div class="dv-ev"><span>Evidence</span><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><b>Strong</b></div>
-<p class="dv-take"><b>What I tell patients</b>For palpitations that come and go, a recording during the symptom beats a Holter that misses it. Great for AFib follow-up and checking rhythm after medication changes. A normal result with ongoing symptoms still needs a visit.</p>
-<div class="dv-ft"><span>About $80–$150, optional subscription</span><a href="https://kardia.com/" target="_blank" rel="noopener">Learn more ↗</a></div>
-</article>
-<article class="dv" data-cat="clinic" data-st="cl" id="eko">
-<div class="dv-top"><span class="dv-cat">In the office</span><span class="dv-st cl">FDA-cleared, for clinicians</span></div>
-<h3>Eko digital stethoscopes</h3><p class="dv-mk">Eko Health: CORE 500, CORE 300, CORE attachment</p>
-<p class="dv-what">A digital stethoscope with up to 40x amplification and noise cancellation that records heart sounds to an app. The CORE 500 adds a 3-lead ECG. Eko’s FDA-cleared AI flags structural murmurs, AFib and, since 2024, low ejection fraction in about 15 seconds. Cleared for healthcare professionals only, not for patients to buy for home use.</p>
-<div class="dv-ev"><span>Evidence</span><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i></span><b>Moderate</b></div>
-<p class="dv-take"><b>What I tell patients</b>For our clinic, not patients. Useful for murmurs in noisy rooms, teaching, hearing loss, and screening for low EF at a routine visit. A flag means order an echo; it doesn’t replace one. The AI features need an Eko+ subscription; health systems license the Sensora platform, which has a Category III CPT code.</p>
-<div class="dv-ft"><span>CORE 500 about $380–$490; attachment about $225–$260; Eko+ yearly</span><a href="https://www.ekohealth.com/" target="_blank" rel="noopener">Learn more ↗</a></div>
-</article>
-<article class="dv" data-cat="track" data-st="wl" id="oura">
-<div class="dv-top"><span class="dv-cat">Trackers and wearables</span><span class="dv-st wl">General wellness</span></div>
+<article class="dv" data-cat="watch" data-st="wl" id="oura">
+<div class="dv-top"><span class="dv-st wl">General wellness</span></div>
 <h3>Oura and other smart rings</h3><p class="dv-mk">Oura, Samsung, Ultrahuman</p>
 <p class="dv-what">Rings track sleep timing, resting heart rate, HRV, skin temperature and activity. Sleep staging is an estimate and differs from a sleep study.</p>
 <div class="dv-ev"><span>Evidence</span><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i></span><b>Limited</b></div>
 <p class="dv-take"><b>What I tell patients</b>Good for trends and habits, especially sleep timing and how alcohol or late meals affect resting heart rate. Not diagnostic. If a patient is worried by a &quot;readiness&quot; score, the trend matters more than any one night.</p>
 <div class="dv-ft"><span>$300–$500, plus subscription</span><a href="https://ouraring.com/" target="_blank" rel="noopener">Learn more ↗</a></div>
 </article>
-<article class="dv" data-cat="track" data-st="wn" id="whoop">
-<div class="dv-top"><span class="dv-cat">Trackers and wearables</span><span class="dv-st wn">Wellness; FDA warning letter</span></div>
+<article class="dv" data-cat="watch" data-st="wn" id="whoop">
+<div class="dv-top"><span class="dv-st wn">Wellness; FDA warning letter</span></div>
 <h3>Whoop</h3><p class="dv-mk">Whoop</p>
 <p class="dv-what">A screenless band built around strain, recovery and sleep. In July 2025 the FDA sent Whoop a warning letter saying its Blood Pressure Insights feature is an uncleared medical device; Whoop disputes this.</p>
 <div class="dv-ev"><span>Evidence</span><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i></span><b>Limited</b></div>
 <p class="dv-take"><b>What I tell patients</b>Fine as a fitness and sleep coach. Tell patients not to use its blood pressure numbers for decisions; use a validated cuff.</p>
 <div class="dv-ft"><span>Subscription, about $200–$360 a year</span><a href="https://www.whoop.com/" target="_blank" rel="noopener">Learn more ↗</a></div>
-</article>
-<article class="dv" data-cat="glucose" data-st="cl" id="cgm">
-<div class="dv-top"><span class="dv-cat">Glucose</span><span class="dv-st cl">FDA-cleared, over the counter</span></div>
-<h3>Over-the-counter CGMs</h3><p class="dv-mk">Dexcom Stelo, Abbott Lingo and Libre Rio</p>
-<p class="dv-what">Stelo (March 2024) was the first CGM cleared for sale without a prescription, followed by Abbott’s Lingo and Libre Rio. For adults 18+ not using insulin and without problematic hypoglycemia; no low-glucose alarms.</p>
-<div class="dv-ev"><span>Evidence</span><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i></span><b>Moderate</b></div>
-<p class="dv-take"><b>What I tell patients</b>A great teaching tool for prediabetes and type 2 diabetes not on insulin: a two-week experiment shows what meals, walks and sleep do. For people without diabetes there are no outcome trials, and normal post-meal rises can cause needless worry.</p>
-<div class="dv-ft"><span>About $50–$100 per 2-week sensor</span><a href="https://www.stelo.com/" target="_blank" rel="noopener">Learn more ↗</a></div>
-</article>
-<article class="dv" data-cat="bp" data-st="cl" id="cuff">
-<div class="dv-top"><span class="dv-cat">Blood pressure</span><span class="dv-st cl">FDA-cleared</span></div>
+</article></div></section>
+<section class="grp" data-cat="ecg" id="t-ecg"><div class="grp-h"><h2>Personal ECG</h2><span class="grp-n">1</span></div><p class="grp-i">Record a rhythm strip when symptoms happen.</p><div class="grid"><article class="dv" data-cat="ecg" data-st="cl" id="kardia">
+<div class="dv-top"><span class="dv-st cl">FDA-cleared</span></div>
+<h3>KardiaMobile personal ECG</h3><p class="dv-mk">AliveCor</p>
+<p class="dv-what">A credit-card or pocket-size ECG: rest fingers on the pads for 30 seconds and the app records a single-lead (KardiaMobile, Card) or six-lead (6L) tracing. FDA-cleared AI flags atrial fibrillation, bradycardia, tachycardia and, on newer versions, other common rhythms. The tracing can be emailed or shared with us.</p>
+<div class="dv-ev"><span>Evidence</span><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><b>Strong</b></div>
+<p class="dv-take"><b>What I tell patients</b>For palpitations that come and go, a recording during the symptom beats a Holter that misses it. Great for AFib follow-up and checking rhythm after medication changes. A normal result with ongoing symptoms still needs a visit.</p>
+<div class="dv-ft"><span>About $80–$150, optional subscription</span><a href="https://kardia.com/" target="_blank" rel="noopener">Learn more ↗</a></div>
+</article></div></section>
+<section class="grp" data-cat="bp" id="t-bp"><div class="grp-h"><h2>Blood pressure monitors</h2><span class="grp-n">2</span></div><p class="grp-i">Home readings are the best way to diagnose and track high blood pressure.</p><div class="grid"><article class="dv" data-cat="bp" data-st="cl" id="cuff">
+<div class="dv-top"><span class="dv-st cl">FDA-cleared</span></div>
 <h3>Validated home BP cuff</h3><p class="dv-mk">Many brands; check validatebp.org</p>
 <p class="dv-what">An upper-arm automatic cuff. Home monitoring is the best-studied way to diagnose and control hypertension.</p>
 <div class="dv-ev"><span>Evidence</span><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><b>Strong</b></div>
@@ -163,71 +152,79 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 <div class="dv-ft"><span>$40–$100</span><a href="https://www.validatebp.org/" target="_blank" rel="noopener">Learn more ↗</a></div>
 </article>
 <article class="dv" data-cat="bp" data-st="cl" id="hilo">
-<div class="dv-top"><span class="dv-cat">Blood pressure</span><span class="dv-st cl">FDA-cleared, over the counter</span></div>
+<div class="dv-top"><span class="dv-st cl">FDA-cleared, over the counter</span></div>
 <h3>Hilo (Aktiia) cuffless BP band</h3><p class="dv-mk">Aktiia</p>
 <p class="dv-what">A wrist band that estimates blood pressure from optical pulse-wave analysis while you are at rest. Cleared in July 2025 as the first over-the-counter cuffless BP monitor; it needs regular calibration with a cuff (included). US launch planned for 2026.</p>
 <div class="dv-ev"><span>Evidence</span><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i></span><b>Limited</b></div>
 <p class="dv-take"><b>What I tell patients</b>Promising for frequent readings and nighttime patterns. Until more independent data exist, confirm any decision-changing number with a validated cuff.</p>
 <div class="dv-ft"><span>About $250–$300</span><a href="https://www.hilo.com/" target="_blank" rel="noopener">Learn more ↗</a></div>
-</article>
-<article class="dv" data-cat="track" data-st="cl" id="hear">
-<div class="dv-top"><span class="dv-cat">Trackers and wearables</span><span class="dv-st cl">FDA-authorized OTC hearing aid</span></div>
+</article></div></section>
+<section class="grp" data-cat="glucose" id="t-glucose"><div class="grp-h"><h2>Glucose monitors</h2><span class="grp-n">1</span></div><p class="grp-i">Sensors worn on the arm that read glucose every few minutes.</p><div class="grid"><article class="dv" data-cat="glucose" data-st="cl" id="cgm">
+<div class="dv-top"><span class="dv-st cl">FDA-cleared, over the counter</span></div>
+<h3>Over-the-counter CGMs</h3><p class="dv-mk">Dexcom Stelo, Abbott Lingo and Libre Rio</p>
+<p class="dv-what">Stelo (March 2024) was the first CGM cleared for sale without a prescription, followed by Abbott’s Lingo and Libre Rio. For adults 18+ not using insulin and without problematic hypoglycemia; no low-glucose alarms.</p>
+<div class="dv-ev"><span>Evidence</span><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i></span><b>Moderate</b></div>
+<p class="dv-take"><b>What I tell patients</b>A great teaching tool for prediabetes and type 2 diabetes not on insulin: a two-week experiment shows what meals, walks and sleep do. For people without diabetes there are no outcome trials, and normal post-meal rises can cause needless worry.</p>
+<div class="dv-ft"><span>About $50–$100 per 2-week sensor</span><a href="https://www.stelo.com/" target="_blank" rel="noopener">Learn more ↗</a></div>
+</article></div></section>
+<section class="grp" data-cat="hear" id="t-hear"><div class="grp-h"><h2>Hearing</h2><span class="grp-n">1</span></div><p class="grp-i">Treating hearing loss matters, including for memory.</p><div class="grid"><article class="dv" data-cat="hear" data-st="cl" id="hear">
+<div class="dv-top"><span class="dv-st cl">FDA-authorized OTC hearing aid</span></div>
 <h3>AirPods Pro hearing aid feature</h3><p class="dv-mk">Apple</p>
 <p class="dv-what">Software that turns AirPods Pro into an over-the-counter hearing aid for mild to moderate hearing loss, after an in-app hearing test.</p>
 <div class="dv-ev"><span>Evidence</span><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i></span><b>Moderate</b></div>
 <p class="dv-take"><b>What I tell patients</b>A low-barrier first step for patients who won’t get hearing aids. Hearing loss is the largest modifiable dementia risk factor, so this matters.</p>
 <div class="dv-ft"><span>$249 (the earbuds)</span><a href="https://www.apple.com/airpods-pro/hearing-health/" target="_blank" rel="noopener">Learn more ↗</a></div>
-</article>
-<article class="dv" data-cat="neuro" data-st="rx" id="gamma">
-<div class="dv-top"><span class="dv-cat">Neuromodulation</span><span class="dv-st rx">FDA-cleared, prescription</span></div>
+</article></div></section>
+<section class="grp" data-cat="stim" id="t-stim"><div class="grp-h"><h2>Nerve and brain stimulation</h2><span class="grp-n">5</span></div><p class="grp-i">Devices that stimulate nerves or the brain with mild electrical current. The range runs from prescription treatments with good trials to wellness gadgets.</p><div class="grid"><article class="dv" data-cat="stim" data-st="rx" id="gamma">
+<div class="dv-top"><span class="dv-st rx">FDA-cleared, prescription</span></div>
 <h3>gammaCore</h3><p class="dv-mk">electroCore</p>
 <p class="dv-what">A handheld non-invasive vagus nerve stimulator held on the neck. It has 6 FDA-cleared headache indications, including acute and preventive treatment of migraine (age 12+) and of cluster headache.</p>
 <div class="dv-ev"><span>Evidence</span><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i></span><b>Moderate</b></div>
 <p class="dv-take"><b>What I tell patients</b>A real option for migraine or cluster headache when drugs fail or aren’t tolerated. Prescription and expensive; check coverage.</p>
 <div class="dv-ft"><span>Prescription; high cash cost</span><a href="https://www.gammacore.com/" target="_blank" rel="noopener">Learn more ↗</a></div>
 </article>
-<article class="dv" data-cat="neuro" data-st="wl" id="vns">
-<div class="dv-top"><span class="dv-cat">Neuromodulation</span><span class="dv-st wl">General wellness</span></div>
+<article class="dv" data-cat="stim" data-st="wl" id="vns">
+<div class="dv-top"><span class="dv-st wl">General wellness</span></div>
 <h3>Consumer vagus nerve stimulators</h3><p class="dv-mk">Pulsetto, Truvaga, Nurosym</p>
 <p class="dv-what">Ear-clip or neck devices that deliver mild electrical stimulation, marketed for stress, sleep and “vagal tone.” None is FDA-cleared for a disease. Most published evidence is for other devices or small trials of ear stimulation, not these products.</p>
 <div class="dv-ev"><span>Evidence</span><span class="dots" aria-hidden="true"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></span><b>Very limited</b></div>
 <p class="dv-take"><b>What I tell patients</b>Low risk for most people, but expect little beyond relaxation. Avoid with pacemakers, defibrillators or other implanted devices. Slow breathing does much of the same for free.</p>
 <div class="dv-ft"><span>$250–$800</span><a href="https://en.wikipedia.org/wiki/Non-invasive_vagus_nerve_stimulation_devices" target="_blank" rel="noopener">Learn more ↗</a></div>
 </article>
-<article class="dv" data-cat="neuro" data-st="wl" id="vib">
-<div class="dv-top"><span class="dv-cat">Neuromodulation</span><span class="dv-st wl">General wellness</span></div>
+<article class="dv" data-cat="stim" data-st="wl" id="vib">
+<div class="dv-top"><span class="dv-st wl">General wellness</span></div>
 <h3>Vibration “nervous system” wearables</h3><p class="dv-mk">Apollo Neuro, Sensate</p>
 <p class="dv-what">Wrist, ankle or chest devices that vibrate to promote calm. They do not stimulate the vagus nerve electrically, despite the marketing.</p>
 <div class="dv-ev"><span>Evidence</span><span class="dots" aria-hidden="true"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></span><b>Very limited</b></div>
 <p class="dv-take"><b>What I tell patients</b>Harmless. If a patient finds it calming, fine; it is not a treatment for anxiety or insomnia.</p>
 <div class="dv-ft"><span>$300–$400</span><a href="https://en.wikipedia.org/wiki/Non-invasive_vagus_nerve_stimulation_devices" target="_blank" rel="noopener">Learn more ↗</a></div>
 </article>
-<article class="dv" data-cat="neuro" data-st="cl" id="mig">
-<div class="dv-top"><span class="dv-cat">Neuromodulation</span><span class="dv-st cl">FDA-cleared</span></div>
+<article class="dv" data-cat="stim" data-st="cl" id="mig">
+<div class="dv-top"><span class="dv-st cl">FDA-cleared</span></div>
 <h3>Migraine neuromodulation devices</h3><p class="dv-mk">Cefaly, Nerivio, Relivion, SAVI Dual, gammaCore</p>
 <p class="dv-what">Cefaly (forehead trigeminal stimulation) is over the counter for acute and preventive migraine in adults. Nerivio (upper-arm remote electrical neuromodulation) is prescription and cleared down to age 8. Others use occipital/trigeminal or magnetic stimulation.</p>
 <div class="dv-ev"><span>Evidence</span><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i></span><b>Moderate</b></div>
 <p class="dv-take"><b>What I tell patients</b>Worth offering to patients with frequent migraine, medication overuse, pregnancy, or side effects from drugs. Response varies; a one-month trial is reasonable.</p>
 <div class="dv-ft"><span>About $100–$500, varies by device</span><a href="https://americanmigrainefoundation.org/resource-library/neuromodulation-devices/" target="_blank" rel="noopener">Learn more ↗</a></div>
 </article>
-<article class="dv" data-cat="neuro" data-st="rx" id="flow">
-<div class="dv-top"><span class="dv-cat">Neuromodulation</span><span class="dv-st rx">FDA-approved (PMA), prescription</span></div>
+<article class="dv" data-cat="stim" data-st="rx" id="flow">
+<div class="dv-top"><span class="dv-st rx">FDA-approved (PMA), prescription</span></div>
 <h3>Flow FL-100 (home tDCS)</h3><p class="dv-mk">Flow Neuroscience</p>
 <p class="dv-what">A headset that delivers transcranial direct current stimulation to the prefrontal cortex at home, guided by an app. Approved in December 2025 for adults with moderate to severe major depression who are not treatment-refractory, alone or with medication. US launch 2026.</p>
 <div class="dv-ev"><span>Evidence</span><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i></span><b>Moderate</b></div>
 <p class="dv-take"><b>What I tell patients</b>A new non-drug option for patients who don’t want, or don’t tolerate, antidepressants. Prescription, with remote supervision; coverage unclear.</p>
 <div class="dv-ft"><span>Target about $500–$800</span><a href="https://www.flowneuroscience.com/" target="_blank" rel="noopener">Learn more ↗</a></div>
-</article>
-<article class="dv" data-cat="light" data-st="cl" id="red">
-<div class="dv-top"><span class="dv-cat">Light</span><span class="dv-st cl">Some devices FDA-cleared</span></div>
+</article></div></section>
+<section class="grp" data-cat="light" id="t-light"><div class="grp-h"><h2>Light therapy</h2><span class="grp-n">1</span></div><p class="grp-i">Red and near-infrared light.</p><div class="grid"><article class="dv" data-cat="light" data-st="cl" id="red">
+<div class="dv-top"><span class="dv-st cl">Some devices FDA-cleared</span></div>
 <h3>Red light therapy (photobiomodulation)</h3><p class="dv-mk">Masks, panels, caps and wands; many brands</p>
 <p class="dv-what">Red (~630–660 nm) and near-infrared (~830–850 nm) light. Specific devices are FDA-cleared for specific uses, such as hair growth in androgenetic alopecia or wrinkles, not for “red light” in general. Evidence is moderate for hair loss and some skin aging; weak for energy, thyroid, testosterone, fat loss or longevity.</p>
 <div class="dv-ev"><span>Evidence</span><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i></span><b>Limited</b></div>
 <p class="dv-take"><b>What I tell patients</b>Low risk with an FDA-cleared device used as directed. Protect the eyes. Steer patients away from expensive full-body panels sold for wellness claims.</p>
 <div class="dv-ft"><span>$100–$500 for masks; panels often more</span><a href="https://jddonline.com/articles/red-light-therapy-in-cosmetic-dermatology-marketing-claims-backed-evidence-S1545961626P9844X/" target="_blank" rel="noopener">Learn more ↗</a></div>
-</article>
-<article class="dv" data-cat="sleep" data-st="wl" id="eight">
-<div class="dv-top"><span class="dv-cat">Sleep</span><span class="dv-st wl">General wellness; FDA filing in progress</span></div>
+</article></div></section>
+<section class="grp" data-cat="sleep" id="t-sleep"><div class="grp-h"><h2>Sleep</h2><span class="grp-n">2</span></div><p class="grp-i">Devices that change the sleep environment or the brain’s path into sleep.</p><div class="grid"><article class="dv" data-cat="sleep" data-st="wl" id="eight">
+<div class="dv-top"><span class="dv-st wl">General wellness; FDA filing in progress</span></div>
 <h3>Eight Sleep Pod</h3><p class="dv-mk">Eight Sleep</p>
 <p class="dv-what">A water-cooled and heated mattress cover with separate sides, sensors for heart rate, breathing and sleep stages, and an app that adjusts temperature through the night. Sold as a wellness product; the company began pursuing FDA clearance for sleep apnea detection and mitigation in 2025.</p>
 <div class="dv-ev"><span>Evidence</span><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i></span><b>Limited</b></div>
@@ -235,14 +232,21 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 <div class="dv-ft"><span>About $2,600–$5,000+, plus about $200 a year</span><a href="https://www.eightsleep.com/" target="_blank" rel="noopener">Learn more ↗</a></div>
 </article>
 <article class="dv" data-cat="sleep" data-st="wl" id="elemind">
-<div class="dv-top"><span class="dv-cat">Sleep</span><span class="dv-st wl">General wellness</span></div>
+<div class="dv-top"><span class="dv-st wl">General wellness</span></div>
 <h3>Elemind</h3><p class="dv-mk">Elemind Technologies</p>
 <p class="dv-what">A headband that reads EEG and plays bone-conducted sound timed to the alpha rhythm to help you fall asleep, from MIT-trained neuroscientists. Sold as a wellness device, not FDA-cleared. In the company’s trial, 76% fell asleep faster, by about 48% on average.</p>
 <div class="dv-ev"><span>Evidence</span><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i></span><b>Limited</b></div>
 <p class="dv-take"><b>What I tell patients</b>Interesting and low risk, but the studies are small and company-run. For insomnia, CBT-I comes first; this could be an add-on for sleep-onset trouble.</p>
 <div class="dv-ft"><span>$349, plus optional membership</span><a href="https://elemindtech.com/" target="_blank" rel="noopener">Learn more ↗</a></div>
-</article>
-</div>
+</article></div></section>
+<section class="grp" data-cat="clinic" id="t-clinic"><div class="grp-h"><h2>For the office</h2><span class="grp-n">1</span></div><p class="grp-i">Tools for clinicians, not for patients to buy.</p><div class="grid"><article class="dv" data-cat="clinic" data-st="cl" id="eko">
+<div class="dv-top"><span class="dv-st cl">FDA-cleared, for clinicians</span></div>
+<h3>Eko digital stethoscopes</h3><p class="dv-mk">Eko Health: CORE 500, CORE 300, CORE attachment</p>
+<p class="dv-what">A digital stethoscope with up to 40x amplification and noise cancellation that records heart sounds to an app. The CORE 500 adds a 3-lead ECG. Eko’s FDA-cleared AI flags structural murmurs, AFib and, since 2024, low ejection fraction in about 15 seconds. Cleared for healthcare professionals only, not for patients to buy for home use.</p>
+<div class="dv-ev"><span>Evidence</span><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i></span><b>Moderate</b></div>
+<p class="dv-take"><b>What I tell patients</b>For our clinic, not patients. Useful for murmurs in noisy rooms, teaching, hearing loss, and screening for low EF at a routine visit. A flag means order an echo; it doesn’t replace one. The AI features need an Eko+ subscription; health systems license the Sensora platform, which has a Category III CPT code.</p>
+<div class="dv-ft"><span>CORE 500 about $380–$490; attachment about $225–$260; Eko+ yearly</span><a href="https://www.ekohealth.com/" target="_blank" rel="noopener">Learn more ↗</a></div>
+</article></div></section>
 <section class="ask" aria-labelledby="askH">
 <h2 id="askH">Five questions for any new device</h2>
 <ol>
@@ -259,7 +263,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 <script>(function(){var r=document.documentElement,b=document.getElementById('theme');function l(){b.setAttribute('aria-label',r.dataset.theme==='dark'?'Switch to light mode':'Switch to dark mode')}l();b.addEventListener('click',function(){r.dataset.theme=r.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('gg-theme',r.dataset.theme)}catch(e){}l()})})();</script>
 <script>(function(){
 var cat='all',fda=document.getElementById('fdaOnly'),cards=[].slice.call(document.querySelectorAll('.dv')),bs=document.querySelectorAll('#cats button');
-function apply(){var n=0;cards.forEach(function(c){var ok=(cat==='all'||c.dataset.cat===cat)&&(!fda.checked||c.dataset.st==='rx'||c.dataset.st==='cl');c.hidden=!ok;if(ok)n++});document.getElementById('count').textContent=n+' device'+(n===1?'':'s')}
+function apply(){var n=0;cards.forEach(function(c){var ok=(cat==='all'||c.dataset.cat===cat)&&(!fda.checked||c.dataset.st==='rx'||c.dataset.st==='cl');c.hidden=!ok;if(ok)n++});document.querySelectorAll('.grp').forEach(function(g){var v=g.querySelectorAll('.dv:not([hidden])').length;g.hidden=!v;var c=g.querySelector('.grp-n');if(c)c.textContent=v});document.getElementById('count').textContent=n+' device'+(n===1?'':'s')}
 bs.forEach(function(b){b.addEventListener('click',function(){cat=b.dataset.c;bs.forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});apply()})});
 fda.addEventListener('change',apply);apply();
 })();</script>
