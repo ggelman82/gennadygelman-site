@@ -15,7 +15,8 @@
  * Add data-toc-skip to a heading to leave it out.
  */
 (function () {
-  var main = document.querySelector('main');
+  // Pages built before the shared layout have an <article> instead of <main>.
+  var main = document.querySelector('main') || document.querySelector('article');
   if (!main) return;
   var heads = Array.prototype.filter.call(main.querySelectorAll('h2'), function (h) {
     return !h.hasAttribute('data-toc-skip') && !h.closest('[data-toc-skip]') && h.textContent.trim();
@@ -77,13 +78,51 @@
       '.toc-stick .t{font-family:Newsreader,Georgia,serif;font-size:23px;line-height:1.15;letter-spacing:-.01em;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}' +
     '}' +
     '@media print{.toc-side,.toc-bar,.toc-stick{display:none!important}html.toc-on main{margin:0 auto!important}}';
+  // Bar-only layout: for pages whose content is too wide (or full-bleed) to
+  // make room for a sidebar, show the slim sticky bar at every screen width.
+  css += '@media (min-width:1100px){' +
+    'html.toc-bar-only.toc-on main,html.toc-bar-only.toc-on article{margin-left:auto}' +
+    'html.toc-bar-only .toc-side,html.toc-bar-only .toc-stick{display:none}' +
+    'html.toc-bar-only .toc-bar{display:block}' +
+  '}' +
+  'html.toc-bar-only .toc-bar{margin-left:0;margin-right:0;padding-left:0;padding-right:0}' +
+  'html.toc-no-hd .toc-bar{top:0}' +
+  'html.toc-bar-only .toc-bar{box-sizing:border-box;overflow-x:clip}' +
+  'html.toc-pad .toc-bar{padding-left:clamp(16px,4vw,48px);padding-right:clamp(16px,4vw,48px)}';
   var st = document.createElement('style');
   st.textContent = css;
   document.head.appendChild(st);
 
+  // Pages with their own stylesheet may not define the shared color variables.
+  // Fill any that are missing from the page's own colors, and again whenever
+  // the light/dark theme changes.
+  var root = document.documentElement;
+  var VARS = ['--paper', '--ink', '--soft', '--faint', '--line', '--accent'];
+  var own = VARS.filter(function (v) { return !getComputedStyle(root).getPropertyValue(v).trim(); });
+  function fill() {
+    if (!own.length) return;
+    var bs = getComputedStyle(document.body), ink = bs.color, bg = bs.backgroundColor;
+    if (!bg || /rgba?\(0, 0, 0, 0\)|transparent/.test(bg)) bg = getComputedStyle(root).backgroundColor;
+    if (!bg || /rgba?\(0, 0, 0, 0\)|transparent/.test(bg)) bg = '#fff';
+    var a = main.querySelector('a[href]');
+    var mix = function (pct) { return 'color-mix(in srgb, ' + ink + ' ' + pct + '%, ' + bg + ')'; };
+    var val = { '--paper': bg, '--ink': ink, '--soft': mix(72), '--faint': mix(55), '--line': mix(14), '--accent': a ? getComputedStyle(a).color : ink };
+    own.forEach(function (v) { root.style.setProperty(v, val[v]); });
+  }
+  fill();
+  if (own.length && window.MutationObserver) {
+    new MutationObserver(function () { own.forEach(function (v) { root.style.removeProperty(v); }); fill(); })
+      .observe(root, { attributes: true, attributeFilter: ['data-theme', 'class'] });
+  }
+
   var cw = parseFloat(getComputedStyle(main).maxWidth);
-  document.documentElement.style.setProperty('--cw', (isNaN(cw) ? 880 : cw) + 'px');
-  document.documentElement.classList.add('toc-on');
+  if (isNaN(cw) || cw > 1000 || main.hasAttribute('data-toc-bar')) root.classList.add('toc-bar-only');
+  if (root.classList.contains('toc-bar-only') && parseFloat(getComputedStyle(main).paddingLeft) < 8) root.classList.add('toc-pad');
+  // If the site header scrolls away instead of sticking, the bar sticks to the very top.
+  var hd = document.querySelector('header.top') || document.querySelector('header') || document.getElementById('gg-hd');
+  if (!hd || !/sticky|fixed/.test(getComputedStyle(hd).position)) root.classList.add('toc-no-hd');
+  root.style.setProperty('--cw', (isNaN(cw) ? 880 : cw) + 'px');
+  root.classList.add('toc-on');
 
   var esc = function (s) { return s.replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
   var list = '<ol>' + items.map(function (it) { return '<li><a href="#' + it.id + '">' + esc(it.label) + '</a></li>'; }).join('') + '</ol>';
@@ -143,8 +182,21 @@
   var active = -1;
   function update() {
     var line = window.innerHeight * 0.3, idx = 0;
-    for (var i = 0; i < items.length; i++) if (items[i].el.getBoundingClientRect().top - line <= 0) idx = i;
-    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) idx = items.length - 1;
+    // Sections a page is hiding (a tool's results before it has run) drop out of the guide.
+    var firstVis = -1;
+    for (var i = 0; i < items.length; i++) {
+      var vis = items[i].h.getClientRects().length > 0;
+      if (vis !== items[i].vis) {
+        items[i].vis = vis;
+        links.forEach(function (a) { if (a.getAttribute('href') === '#' + items[i].id) a.parentNode.hidden = !vis; });
+      }
+      if (!vis) continue;
+      if (firstVis < 0) firstVis = i;
+      if (items[i].el.getBoundingClientRect().top - line <= 0) idx = i;
+    }
+    if (firstVis < 0) return;
+    if (!items[idx].vis) idx = firstVis;
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) { for (var j = items.length - 1; j >= 0; j--) if (items[j].vis) { idx = j; break; } }
     pin(idx);
     if (idx === active) return;
     active = idx;
