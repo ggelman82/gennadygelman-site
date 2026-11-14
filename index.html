@@ -317,8 +317,8 @@
       <span class="arrow" aria-hidden="true">→</span>
     </button>
     <button class="door d-clinician" data-who="clinician">
-      <span class="k">Clinicians &amp; trainees</span>
-      <span><span class="t">I'm a clinician or student</span><span class="s">Decision-support tools, references and teaching material.</span></span>
+      <span class="k">Clinician</span>
+      <span><span class="t">I'm a clinician</span><span class="s">Decision-support tools, references and teaching material.</span></span>
       <span class="arrow" aria-hidden="true">→</span>
     </button>
     <button class="door d-curious" data-who="curious">
@@ -481,6 +481,12 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       {n:'Prostate', ic:'checklist', d:'Men 55 to 69, as a personal decision. PSA blood test.', u:B+'/patients/screening/#prostate', k:'prostate cancer screening psa'},
       {n:'Multi-cancer blood tests', ic:'flask', d:'Galleri, Cancerguard and similar tests: where they stand.', u:B+'/patients/screening/#blood-tests', k:'galleri cancerguard multi-cancer blood test liquid biopsy mced'}
     ]},
+    {id:'acp', p:'/patients/advance-care-planning/', t:'#f3eee5', n:'Advance care planning', i:'Who speaks for you if you cannot: the health care proxy, your wishes, and the MOLST form in Massachusetts.', items:[
+      {n:'Health care proxy', ic:'checklist', d:'Name one person to speak for you. Every adult should have one.', u:B+'/patients/advance-care-planning/#h3', k:'health care proxy healthcare agent alternate witnesses advance directive power of attorney'},
+      {n:'Your wishes and Five Wishes', ic:'checklist', d:'Tell your agent what matters. A living will alone is not enough in Massachusetts.', u:B+'/patients/advance-care-planning/#h4', k:'living will five wishes personal directive end of life wishes quality of life'},
+      {n:'MOLST', ic:'checklist', d:'A medical order for serious illness or frailty: CPR, breathing machines and more.', u:B+'/patients/advance-care-planning/#h6', k:'molst polst dnr do not resuscitate cpr intubation hospice life-sustaining treatment'},
+      {n:'File of Life and your health summary', ic:'medical', d:'Be ready for an emergency with a one-page summary on your refrigerator.', u:B+'/patients/advance-care-planning/#h7', k:'file of life emergency medication list refrigerator paramedics organ donor'}
+    ]},
     {id:'cholesterol', p:'/patients/cholesterol/', t:'#f6e6e2', n:'Cholesterol', i:'Your LDL goal, what the numbers mean, how plaque forms, and what really works: food, statins, newer medicines and supplements.', items:[
       {f:true, tint:'#f6e6e2', n:'Find your LDL goal', ic:'checklist', d:'Under 100, 70 or 55: see which goal fits you and how far you are.', u:B+'/patients/cholesterol/#goal', k:'cholesterol ldl goal target hyperlipidemia lipid panel'},
       {n:'LDL, HDL and plaque', ic:'leaf', d:'The delivery trucks, the ratio, and how plaque narrows or blocks an artery.', u:B+'/patients/cholesterol/#ldl-hdl', k:'ldl hdl good bad cholesterol ratio plaque atherosclerosis triglycerides'},
@@ -583,17 +589,19 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     dm:`<path d="M24 6s-12 14-12 23a12 12 0 0 0 24 0C36 20 24 6 24 6z" class="f"/><path d="M19 30a5 5 0 0 0 5 5"/>`,
     share:`<rect x="7" y="7" width="13" height="13" rx="2" class="f"/><rect x="28" y="7" width="13" height="13" rx="2" class="f"/><rect x="7" y="28" width="13" height="13" rx="2" class="f"/><path d="M28 28h5v5M41 28v.01M36 36h5v5M28 41h4"/>`,
     lib:`<path d="M9 40V12M16 40V12M23 40V14"/><path d="M29 15l6-2 7 26-6 2z" class="f"/><path d="M6 41h36"/>`,
+    acp:`<path d="M12 6h17l8 8v28H12z" class="f"/><path d="M12 6h17l8 8v28H12zM29 6v8h8M18 22h12M18 28h12M18 35c2-3 4-3 5 0s3 2 5-1"/>`,
+    prof:`<path d="M8 14h13l3 4h16v20H8z" class="f"/><path d="M8 14h13l3 4h16v20H8zM15 26h18M15 31h12"/>`,
     pbooks:`<rect x="10" y="26" width="28" height="7" rx="1.5" class="f"/><rect x="13" y="19" width="24" height="7" rx="1.5"/><rect x="9" y="33" width="30" height="7" rx="1.5"/>`
   });
   Object.assign(ICONS, {
     words:`<path d="M8 10h32a3 3 0 0 1 3 3v17a3 3 0 0 1-3 3H22l-8 7v-7H8a3 3 0 0 1-3-3V13a3 3 0 0 1 3-3z" class="f"/><path d="M13 18h22M13 23h16M13 28h10"/>`,
     kilo:`<rect x="7" y="10" width="34" height="31" rx="4" class="f"/><path d="M7 18h34M16 6v8M32 6v8M17 26l3-2v12M27 24v12M27 31l6-7M29 29l4 7"/>`
   });
-  const ACCENT = {words:'#8a5a1c', kilo:'#5b3fa0',cv:'#c0583b', lab:'#3e6f8f', raf:'#3b54c4', imm:'#2f6b48', ad:'#5b3fa0', dm:'#b0457a', share:'#0e1734', lib:'#8a5a1c', pbooks:'#4f7d32',visit:'#2f6b48', vaccines:'#3b54c4', screening:'#2f6b48', memory:'#5b3fa0', cholesterol:'#b3473a', devices:'#3e6f8f', tech:'#3e6f8f', sick:'#c0583b', weight:'#4f7d32', books:'#8a5a1c', ai:'#5b3fa0', phone:'#3e6f8f'};
+  const ACCENT = {words:'#8a5a1c', kilo:'#5b3fa0',cv:'#c0583b', lab:'#3e6f8f', raf:'#3b54c4', imm:'#2f6b48', ad:'#5b3fa0', dm:'#b0457a', share:'#0e1734', lib:'#8a5a1c', prof:'#3b54c4', acp:'#8a5a1c', pbooks:'#4f7d32',visit:'#2f6b48', vaccines:'#3b54c4', screening:'#2f6b48', memory:'#5b3fa0', cholesterol:'#b3473a', devices:'#3e6f8f', tech:'#3e6f8f', sick:'#c0583b', weight:'#4f7d32', books:'#8a5a1c', ai:'#5b3fa0', phone:'#3e6f8f'};
   const icon = id => `<svg class="ic" viewBox="0 0 48 48" aria-hidden="true" style="--a:${ACCENT[id]}">${ICONS[id]||''}</svg>`;
 
   function renderPatientSections(){
-    const GROUPS = [['Prepare',['visit']], ['Prevent',['vaccines','screening']], ['Conditions',['cholesterol','memory','weight','sick']], ['My picks',['books','phone','ai','devices']]];
+    const GROUPS = [['Prepare',['visit']], ['Prevent',['vaccines','screening','acp']], ['Conditions',['cholesterol','memory','weight','sick']], ['My picks',['books','phone','ai','devices']]];
     const used = new Set(GROUPS.flatMap(g=>g[1])); const rest = PSECTIONS.filter(s=>!used.has(s.id)).map(s=>s.id);
     if(rest.length) GROUPS.push(['More', rest]);
     let n = 0;
@@ -703,6 +711,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     {id:'ad', kind:'Mental health', t:'var(--lilac)'},
     {id:'dm', kind:'Diabetes', t:'#f5e8ef'},
     {id:'lib', kind:'Library', t:'#f3eee5'},
+    {id:'prof', kind:'Library', n:'Clinical resources', d:'About 60 outside links: guidelines, lab pearls, articles, Epic basics and UMass programs.', t:'var(--blue)'},
     {id:'tech', kind:'Devices', t:'#e6eef3'},
     {id:'pbooks', kind:'Reading', n:'Books for clinicians', t:'#eef0f4'},
     {id:'share', kind:'For your patients', n:'Share with a patient', d:'QR code, link, or MyChart message.', t:'#e8f0e2'}
