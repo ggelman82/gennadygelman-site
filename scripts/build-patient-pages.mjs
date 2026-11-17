@@ -467,6 +467,7 @@ ${body}
 ${FOOTER}
 <script src="/js/visit.js?v=2"></script>
 <script src="/js/search.js?v=1" defer></script>
+<script src="/js/reader.js?v=2" defer></script>
 ${sec.items.some(i => i.plan) ? PREP_JS : ''}
 ${sec.id === 'weight' ? BMI_JS : ''}
 ${sec.items.filter(i => i.g).length >= 4 ? '<script src="/js/toc.js?v=6" defer></script>' : ''}
