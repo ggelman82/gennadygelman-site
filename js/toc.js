@@ -47,6 +47,7 @@
     ':root{--toc-w:216px}' +
     '[tabindex="-1"]:focus{outline:none}' +
     '.toc-side{display:none}' +
+    '.toc-bar{display:block}' +
     '.toc-bar{position:sticky;top:64px;z-index:15;margin:0 calc(-1 * clamp(16px,4vw,32px));padding:0 clamp(16px,4vw,32px);background:var(--paper);border-bottom:1px solid var(--line)}' +
     '.toc-bar>button{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:10px;width:100%;padding:11px 0;font:500 14px/1.3 Geist,system-ui,sans-serif;color:var(--ink)}' +
     '.toc-bar .k{font:500 11px/1 "Geist Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);flex:none}' +
@@ -143,6 +144,8 @@
   var btn = bar.querySelector('button'), cur = bar.querySelector('.cur');
   var setOpen = function (o) { bar.classList.toggle('open', o); btn.setAttribute('aria-expanded', String(o)); };
   btn.addEventListener('click', function () { setOpen(!bar.classList.contains('open')); });
+  // Pages marked data-toc-open start with the section list showing.
+  if (document.querySelector('[data-toc-open]')) setOpen(true);
   bar.addEventListener('click', function (e) { if (e.target.closest('a')) setOpen(false); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setOpen(false); });
   side.querySelector('.top').addEventListener('click', function (e) { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
