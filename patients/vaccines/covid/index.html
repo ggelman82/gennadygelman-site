@@ -170,6 +170,31 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 .fig{margin:26px 0;padding:14px 14px 10px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
 .fig img{display:block;width:100%;height:auto;border-radius:6px}
 .fig figcaption{margin-top:10px;font-size:1rem;color:var(--faint)}
+.tool{display:grid;grid-template-columns:1fr;gap:20px;align-items:start;margin:18px 0}
+.tool fieldset{border:0;margin:0 0 18px;padding:0}
+.tool legend{font-weight:600;margin-bottom:8px;padding:0}
+.tool legend span{display:block;font:600 .72rem/1.2 'Geist Mono',ui-monospace,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:4px}
+.opts2{display:grid;grid-template-columns:1fr;gap:8px}
+@media (min-width:640px){.opts2{grid-template-columns:repeat(2,1fr)}}
+.ch{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-size:1rem;line-height:1.35}
+.ch input{position:absolute;opacity:0;pointer-events:none}
+.ch .bx{flex:none;width:18px;height:18px;border-radius:5px;border:1.5px solid var(--faint);display:grid;place-items:center;font-size:16px;line-height:1;margin-top:1px}
+.ch.on{border-color:var(--accent);background:color-mix(in oklab,var(--accent) 10%,var(--surface))}
+.ch.on .bx{background:var(--accent);border-color:var(--accent);color:#fff}
+.ch:focus-within{outline:3px solid var(--accent);outline-offset:2px}
+.ch.danger.on{border-color:#c0392b;background:color-mix(in oklab,#c0392b 12%,var(--surface))}
+.ch.danger.on .bx{background:#c0392b;border-color:#c0392b}
+.ans{position:sticky;top:16px;padding:18px 20px;border-radius:16px;background:var(--surface);border:1px solid var(--line)}
+.ans .k{margin:0 0 6px;font:600 .72rem/1.2 'Geist Mono',ui-monospace,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.ans.urgent{border-color:#c0392b;background:color-mix(in oklab,#c0392b 10%,var(--surface))}
+.res{padding:12px 0;border-top:1px solid var(--line)}
+.res:first-of-type{border-top:0;padding-top:0}
+.res h3{margin:0 0 4px;font-size:1rem}
+.res p{margin:0;font-size:1rem;color:var(--soft)}
+.res.urgent h3{color:#c0392b}
+.res.call h3{color:var(--accent)}
+.ans .tn{font-size:1rem;color:var(--faint);margin:10px 0 0}
+.reset{margin-top:12px;font:inherit;font-size:1rem;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
 </style>
 </head>
 <body>
@@ -190,10 +215,16 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 <p><b>Why “corona”?</b> The word comes from Latin <i>corona</i>, meaning “crown” or “wreath.” Under an electron microscope, the spikes on these viruses look like a crown, or like the glowing ring around the sun. Virologists chose the name in 1968. <a href="https://www.etymonline.com/word/Corona" target="_blank" rel="noopener">Etymology of “corona” ↗</a></p>
 <p>On March 11, 2020, the WHO declared it a pandemic. It was not the first time a new virus caught the world off guard. The 1918 flu pandemic was another one, and it is part of the story on my <a href="/patients/vaccines/flu/">flu page</a>.</p>
 <p>Where the virus started is still studied. Most evidence points to an animal virus that spread to people. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7179986/" target="_blank" rel="noopener">Read a brief review of the 2020 pandemic ↗</a></p>
-</section><section class="s" aria-labelledby="h1"><span class="num">02</span><h2 id="h1" data-toc="What's new">Same sheriff, new wanted poster.</h2>
+</section><p>By mid-2026, countries had reported more than 7 million COVID-19 deaths to the WHO. The WHO estimates the real toll is far higher. Its 2026 report counts 22.1 million excess deaths from 2020 to 2023, meaning deaths above what would normally be expected.</p>
+<p>In the United States, the CDC counted about 1.22 million deaths as of March 2025. The CDC updates this number, so check its site for the current total.</p>
+<section class="s" aria-labelledby="hfeel"><span class="num">02</span><h2 id="hfeel" data-toc="Why it makes you feel awful">Why it makes you feel awful.</h2>
+<p>Symptoms usually start 2 to 14 days after exposure. Most people have mild illness. Common symptoms include fever or chills, cough, shortness of breath, sore throat, congestion, a new loss of taste or smell, fatigue, body aches, headache, nausea, and diarrhea. <a href="https://www.cdc.gov/covid/signs-symptoms/index.html" target="_blank" rel="noopener">CDC: COVID-19 symptoms ↗</a></p>
+<p>Most people feel better within a week or so. Some people have symptoms that last months or even years. That is called long COVID. Most people with long COVID improve after about 3 months. <a href="https://www.cdc.gov/long-covid/signs-symptoms/index.html" target="_blank" rel="noopener">CDC: Long COVID ↗</a></p>
+</section>
+<section class="s" aria-labelledby="h1"><span class="num">03</span><h2 id="h1" data-toc="What's new">Same sheriff, new wanted poster.</h2>
 <p>On my <a href="/patients/vaccines/flu/">flu page</a> I describe a vaccine as a wanted poster: it shows your immune system what the outlaw looks like before it rides into town. COVID-19 keeps changing its face, so each fall the vaccine is updated to match the strains going around. Last year’s poster still helps, but this year’s is a better likeness.</p>
 <p>Older adults carry most of the risk. From October 2023 through August 2024, 70% of COVID-19 hospitalizations in the U.S. were in adults 65 and older.</p>
-</section><section class="s" aria-labelledby="h2"><span class="num">03</span><h2 id="h2" data-toc="Who and how many">Who should get it, and how many.</h2>
+</section><section class="s" aria-labelledby="h2"><span class="num">04</span><h2 id="h2" data-toc="Who and how many">Who should get it, and how many.</h2>
 <div class="tablewrap"><table class="opts"><thead><tr><th>Who</th><th>This season</th></tr></thead><tbody>
 <tr><td>Adults 18 to 64</td><td>One dose</td></tr>
 <tr><td>Adults 65 and older</td><td>Two doses, about six months apart (at least two months)</td></tr>
@@ -203,7 +234,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 <p class="note">CDC, the American Academy of Family Physicians and the Massachusetts Department of Public Health agree on these recommendations as of fall 2026.</p>
 <div class="box"><p class="k">Good to know</p><p><b>Under 65 and healthy?</b> The vaccine is still recommended for you. The FDA labels list people under 65 who have a risk condition, so a pharmacy may ask about your health. You can simply tell them; no proof is required.</p></div>
 <p><b>Just had COVID-19?</b> You can wait up to three months before getting vaccinated.</p></div>
-</section><section class="s" aria-labelledby="h3"><span class="num">04</span><h2 id="h3" data-toc="The options">The options.</h2>
+</section><section class="s" aria-labelledby="h3"><span class="num">05</span><h2 id="h3" data-toc="The options">The options.</h2>
 <div class="tablewrap"><table class="opts"><thead><tr><th>Vaccine</th><th>Maker</th><th>Type</th></tr></thead><tbody>
 <tr><td>Comirnaty</td><td>Pfizer-BioNTech</td><td>mRNA</td></tr>
 <tr><td>Spikevax</td><td>Moderna</td><td>mRNA</td></tr>
@@ -211,10 +242,48 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 <tr><td>Nuvaxovid</td><td>Sanofi-Novavax</td><td>Protein. An option if you prefer a vaccine that is not mRNA.</td></tr>
 </tbody></table></div>
 <p>CDC does not prefer one over another.</p>
-</section><section class="s" aria-labelledby="h4"><span class="num">05</span><h2 id="h4" data-toc="What to expect">What to expect.</h2>
+</section><section class="s" aria-labelledby="h4"><span class="num">06</span><h2 id="h4" data-toc="What to expect">What to expect.</h2>
 <p>A sore arm, tiredness, headache, muscle aches or a low fever for a day or so are common.</p>
 <div class="box warn"><p class="k">Heart warning signs</p><p>A rare inflammation of the heart, called myocarditis, has been seen mostly in young men after mRNA vaccines. Spacing doses at least 8 weeks apart lowers that risk. If you develop chest pain, shortness of breath or a racing heartbeat in the days after a shot, get checked.</p></div>
 <p>The vaccine cannot give you COVID-19 and does not change your DNA.</p>
+</section>
+<section class="s" aria-labelledby="h5"><span class="num">07</span><h2 id="h5" data-toc="Treatment">Treatment works best early.</h2>
+<p>If you test positive and are at higher risk, call us early. CDC says COVID-19 treatment should start within 5 to 7 days after symptoms begin.</p>
+<p><b>Paxlovid</b> (nirmatrelvir with ritonavir) is a pill taken for five days. The FDA gave it full approval in 2023 for adults at high risk. Two recent national trials found it did not lower hospitalization or death in high-risk, mostly vaccinated groups. It did speed recovery. <a href="https://www.accessdata.fda.gov/drugsatfda_docs/label/2025/217188s008lbl.pdf" target="_blank" rel="noopener">FDA Paxlovid prescribing information ↗</a></p>
+<div class="box warn"><p class="k">Check every medicine first</p><p>Paxlovid interacts with many medicines. The FDA has a boxed warning about serious interactions. For example, atorvastatin and rosuvastatin (cholesterol medicines) are usually paused during the five days. Tell us about everything you take, including over-the-counter products and herbal supplements.</p></div>
+<p><b>A new option, for prevention only.</b> In May 2026 the FDA approved ensitrelvir (Xocova) to prevent COVID-19 after close contact with someone who has it. It is for people 12 and older. It is not a treatment for people who are already sick.</p>
+</section>
+<section class="s" aria-labelledby="h6"><span class="num">08</span><h2 id="h6" data-toc="Comfort plan">Build your comfort plan.</h2>
+<p>For most people, symptoms last a few days and get better after about a week. Rest, drink plenty of fluids, and over-the-counter medicines may help with symptoms.</p>
+<p>CDC's current guidance says to stay home and away from others until at least 24 hours after your symptoms are improving overall, and you have had no fever without using a fever-reducing medicine. <a href="https://www.cdc.gov/media/releases/2024/p0301-respiratory-virus.html" target="_blank" rel="noopener">CDC respiratory virus recommendations ↗</a></p>
+<p>Use the tool below to get suggestions for what you are dealing with, and to see when to call us.</p>
+<div class="tool" id="cvPlan">
+<div>
+<fieldset><legend><span>Step 1</span>Do you have any of these emergency signs?</legend><div class="opts2" data-c="warn"></div></fieldset>
+<fieldset id="cvRisk" hidden><legend><span>Step 2</span>Does any of this apply to you?</legend><div class="opts2" data-c="risk"></div></fieldset>
+<fieldset id="cvSym" hidden><legend><span>Step 3</span>What symptoms are you dealing with?</legend><div class="opts2" data-c="sym"></div></fieldset>
+</div>
+<aside class="ans" id="cvAns" aria-live="polite"></aside>
+</div>
+</section>
+<section class="s" aria-labelledby="h7"><span class="num">09</span><h2 id="h7" data-toc="Warning signs">Warning signs that mean get help now.</h2>
+<p>Get emergency medical care right away if you have any of these:</p>
+<ul class="links"><li>Trouble breathing</li><li>Persistent pain or pressure in the chest</li><li>New confusion</li><li>Trouble staying awake or being woken up</li><li>Pale, gray, or blue lips, face, or nail beds, depending on skin tone</li></ul>
+<p>If you have any of these, call 911 or go to the nearest emergency room. <a href="https://www.cdc.gov/covid/signs-symptoms/index.html" target="_blank" rel="noopener">CDC: emergency warning signs ↗</a></p>
+<div class="box"><p class="k">Call us, too</p><p>Call us the same day if any of these happen. You do not need to be sure it is serious.</p><ul class="links"><li>Your symptoms get worse, or come back after you started to feel better</li><li>You cannot keep fluids down, or you are drinking much less than usual</li><li>You are still sick after about a week, or your symptoms are not getting better</li><li>You are worried about something that is not on this list</li></ul><p>Calling us is never an overreaction. We would rather hear from you early.</p></div>
+</section>
+<section class="s" aria-labelledby="h8"><span class="num">10</span><h2 id="h8" data-toc="Medicines and home remedies">Medicines and home remedies.</h2>
+<p>I like home remedies. I just distinguish between <strong>“this makes me feel better”</strong> and <strong>“this treats COVID-19.”</strong> Those are very different claims.</p>
+<p>Over-the-counter medicines may help with fever, aches, and other symptoms. <a href="https://www.cdc.gov/covid/signs-symptoms/index.html" target="_blank" rel="noopener">CDC symptom guidance ↗</a></p>
+<div class="box warn"><p class="k">Over the counter does not mean risk-free</p><p>Acetaminophen can be dangerous in excessive doses. Ibuprofen and other NSAIDs can cause bleeding, affect the kidneys, and interact with medicines. Many cold and flu combination products already contain acetaminophen. Read every label, and check with us before you take anything new if you take Paxlovid.</p></div>
+<div class="box"><h3>What helps you feel better</h3><ul>
+<li><strong>Fluids:</strong> water, tea, broth, or electrolyte drinks. Small, frequent sips are easier when you feel nauseated.</li>
+<li><strong>Rest:</strong> sleep is not wasted time when you are sick. Your body is working on the infection.</li>
+<li><strong>Saline:</strong> warm salt-water gargles for a sore throat, and saline nasal spray for congestion.</li>
+<li><strong>Treat discomfort:</strong> you do not have to chase a modest fever if you are comfortable.</li></ul></div>
+<div class="box"><h3>Things I would not spend much money on</h3><ul>
+<li><strong>Supplements sold as COVID-19 cures:</strong> there is no good evidence that they treat it.</li>
+<li><strong>Vitamin megadoses:</strong> correct real deficiencies. More is not automatically better.</li></ul></div>
 </section>
 <section class="sources" aria-labelledby="src"><h2 id="src" data-toc="Further reading">Further reading</h2><ul><li><a href="https://www.cdc.gov/covid/hcp/vaccine-considerations/routine-guidance.html" target="_blank" rel="noopener">CDC: 2026–2027 COVID-19 vaccination guidance (updated September 2026)</a></li><li><a href="https://www.mass.gov/doc/dph-2026-27-covid-19-vaccine-recommendations/download" target="_blank" rel="noopener">Massachusetts DPH: 2026–2027 COVID-19 vaccine recommendations</a></li><li><a href="https://www.healthinaging.org/tools-and-tips/tip-sheet-key-facts-about-covid-19-vaccine" target="_blank" rel="noopener">HealthinAging.org (American Geriatrics Society): COVID-19 vaccines for older adults</a></li><li><a href="https://www.cdc.gov/mmwr/volumes/73/wr/mm7349a2.htm" target="_blank" rel="noopener">CDC MMWR (2024): additional COVID-19 doses for adults 65 and older</a></li></ul></section>
 <div class="disclaim"><p>Educational information only, not medical advice for you. Your clinician or pharmacist can tell you exactly what you need based on your health and vaccine history.</p>
@@ -224,7 +293,52 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 <footer><div class="wrap"><span>© 2026 Gennady Gelman · Personal site, not affiliated with any employer.</span><a href="mailto:me@gennadygelman.com">me@gennadygelman.com</a></div></footer>
 <script>(function(){var r=document.documentElement,b=document.getElementById('theme');function l(){b.setAttribute('aria-label',r.dataset.theme==='dark'?'Switch to light mode':'Switch to dark mode')}l();b.addEventListener('click',function(){r.dataset.theme=r.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('gg-theme',r.dataset.theme)}catch(e){}l()})})();</script>
 <script>window.addEventListener('load',function(){if(!location.hash)window.scrollTo(0,0)});</script>
-<script src="/js/toc.js?v=4" defer></script>
+<script>
+(function(){
+var WARN=['Trouble breathing','Persistent pain or pressure in the chest','New confusion','Trouble staying awake or being woken up','Pale, gray, or blue lips, face, or nail beds, depending on skin tone'];
+var RISK=['Pregnant','Age 65 or older','Weakened immune system','Chronic heart, lung, kidney, liver, or diabetes condition','Symptoms began within the past 5 days'];
+var SYM=['Fever or chills','Body aches','Sore throat','Stuffy or runny nose','Cough','Fatigue','Loss of taste or smell','Nausea, vomiting, or diarrhea','Trouble drinking enough fluids','Getting worse, or came back after starting to improve'];
+var cw=[], cr=[], cs=[], cnone=false;
+var tog=function(a,v){return a.indexOf(v)>=0?a.filter(function(x){return x!==v}):a.concat([v])};
+var esc=function(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
+function chips(box,items,o){
+  box.innerHTML=items.map(function(it){var v=it[0],l=it[1],on=o.sel(v);return '<label class="ch'+(o.danger?' danger':'')+(on?' on':'')+'"><input type="checkbox" value="'+esc(v)+'"'+(on?' checked':'')+'><span class="bx" aria-hidden="true">'+(on?'&#10003;':'')+'</span><span>'+esc(l)+'</span></label>'}).join('');
+  box.querySelectorAll('input').forEach(function(i){i.addEventListener('change',function(){o.onPick(i.value)})});
+}
+function plan(){
+  var out=[];
+  if(cw.length) return [{t:'Stop. Get emergency care now.',x:'You selected an emergency warning sign. Do not keep going through this tool. Call 911 or go to the nearest emergency room now.',tone:'urgent'}];
+  if(!cnone) return [{t:'Start with the emergency signs',x:'Select any emergency sign that is present. If none apply, choose “None of these” to continue.'}];
+  var pg=cr.indexOf('Pregnant')>=0, early=cr.indexOf('Symptoms began within the past 5 days')>=0;
+  var hr=cr.some(function(r){return r!=='Symptoms began within the past 5 days'});
+  if(hr) out.push({t:'Call us early',x:'People at higher risk should call us soon after symptoms begin. Treatment such as Paxlovid works best when started within 5 to 7 days of symptoms. Tell us every medicine and supplement you take first, because Paxlovid interacts with many of them.',tone:'call'});
+  else if(early) out.push({t:'Treatment works best early',x:'If you test positive and are unsure whether to call, contact us within the next few days. Treatment is most useful early.',tone:'call'});
+  out.push({t:'Stay home and away from others',x:'Stay home until at least 24 hours after your symptoms are improving overall, and you have had no fever without using a fever-reducing medicine.'});
+  if(pg) out.push({t:'Pregnancy and medicine safety',x:'Before taking any medicine, check with your OB clinician unless they have already told you what is safe. Ibuprofen and other NSAIDs can be harmful in pregnancy, especially later on.',tone:'call'});
+  if(cs.some(function(s){return s==='Fever or chills'||s==='Body aches'})) out.push({t:'For fever and body aches',x:pg?'Rest and drink fluids. Check with your OB clinician before taking medicine for fever or aches.':'Rest, drink fluids, and treat discomfort rather than chasing a number. Acetaminophen or ibuprofen may help if they are safe for you. Check combination cold products before adding either one.'});
+  if(cs.indexOf('Stuffy or runny nose')>=0) out.push({t:'For congestion',x:'Try nasal saline first. Oxymetazoline can give short-term relief, but generally should not be used for more than three days because it can cause rebound congestion.'});
+  if(cs.indexOf('Sore throat')>=0) out.push({t:'For a sore throat',x:'Warm drinks, fluids, and salt-water gargles can soothe the throat.'});
+  if(cs.indexOf('Cough')>=0) out.push({t:'For cough',x:'Fluids and saline can help, especially if drainage is triggering the cough. A cough also clears mucus, so the goal is comfort, not silence.'});
+  if(cs.some(function(s){return s==='Fatigue'||s==='Nausea, vomiting, or diarrhea'||s==='Trouble drinking enough fluids'})) out.push({t:'Protect your energy and fluids',x:'Rest. Take small, frequent sips if a full glass is hard. Water, tea, broth, and electrolyte drinks all count. If you cannot keep fluids down, call us.'});
+  if(cs.indexOf('Loss of taste or smell')>=0) out.push({t:'Loss of taste or smell',x:'This is a common symptom. Tell us if it does not start to return, or if you still have symptoms weeks later. Long COVID can cause symptoms that last months.'});
+  if(cs.some(function(s){return s==='Getting worse, or came back after starting to improve'||s==='Trouble drinking enough fluids'})) out.push({t:'Call us today',x:'Symptoms that get worse, come back after you start to improve, or keep you from drinking enough are reasons to call us. You do not need to wait for an emergency.',tone:'call'});
+  if(!cs.length) out.push({t:'Choose what you are dealing with',x:'Select symptoms. Your comfort suggestions will appear here.'});
+  return out;
+}
+function render(){
+  chips(document.querySelector('[data-c=warn]'),WARN.map(function(w){return [w,w]}).concat([['__none','None of these']]),{danger:true,sel:function(v){return v==='__none'?cnone:cw.indexOf(v)>=0},onPick:function(v){if(v==='__none'){cw=[];cnone=!cnone}else{cnone=false;cw=tog(cw,v)}render()}});
+  document.querySelectorAll('[data-c=warn] .ch').forEach(function(l){if(l.querySelector('input').value==='__none')l.classList.remove('danger')});
+  document.getElementById('cvRisk').hidden=!cnone; document.getElementById('cvSym').hidden=!cnone;
+  chips(document.querySelector('[data-c=risk]'),RISK.map(function(r){return [r,r]}),{sel:function(v){return cr.indexOf(v)>=0},onPick:function(v){cr=tog(cr,v);render()}});
+  chips(document.querySelector('[data-c=sym]'),SYM.map(function(r){return [r,r]}),{sel:function(v){return cs.indexOf(v)>=0},onPick:function(v){cs=tog(cs,v);render()}});
+  var box=document.getElementById('cvAns'); box.className='ans'+(cw.length?' urgent':'');
+  box.innerHTML='<p class="k">Your suggestions</p>'+plan().map(function(r){return '<article class="res'+(r.tone?' '+r.tone:'')+'"><h3>'+esc(r.t)+'</h3><p>'+esc(r.x)+'</p></article>'}).join('')+'<button class="reset" type="button" id="cvReset">Reset selections</button><p class="tn">Call us any time you are worried, even if none of this fits. It is always fine to call.</p><p class="tn">General education only. This is not a diagnosis or individualized medical advice. Medicine safety depends on age, pregnancy, health conditions, kidney and liver function, allergies, and other medicines.</p>';
+  document.getElementById('cvReset').addEventListener('click',function(){cw=[];cr=[];cs=[];cnone=false;render()});
+}
+render();
+})();
+</script>
+<script src="/js/toc.js?v=6" defer></script>
 <script src="/js/visit.js?v=2"></script>
 <script src="/js/search.js?v=1" defer></script>
 </body>
