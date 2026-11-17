@@ -5,11 +5,11 @@
 (function () {
   var KEY = 'gg-reader';
   var FONTS = {
-    serif: { label: 'Serif (default)', css: '' },
-    sans: { label: 'Sans-serif', css: 'Geist,system-ui,sans-serif' },
+    serif: { label: 'Serif', css: '' },
+    sans: { label: 'Sans-serif (default)', css: 'Geist,system-ui,sans-serif' },
     atkinson: { label: 'Atkinson Hyperlegible', css: '"Atkinson Hyperlegible",Arial,sans-serif' }
   };
-  var state = { step: 0, font: 'serif' };
+  var state = { step: 0, font: 'sans' };
   try { var saved = JSON.parse(localStorage.getItem(KEY) || 'null'); if (saved) state = Object.assign(state, saved); } catch (e) {}
 
   function base() { return window.innerWidth <= 560 ? 17 : 20; }
