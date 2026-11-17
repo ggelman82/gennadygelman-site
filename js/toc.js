@@ -144,8 +144,8 @@
   var btn = bar.querySelector('button'), cur = bar.querySelector('.cur');
   var setOpen = function (o) { bar.classList.toggle('open', o); btn.setAttribute('aria-expanded', String(o)); };
   btn.addEventListener('click', function () { setOpen(!bar.classList.contains('open')); });
-  // Pages marked data-toc-open start with the section list showing.
-  if (document.querySelector('[data-toc-open]')) setOpen(true);
+  // The section list starts open on every page.
+  setOpen(true);
   bar.addEventListener('click', function (e) { if (e.target.closest('a')) setOpen(false); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setOpen(false); });
   side.querySelector('.top').addEventListener('click', function (e) { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
