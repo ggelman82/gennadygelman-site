@@ -265,7 +265,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 <p>Use the tool below to get suggestions for what you are dealing with, and to see when to call us.</p>
 <div class="tool" id="cvPlan">
 <div>
-<fieldset><legend><span>Step 1</span>Do you have any of these emergency signs?</legend><div class="opts2" data-c="warn"></div></fieldset>
+<fieldset><legend><span>Step 1</span>Do you have any warning signs?</legend><div class="opts2" data-c="warn"></div></fieldset>
 <fieldset id="cvRisk" hidden><legend><span>Step 2</span>Does any of this apply to you?</legend><div class="opts2" data-c="risk"></div></fieldset>
 <fieldset id="cvSym" hidden><legend><span>Step 3</span>What symptoms are you dealing with?</legend><div class="opts2" data-c="sym"></div></fieldset>
 </div>
@@ -308,7 +308,7 @@ function chips(box,items,o){
 function plan(){
   var out=[];
   if(cw.length) return [{t:'Stop. Get emergency care now.',x:'You selected an emergency warning sign. Do not keep going through this tool. Call 911 or go to the nearest emergency room now.',tone:'urgent'}];
-  if(!cnone) return [{t:'Start with the emergency signs',x:'Select any emergency sign that is present. If none apply, choose “None of these” to continue.'}];
+  if(!cnone) return [{t:'Start with the warning signs',x:'Select any warning sign that is present. If none apply, choose “None of these” to continue.'}];
   var pg=cr.indexOf('Pregnant')>=0, early=cr.indexOf('Symptoms began within the past 5 days')>=0;
   var hr=cr.some(function(r){return r!=='Symptoms began within the past 5 days'});
   if(hr) out.push({t:'Call us early',x:'People at higher risk should call us soon after symptoms begin. Treatment such as Paxlovid works best when started within 5 to 7 days of symptoms. Tell us every medicine and supplement you take first, because Paxlovid interacts with many of them.',tone:'call'});
