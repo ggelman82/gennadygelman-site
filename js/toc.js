@@ -117,7 +117,7 @@
   }
 
   var cw = parseFloat(getComputedStyle(main).maxWidth);
-  if (isNaN(cw) || cw > 1000 || main.hasAttribute('data-toc-bar')) root.classList.add('toc-bar-only');
+  root.classList.add('toc-bar-only'); // every page uses the top-left bar at all widths
   if (root.classList.contains('toc-bar-only') && parseFloat(getComputedStyle(main).paddingLeft) < 8) root.classList.add('toc-pad');
   // If the site header scrolls away instead of sticking, the bar sticks to the very top.
   var hd = document.querySelector('header.top') || document.querySelector('header') || document.getElementById('gg-hd');
@@ -140,7 +140,7 @@
   bar.innerHTML = '<button type="button" aria-expanded="false"><span class="k">On this page</span><span class="cur"></span><span class="chev" aria-hidden="true"></span></button>' + list;
   var first = items[0].el;
   while (first.parentNode && first.parentNode !== main) first = first.parentNode;
-  main.insertBefore(bar, first);
+  main.insertBefore(bar, main.firstChild); // top of the page, above the hero
   var btn = bar.querySelector('button'), cur = bar.querySelector('.cur');
   var setOpen = function (o) { bar.classList.toggle('open', o); btn.setAttribute('aria-expanded', String(o)); };
   btn.addEventListener('click', function () { setOpen(!bar.classList.contains('open')); });
