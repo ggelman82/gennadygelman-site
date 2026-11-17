@@ -418,7 +418,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   // Every item lists exactly which audiences may see it. Clinical tools are clinician-only,
   // so they never render, and never come up in search, for patients or curious visitors.
   const ITEMS = [
-    {id:'flu', n:'Influenza guide', tag:'Guide', d:'Prevent it, understand it, know what actually helps.', u:B+'/flu/', a:[P,C,K], k:'flu influenza fever cough cold vaccine shot respiratory sick season'},
+    {id:'flu', n:'Influenza guide', tag:'Guide', d:'Prevent it, understand it, know what actually helps.', u:B+'/patients/vaccines/flu/', a:[P,C,K], k:'flu influenza fever cough cold vaccine shot respiratory sick season'},
     {id:'plants', n:'Plants Are Your Friends', tag:'AI chat', d:'A chatbot for eating more whole plant foods, built on NutritionFacts.org.', u:'https://plants-chat-663367173026.us-east1.run.app/', a:[P,C,K], k:'plants plant diet food nutrition vegan vegetarian whole food chatbot eat'},
     {id:'weight', n:'Weight & metabolic health', tag:'Guide', d:'Ten trusted resources and a practical starting point.', u:B+'/patients/weight/', a:[P,C], k:'bmi body mass index calculator mortality j-curve asian bmi weight obesity glp-1 glp1 ozempic wegovy mounjaro zepbound metabolic diet lose'},
     {id:'books', n:'Books I recommend to patients', tag:'Reading', d:'Eight accessible books about metabolic health and living better.', u:B+'/patients/books/', a:[P,C,K], k:'books reading read library shelf'},
@@ -464,7 +464,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     ]},
     {id:'vaccines', p:'/patients/vaccines/', t:'var(--blue)', n:'Vaccine information', i:'Short guides to the vaccines I recommend for adults.', items:[
       {f:true, tint:'var(--blue)', n:'Which vaccines do I need?', ic:'checklist', d:'Answer a few questions, mark what you have had, and see what is left.', u:B+'/patients/vaccines/#chooser', k:'which vaccines do i need checklist due adult vaccine schedule medicare pharmacy'},
-      {n:'Flu', ic:'thermometer', d:'Everyone 6 months and older, every year.', u:B+'/flu/', k:'flu vaccine shot influenza which vaccine'},
+      {n:'Flu', ic:'thermometer', d:'Everyone 6 months and older, every year.', u:B+'/patients/vaccines/flu/', k:'flu vaccine shot influenza which vaccine'},
       {n:'Childhood vaccines', ic:'checklist', d:'The schedule from birth to 18, and what your child needs next.', u:B+'/patients/vaccines/children/', k:'childhood vaccine schedule children kids baby infant pediatric shots catch up'},
       {n:'RSV', ic:'lungs', d:'75 and older, or 50 to 74 with certain conditions. One dose.', u:B+'/patients/vaccines/rsv/', k:'rsv respiratory syncytial virus arexvy abrysvo mresvia older adults pregnancy'},
       {n:'Shingles', ic:'bolt', d:'50 and older. Two doses.', u:B+'/patients/vaccines/shingles/', k:'shingles shingrix zoster chickenpox rash nerve pain'},
@@ -511,10 +511,10 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       {n:'Hearing, migraine, mood and more', ic:'tech', d:'Over-the-counter hearing aids, migraine devices, prescription mental health apps.', u:B+'/patients/devices/#hear', k:'hearing aids airpods tinnitus migraine cefaly nerivio depression app anxiety natural cycles quell'}
     ]},
     {id:'sick', p:'/patients/sick/', t:'#f6e9e4', n:'Flu', i:'Prevent it, treat it at home, and know when to get help.', items:[
-      {f:true, tint:'var(--blue)', n:'Influenza guide', ic:'thermometer', d:'Prevent it, understand it, know what actually helps.', u:B+'/flu/', k:'flu influenza fever cough cold sick season'},
-      {n:'Build your flu comfort plan', ic:'bed', d:'Sleep, fluids, saline, and treating discomfort safely.', u:B+'/flu/#flu-plan', k:'flu comfort plan home care fluids'},
+      {f:true, tint:'var(--blue)', n:'Influenza guide', ic:'thermometer', d:'Prevent it, understand it, know what actually helps.', u:B+'/patients/vaccines/flu/', k:'flu influenza fever cough cold sick season'},
+      {n:'Build your flu comfort plan', ic:'bed', d:'Sleep, fluids, saline, and treating discomfort safely.', u:B+'/patients/vaccines/flu/#flu-plan', k:'flu comfort plan home care fluids'},
       {n:'Warning signs to watch for', ic:'warning', d:'When flu symptoms mean you need urgent care.', u:'https://www.cdc.gov/flu/signs-symptoms/index.html', k:'warning signs emergency urgent breathing'},
-      {n:'When to call', ic:'call', d:'Who should call early, and what needs urgent care.', u:B+'/flu/', k:'when to call doctor sick urgent'}
+      {n:'When to call', ic:'call', d:'Who should call early, and what needs urgent care.', u:B+'/patients/vaccines/flu/', k:'when to call doctor sick urgent'}
     ]},
     {id:'weight', p:'/patients/weight/', t:'#e8f0e2', n:'Weight loss guide', i:'More than one useful next step. Lasting progress can include food, activity, sleep, support, medication, or surgery. Start with the question you have today.', items:[
       {g:'Start here', f:true, tint:'var(--green)', n:'Understanding obesity', ic:'info', d:'A plain-language overview of obesity, health risks, evaluation, and treatment options from the UMass Memorial Health Library.', u:'https://umassmemorial.staywellhealthlibrary.com/RelatedItems/85,P07855', k:'weight obesity overview understanding bmi'},
@@ -731,7 +731,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
 
   // ---------- clinician: share with a patient ----------
   const SHARE_RES = [
-    {n:'Flu guide', u:SB+'/flu/'},
+    {n:'Flu guide', u:SB+'/patients/vaccines/flu/'},
     {n:'RSV vaccine', u:SB+'/patients/vaccines/rsv/'},
     {n:'Shingles vaccine', u:SB+'/patients/vaccines/shingles/'},
     {n:'Pneumococcal vaccine', u:SB+'/patients/vaccines/pneumococcal/'},
@@ -739,7 +739,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     {n:'Tdap vaccine', u:SB+'/patients/vaccines/tdap/'},
     {n:'Which vaccines do I need?', u:SB+'/patients/vaccines/#chooser'},
     {n:'Childhood vaccines', u:SB+'/patients/vaccines/children/'},
-    {n:'Flu comfort plan', u:SB+'/flu/#flu-plan'},
+    {n:'Flu comfort plan', u:SB+'/patients/vaccines/flu/#flu-plan'},
     {n:'Cancer screening', u:SB+'/patients/screening/'},
     {n:'Memory and brain health', u:SB+'/patients/memory/'},
     {n:'Cholesterol', u:SB+'/patients/cholesterol/'},

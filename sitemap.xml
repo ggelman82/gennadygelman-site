@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://gennadygelman.com/</loc></url>
-  <url><loc>https://gennadygelman.com/flu/</loc></url>
   <url><loc>https://gennadygelman.com/kiloday/</loc></url>
   <url><loc>https://gennadygelman.com/medicolalia/</loc></url>
   <url><loc>https://gennadygelman.com/professional/</loc></url>
@@ -43,6 +42,7 @@
   <url><loc>https://gennadygelman.com/patients/screening/prostate/</loc></url>
   <url><loc>https://gennadygelman.com/patients/vaccines/children/</loc></url>
   <url><loc>https://gennadygelman.com/patients/vaccines/covid/</loc></url>
+  <url><loc>https://gennadygelman.com/patients/vaccines/flu/</loc></url>
   <url><loc>https://gennadygelman.com/patients/vaccines/pneumococcal/</loc></url>
   <url><loc>https://gennadygelman.com/patients/vaccines/rsv/</loc></url>
   <url><loc>https://gennadygelman.com/patients/vaccines/shingles/</loc></url>

@@ -5,7 +5,7 @@
  * (also with "/" or Ctrl/Cmd+K). Results come from /search-index.json, which is
  * rebuilt by scripts/build-search-index.mjs.
  *
- * Patient pages (/patients/, /flu/) only search patient pages, so patients are
+ * Patient pages (/patients/) only search patient pages, so patients are
  * not sent to the clinician tools. Every other page searches the whole site.
  * The home page keeps its own search and is skipped.
  */
