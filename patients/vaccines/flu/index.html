@@ -363,10 +363,12 @@ function loadCdc(){
     g+=dates.map((d,i)=>(i%step===0||i===dates.length-1)?`<text class="ax" x="${X(d)}" y="252" text-anchor="${i===0?'start':i===dates.length-1?'end':'middle'}">${short(d)}</text>`:'').join('');
     g+=`<path class="ln us" d="${path(us)}"/><path class="ln ma" d="${path(ma)}"/>`;
     if(lu) g+=`<circle class="pt us" cx="${X(lu.d)}" cy="${Y(lu.v)}" r="4"/>`; if(lm) g+=`<circle class="pt ma" cx="${X(lm.d)}" cy="${Y(lm.v)}" r="4"/>`;
-    body.innerHTML=`<div class="cdc-head"><div>Weekly laboratory-confirmed influenza hospital admissions<strong>Rate per 100,000 people</strong></div><small>Latest week ending ${long(dates.at(-1))}</small></div>
+    const ageDays=(Date.now()-new Date(dates.at(-1)+'T12:00:00'))/864e5, stale=ageDays>21;
+    const notice=stale?`<p class="note" role="status"><strong>CDC has not published new data for this panel since the week ending ${long(dates.at(-1))}.</strong> These numbers are old. <a href="https://www.cdc.gov/fluview/index.html" target="_blank" rel="noopener">Check CDC FluView for the latest.</a></p>`:'';
+    body.innerHTML=notice+`<div class="cdc-head"><div>Weekly laboratory-confirmed influenza hospital admissions<strong>Rate per 100,000 people</strong></div><small>Latest week ending ${long(dates.at(-1))}</small></div>
     <div class="cdc-latest"><div><span class="sw us"></span>United States<strong>${lu?f(lu.v):'—'}</strong></div><div><span class="sw ma"></span>Massachusetts<strong>${lm?f(lm.v):'—'}</strong></div></div>
     <svg viewBox="0 0 680 265" role="img" aria-label="Weekly influenza hospital admission rates for the United States and Massachusetts">${g}</svg>
-    <p class="note">CDC data are preliminary and updated weekly. A low hospitalization rate does not mean influenza is absent.</p>`;
+    <p class="note">${stale?'':'CDC data are preliminary and updated weekly. '}A low hospitalization rate does not mean influenza is absent.</p>`;
   }).catch(()=>{ body.innerHTML='<p class="note"><strong>The CDC data could not be loaded right now.</strong> <a href="https://www.cdc.gov/fluview/index.html" target="_blank" rel="noopener">Open CDC FluView instead.</a></p>' });
 }
 
