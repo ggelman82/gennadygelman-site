@@ -268,9 +268,9 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 </section>
 <section class="s" aria-labelledby="h7"><span class="num">09</span><h2 id="h7" data-toc="Warning signs">Warning signs that mean get help now.</h2>
 <p>Get emergency medical care right away if you have any of these:</p>
-<ul class="links"><li>Trouble breathing</li><li>Persistent pain or pressure in the chest</li><li>New confusion</li><li>Trouble staying awake or being woken up</li><li>Pale, gray, or blue lips, face, or nail beds, depending on skin tone</li></ul>
+<ul class="links"><li>Persistent pain or pressure in the chest</li><li>New confusion</li><li>Trouble staying awake or being woken up</li><li>Pale, gray, or blue lips, face, or nail beds, depending on skin tone</li></ul>
 <p>If you have any of these, call 911 or go to the nearest emergency room. <a href="https://www.cdc.gov/covid/signs-symptoms/index.html" target="_blank" rel="noopener">CDC: emergency warning signs ↗</a></p>
-<div class="box"><p class="k">Call us, too</p><p>Call us the same day if any of these happen. You do not need to be sure it is serious.</p><ul class="links"><li>Your symptoms get worse, or come back after you started to feel better</li><li>You cannot keep fluids down, or you are drinking much less than usual</li><li>You are still sick after about a week, or your symptoms are not getting better</li><li>You are worried about something that is not on this list</li></ul><p>Calling us is never an overreaction. We would rather hear from you early.</p></div>
+<div class="box"><p class="k">Call us, too</p><p>Call us the same day if any of these happen. You do not need to be sure it is serious.</p><ul class="links"><li>New or worse trouble breathing. If it is severe, or you are struggling to breathe while resting, call 911 instead.</li><li>Your symptoms get worse, or come back after you started to feel better</li><li>You cannot keep fluids down, or you are drinking much less than usual</li><li>You are still sick after about a week, or your symptoms are not getting better</li><li>You are worried about something that is not on this list</li></ul><p>Calling us is never an overreaction. We would rather hear from you early.</p></div>
 </section>
 <section class="s" aria-labelledby="h8"><span class="num">10</span><h2 id="h8" data-toc="Medicines and home remedies">Medicines and home remedies.</h2>
 <p>I like home remedies. I just distinguish between <strong>“this makes me feel better”</strong> and <strong>“this treats COVID-19.”</strong> Those are very different claims.</p>
@@ -295,9 +295,9 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 <script>window.addEventListener('load',function(){if(!location.hash)window.scrollTo(0,0)});</script>
 <script>
 (function(){
-var WARN=['Trouble breathing','Persistent pain or pressure in the chest','New confusion','Trouble staying awake or being woken up','Pale, gray, or blue lips, face, or nail beds, depending on skin tone'];
+var WARN=['Persistent pain or pressure in the chest','New confusion','Trouble staying awake or being woken up','Pale, gray, or blue lips, face, or nail beds, depending on skin tone'];
 var RISK=['Pregnant','Age 65 or older','Weakened immune system','Chronic heart, lung, kidney, liver, or diabetes condition','Symptoms began within the past 5 days'];
-var SYM=['Fever or chills','Body aches','Sore throat','Stuffy or runny nose','Cough','Fatigue','Loss of taste or smell','Nausea, vomiting, or diarrhea','Trouble drinking enough fluids','Getting worse, or came back after starting to improve'];
+var SYM=['Fever or chills','Body aches','Sore throat','Stuffy or runny nose','Cough','Trouble breathing','Fatigue','Loss of taste or smell','Nausea, vomiting, or diarrhea','Trouble drinking enough fluids','Getting worse, or came back after starting to improve'];
 var cw=[], cr=[], cs=[], cnone=false;
 var tog=function(a,v){return a.indexOf(v)>=0?a.filter(function(x){return x!==v}):a.concat([v])};
 var esc=function(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
@@ -321,7 +321,7 @@ function plan(){
   if(cs.indexOf('Cough')>=0) out.push({t:'For cough',x:'Fluids and saline can help, especially if drainage is triggering the cough. A cough also clears mucus, so the goal is comfort, not silence.'});
   if(cs.some(function(s){return s==='Fatigue'||s==='Nausea, vomiting, or diarrhea'||s==='Trouble drinking enough fluids'})) out.push({t:'Protect your energy and fluids',x:'Rest. Take small, frequent sips if a full glass is hard. Water, tea, broth, and electrolyte drinks all count. If you cannot keep fluids down, call us.'});
   if(cs.indexOf('Loss of taste or smell')>=0) out.push({t:'Loss of taste or smell',x:'This is a common symptom. Tell us if it does not start to return, or if you still have symptoms weeks later. Long COVID can cause symptoms that last months.'});
-  if(cs.some(function(s){return s==='Getting worse, or came back after starting to improve'||s==='Trouble drinking enough fluids'})) out.push({t:'Call us today',x:'Symptoms that get worse, come back after you start to improve, or keep you from drinking enough are reasons to call us. You do not need to wait for an emergency.',tone:'call'});
+  if(cs.some(function(s){return s==='Getting worse, or came back after starting to improve'||s==='Trouble drinking enough fluids'||s==='Trouble breathing'})) out.push({t:'Call us today',x:'Symptoms that get worse, come back after you start to improve, keep you from drinking enough, or make breathing harder are reasons to call us. You do not need to wait for an emergency. If breathing is severe, or you are struggling to breathe while resting, call 911 now.',tone:'call'});
   if(!cs.length) out.push({t:'Choose what you are dealing with',x:'Select symptoms. Your comfort suggestions will appear here.'});
   return out;
 }
