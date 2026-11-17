@@ -265,7 +265,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 <p>Use the tool below to get suggestions for what you are dealing with, and to see when to call us.</p>
 <div class="tool" id="cvPlan">
 <div>
-<fieldset><legend><span>Step 1</span>Do you have any warning signs?</legend><div class="opts2" data-c="warn"></div></fieldset>
+<fieldset><legend><span>Step 1</span>Do you have any of the above warning signs?</legend><div class="opts2" data-c="warn"></div></fieldset>
 <fieldset id="cvRisk" hidden><legend><span>Step 2</span>Does any of this apply to you?</legend><div class="opts2" data-c="risk"></div></fieldset>
 <fieldset id="cvSym" hidden><legend><span>Step 3</span>What symptoms are you dealing with?</legend><div class="opts2" data-c="sym"></div></fieldset>
 </div>
@@ -295,7 +295,6 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 <script>window.addEventListener('load',function(){if(!location.hash)window.scrollTo(0,0)});</script>
 <script>
 (function(){
-var WARN=['Persistent pain or pressure in the chest','New confusion','Trouble staying awake or being woken up','Pale, gray, or blue lips, face, or nail beds, depending on skin tone'];
 var RISK=['Pregnant','Age 65 or older','Weakened immune system','Chronic heart, lung, kidney, liver, or diabetes condition','Symptoms began within the past 5 days'];
 var SYM=['Fever or chills','Body aches','Sore throat','Stuffy or runny nose','Cough','Trouble breathing','Fatigue','Loss of taste or smell','Nausea, vomiting, or diarrhea','Trouble drinking enough fluids','Getting worse, or came back after starting to improve'];
 var cw=[], cr=[], cs=[], cnone=false;
@@ -307,8 +306,8 @@ function chips(box,items,o){
 }
 function plan(){
   var out=[];
-  if(cw.length) return [{t:'Stop. Get emergency care now.',x:'You selected an emergency warning sign. Do not keep going through this tool. Call 911 or go to the nearest emergency room now.',tone:'urgent'}];
-  if(!cnone) return [{t:'Start with the warning signs',x:'Select any warning sign that is present. If none apply, choose “None of these” to continue.'}];
+  if(cw.length) return [{t:'Stop. Get emergency care now.',x:'You have one or more of the warning signs above. Do not keep going through this tool. Call 911 or go to the nearest emergency room now.',tone:'urgent'}];
+  if(!cnone) return [{t:'Answer the first question',x:'Choose “Yes” if you have any of the warning signs above. Choose “No” to continue.'}];
   var pg=cr.indexOf('Pregnant')>=0, early=cr.indexOf('Symptoms began within the past 5 days')>=0;
   var hr=cr.some(function(r){return r!=='Symptoms began within the past 5 days'});
   if(hr) out.push({t:'Call us early',x:'People at higher risk should call us soon after symptoms begin. Treatment such as Paxlovid works best when started within 5 to 7 days of symptoms. Tell us every medicine and supplement you take first, because Paxlovid interacts with many of them.',tone:'call'});
@@ -326,8 +325,8 @@ function plan(){
   return out;
 }
 function render(){
-  chips(document.querySelector('[data-c=warn]'),WARN.map(function(w){return [w,w]}).concat([['__none','None of these']]),{danger:true,sel:function(v){return v==='__none'?cnone:cw.indexOf(v)>=0},onPick:function(v){if(v==='__none'){cw=[];cnone=!cnone}else{cnone=false;cw=tog(cw,v)}render()}});
-  document.querySelectorAll('[data-c=warn] .ch').forEach(function(l){if(l.querySelector('input').value==='__none')l.classList.remove('danger')});
+  chips(document.querySelector('[data-c=warn]'),[['yes','Yes'],['no','No']],{danger:true,sel:function(v){return v==='yes'?cw.length>0:cnone},onPick:function(v){if(v==='yes'){cw=cw.length?[]:['yes'];cnone=false}else{cw=[];cnone=true}render()}});
+  document.querySelectorAll('[data-c=warn] .ch').forEach(function(l){if(l.querySelector('input').value==='no')l.classList.remove('danger')});
   document.getElementById('cvRisk').hidden=!cnone; document.getElementById('cvSym').hidden=!cnone;
   chips(document.querySelector('[data-c=risk]'),RISK.map(function(r){return [r,r]}),{sel:function(v){return cr.indexOf(v)>=0},onPick:function(v){cr=tog(cr,v);render()}});
   chips(document.querySelector('[data-c=sym]'),SYM.map(function(r){return [r,r]}),{sel:function(v){return cs.indexOf(v)>=0},onPick:function(v){cs=tog(cs,v);render()}});
