@@ -86,6 +86,9 @@ textarea{min-height:118px;resize:vertical}
 .patient{background:#f9fafc}
 .hidden{display:none!important}
 .missing{border:2px solid #d92d20!important;background:#fff1f0!important}
+.oor{border:2px solid #d92d20!important;background:#fff1f0!important}
+#rangeSummary{display:none;border:1px solid #e08c84;background:#fff1f0;color:#8f1d16;border-radius:11px;padding:10px 12px;margin:12px 0;font-size:12px;font-weight:700}
+#rangeSummary.show{display:block}
 #missingSummary{display:none;border:1px solid #e08c84;background:#fff1f0;color:#8f1d16;border-radius:11px;padding:10px 12px;margin:12px 0;font-size:12px;font-weight:700}
 #missingSummary.show{display:block}
 .footer{font-size:11px;color:#6b7487;text-align:center;padding:18px;line-height:1.5}
@@ -295,6 +298,7 @@ h1{font-family:Newsreader,Georgia,serif!important;font-weight:400!important;lett
       <div class="hint">PREVENT uses current statin use. Nonstatins alone do not count as statin use.</div>
     </div><div></div>
   </div>
+  <div id="rangeSummary"></div>
   <div style="margin-top:14px"><button class="btn primary" onclick="calculate()">Calculate / update</button></div>
 </div>
 
@@ -983,7 +987,47 @@ async function updateMesa(p){
     status.innerHTML='The race-free MESA service could not be reached from this browser. PREVENT and the rest of the decision support are still available. You can verify the MESA result using the official MESA calculator.';
   }
 }
+// Valid input ranges. HDL is capped at 99 mg/dL; the others are plausibility limits.
+const RANGES={
+  age:['Age',30,85,'years'],
+  sbp:['Systolic BP',70,260,'mm Hg'],
+  egfr:['eGFR',1,200,'mL/min/1.73m²'],
+  tc:['Total cholesterol',80,400,'mg/dL'],
+  hdl:['HDL-C',1,99,'mg/dL'],
+  ldl:['LDL-C',10,300,'mg/dL'],
+  tg:['Triglycerides',10,2000,'mg/dL'],
+  bmi:['BMI',10,80,'kg/m²'],
+  lpa:['Lp(a)',0,1000,'nmol/L'],
+  apob:['ApoB',20,300,'mg/dL'],
+  hscrp:['hsCRP',0,100,'mg/L'],
+  a1c:['HbA1c',3,20,'%'],
+  uacr:['UACR',0,25000,'mg/g'],
+  sdi:['SDI decile',1,10,'']
+};
+function checkRanges(){
+  const errs=[];
+  Object.keys(RANGES).forEach(id=>{
+    const el=document.getElementById(id); if(!el) return;
+    el.classList.remove('oor');
+    if(el.value.trim()==='') return;
+    const v=Number(el.value);
+    const [label,lo,hi,unit]=RANGES[id];
+    if(!Number.isFinite(v)||v<lo||v>hi){
+      el.classList.add('oor');
+      errs.push(`${label} ${el.value} is out of range (valid: ${lo} to ${hi}${unit?' '+unit:''}). Correct it to calculate.`);
+    }
+  });
+  const box=document.getElementById('rangeSummary');
+  if(errs.length){box.innerHTML=errs.map(e=>'<div>'+e+'</div>').join('');box.classList.add('show')}
+  else{box.innerHTML='';box.classList.remove('show')}
+  return errs.length;
+}
 async function calculate(){
+  if(checkRanges()){
+    $('results').style.display='none';
+    document.getElementById('rangeSummary').scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
   const p=getP();highlightMissing(p);$('results').style.display='block';
   const rr=calcPrevent(p);renderPrevent(p,rr);renderLpaEffect(p,rr);
   if(p.prevention==='primary'&&rr){renderComparisons(p,rr.model);buildWhat(p,rr.model,rr.ascvd10)}
