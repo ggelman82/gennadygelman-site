@@ -470,7 +470,7 @@ ${FOOTER}
 <script src="/js/reader.js?v=2" defer></script>
 ${sec.items.some(i => i.plan) ? PREP_JS : ''}
 ${sec.id === 'weight' ? BMI_JS : ''}
-${sec.items.filter(i => i.g).length >= 4 ? '<script src="/js/toc.js?v=6" defer></script>' : ''}
+<script src="/js/toc.js?v=7" defer></script>
 </body>
 </html>
 `;

@@ -21,7 +21,7 @@
   var heads = Array.prototype.filter.call(main.querySelectorAll('h2'), function (h) {
     return !h.hasAttribute('data-toc-skip') && !h.closest('[data-toc-skip]') && h.textContent.trim();
   });
-  if (heads.length < 3) return;
+  if (heads.length < 2) return;
 
   var slug = function (s) {
     return s.toLowerCase().replace(/[’']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 48) || 'section';
@@ -54,10 +54,11 @@
     '.toc-bar .cur{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}' +
     '.toc-bar .chev{flex:none;width:10px;height:10px;border-right:2px solid var(--soft);border-bottom:2px solid var(--soft);transform:rotate(45deg) translateY(-3px);transition:transform .2s}' +
     '.toc-bar.open .chev{transform:rotate(-135deg) translateY(-2px)}' +
-    '.toc-bar ol{display:none;list-style:none;margin:0;padding:0 0 12px;max-height:60vh;overflow:auto}' +
+    '.toc-bar ol{display:none;list-style:none;margin:0;padding:0 0 10px;max-height:38vh;overflow:auto;counter-reset:toc}' +
     '.toc-bar.open ol{display:block}' +
     '.toc-bar>button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}' +
-    '.toc a{display:block;text-decoration:none;color:var(--soft);font-size:14px;line-height:1.35;padding:7px 12px;border-left:2px solid var(--line)}' +
+    '.toc a{display:flex;gap:10px;align-items:baseline;text-decoration:none;color:var(--soft);font-size:14px;line-height:1.35;padding:5px 12px;border-left:2px solid var(--line)}' +
+    '.toc .tn{flex:none;min-width:1.6em;font:500 12px/1 "Geist Mono",monospace;color:var(--faint)}' +
     '.toc a:hover{color:var(--ink)}' +
     '.toc a[aria-current="true"]{color:var(--ink);font-weight:600;border-left-color:var(--accent)}' +
     '.toc a:focus-visible{outline:3px solid var(--accent);outline-offset:1px}' +
@@ -126,7 +127,8 @@
   root.classList.add('toc-on');
 
   var esc = function (s) { return s.replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
-  var list = '<ol>' + items.map(function (it) { return '<li><a href="#' + it.id + '">' + esc(it.label) + '</a></li>'; }).join('') + '</ol>';
+  // Wiki-style: every entry is numbered in page order.
+  var list = '<ol>' + items.map(function (it, i) { return '<li><a href="#' + it.id + '"><span class="tn">' + (i + 1) + '</span><span>' + esc(it.label) + '</span></a></li>'; }).join('') + '</ol>';
 
   var side = document.createElement('nav');
   side.className = 'toc toc-side';
@@ -144,8 +146,8 @@
   var btn = bar.querySelector('button'), cur = bar.querySelector('.cur');
   var setOpen = function (o) { bar.classList.toggle('open', o); btn.setAttribute('aria-expanded', String(o)); };
   btn.addEventListener('click', function () { setOpen(!bar.classList.contains('open')); });
-  // The section list starts open on every page.
-  setOpen(true);
+  // The list starts closed; the bar shows the current section until the reader opens it.
+  setOpen(false);
   bar.addEventListener('click', function (e) { if (e.target.closest('a')) setOpen(false); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setOpen(false); });
   side.querySelector('.top').addEventListener('click', function (e) { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
